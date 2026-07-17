@@ -37,6 +37,7 @@ Update `src/config/apiVersion.js` when cutting a new Class.
 - `/api/v1/surveillance/...`
 - `/api/v1/trash-removal/...`
 - `/api/v1/transportation/...`
+- `/api/v1/healthcare/...` (Nursing & Doctors)
 
 List every category with its description:
 
@@ -79,7 +80,7 @@ Open Swagger at `http://localhost:3000/docs`. Raw OpenAPI: `http://localhost:300
 
 ## Important implementation note
 
-Regrid-backed parcel endpoints can run when `REGRID_API_TOKEN` is configured. Other endpoints currently provide stable contracts and starter calculations. Connect weather, routing, imagery, computer vision, manufacturer, distributor, permit, disposal, accounting, and IoT adapters as required. Estimates, chemical guidance, diagnostics, safety findings, surveillance policies, and code-compliance outputs require qualified professional review before use.
+Regrid-backed parcel endpoints can run when `REGRID_API_TOKEN` is configured. Other endpoints currently provide stable contracts and starter calculations. Connect weather, routing, imagery, computer vision, manufacturer, distributor, permit, disposal, accounting, and IoT adapters as required. Estimates, chemical guidance, diagnostics, safety findings, surveillance policies, healthcare/clinical guidance, credentialing checks, coding suggestions, and code-compliance outputs require qualified professional review before use.
 
 ## Guided Start-to-Invoice workflows
 

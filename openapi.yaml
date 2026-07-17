@@ -4,7 +4,7 @@ info:
   version: 0.5.0
   description: 'Class 0.5 Coaxium. Industry-specific automation APIs for landscape,
     HVAC, cleaning, pest control, pool service, painting, roofing, plumbing, electrical,
-    general contracting, surveillance, trash removal, and transportation. Starter
+    general contracting, surveillance, trash removal, transportation, and healthcare (nursing and doctors). Starter
     calculations must be verified by licensed professionals and connected providers
     before production decisions. Guided start sessions ask category-specific questions,
     execute trade APIs, retain all results, and generate invoice-ready JSON. Includes per-category pricing-standard JSON files, invoice-log upload, LLM service/pricing suggestions, and a refresh workflow.'
@@ -34,6 +34,7 @@ tags:
 - name: Surveillance
 - name: Trash Removal
 - name: Transportation
+- name: Healthcare
 - name: Guided Workflows
 - name: Categories
 - name: Versioning
@@ -9480,6 +9481,870 @@ paths:
               weightLbs: 2200
               crewSize: 2
               serviceType: local move
+  /healthcare/patient-profile:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Patient Profile
+      description: Runs the healthcare patient profile starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_patient_profile_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-patient-profile
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/estimates/nursing-visit:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Nursing Visit Estimate
+      description: Runs the healthcare nursing visit estimate starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_nursing_visit_estimate_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-nursing-visit-estimate
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/estimates/physician-visit:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Physician Visit Estimate
+      description: Runs the healthcare physician visit estimate starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_physician_visit_estimate_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-physician-visit-estimate
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/estimates/shift-staffing:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Shift Staffing Estimate
+      description: Runs the healthcare shift staffing estimate starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_shift_staffing_estimate_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-shift-staffing-estimate
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/care-plan/generate:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Care Plan
+      description: Runs the healthcare care plan starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_care_plan_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-care-plan
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/clinical/risk-assessment:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Risk Assessment
+      description: Runs the healthcare risk assessment starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_risk_assessment_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-risk-assessment
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/scheduling/visit-optimize:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Visit Route Optimize
+      description: Runs the healthcare visit route optimize starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_visit_route_optimize_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-visit-route-optimize
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/scheduling/shift:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Shift Schedule
+      description: Runs the healthcare shift schedule starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_shift_schedule_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-shift-schedule
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/staffing/credentials-check:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Credentials Check
+      description: Runs the healthcare credentials check starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_credentials_check_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-credentials-check
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/staffing/skill-match:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Skill Match
+      description: Runs the healthcare skill match starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_skill_match_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-skill-match
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/dispatch/emergency:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Emergency Dispatch
+      description: Runs the healthcare emergency dispatch starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_emergency_dispatch_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-emergency-dispatch
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/compliance/documentation:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Documentation Compliance
+      description: Runs the healthcare documentation compliance starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_documentation_compliance_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-documentation-compliance
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/billing/coding-suggest:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Coding Suggest
+      description: Runs the healthcare coding suggest starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_coding_suggest_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-coding-suggest
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/supplies/requirements:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Supplies Requirements
+      description: Runs the healthcare supplies requirements starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_supplies_requirements_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-supplies-requirements
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/ai/symptom-triage:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Symptom Triage
+      description: Runs the healthcare symptom triage starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_symptom_triage_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-symptom-triage
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/contracts/pricing:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Contract Pricing
+      description: Runs the healthcare contract pricing starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_contract_pricing_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-contract-pricing
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
   /business/cash-forecast:
     post:
       tags:
@@ -10587,7 +11452,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CategoryCatalog'
               example:
-                count: 13
+                count: 14
                 categories:
                 - category: transportation
                   label: Transportation
@@ -12629,6 +13494,104 @@ paths:
                 $ref: '#/components/schemas/Invoice'
         '404':
           description: Session not found
+  /healthcare/start:
+    post:
+      tags:
+      - Guided Workflows
+      summary: Start Nursing & Doctors guided estimate
+      description: Creates a guided healthcare session for nursing/physician services.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GuidedStartRequest'
+      responses:
+        '201':
+          description: Guided session created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GuidedSession'
+  /healthcare/sessions/{sessionId}:
+    get:
+      tags:
+      - Guided Workflows
+      summary: Get Healthcare guided session
+      parameters:
+      - &id012c
+        name: sessionId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Current workflow state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GuidedSession'
+  /healthcare/sessions/{sessionId}/answer:
+    post:
+      tags:
+      - Guided Workflows
+      summary: Answer the next guided healthcare question
+      parameters:
+      - *id012c
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GuidedAnswerRequest'
+      responses:
+        '200':
+          description: Answer saved
+  /healthcare/sessions/{sessionId}/run-api:
+    post:
+      tags:
+      - Guided Workflows
+      summary: Run an additional healthcare API within the session
+      parameters:
+      - *id012c
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [endpointType]
+              properties:
+                endpointType:
+                  type: string
+                  example: healthcare-care-plan
+                payload:
+                  type: object
+                  additionalProperties: true
+      responses:
+        '200':
+          description: API result attached to workflow
+  /healthcare/sessions/{sessionId}/invoice:
+    post:
+      tags:
+      - Invoices
+      summary: Create detailed Healthcare invoice
+      parameters:
+      - *id012c
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvoiceOverride'
+      responses:
+        '201':
+          description: Detailed invoice created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
   /api/v1/guided/quote:
     post:
       tags: &id013
@@ -12806,6 +13769,13 @@ paths:
       description: Submits category, business pricing, tax settings, customer/property
         answers, and optional line items in one request. Runs category automations
         and returns a detailed draft invoice.
+      requestBody: *id014
+      responses: *id015
+  /api/v1/healthcare/quote:
+    post:
+      tags: *id013
+      summary: Create a complete healthcare quote and invoice
+      description: Submits nursing/doctor service answers and returns a draft invoice.
       requestBody: *id014
       responses: *id015
   /api/v1/ai/status:

@@ -19,7 +19,8 @@ const defaultUnitPrices = {
   "general-contract": { hourlyRate: 95, remodelPerSqft: 85, markupMultiplier: 1.35, changeOrderMarkupPercent: 20 },
   surveillance: { hourlyRate: 95, cameraInstallEach: 275, nvrBase: 450, monitoringMonthly: 35 },
   "trash-removal": { hourlyRate: 75, haulMinimum: 175, perCubicYard: 55, dumpsterDay: 45 },
-  transportation: { hourlyRate: 75, localMoveMinimum: 250, perMile: 2.75, perCubicFoot: 1.15, crewOfTwoHourly: 150 }
+  transportation: { hourlyRate: 75, localMoveMinimum: 250, perMile: 2.75, perCubicFoot: 1.15, crewOfTwoHourly: 150 },
+  healthcare: { hourlyRate: 95, nurseVisit: 165, physicianVisit: 285, shiftHourlyRN: 95, shiftHourlyLPN: 72, travelPerMile: 1.25, suppliesPerVisit: 18 }
 };
 
 const seedAreas = [

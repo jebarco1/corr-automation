@@ -1,7 +1,7 @@
 export const supportedCategories = [
   "landscape", "hvac", "cleaning", "pest-control", "pool", "painting",
   "roofing", "plumbing", "electrical", "general-contract", "surveillance", "trash-removal",
-  "transportation"
+  "transportation", "healthcare"
 ];
 
 export const categoryApiTools = {
@@ -17,5 +17,6 @@ export const categoryApiTools = {
   "general-contract": ["gc-project-estimate"],
   surveillance: ["surveillance-install-estimate"],
   "trash-removal": ["trash-haul-estimate"],
-  transportation: ["transport-property-profile", "transport-load-plan", "transport-local-move-estimate", "transport-delivery-estimate"]
+  transportation: ["transport-property-profile", "transport-load-plan", "transport-local-move-estimate", "transport-delivery-estimate"],
+  healthcare: ["healthcare-patient-profile", "healthcare-risk-assessment", "healthcare-nursing-visit-estimate", "healthcare-physician-visit-estimate", "healthcare-care-plan"]
 };

@@ -109,6 +109,14 @@ const flows = {
     {key:"volumeCubicFeet",question:"What is the estimated load volume in cubic feet?",type:"number",required:true,trigger:"transport-load-plan"},
     {key:"crewSize",question:"How many crew members should be used?",type:"number",required:true},
     {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true,trigger:"transport-local-move-estimate"}
+  ]},
+  healthcare:{ label:"Nursing & Doctors", description:"Home health and clinical staffing for nursing and physician visits, care plans, credentials, shift coverage, and visit routing.", questions:[...common,
+    {key:"careSetting",question:"Where will care be delivered?",type:"select",options:["home","assisted living","clinic","facility","telehealth hybrid"],required:true,trigger:"healthcare-patient-profile"},
+    {key:"serviceType",question:"Which clinical service is needed?",type:"select",options:["nursing visit","physician visit","private duty shift","post-acute follow-up","chronic care management","urgent home visit"],required:true},
+    {key:"acuityLevel",question:"What is the patient acuity level?",type:"select",options:["low","moderate","high","critical"],required:true,trigger:"healthcare-risk-assessment"},
+    {key:"role",question:"Which clinician role should be assigned?",type:"select",options:["RN","LPN","NP","physician","caregiver with RN oversight"],required:true},
+    {key:"visitMinutes",question:"How many minutes should the visit or shift block cover?",type:"number",required:true},
+    {key:"estimatedHours",question:"How many billable clinical hours are expected?",type:"number",required:true,trigger:"healthcare-nursing-visit-estimate"}
   ]}
 };
 
@@ -139,8 +147,10 @@ function buildAutomationInput(session) {
 
 function resultToLineItem(result, session) {
   const data = result.data || {};
-  const billableType = /estimate|pricing|service|replacement|installation|haul/i.test(result.type || "");
-  if (!billableType || /diagnostic|risk|profile|classification|health|layout|chemistry/i.test(result.type || "")) return null;
+  const type = result.type || "";
+  const billableType = /estimate|pricing|service|replacement|installation|haul|coding-suggest/i.test(type);
+  const nonBillable = /diagnostic|risk|profile|classification|layout|chemistry|health-score|pump-health|device-health|turf-health|symptom-triage|credentials-check|skill-match|care-plan|documentation-compliance/i.test(type);
+  if (!billableType || nonBillable) return null;
   const amount = money(data.suggestedPrice ?? data.estimatedPrice ?? data.estimatedCost ?? 0);
   if (!amount) return null;
   return { description:`${session.label}: ${String(session.answers.serviceType || session.answers.projectType || result.type).replaceAll("-"," ")}`, quantity:1, unit:"service", unitPrice:amount, amount, sourceApi:result.type, sourceRequestId:result.requestId };
@@ -224,7 +234,7 @@ export function createInvoiceFromSession(sessionId, overrides={}) {
   const session=sessions.get(sessionId); if(!session){ const e=new Error("Guided workflow session not found"); e.statusCode=404; throw e; }
   const input=buildAutomationInput(session);
   if(session.apiResults.length===0){
-    const fallback={ landscape:"landscaping-estimate",hvac:"hvac-replacement-estimate",cleaning:"cleaning-service-estimate","pest-control":"pest-treatment-estimate",pool:"pool-service-estimate",painting:"paint-interior-estimate",roofing:"roof-replacement-estimate",plumbing:"plumbing-repair-estimate",electrical:"electrical-service-upgrade","general-contract":"gc-project-estimate",surveillance:"surveillance-install-estimate","trash-removal":"trash-haul-estimate",transportation:"transport-local-move-estimate" }[session.category];
+    const fallback={ landscape:"landscaping-estimate",hvac:"hvac-replacement-estimate",cleaning:"cleaning-service-estimate","pest-control":"pest-treatment-estimate",pool:"pool-service-estimate",painting:"paint-interior-estimate",roofing:"roof-replacement-estimate",plumbing:"plumbing-repair-estimate",electrical:"electrical-service-upgrade","general-contract":"gc-project-estimate",surveillance:"surveillance-install-estimate","trash-removal":"trash-haul-estimate",transportation:"transport-local-move-estimate",healthcare:"healthcare-nursing-visit-estimate" }[session.category];
     session.apiResults.push({questionKey:null,endpointType:fallback,result:runAutomation(fallback,input)});
   }
   let lineItems=session.apiResults.map(x=>resultToLineItem(x.result,session)).filter(Boolean);
