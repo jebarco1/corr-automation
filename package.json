@@ -1,0 +1,29 @@
+{
+  "name": "ha-corr-automation",
+  "version": "7.0.0",
+  "private": true,
+  "description": "HA-Corr multi-industry automation API with React guided quoting and invoicing frontend.",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "check": "node --check src/server.js && node --check src/routes/automation.js && node --check src/services/automationEngine.js && node --check src/services/regrid.js && node --check src/routes/guided.js && node --check src/services/guidedWorkflow.js && node --check src/routes/ai.js && node --check src/ai/aiOrchestrator.js && node --check src/middleware/clientApiKey.js && node --check src/config/appConfig.js",
+    "dev:api": "node --watch src/server.js",
+    "dev:web": "npm --prefix client run dev",
+    "build:web": "npm --prefix client run build",
+    "install:all": "npm install && npm --prefix client install",
+    "key:generate": "node scripts/generate-api-key.js"
+  },
+  "dependencies": {
+    "@turf/area": "^7.3.0",
+    "axios": "^1.7.9",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "openai": "^6.48.0",
+    "swagger-ui-express": "^5.0.1",
+    "yamljs": "^0.3.0",
+    "zod": "^3.24.1"
+  }
+}
