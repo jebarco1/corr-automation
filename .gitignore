@@ -1,0 +1,13 @@
+.env
+.env.*
+!.env.example
+node_modules/
+client/node_modules/
+.DS_Store
+*.log
+npm-debug.log*
+.vite/
+dist-ssr/
+coverage/
+.tmp/
+tmp/

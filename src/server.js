@@ -51,7 +51,8 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(openapi, {
 app.get("/openapi.yaml", (_req, res) => res.sendFile(join(__dirname, "../openapi.yaml")));
 ensureAllPricingStandards();
 app.use("/api/v1", versionRouter);
-app.use("/api/v1", requireClientApiKey, aiRouter);
+// UI workflow uses server-side OPENAI_API_KEY; no client API key required for AI/guided quoting.
+app.use("/api/v1", aiRouter);
 app.use("/api/v1", guidedRouter);
 app.use("/api/v1", pricingInsightsRouter);
 app.use("/api/v1", salesExpansionRouter);
