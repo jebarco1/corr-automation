@@ -7,7 +7,7 @@ info:
     general contracting, surveillance, trash removal, and transportation. Starter
     calculations must be verified by licensed professionals and connected providers
     before production decisions. Guided start sessions ask category-specific questions,
-    execute trade APIs, retain all results, and generate invoice-ready JSON.'
+    execute trade APIs, retain all results, and generate invoice-ready JSON. Includes per-category pricing-standard JSON files, invoice-log upload, LLM service/pricing suggestions, and a refresh workflow.'
   x-api-class: '0.5'
   x-api-codename: Coaxium
   x-api-version-name: Class 0.5 Coaxium
@@ -37,6 +37,7 @@ tags:
 - name: Guided Workflows
 - name: Categories
 - name: Versioning
+- name: Pricing Intelligence
 - name: Invoices
 paths:
   /version:
@@ -10365,6 +10366,211 @@ paths:
       responses:
         '200':
           description: Supported categories
+  /pricing-standards:
+    get:
+      tags:
+      - Pricing Intelligence
+      summary: List pricing-standard files for all categories
+      description: Returns metadata for editable JSON pricing standards under data/pricing-standards.
+      operationId: list_pricing_standards
+      responses:
+        '200':
+          description: Pricing standard catalog
+  /pricing-standards/refresh:
+    post:
+      tags:
+      - Pricing Intelligence
+      summary: Refresh pricing standards for all (or selected) categories
+      description: Executes the pricing refresh workflow using uploaded invoice logs. Optionally blend
+        rates and refine with the configured LLM.
+      operationId: refresh_all_pricing_standards
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                categories:
+                  type: array
+                  items:
+                    type: string
+                blend:
+                  type: number
+                  example: 0.35
+                skipLlm:
+                  type: boolean
+                force:
+                  type: boolean
+            example:
+              categories:
+              - transportation
+              - landscape
+              blend: 0.35
+      responses:
+        '202':
+          description: Refresh workflow executed
+  /{category}/pricing-standards:
+    get:
+      tags:
+      - Pricing Intelligence
+      summary: Get category pricing standards JSON
+      parameters:
+      - &pricingCategory
+        name: category
+        in: path
+        required: true
+        schema:
+          type: string
+          example: transportation
+      responses:
+        '200':
+          description: Category pricing standards
+    put:
+      tags:
+      - Pricing Intelligence
+      summary: Replace category pricing standards JSON
+      parameters:
+      - *pricingCategory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - areas
+              properties:
+                areas:
+                  type: object
+                  additionalProperties: true
+                defaults:
+                  type: object
+                currency:
+                  type: string
+            example:
+              currency: USD
+              areas:
+                Atlanta, GA:
+                  region: Southeast
+                  unitPrices:
+                    hourlyRate: 80
+                    localMoveMinimum: 275
+      responses:
+        '200':
+          description: Updated pricing standards
+  /{category}/pricing-standards/refresh:
+    post:
+      tags:
+      - Pricing Intelligence
+      summary: Refresh one category pricing standards from invoice logs
+      parameters:
+      - *pricingCategory
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                blend:
+                  type: number
+                skipLlm:
+                  type: boolean
+                force:
+                  type: boolean
+      responses:
+        '202':
+          description: Category standards refreshed
+  /{category}/invoices/log:
+    get:
+      tags:
+      - Pricing Intelligence
+      summary: List uploaded invoice logs for a category
+      parameters:
+      - *pricingCategory
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 50
+      - name: area
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Invoice log index
+    post:
+      tags:
+      - Pricing Intelligence
+      summary: Upload invoice log(s) for a category
+      description: Accepts a single invoice object or invoices array. Stored under data/invoice-logs/{category}.
+      parameters:
+      - *pricingCategory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                area:
+                  type: string
+                serviceType:
+                  type: string
+                hourlyRate:
+                  type: number
+                laborHours:
+                  type: number
+                invoice:
+                  type: object
+                  additionalProperties: true
+                invoices:
+                  type: array
+                  items:
+                    type: object
+            example:
+              area: Atlanta, GA
+              serviceType: local move
+              hourlyRate: 80
+              laborHours: 4
+              crewSize: 2
+              invoice:
+                invoiceNumber: INV-1001
+                total: 520
+                currency: USD
+                lineItems:
+                - description: Local move labor
+                  amount: 520
+      responses:
+        '201':
+          description: Invoice log stored
+  /{category}/invoices/suggest:
+    post:
+      tags:
+      - Pricing Intelligence
+      summary: Ask LLM for service and pricing improvement suggestions
+      description: Uses uploaded invoice logs plus the category pricing-standard JSON. Falls back to
+        local heuristics when OPENAI_API_KEY is not configured.
+      parameters:
+      - *pricingCategory
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                limit:
+                  type: integer
+                sampleSize:
+                  type: integer
+                allowEmpty:
+                  type: boolean
+      responses:
+        '200':
+          description: Service and pricing suggestions
   /categories:
     get:
       tags:

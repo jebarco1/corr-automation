@@ -155,8 +155,13 @@ function categorySummary(category, flow) {
     endpoints: {
       start: `/api/v1/${category}/start`,
       quote: `/api/v1/${category}/quote`,
-      sessions: `/api/v1/${category}/sessions/{sessionId}`
+      sessions: `/api/v1/${category}/sessions/{sessionId}`,
+      pricingStandards: `/api/v1/${category}/pricing-standards`,
+      pricingRefresh: `/api/v1/${category}/pricing-standards/refresh`,
+      invoiceLog: `/api/v1/${category}/invoices/log`,
+      invoiceSuggest: `/api/v1/${category}/invoices/suggest`
     },
+    pricingStandardsFile: `data/pricing-standards/${category}.json`,
     recommendedApis: categoryApiTools[category] || []
   };
 }

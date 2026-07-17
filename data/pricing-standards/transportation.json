@@ -1,0 +1,84 @@
+{
+  "category": "transportation",
+  "currency": "USD",
+  "version": 1,
+  "updatedAt": "2026-07-17T00:00:00.000Z",
+  "defaults": {
+    "unitPrices": {
+      "hourlyRate": 75,
+      "localMoveMinimum": 250,
+      "perMile": 2.75,
+      "perCubicFoot": 1.15,
+      "crewOfTwoHourly": 150
+    }
+  },
+  "areas": {
+    "Atlanta, GA": {
+      "region": "Southeast",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 75,
+        "localMoveMinimum": 250,
+        "perMile": 2.75,
+        "perCubicFoot": 1.15,
+        "crewOfTwoHourly": 150
+      },
+      "notes": "Starter area pricing for transportation. Review locally before production use."
+    },
+    "Dallas, TX": {
+      "region": "South Central",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 72.75,
+        "localMoveMinimum": 242.5,
+        "perMile": 2.67,
+        "perCubicFoot": 1.12,
+        "crewOfTwoHourly": 145.5
+      },
+      "notes": "Starter area pricing for transportation. Review locally before production use."
+    },
+    "Phoenix, AZ": {
+      "region": "Southwest",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 71.25,
+        "localMoveMinimum": 237.5,
+        "perMile": 2.61,
+        "perCubicFoot": 1.09,
+        "crewOfTwoHourly": 142.5
+      },
+      "notes": "Starter area pricing for transportation. Review locally before production use."
+    },
+    "Chicago, IL": {
+      "region": "Midwest",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 81,
+        "localMoveMinimum": 270,
+        "perMile": 2.97,
+        "perCubicFoot": 1.24,
+        "crewOfTwoHourly": 162
+      },
+      "notes": "Starter area pricing for transportation. Review locally before production use."
+    },
+    "New York, NY": {
+      "region": "Northeast",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 93.75,
+        "localMoveMinimum": 312.5,
+        "perMile": 3.44,
+        "perCubicFoot": 1.44,
+        "crewOfTwoHourly": 187.5
+      },
+      "notes": "Starter area pricing for transportation. Review locally before production use."
+    }
+  },
+  "meta": {
+    "source": "seed",
+    "editable": true,
+    "lastRefreshAt": null,
+    "lastRefreshMode": null,
+    "notes": "Edit this JSON or call the pricing-standards refresh workflow to update area rates from invoice logs."
+  }
+}

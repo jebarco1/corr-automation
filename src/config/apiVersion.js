@@ -19,6 +19,8 @@ export const apiVersions = Object.freeze([
       "Guided start-to-invoice workflows",
       "AI-first authenticated workflow",
       "GET /categories catalog with descriptions",
+      "Per-category pricing-standard JSON files and invoice-log intelligence",
+      "Pricing standards refresh workflow from realized invoices",
       "Shared fleet, mapping, business, and sales APIs"
     ]
   })

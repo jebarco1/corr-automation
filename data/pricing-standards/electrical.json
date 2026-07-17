@@ -1,0 +1,78 @@
+{
+  "category": "electrical",
+  "currency": "USD",
+  "version": 1,
+  "updatedAt": "2026-07-17T00:00:00.000Z",
+  "defaults": {
+    "unitPrices": {
+      "hourlyRate": 125,
+      "panelUpgrade": 2200,
+      "evChargerInstall": 1200,
+      "diagnosticFee": 95
+    }
+  },
+  "areas": {
+    "Atlanta, GA": {
+      "region": "Southeast",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 125,
+        "panelUpgrade": 2200,
+        "evChargerInstall": 1200,
+        "diagnosticFee": 95
+      },
+      "notes": "Starter area pricing for electrical. Review locally before production use."
+    },
+    "Dallas, TX": {
+      "region": "South Central",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 121.25,
+        "panelUpgrade": 2134,
+        "evChargerInstall": 1164,
+        "diagnosticFee": 92.15
+      },
+      "notes": "Starter area pricing for electrical. Review locally before production use."
+    },
+    "Phoenix, AZ": {
+      "region": "Southwest",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 118.75,
+        "panelUpgrade": 2090,
+        "evChargerInstall": 1140,
+        "diagnosticFee": 90.25
+      },
+      "notes": "Starter area pricing for electrical. Review locally before production use."
+    },
+    "Chicago, IL": {
+      "region": "Midwest",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 135,
+        "panelUpgrade": 2376,
+        "evChargerInstall": 1296,
+        "diagnosticFee": 102.6
+      },
+      "notes": "Starter area pricing for electrical. Review locally before production use."
+    },
+    "New York, NY": {
+      "region": "Northeast",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 156.25,
+        "panelUpgrade": 2750,
+        "evChargerInstall": 1500,
+        "diagnosticFee": 118.75
+      },
+      "notes": "Starter area pricing for electrical. Review locally before production use."
+    }
+  },
+  "meta": {
+    "source": "seed",
+    "editable": true,
+    "lastRefreshAt": null,
+    "lastRefreshMode": null,
+    "notes": "Edit this JSON or call the pricing-standards refresh workflow to update area rates from invoice logs."
+  }
+}

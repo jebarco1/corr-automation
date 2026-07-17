@@ -10,9 +10,11 @@ import automationRouter from "./routes/automation.js";
 import guidedRouter from "./routes/guided.js";
 import aiRouter from "./routes/ai.js";
 import versionRouter from "./routes/version.js";
+import pricingInsightsRouter from "./routes/pricingInsights.js";
 import { requireClientApiKey } from "./middleware/clientApiKey.js";
 import { apiVersionHeaders } from "./middleware/apiVersionHeaders.js";
 import { currentApiVersion, getVersionPayload } from "./config/apiVersion.js";
+import { ensureAllPricingStandards } from "./services/pricingStandards.js";
 
 const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -46,9 +48,11 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(openapi, {
   customSiteTitle: `HA-Corr API — ${currentApiVersion.name}`
 }));
 app.get("/openapi.yaml", (_req, res) => res.sendFile(join(__dirname, "../openapi.yaml")));
+ensureAllPricingStandards();
 app.use("/api/v1", versionRouter);
 app.use("/api/v1", requireClientApiKey, aiRouter);
 app.use("/api/v1", guidedRouter);
+app.use("/api/v1", pricingInsightsRouter);
 app.use("/api/v1", requireClientApiKey, automationRouter);
 const clientDist = join(__dirname, "../client/dist");
 app.use(express.static(clientDist));

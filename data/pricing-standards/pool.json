@@ -1,0 +1,78 @@
+{
+  "category": "pool",
+  "currency": "USD",
+  "version": 1,
+  "updatedAt": "2026-07-17T00:00:00.000Z",
+  "defaults": {
+    "unitPrices": {
+      "hourlyRate": 75,
+      "weeklyService": 140,
+      "chemicalAllowance": 35,
+      "equipmentRepairMultiplier": 1.4
+    }
+  },
+  "areas": {
+    "Atlanta, GA": {
+      "region": "Southeast",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 75,
+        "weeklyService": 140,
+        "chemicalAllowance": 35,
+        "equipmentRepairMultiplier": 1.4
+      },
+      "notes": "Starter area pricing for pool. Review locally before production use."
+    },
+    "Dallas, TX": {
+      "region": "South Central",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 72.75,
+        "weeklyService": 135.8,
+        "chemicalAllowance": 33.95,
+        "equipmentRepairMultiplier": 1.36
+      },
+      "notes": "Starter area pricing for pool. Review locally before production use."
+    },
+    "Phoenix, AZ": {
+      "region": "Southwest",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 71.25,
+        "weeklyService": 133,
+        "chemicalAllowance": 33.25,
+        "equipmentRepairMultiplier": 1.33
+      },
+      "notes": "Starter area pricing for pool. Review locally before production use."
+    },
+    "Chicago, IL": {
+      "region": "Midwest",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 81,
+        "weeklyService": 151.2,
+        "chemicalAllowance": 37.8,
+        "equipmentRepairMultiplier": 1.51
+      },
+      "notes": "Starter area pricing for pool. Review locally before production use."
+    },
+    "New York, NY": {
+      "region": "Northeast",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 93.75,
+        "weeklyService": 175,
+        "chemicalAllowance": 43.75,
+        "equipmentRepairMultiplier": 1.75
+      },
+      "notes": "Starter area pricing for pool. Review locally before production use."
+    }
+  },
+  "meta": {
+    "source": "seed",
+    "editable": true,
+    "lastRefreshAt": null,
+    "lastRefreshMode": null,
+    "notes": "Edit this JSON or call the pricing-standards refresh workflow to update area rates from invoice logs."
+  }
+}

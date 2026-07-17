@@ -1,0 +1,78 @@
+{
+  "category": "landscape",
+  "currency": "USD",
+  "version": 1,
+  "updatedAt": "2026-07-17T00:00:00.000Z",
+  "defaults": {
+    "unitPrices": {
+      "hourlyRate": 65,
+      "mowingPerThousandSqft": 45,
+      "mulchPerCubicYard": 55,
+      "fertilizationVisit": 85
+    }
+  },
+  "areas": {
+    "Atlanta, GA": {
+      "region": "Southeast",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 65,
+        "mowingPerThousandSqft": 45,
+        "mulchPerCubicYard": 55,
+        "fertilizationVisit": 85
+      },
+      "notes": "Starter area pricing for landscape. Review locally before production use."
+    },
+    "Dallas, TX": {
+      "region": "South Central",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 63.05,
+        "mowingPerThousandSqft": 43.65,
+        "mulchPerCubicYard": 53.35,
+        "fertilizationVisit": 82.45
+      },
+      "notes": "Starter area pricing for landscape. Review locally before production use."
+    },
+    "Phoenix, AZ": {
+      "region": "Southwest",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 61.75,
+        "mowingPerThousandSqft": 42.75,
+        "mulchPerCubicYard": 52.25,
+        "fertilizationVisit": 80.75
+      },
+      "notes": "Starter area pricing for landscape. Review locally before production use."
+    },
+    "Chicago, IL": {
+      "region": "Midwest",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 70.2,
+        "mowingPerThousandSqft": 48.6,
+        "mulchPerCubicYard": 59.4,
+        "fertilizationVisit": 91.8
+      },
+      "notes": "Starter area pricing for landscape. Review locally before production use."
+    },
+    "New York, NY": {
+      "region": "Northeast",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 81.25,
+        "mowingPerThousandSqft": 56.25,
+        "mulchPerCubicYard": 68.75,
+        "fertilizationVisit": 106.25
+      },
+      "notes": "Starter area pricing for landscape. Review locally before production use."
+    }
+  },
+  "meta": {
+    "source": "seed",
+    "editable": true,
+    "lastRefreshAt": null,
+    "lastRefreshMode": null,
+    "notes": "Edit this JSON or call the pricing-standards refresh workflow to update area rates from invoice logs."
+  }
+}

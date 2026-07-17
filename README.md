@@ -45,6 +45,28 @@ GET /api/v1/categories
 GET /api/v1/categories/{category}
 ```
 
+## Pricing standards + invoice intelligence
+
+Editable area pricing JSON lives in `data/pricing-standards/{category}.json`.
+
+```bash
+# Read / update standards
+GET  /api/v1/pricing-standards
+GET  /api/v1/{category}/pricing-standards
+PUT  /api/v1/{category}/pricing-standards
+
+# Upload invoice logs, then ask for LLM (or local) improvement advice
+POST /api/v1/{category}/invoices/log
+GET  /api/v1/{category}/invoices/log
+POST /api/v1/{category}/invoices/suggest
+
+# Refresh standards from uploaded invoice logs
+POST /api/v1/{category}/pricing-standards/refresh
+POST /api/v1/pricing-standards/refresh
+```
+
+The refresh workflow blends realized invoice rates into each area’s unit prices and can optionally refine with OpenAI when `OPENAI_API_KEY` is set.
+
 ## Run
 
 ```bash
