@@ -24,4 +24,21 @@
 .mini-dl div{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #edf1ee;font-size:14px}
 .mini-dl dt{color:#718078}.mini-dl dd{font-weight:700;margin:0}
 .landing-span{grid-column:1 / -1}
-@media(max-width:900px){.grid.landing{grid-template-columns:1fr}.chat-toolbar{flex-direction:column;align-items:stretch}.toolbar-meta{text-align:left}.chat-window{max-height:300px}}
+.grid.workflows{grid-template-columns:1.55fr .85fr;align-items:start}
+.workflow-hero{grid-column:1 / -1;display:flex;justify-content:space-between;gap:20px;align-items:end;background:linear-gradient(135deg,#f3f8f4,#e7f1ea)}
+.workflow-hero-copy h2{margin-top:8px}.workflow-hero-actions{display:flex;gap:10px;flex-wrap:wrap}
+.workflow-table-card{padding:22px}
+.workflow-table-head{margin-bottom:14px}.workflow-table-head p{margin:6px 0 0;color:#637068}
+.workflow-table{display:grid;gap:0;border:1px solid #dfe8e2;border-radius:14px;overflow:hidden}
+.workflow-row{display:grid;grid-template-columns:1.4fr .7fr .6fr 1.2fr .9fr;gap:12px;align-items:center;padding:14px 16px;border-bottom:1px solid #e7eee9;background:white}
+.workflow-row:last-child{border-bottom:0}
+.workflow-row.head{background:#f3f7f4;font-size:11px;letter-spacing:.8px;text-transform:uppercase;font-weight:800;color:#5f7568}
+.workflow-row strong{display:block}.workflow-row small{display:block;color:#7a8c82;margin-top:2px}
+.play-btn{justify-self:start;min-width:104px}
+.rationale{color:#405047;line-height:1.5;background:#f4f8f5;border-radius:10px;padding:12px;margin:14px 0}
+.run-log{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.run-log li{border-bottom:1px solid #edf1ee;padding-bottom:10px}
+.run-log strong{display:block}.run-log small{color:#718078}.run-log p{margin:6px 0 0;color:#405047;font-size:13px}
+.spin{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:900px){.grid.landing{grid-template-columns:1fr}.chat-toolbar{flex-direction:column;align-items:stretch}.toolbar-meta{text-align:left}.chat-window{max-height:300px}.grid.workflows{grid-template-columns:1fr}.workflow-hero{flex-direction:column;align-items:stretch}.workflow-row,.workflow-row.head{grid-template-columns:1fr 1fr;gap:8px}.workflow-row.head span:nth-child(n+3),.workflow-row > span:nth-child(n+3){display:none}.play-btn{grid-column:1 / -1;justify-self:stretch}}

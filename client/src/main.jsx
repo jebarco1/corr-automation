@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { BookOpen, Building2, ChevronRight, FileText, MessageSquare, Play, Receipt, RotateCcw, Settings2, Sparkles, Wand2 } from "lucide-react";
+import { BookOpen, Building2, ChevronRight, FileText, MessageSquare, Play, Receipt, RotateCcw, Settings2, Sparkles, Wand2, Workflow } from "lucide-react";
 import { categories, getCategory } from "./categoryCatalog.js";
 import { buildAutoAnswers, defaultMarketArea, formatPriceLabel, getIndustryPrices } from "./industryPrices.js";
+import WorkflowsPanel from "./WorkflowsPanel.jsx";
 import "./styles.css";
 
 const API = "/api/v1";
@@ -272,6 +273,7 @@ function App() {
         <nav>
           {[
             ["workflow", MessageSquare, "Chat Quote"],
+            ["workflows", Workflow, "Workflows"],
             ["settings", Settings2, "Business Setup"],
             ["docs", BookOpen, "Documentation"]
           ].map(([id, Icon, label]) => (
@@ -281,14 +283,22 @@ function App() {
             </button>
           ))}
         </nav>
-        <div className="aside-note">Landing chat uses local category + industry-standard prices. OpenAI runs from server OPENAI_API_KEY.</div>
+        <div className="aside-note">Workflows ask AI for industry-standard rates and update pricing JSON. Chat Quote uses local category prompts. OpenAI runs from server OPENAI_API_KEY.</div>
       </aside>
 
       <main>
         <header>
           <div>
             <p className="eyebrow">MULTI-INDUSTRY OPERATIONS</p>
-            <h1>{tab === "workflow" ? "Chat quote walkthrough" : tab === "settings" ? "Business pricing setup" : "API documentation"}</h1>
+            <h1>
+              {tab === "workflow"
+                ? "Chat quote walkthrough"
+                : tab === "workflows"
+                  ? "Pricing workflows"
+                  : tab === "settings"
+                    ? "Business pricing setup"
+                    : "API documentation"}
+            </h1>
           </div>
           {(session || chatLog.length > 1) && tab === "workflow" && (
             <button className="ghost" onClick={reset}>
@@ -433,6 +443,8 @@ function App() {
           </section>
         )}
 
+        {tab === "workflows" && <WorkflowsPanel request={request} />}
+
         {tab === "settings" && (
           <section className="grid two">
             <div className="card">
@@ -569,7 +581,9 @@ function Docs() {
       </div>
       <div className="card">
         <Play />
-        <h2>Env setup</h2>
+        <h2>Industry workflow</h2>
+        <code>POST /api/v1/&#123;category&#125;/workflows/industry-standards</code>
+        <code>Updates data/pricing-standards/*.json</code>
         <pre>{`OPENAI_API_KEY=sk-...
 OPENAI_MODEL=gpt-5-mini`}</pre>
       </div>

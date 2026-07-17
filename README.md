@@ -64,9 +64,14 @@ POST /api/v1/{category}/invoices/suggest
 # Refresh standards from uploaded invoice logs
 POST /api/v1/{category}/pricing-standards/refresh
 POST /api/v1/pricing-standards/refresh
+
+# Workflow: ask AI for industry-standard rates and update JSON
+GET  /api/v1/workflows
+POST /api/v1/{category}/workflows/industry-standards
+POST /api/v1/workflows/industry-standards
 ```
 
-The refresh workflow blends realized invoice rates into each area’s unit prices and can optionally refine with OpenAI when `OPENAI_API_KEY` is set.
+The industry-standards workflow asks OpenAI for mid-market rates (or uses curated local fallbacks) and writes `data/pricing-standards/{category}.json`. The invoice refresh workflow blends realized invoice rates into each area’s unit prices and can optionally refine with OpenAI when `OPENAI_API_KEY` is set.
 
 ## Sales / client expansion
 

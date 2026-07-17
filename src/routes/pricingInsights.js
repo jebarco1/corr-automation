@@ -3,7 +3,14 @@ import { requireClientApiKey } from "../middleware/clientApiKey.js";
 import { supportedCategories } from "../ai/toolCatalog.js";
 import { listInvoiceLogs, uploadInvoiceLogs } from "../services/invoiceLogStore.js";
 import { ensureAllPricingStandards, getPricingStandards, listPricingStandards, replacePricingStandards } from "../services/pricingStandards.js";
-import { refreshAllPricingStandards, refreshPricingStandards, suggestFromInvoiceLogs } from "../services/pricingIntelligence.js";
+import {
+  listPricingWorkflows,
+  refreshAllPricingStandards,
+  refreshPricingStandards,
+  runAllIndustryStandardsWorkflows,
+  runIndustryStandardsWorkflow,
+  suggestFromInvoiceLogs
+} from "../services/pricingIntelligence.js";
 
 const router = Router();
 
@@ -11,6 +18,18 @@ ensureAllPricingStandards();
 
 router.get("/pricing-standards", (_req, res) => {
   res.json(listPricingStandards());
+});
+
+router.get("/workflows", (_req, res) => {
+  res.json(listPricingWorkflows());
+});
+
+router.post("/workflows/industry-standards", requireClientApiKey, async (req, res, next) => {
+  try {
+    res.status(202).json(await runAllIndustryStandardsWorkflows(req.body || {}));
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.post("/pricing-standards/refresh", requireClientApiKey, async (req, res, next) => {
@@ -41,6 +60,14 @@ for (const category of supportedCategories) {
   router.post(`/${category}/pricing-standards/refresh`, requireClientApiKey, async (req, res, next) => {
     try {
       res.status(202).json(await refreshPricingStandards(category, req.body || {}));
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.post(`/${category}/workflows/industry-standards`, requireClientApiKey, async (req, res, next) => {
+    try {
+      res.status(202).json(await runIndustryStandardsWorkflow(category, req.body || {}));
     } catch (error) {
       next(error);
     }

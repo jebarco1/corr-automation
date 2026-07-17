@@ -11399,6 +11399,43 @@ paths:
       responses:
         '202':
           description: Refresh workflow executed
+  /workflows:
+    get:
+      tags:
+      - Pricing Intelligence
+      summary: List pricing workflows available in the UI
+      operationId: list_pricing_workflows
+      responses:
+        '200':
+          description: Workflow catalog
+  /workflows/industry-standards:
+    post:
+      tags:
+      - Pricing Intelligence
+      summary: Run industry-standards workflow for all (or selected) categories
+      description: Asks AI for current mid-market industry rates and updates data/pricing-standards
+        JSON files. Falls back to curated local rates when OpenAI is unavailable.
+      operationId: run_all_industry_standards_workflows
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                categories:
+                  type: array
+                  items:
+                    type: string
+                skipLlm:
+                  type: boolean
+            example:
+              categories:
+              - hvac
+              - landscape
+      responses:
+        '202':
+          description: Industry-standards workflow executed
   /{category}/pricing-standards:
     get:
       tags:
@@ -11471,6 +11508,25 @@ paths:
       responses:
         '202':
           description: Category standards refreshed
+  /{category}/workflows/industry-standards:
+    post:
+      tags:
+      - Pricing Intelligence
+      summary: Ask AI for industry-standard prices and update category JSON
+      parameters:
+      - *pricingCategory
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                skipLlm:
+                  type: boolean
+      responses:
+        '202':
+          description: Category industry standards updated
   /{category}/invoices/log:
     get:
       tags:

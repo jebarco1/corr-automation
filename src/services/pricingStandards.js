@@ -116,7 +116,8 @@ export function listPricingStandards() {
         file: `data/pricing-standards/${category}.json`,
         links: {
           get: `/api/v1/${category}/pricing-standards`,
-          refresh: `/api/v1/${category}/pricing-standards/refresh`
+          refresh: `/api/v1/${category}/pricing-standards/refresh`,
+          industryStandards: `/api/v1/${category}/workflows/industry-standards`
         }
       };
     })
