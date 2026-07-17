@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import { categoryApiTools } from "../ai/toolCatalog.js";
 import { runAutomation } from "./automationEngine.js";
 
 const sessions = new Map();
@@ -14,14 +15,14 @@ const common = [
 ];
 
 const flows = {
-  landscape:{ label:"Landscape", questions:[...common,
+  landscape:{ label:"Landscape", description:"Lawn care, grounds maintenance, mowing, mulch, irrigation, and property outdoor service estimates.", questions:[...common,
     {key:"squareFeet",question:"What is the estimated service area in square feet?",type:"number",required:true,trigger:"mowable-area"},
     {key:"serviceType",question:"Which landscape service is needed?",type:"select",options:["mowing","cleanup","mulch","fertilization","full maintenance"],required:true},
     {key:"crewSize",question:"How many crew members should be used?",type:"number",required:true},
     {key:"estimatedHours",question:"How many work hours are expected?",type:"number",required:true,trigger:"labor"},
     {key:"hourlyRate",question:"What hourly labor rate should be applied?",type:"currency",required:true,trigger:"landscaping-estimate"}
   ]},
-  hvac:{ label:"HVAC & Mechanical", questions:[...common,
+  hvac:{ label:"HVAC & Mechanical", description:"Heating, cooling, and mechanical system diagnostics, load estimates, replacements, and maintenance plans.", questions:[...common,
     {key:"squareFeet",question:"What is the conditioned building square footage?",type:"number",required:true,trigger:"hvac-load-estimate"},
     {key:"systemType",question:"Which system needs service?",type:"select",options:["split system","heat pump","rooftop unit","boiler","chiller","air handler","other"],required:true},
     {key:"serviceType",question:"What HVAC service is requested?",type:"select",options:["diagnostic","repair","maintenance","replacement","installation"],required:true,trigger:"hvac-fault-detection"},
@@ -29,7 +30,7 @@ const flows = {
     {key:"hourlyRate",question:"What hourly labor rate should be applied?",type:"currency",required:true},
     {key:"materialCost",question:"What is the estimated equipment and material cost?",type:"currency",required:true,trigger:"hvac-replacement-estimate"}
   ]},
-  cleaning:{ label:"Janitorial & Cleaning", questions:[...common,
+  cleaning:{ label:"Janitorial & Cleaning", description:"Recurring janitorial, deep cleans, move-in/out, post-construction, carpet, floor care, and window cleaning.", questions:[...common,
     {key:"squareFeet",question:"How many square feet must be cleaned?",type:"number",required:true,trigger:"cleaning-property-profile"},
     {key:"serviceType",question:"Which cleaning service is needed?",type:"select",options:["recurring janitorial","deep clean","move-in/out","post-construction","carpet","floor care","windows"],required:true},
     {key:"frequency",question:"How often should service occur?",type:"select",options:["one-time","daily","weekly","biweekly","monthly"],required:true},
@@ -37,48 +38,48 @@ const flows = {
     {key:"estimatedHours",question:"How many hours per visit are expected?",type:"number",required:true},
     {key:"hourlyRate",question:"What hourly rate should be used?",type:"currency",required:true,trigger:"cleaning-service-estimate"}
   ]},
-  "pest-control":{ label:"Pest Control", questions:[...common,
+  "pest-control":{ label:"Pest Control", description:"Inspections, treatments, termite bonds, rodent control, and recurring pest service planning.", questions:[...common,
     {key:"squareFeet",question:"What is the treatment area square footage?",type:"number",required:true,trigger:"pest-property-profile"},
     {key:"pestType",question:"Which pest is involved?",type:"select",options:["general insects","termites","rodents","bed bugs","mosquitoes","wildlife","other"],required:true,trigger:"pest-risk-assessment"},
     {key:"serviceType",question:"Which treatment plan is requested?",type:"select",options:["inspection","one-time treatment","recurring service","termite bond","exclusion"],required:true},
     {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true},
     {key:"materialCost",question:"What is the estimated treatment material cost?",type:"currency",required:true,trigger:"pest-treatment-estimate"}
   ]},
-  pool:{ label:"Pool Service", questions:[...common,
+  pool:{ label:"Pool Service", description:"Pool chemistry, equipment checks, openings/closings, repairs, and recurring pool maintenance.", questions:[...common,
     {key:"poolGallons",question:"What is the estimated pool volume in gallons?",type:"number",required:true,trigger:"pool-water-chemistry"},
     {key:"serviceType",question:"Which pool service is needed?",type:"select",options:["weekly service","opening","closing","equipment repair","cleaning","chemical balancing"],required:true},
     {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true},
     {key:"materialCost",question:"What chemical and parts cost is expected?",type:"currency",required:true,trigger:"pool-service-estimate"}
   ]},
-  painting:{ label:"Painting", questions:[...common,
+  painting:{ label:"Painting", description:"Interior and exterior painting, cabinets, surface area takeoffs, materials, and crew planning.", questions:[...common,
     {key:"squareFeet",question:"What surface area will be painted?",type:"number",required:true,trigger:"paint-surface-area"},
     {key:"serviceType",question:"Which painting service is needed?",type:"select",options:["interior","exterior","cabinets","touch-up","commercial coating"],required:true},
     {key:"coats",question:"How many coats are required?",type:"number",required:true},
     {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true},
     {key:"materialCost",question:"What is the estimated paint and materials cost?",type:"currency",required:true,trigger:"paint-interior-estimate"}
   ]},
-  roofing:{ label:"Roofing", questions:[...common,
+  roofing:{ label:"Roofing", description:"Roof inspections, repairs, replacements, storm damage assessments, and material calculations.", questions:[...common,
     {key:"squareFeet",question:"What is the roof footprint square footage?",type:"number",required:true,trigger:"roof-area-estimate"},
     {key:"serviceType",question:"Which roofing service is needed?",type:"select",options:["inspection","repair","replacement","storm damage","maintenance"],required:true},
     {key:"roofMaterial",question:"What roofing material is involved?",type:"select",options:["asphalt shingle","metal","tile","flat membrane","wood shake","other"],required:true},
     {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true},
     {key:"materialCost",question:"What is the estimated roofing material cost?",type:"currency",required:true,trigger:"roof-replacement-estimate"}
   ]},
-  plumbing:{ label:"Plumbing", questions:[...common,
+  plumbing:{ label:"Plumbing", description:"Leak and drain diagnostics, water heater work, repiping, sewer camera review, and emergency dispatch.", questions:[...common,
     {key:"serviceType",question:"Which plumbing service is needed?",type:"select",options:["leak repair","drain clearing","water heater","fixture installation","repiping","sewer","backflow"],required:true,trigger:"plumbing-leak-diagnostic"},
     {key:"urgency",question:"How urgent is the request?",type:"select",options:["routine","same day","emergency"],required:true},
     {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true},
     {key:"hourlyRate",question:"What hourly labor rate should be applied?",type:"currency",required:true},
     {key:"materialCost",question:"What parts and materials cost is expected?",type:"currency",required:true,trigger:"plumbing-repair-estimate"}
   ]},
-  electrical:{ label:"Electrical", questions:[...common,
+  electrical:{ label:"Electrical", description:"Panel capacity, circuit diagnostics, EV chargers, generators, lighting upgrades, and electrical safety inspections.", questions:[...common,
     {key:"serviceType",question:"Which electrical service is needed?",type:"select",options:["diagnostic","panel upgrade","EV charger","generator","lighting","rewire","safety inspection"],required:true,trigger:"electrical-circuit-diagnostic"},
     {key:"voltage",question:"What voltage applies?",type:"number",required:false,example:240},
     {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true},
     {key:"hourlyRate",question:"What hourly labor rate should be applied?",type:"currency",required:true},
     {key:"materialCost",question:"What equipment and materials cost is expected?",type:"currency",required:true,trigger:"electrical-service-upgrade"}
   ]},
-  "general-contract":{ label:"General Contracting", questions:[...common,
+  "general-contract":{ label:"General Contracting", description:"Remodels, build-outs, project scopes, bids, critical-path scheduling, and closeout packages.", questions:[...common,
     {key:"projectType",question:"What type of project is planned?",type:"select",options:["remodel","addition","repair","build-out","new construction","restoration"],required:true,trigger:"gc-scope-generator"},
     {key:"squareFeet",question:"What is the project square footage?",type:"number",required:true},
     {key:"estimatedHours",question:"How many total labor hours are expected?",type:"number",required:true},
@@ -86,21 +87,21 @@ const flows = {
     {key:"equipmentCost",question:"What equipment or rental cost is expected?",type:"currency",required:false},
     {key:"markupMultiplier",question:"What pricing multiplier should be applied?",type:"number",required:true,example:1.35,trigger:"gc-project-estimate"}
   ]},
-  surveillance:{ label:"Surveillance", questions:[...common,
+  surveillance:{ label:"Surveillance", description:"Camera layouts, storage and bandwidth planning, installation estimates, and site security assessments.", questions:[...common,
     {key:"cameraCount",question:"How many cameras are required?",type:"number",required:true,trigger:"camera-layout-design"},
     {key:"retentionDays",question:"How many days should video be retained?",type:"number",required:true,trigger:"surveillance-storage-calculator"},
     {key:"serviceType",question:"Which surveillance service is requested?",type:"select",options:["new installation","upgrade","repair","site assessment","maintenance"],required:true},
     {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true},
     {key:"materialCost",question:"What equipment and materials cost is expected?",type:"currency",required:true,trigger:"surveillance-install-estimate"}
   ]},
-  "trash-removal":{ label:"Trash Removal", questions:[...common,
+  "trash-removal":{ label:"Trash Removal", description:"Junk hauling, dumpster rentals, volume estimates, disposal site matching, and waste compliance manifests.", questions:[...common,
     {key:"volumeCubicYards",question:"What is the estimated debris volume in cubic yards?",type:"number",required:true,trigger:"trash-volume-estimate"},
     {key:"materialType",question:"What material will be removed?",type:"select",options:["household debris","construction debris","yard waste","appliances","furniture","mixed waste"],required:true,trigger:"trash-material-classification"},
     {key:"serviceType",question:"Which removal service is needed?",type:"select",options:["single haul","dumpster rental","recurring pickup","property cleanout"],required:true},
     {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true},
     {key:"disposalCost",question:"What disposal or tipping fee is expected?",type:"currency",required:true,trigger:"trash-haul-estimate"}
   ]},
-  transportation:{ label:"Transportation", questions:[...common,
+  transportation:{ label:"Transportation", description:"Local moves, long-haul and delivery quoting, load planning, route optimization, fleet capacity, and dispatch.", questions:[...common,
     {key:"pickupAddress",question:"What is the pickup address?",type:"string",required:true,trigger:"transport-property-profile"},
     {key:"dropoffAddress",question:"What is the dropoff or destination address?",type:"string",required:true},
     {key:"serviceType",question:"Which transportation service is needed?",type:"select",options:["local move","long haul","same-day delivery","scheduled delivery","light freight","materials haul"],required:true},
@@ -145,8 +146,43 @@ function resultToLineItem(result, session) {
   return { description:`${session.label}: ${String(session.answers.serviceType || session.answers.projectType || result.type).replaceAll("-"," ")}`, quantity:1, unit:"service", unitPrice:amount, amount, sourceApi:result.type, sourceRequestId:result.requestId };
 }
 
+function categorySummary(category, flow) {
+  return {
+    category,
+    label: flow.label,
+    description: flow.description,
+    namespace: `/api/v1/${category}`,
+    endpoints: {
+      start: `/api/v1/${category}/start`,
+      quote: `/api/v1/${category}/quote`,
+      sessions: `/api/v1/${category}/sessions/{sessionId}`
+    },
+    recommendedApis: categoryApiTools[category] || []
+  };
+}
+
 export function listGuidedCategories() {
-  return Object.entries(flows).map(([category,flow])=>({ category,label:flow.label,startEndpoint:`/api/v1/${category}/start` }));
+  return Object.entries(flows).map(([category, flow]) => ({
+    category,
+    label: flow.label,
+    description: flow.description,
+    startEndpoint: `/api/v1/${category}/start`
+  }));
+}
+
+export function listCategories() {
+  const categories = Object.entries(flows).map(([category, flow]) => categorySummary(category, flow));
+  return { count: categories.length, categories };
+}
+
+export function getCategory(category) {
+  const flow = flows[category];
+  if (!flow) {
+    const error = new Error(`Unsupported category: ${category}`);
+    error.statusCode = 404;
+    throw error;
+  }
+  return categorySummary(category, flow);
 }
 
 export function startGuidedWorkflow(category, input={}) {

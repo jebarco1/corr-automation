@@ -32,6 +32,7 @@ tags:
 - name: Trash Removal
 - name: Transportation
 - name: Guided Workflows
+- name: Categories
 - name: Invoices
 paths:
   /landscape/properties/search:
@@ -10323,6 +10324,62 @@ paths:
       responses:
         '200':
           description: Supported categories
+  /categories:
+    get:
+      tags:
+      - Categories
+      summary: List all service categories with descriptions
+      description: Returns every supported industry category, a short description,
+        namespace links, and recommended automation APIs.
+      operationId: list_categories_get
+      responses:
+        '200':
+          description: Category catalog
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryCatalog'
+              example:
+                count: 13
+                categories:
+                - category: transportation
+                  label: Transportation
+                  description: Local moves, long-haul and delivery quoting, load planning,
+                    route optimization, fleet capacity, and dispatch.
+                  namespace: /api/v1/transportation
+                  endpoints:
+                    start: /api/v1/transportation/start
+                    quote: /api/v1/transportation/quote
+                    sessions: /api/v1/transportation/sessions/{sessionId}
+                  recommendedApis:
+                  - transport-property-profile
+                  - transport-load-plan
+                  - transport-local-move-estimate
+                  - transport-delivery-estimate
+  /categories/{category}:
+    get:
+      tags:
+      - Categories
+      summary: Get one service category with description
+      description: Returns a single industry category, its description, namespace
+        links, and recommended automation APIs.
+      operationId: get_category_get
+      parameters:
+      - name: category
+        in: path
+        required: true
+        schema:
+          type: string
+          example: transportation
+      responses:
+        '200':
+          description: Category detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategorySummary'
+        '404':
+          description: Unknown category
   /landscape/start:
     post:
       tags:
@@ -12590,6 +12647,53 @@ paths:
           description: Invalid client API key
 components:
   schemas:
+    CategorySummary:
+      type: object
+      required:
+      - category
+      - label
+      - description
+      - namespace
+      properties:
+        category:
+          type: string
+          example: transportation
+        label:
+          type: string
+          example: Transportation
+        description:
+          type: string
+          example: Local moves, long-haul and delivery quoting, load planning, route
+            optimization, fleet capacity, and dispatch.
+        namespace:
+          type: string
+          example: /api/v1/transportation
+        endpoints:
+          type: object
+          properties:
+            start:
+              type: string
+            quote:
+              type: string
+            sessions:
+              type: string
+        recommendedApis:
+          type: array
+          items:
+            type: string
+    CategoryCatalog:
+      type: object
+      required:
+      - count
+      - categories
+      properties:
+        count:
+          type: integer
+          example: 13
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategorySummary'
     GenericRequest:
       type: object
       additionalProperties: true

@@ -18,6 +18,13 @@ Multi-trade automation API with **219 documented operations**.
 - `/api/v1/trash-removal/...`
 - `/api/v1/transportation/...`
 
+List every category with its description:
+
+```bash
+GET /api/v1/categories
+GET /api/v1/categories/{category}
+```
+
 ## Run
 
 ```bash
