@@ -99,9 +99,12 @@ You can also omit `clients` and set `"category"` after uploading invoice logs to
 
 ```bash
 cp .env.example .env
+# set OPENAI_API_KEY in .env for AI-assisted quoting
 npm install
 npm run dev
 ```
+
+Open the home page at `http://localhost:3000/` — category selection and starter prompts are local (no API call to begin). Set `OPENAI_API_KEY` in `.env` for AI chat/quoting.
 
 Open Swagger at `http://localhost:3000/docs`. Raw OpenAPI: `http://localhost:3000/openapi.yaml`.
 
