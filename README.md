@@ -1,6 +1,26 @@
-# HA-Corr Automation API v4
+# HA-Corr Automation API — Class 0.5 Coaxium
 
-Multi-trade automation API with **219 documented operations**.
+Multi-trade automation API (**Class 0.5 Coaxium**, path `/api/v1`).
+
+## API versioning
+
+Releases use **Class + codename** (current: **Class 0.5 Coaxium**). The HTTP path remains `/api/v1`.
+
+```bash
+GET /version
+GET /api/v1/version
+GET /api/v1/versions
+```
+
+Responses and every API reply include version headers:
+
+- `X-API-Class`
+- `X-API-Codename`
+- `X-API-Version-Name`
+- `X-API-Semver`
+- `X-API-Path-Version`
+
+Update `src/config/apiVersion.js` when cutting a new Class.
 
 ## Industry URL namespaces
 

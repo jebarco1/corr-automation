@@ -1,13 +1,16 @@
 openapi: 3.0.3
 info:
   title: HA-Corr Automation Multi-Trade API
-  version: 7.0.0
-  description: Industry-specific automation APIs for landscape, HVAC, cleaning, pest
-    control, pool service, painting, roofing, plumbing, electrical, general contracting,
-    surveillance, trash removal, and transportation. Starter calculations must be verified by licensed
-    professionals and connected providers before production decisions. Version 5 adds
-    guided start sessions that ask category-specific questions, execute trade APIs,
-    retain all results, and generate invoice-ready JSON.
+  version: 0.5.0
+  description: 'Class 0.5 Coaxium. Industry-specific automation APIs for landscape,
+    HVAC, cleaning, pest control, pool service, painting, roofing, plumbing, electrical,
+    general contracting, surveillance, trash removal, and transportation. Starter
+    calculations must be verified by licensed professionals and connected providers
+    before production decisions. Guided start sessions ask category-specific questions,
+    execute trade APIs, retain all results, and generate invoice-ready JSON.'
+  x-api-class: '0.5'
+  x-api-codename: Coaxium
+  x-api-version-name: Class 0.5 Coaxium
 servers:
 - url: http://localhost:3000/api/v1
 tags:
@@ -33,8 +36,46 @@ tags:
 - name: Transportation
 - name: Guided Workflows
 - name: Categories
+- name: Versioning
 - name: Invoices
 paths:
+  /version:
+    get:
+      tags:
+      - Versioning
+      summary: Get current API Class version
+      description: Returns the current release Class, codename, semver, path version,
+        and highlights for Class 0.5 Coaxium.
+      operationId: get_version
+      responses:
+        '200':
+          description: Current API version
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiVersion'
+              example:
+                name: Class 0.5 Coaxium
+                class: '0.5'
+                codename: Coaxium
+                semver: 0.5.0
+                apiPath: v1
+                status: current
+  /versions:
+    get:
+      tags:
+      - Versioning
+      summary: List API Class versions
+      description: Returns the release history of HA-Corr API Classes and codenames.
+      operationId: list_versions
+      responses:
+        '200':
+          description: Version catalog
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiVersionCatalog'
+
   /landscape/properties/search:
     post:
       tags:
@@ -12647,6 +12688,68 @@ paths:
           description: Invalid client API key
 components:
   schemas:
+    ApiVersion:
+      type: object
+      required:
+      - name
+      - class
+      - codename
+      - semver
+      - apiPath
+      - status
+      properties:
+        name:
+          type: string
+          example: Class 0.5 Coaxium
+        class:
+          type: string
+          example: '0.5'
+        codename:
+          type: string
+          example: Coaxium
+        semver:
+          type: string
+          example: 0.5.0
+        apiPath:
+          type: string
+          example: v1
+        status:
+          type: string
+          example: current
+        releasedAt:
+          type: string
+          format: date
+        description:
+          type: string
+        highlights:
+          type: array
+          items:
+            type: string
+        links:
+          type: object
+          additionalProperties:
+            type: string
+    ApiVersionCatalog:
+      type: object
+      required:
+      - current
+      - apiPath
+      - count
+      - versions
+      properties:
+        current:
+          type: string
+          example: Class 0.5 Coaxium
+        apiPath:
+          type: string
+          example: v1
+        count:
+          type: integer
+          example: 1
+        versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiVersion'
     CategorySummary:
       type: object
       required:
