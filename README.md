@@ -68,6 +68,33 @@ POST /api/v1/pricing-standards/refresh
 
 The refresh workflow blends realized invoice rates into each area’s unit prices and can optionally refine with OpenAI when `OPENAI_API_KEY` is set.
 
+## Sales / client expansion
+
+Pass client or invoice areas to measure density and get geography + product/service investment ideas:
+
+```bash
+POST /api/v1/sales/client-density
+POST /api/v1/sales/expansion-opportunities
+POST /api/v1/sales/product-expansion
+POST /api/v1/sales/market-expansion   # combined workflow
+```
+
+Example body:
+
+```json
+{
+  "category": "transportation",
+  "clients": [
+    { "area": "Atlanta, GA", "revenue": 12000, "services": ["local move"] },
+    { "area": "Atlanta, GA", "revenue": 8000, "services": ["delivery"] },
+    { "area": "Dallas, TX", "revenue": 3500, "services": ["local move"] }
+  ],
+  "targetAreas": ["Austin, TX"]
+}
+```
+
+You can also omit `clients` and set `"category"` after uploading invoice logs to derive areas from `data/invoice-logs`.
+
 ## Run
 
 ```bash

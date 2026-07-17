@@ -10650,6 +10650,130 @@ paths:
               address: 123 Main St, Atlanta, GA 30303
               propertyType: residential
               squareFeet: 2500
+  /sales/client-density:
+    post:
+      tags:
+      - Shared Sales
+      summary: Analyze client and invoice area density
+      description: Accepts clients[] and/or invoices[] with area fields, or a category
+        with uploaded invoice logs, and returns density scores, revenue share, and
+        concentration risk.
+      operationId: sales_client_density_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category:
+                  type: string
+                useInvoiceLogs:
+                  type: boolean
+                clients:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: true
+                invoices:
+                  type: array
+                  items:
+                    type: object
+                    additionalProperties: true
+            example:
+              category: transportation
+              clients:
+              - area: Atlanta, GA
+                revenue: 12000
+                services: [local move]
+              - area: Dallas, TX
+                revenue: 3500
+                services: [delivery]
+      responses:
+        '200':
+          description: Density analysis
+        '400':
+          description: No client/invoice areas provided
+  /sales/expansion-opportunities:
+    post:
+      tags:
+      - Shared Sales
+      summary: Suggest geographic areas to invest in
+      description: Builds on client density to recommend adjacent markets, deepen-penetration
+        plays, and whitespace areas from pricing standards.
+      operationId: sales_expansion_opportunities_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+            example:
+              category: healthcare
+              clients:
+              - area: Atlanta, GA
+                revenue: 18000
+                services: [nursing visit]
+              targetAreas: [Marietta, GA]
+      responses:
+        '200':
+          description: Expansion opportunities
+  /sales/product-expansion:
+    post:
+      tags:
+      - Shared Sales
+      summary: Suggest product and service expansion opportunities
+      description: Compares observed services on clients/invoices against category
+        expansion catalog and recommends what to sell next in dense areas.
+      operationId: sales_product_expansion_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+            example:
+              category: landscape
+              invoices:
+              - area: Chicago, IL
+                serviceType: mowing
+                total: 240
+              - area: Chicago, IL
+                serviceType: mowing
+                total: 180
+      responses:
+        '200':
+          description: Product/service expansion recommendations
+  /sales/market-expansion:
+    post:
+      tags:
+      - Shared Sales
+      summary: Combined sales market expansion workflow
+      description: Returns client density, geographic investment areas, and product/service
+        expansion recommendations in one response.
+      operationId: sales_market_expansion_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+            example:
+              category: transportation
+              clients:
+              - area: Atlanta, GA
+                revenue: 12000
+                services: [local move, delivery]
+              - area: Phoenix, AZ
+                revenue: 4000
+                services: [local move]
+              targetAreas: [Austin, TX]
+      responses:
+        '200':
+          description: Full market expansion analysis
   /customers/payment-risk:
     post:
       tags:
