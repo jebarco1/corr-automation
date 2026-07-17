@@ -97,14 +97,24 @@ You can also omit `clients` and set `"category"` after uploading invoice logs to
 
 ## Run
 
+`.env` is **not** in git (secrets stay local). After every clone/pull, create it from the example:
+
 ```bash
 cp .env.example .env
-# set OPENAI_API_KEY in .env for AI-assisted quoting
+```
+
+Then edit `.env` and set:
+
+```bash
+OPENAI_API_KEY=sk-...your key...
+```
+
+```bash
 npm install
 npm run dev
 ```
 
-Open the home page at `http://localhost:3000/` — category selection and starter prompts are local (no API call to begin). Set `OPENAI_API_KEY` in `.env` for AI chat/quoting.
+Open the home page at `http://localhost:3000/` — category selection and starter prompts are local (no API call to begin). AI chat/quoting uses `OPENAI_API_KEY` from your local `.env` only.
 
 Open Swagger at `http://localhost:3000/docs`. Raw OpenAPI: `http://localhost:3000/openapi.yaml`.
 
