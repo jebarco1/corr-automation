@@ -11,7 +11,8 @@ const categoryWords = {
   pool:["pool","chlorine","ph","spa"], painting:["paint","painting","coats"], roofing:["roof","shingle","gutter"],
   plumbing:["plumb","leak","drain","water heater","sewer"], electrical:["electric","panel","circuit","outlet","generator","ev charger"],
   "general-contract":["remodel","construction","contractor","build-out"], surveillance:["camera","surveillance","security system","nvr"],
-  "trash-removal":["trash","junk","dumpster","debris","haul"]
+  "trash-removal":["trash","junk","dumpster","debris","haul"],
+  transportation:["transport","moving","local move","long haul","delivery","freight","pickup","dropoff","relocate","truckload","courier"]
 };
 
 function inferCategoryLocally(message="") {

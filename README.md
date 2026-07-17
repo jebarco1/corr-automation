@@ -16,6 +16,7 @@ Multi-trade automation API with **219 documented operations**.
 - `/api/v1/general-contract/...`
 - `/api/v1/surveillance/...`
 - `/api/v1/trash-removal/...`
+- `/api/v1/transportation/...`
 
 ## Run
 
@@ -33,7 +34,7 @@ Regrid-backed parcel endpoints can run when `REGRID_API_TOKEN` is configured. Ot
 
 ## Guided Start-to-Invoice workflows
 
-Version 5 adds a category-specific start API for all 12 trades. Each session asks the next required question, invokes relevant automation APIs, preserves the results, and creates a detailed invoice JSON.
+Version 5 adds a category-specific start API for all trades. Each session asks the next required question, invokes relevant automation APIs, preserves the results, and creates a detailed invoice JSON.
 
 ```text
 POST /api/v1/{category}/start

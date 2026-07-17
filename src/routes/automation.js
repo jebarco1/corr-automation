@@ -163,7 +163,22 @@ const trashRemoval = {
   "/trash-removal/ai/photo-volume":"trash-photo-volume", "/trash-removal/contracts/pricing":"trash-contract-pricing"
 };
 
-for (const [path,type] of Object.entries({...landscape,...hvac,...cleaning,...pestControl,...poolService,...painting,...roofing,...plumbing,...electrical,...generalContracting,...surveillance,...trashRemoval})) router.post(path, execute(type));
+const transportation = {
+  "/transportation/property-profile":"transport-property-profile",
+  "/transportation/estimates/local-move":"transport-local-move-estimate",
+  "/transportation/estimates/long-haul":"transport-long-haul-estimate",
+  "/transportation/estimates/delivery":"transport-delivery-estimate",
+  "/transportation/load/plan":"transport-load-plan",
+  "/transportation/scheduling/route-optimize":"transport-route-optimize",
+  "/transportation/scheduling/window":"transport-delivery-window",
+  "/transportation/fleet/capacity":"transport-fleet-capacity",
+  "/transportation/dispatch/assign":"transport-dispatch-assign",
+  "/transportation/compliance/bol":"transport-bol",
+  "/transportation/ai/photo-inventory":"transport-photo-inventory",
+  "/transportation/contracts/pricing":"transport-contract-pricing"
+};
+
+for (const [path,type] of Object.entries({...landscape,...hvac,...cleaning,...pestControl,...poolService,...painting,...roofing,...plumbing,...electrical,...generalContracting,...surveillance,...trashRemoval,...transportation})) router.post(path, execute(type));
 
 // Shared cross-industry APIs
 const shared = {

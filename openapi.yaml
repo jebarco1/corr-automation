@@ -4,7 +4,7 @@ info:
   version: 7.0.0
   description: Industry-specific automation APIs for landscape, HVAC, cleaning, pest
     control, pool service, painting, roofing, plumbing, electrical, general contracting,
-    surveillance, and trash removal. Starter calculations must be verified by licensed
+    surveillance, trash removal, and transportation. Starter calculations must be verified by licensed
     professionals and connected providers before production decisions. Version 5 adds
     guided start sessions that ask category-specific questions, execute trade APIs,
     retain all results, and generate invoice-ready JSON.
@@ -30,6 +30,7 @@ tags:
 - name: Shared Sales
 - name: Surveillance
 - name: Trash Removal
+- name: Transportation
 - name: Guided Workflows
 - name: Invoices
 paths:
@@ -8824,6 +8825,618 @@ paths:
               materialTypes:
               - household debris
               truckCapacityCubicYards: 15
+  /transportation/property-profile:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Property Profile
+      description: Runs the transport property profile operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_property_profile_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-property-profile
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+  /transportation/estimates/local-move:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Local Move Estimate
+      description: Runs the transport local move estimate operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_local_move_estimate_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-local-move-estimate
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+  /transportation/estimates/long-haul:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Long Haul Estimate
+      description: Runs the transport long haul estimate operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_long_haul_estimate_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-long-haul-estimate
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+  /transportation/estimates/delivery:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Delivery Estimate
+      description: Runs the transport delivery estimate operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_delivery_estimate_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-delivery-estimate
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+  /transportation/load/plan:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Load Plan
+      description: Runs the transport load plan operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_load_plan_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-load-plan
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+  /transportation/scheduling/route-optimize:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Route Optimize
+      description: Runs the transport route optimize operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_route_optimize_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-route-optimize
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+  /transportation/scheduling/window:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Delivery Window
+      description: Runs the transport delivery window operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_delivery_window_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-delivery-window
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+  /transportation/fleet/capacity:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Fleet Capacity
+      description: Runs the transport fleet capacity operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_fleet_capacity_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-fleet-capacity
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+  /transportation/dispatch/assign:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Dispatch Assign
+      description: Runs the transport dispatch assign operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_dispatch_assign_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-dispatch-assign
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+  /transportation/compliance/bol:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Bill Of Lading
+      description: Runs the transport bill of lading operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_bol_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-bol
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+  /transportation/ai/photo-inventory:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Photo Inventory
+      description: Runs the transport photo inventory operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_photo_inventory_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-photo-inventory
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+  /transportation/contracts/pricing:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Contract Pricing
+      description: Runs the transport contract pricing operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_contract_pricing_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-contract-pricing
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
   /business/cash-forecast:
     post:
       tags:
@@ -11558,6 +12171,160 @@ paths:
                 $ref: '#/components/schemas/Invoice'
         '404':
           description: Session not found
+  /transportation/start:
+    post:
+      tags:
+      - Guided Workflows
+      summary: Start Transportation guided estimate
+      description: Creates a guided session and returns the first question. Optional
+        prefill values skip already-known questions.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GuidedStartRequest'
+            example:
+              taxRate: 8.9
+              discount: 0
+              currency: USD
+              paymentTerms: Due upon receipt
+              prefill:
+                customer:
+                  name: Taylor Smith
+                  email: taylor@example.com
+      responses:
+        '201':
+          description: Guided session created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GuidedSession'
+        '400':
+          description: Invalid input
+  /transportation/sessions/{sessionId}:
+    get:
+      tags:
+      - Guided Workflows
+      summary: Get Transportation guided session
+      parameters:
+      - &id012b
+        name: sessionId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Current workflow state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GuidedSession'
+        '404':
+          description: Session not found
+  /transportation/sessions/{sessionId}/answer:
+    post:
+      tags:
+      - Guided Workflows
+      summary: Answer the next guided question
+      parameters:
+      - *id012b
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GuidedAnswerRequest'
+            examples:
+              text:
+                value:
+                  value: commercial
+              number:
+                value:
+                  value: 2500
+              customer:
+                value:
+                  value:
+                    name: Taylor Smith
+                    email: taylor@example.com
+                    phone: 404-555-0199
+      responses:
+        '200':
+          description: Answer saved; next question and any triggered API result returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GuidedSession'
+        '400':
+          description: Required answer missing
+        '404':
+          description: Session not found
+  /transportation/sessions/{sessionId}/run-api:
+    post:
+      tags:
+      - Guided Workflows
+      summary: Run an additional trade API within the session
+      parameters:
+      - *id012b
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - endpointType
+              properties:
+                endpointType:
+                  type: string
+                  example: transport-load-plan
+                payload:
+                  type: object
+                  additionalProperties: true
+            example:
+              endpointType: transport-route-optimize
+              payload:
+                crewSize: 2
+                distanceMiles: 18
+                stops: 4
+      responses:
+        '200':
+          description: API result attached to workflow
+  /transportation/sessions/{sessionId}/invoice:
+    post:
+      tags:
+      - Invoices
+      summary: Create detailed Transportation invoice
+      description: Combines all answers and API results into a detailed draft invoice
+        JSON payload. The complete workflow evidence is embedded for auditability.
+      parameters:
+      - *id012b
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvoiceOverride'
+            example:
+              taxRate: 8.9
+              discount: 25
+              notes: Thank you for your business.
+              additionalLineItems:
+              - description: Fuel surcharge
+                quantity: 1
+                unit: fee
+                unitPrice: 35
+                amount: 35
+      responses:
+        '201':
+          description: Detailed invoice created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+        '404':
+          description: Session not found
   /api/v1/guided/quote:
     post:
       tags: &id013
@@ -11723,6 +12490,15 @@ paths:
     post:
       tags: *id013
       summary: Create a complete trash-removal quote and invoice
+      description: Submits category, business pricing, tax settings, customer/property
+        answers, and optional line items in one request. Runs category automations
+        and returns a detailed draft invoice.
+      requestBody: *id014
+      responses: *id015
+  /api/v1/transportation/quote:
+    post:
+      tags: *id013
+      summary: Create a complete transportation quote and invoice
       description: Submits category, business pricing, tax settings, customer/property
         answers, and optional line items in one request. Runs category automations
         and returns a detailed draft invoice.

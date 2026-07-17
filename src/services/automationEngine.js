@@ -125,24 +125,31 @@ export function runAutomation(type, input = {}) {
   }
 
 
-  const tradePrefixes = ["pest-","termite-","pesticide-","pool-","paint-","roof-","plumbing-","water-heater-","backflow-","sewer-","electrical-","gc-","camera-","surveillance-","trash-","dumpster-"];
+  const tradePrefixes = ["pest-","termite-","pesticide-","pool-","paint-","roof-","plumbing-","water-heater-","backflow-","sewer-","electrical-","gc-","camera-","surveillance-","trash-","dumpster-","transport-"];
   if (tradePrefixes.some(prefix => type.startsWith(prefix))) {
     const trade = type.startsWith("pest-")||type.startsWith("termite-")||type.startsWith("pesticide-") ? "pest-control" :
       type.startsWith("pool-") ? "pool-service" : type.startsWith("paint-") ? "painting" : type.startsWith("roof-") ? "roofing" :
       type.startsWith("plumbing-")||type.startsWith("water-heater-")||type.startsWith("backflow-")||type.startsWith("sewer-") ? "plumbing" :
       type.startsWith("electrical-") ? "electrical" : type.startsWith("gc-") ? "general-contracting" :
-      type.startsWith("camera-")||type.startsWith("surveillance-") ? "surveillance" : "trash-removal";
+      type.startsWith("camera-")||type.startsWith("surveillance-") ? "surveillance" :
+      type.startsWith("trash-")||type.startsWith("dumpster-") ? "trash-removal" :
+      type.startsWith("transport-") ? "transportation" : "multi-trade";
     const area = n(input.squareFeet || input.areaSquareFeet, 2500);
-    const hours = round(n(input.estimatedHours, Math.max(1, area / 1250)));
-    const labor = round(hours * n(input.hourlyRate, 85) * Math.max(1,n(input.crewSize,1)));
-    const materials = round(n(input.materialCost, area * 0.18));
-    const price = round((labor + materials + n(input.equipmentCost,0) + n(input.disposalCost,0)) * n(input.markupMultiplier,1.35));
-    const data = { module: trade, status: "starter-calculation", estimatedLaborHours: hours, estimatedCost: round(labor+materials), suggestedPrice: price, confidence: 0.7 };
+    const miles = n(input.distanceMiles || input.miles, type.includes("long-haul") ? 250 : type.includes("delivery") ? 12 : 25);
+    const volumeCuFt = n(input.volumeCubicFeet || input.cubicFeet, n(input.volumeCubicYards, 0) * 27 || Math.max(80, area * 0.04));
+    const weightLbs = n(input.weightLbs || input.weightPounds, Math.max(200, volumeCuFt * 7));
+    const hours = round(n(input.estimatedHours, type.startsWith("transport-") ? Math.max(1.5, miles / 22 + volumeCuFt / 180) : Math.max(1, area / 1250)));
+    const labor = round(hours * n(input.hourlyRate, type.startsWith("transport-") ? 75 : 85) * Math.max(1,n(input.crewSize, type.startsWith("transport-") ? 2 : 1)));
+    const materials = round(n(input.materialCost, type.startsWith("transport-") ? n(input.packingMaterialsCost, volumeCuFt * 0.35) : area * 0.18));
+    const fuelCost = round(n(input.fuelCost, miles * n(input.fuelCostPerMile, 0.85)));
+    const tolls = round(n(input.tolls, miles > 40 ? miles * 0.08 : 0));
+    const price = round((labor + materials + n(input.equipmentCost,0) + n(input.disposalCost,0) + (type.startsWith("transport-") ? fuelCost + tolls : 0)) * n(input.markupMultiplier,1.35));
+    const data = { module: trade, status: "starter-calculation", estimatedLaborHours: hours, estimatedCost: round(labor+materials+(type.startsWith("transport-")?fuelCost+tolls:0)), suggestedPrice: price, confidence: 0.7 };
 
-    if (type.includes("property-profile")) Object.assign(data,{address:input.address,propertyType:input.propertyType||"residential",squareFeet:area,units:n(input.units,1)});
+    if (type.includes("property-profile")) Object.assign(data,{address:input.address,pickupAddress:input.pickupAddress||input.address,dropoffAddress:input.dropoffAddress||input.destinationAddress||null,propertyType:input.propertyType||"residential",squareFeet:area,units:n(input.units,1),accessNotes:input.accessNotes||null});
     if (type.includes("estimate") || type.includes("pricing") || type.includes("calculator")) Object.assign(data,{laborCost:labor,materialCost:materials,equipmentCost:n(input.equipmentCost,0),disposalCost:n(input.disposalCost,0),markupPercent:round((n(input.markupMultiplier,1.35)-1)*100)});
     if (type.includes("inspection") || type.includes("risk") || type.includes("diagnostic") || type.includes("health") || type.includes("photo")) Object.assign(data,{riskLevel:"moderate",score:82,findings:input.findings||[],recommendedActions:["perform licensed on-site verification","document measurements and photos","create work order for confirmed deficiencies"]});
-    if (type.includes("schedule") || type.includes("dispatch") || type.includes("route") || type.includes("critical-path") || type.includes("weather-window")) Object.assign(data,{recommendedDate:input.requestedDate||now().slice(0,10),assignedCrew:input.crewId||null,routeStatus:"optimization_provider_optional",priority:input.priority||"normal"});
+    if (type.includes("schedule") || type.includes("dispatch") || type.includes("route") || type.includes("critical-path") || type.includes("weather-window") || type.includes("delivery-window")) Object.assign(data,{recommendedDate:input.requestedDate||now().slice(0,10),assignedCrew:input.crewId||null,routeStatus:"optimization_provider_optional",priority:input.priority||"normal"});
     if (type.includes("materials") || type.includes("parts") || type.includes("chemical") || type.includes("inventory")) Object.assign(data,{items:input.items||[],requirementsStatus:"verify manufacturer instructions and local requirements"});
     if (type==="pool-water-chemistry") Object.assign(data,{ph:n(input.ph,7.4),freeChlorinePpm:n(input.freeChlorinePpm,2),alkalinityPpm:n(input.alkalinityPpm,90),assessment:"verify against pool type and local health requirements"});
     if (type==="pool-dosing-calculator") Object.assign(data,{poolGallons:n(input.poolGallons,15000),target:input.target||{},warning:"Dosing depends on product strength. Follow the product label and test water before and after treatment."});
@@ -155,7 +162,14 @@ export function runAutomation(type, input = {}) {
     if (type==="surveillance-bandwidth-calculator") Object.assign(data,{totalMbps:round(n(input.cameraCount,8)*n(input.bitrateMbps,4),2)});
     if (type==="trash-volume-estimate" || type==="trash-photo-volume") Object.assign(data,{estimatedCubicYards:round(n(input.lengthFeet,8)*n(input.widthFeet,4)*n(input.heightFeet,4)/27,2)});
     if (type==="trash-fleet-capacity") Object.assign(data,{requiredTrips:Math.ceil(n(input.volumeCubicYards,20)/Math.max(1,n(input.truckCapacityCubicYards,15)))});
-    if (type.includes("compliance") || type.includes("manifest") || type.includes("retention-policy") || type.includes("lead-risk")) Object.assign(data,{complianceStatus:"review_required",warning:"Confirm licensing, product labels, permits, privacy rules, disposal rules, and local code before execution."});
+    if (type.startsWith("transport-") && (type.includes("estimate") || type.includes("pricing"))) Object.assign(data,{distanceMiles:miles,volumeCubicFeet:round(volumeCuFt,1),weightLbs:round(weightLbs,0),fuelCost,tolls,laborCost:labor,materialCost:materials});
+    if (type==="transport-load-plan") Object.assign(data,{volumeCubicFeet:round(volumeCuFt,1),weightLbs:round(weightLbs,0),vehicleCapacityCubicFeet:n(input.vehicleCapacityCubicFeet,1200),vehicleCapacityLbs:n(input.vehicleCapacityLbs,5000),utilizationPercent:round(Math.min(100,Math.max(volumeCuFt/Math.max(1,n(input.vehicleCapacityCubicFeet,1200)),weightLbs/Math.max(1,n(input.vehicleCapacityLbs,5000)))*100),1),fitsInVehicle:volumeCuFt<=n(input.vehicleCapacityCubicFeet,1200)&&weightLbs<=n(input.vehicleCapacityLbs,5000),recommendedVehicle:volumeCuFt>900||weightLbs>3500?"box-truck":volumeCuFt>350||weightLbs>1500?"cargo-van":"pickup"});
+    if (type==="transport-fleet-capacity") Object.assign(data,{jobs:n(input.jobCount,n(input.stops,4)),availableVehicles:n(input.availableVehicles,2),requiredVehicles:Math.ceil(Math.max(volumeCuFt/Math.max(1,n(input.vehicleCapacityCubicFeet,1200)),n(input.jobCount,n(input.stops,4))/Math.max(1,n(input.stopsPerVehicle,6)))),capacityStatus:n(input.availableVehicles,2)>=Math.ceil(n(input.jobCount,4)/6)?"adequate":"shortage"});
+    if (type==="transport-delivery-window") Object.assign(data,{windowStart:input.windowStart||"09:00",windowEnd:input.windowEnd||"12:00",estimatedTravelMinutes:Math.round(miles/n(input.averageSpeedMph,28)*60),etaBandMinutes:n(input.etaBandMinutes,45),priority:input.priority||"normal"});
+    if (type==="transport-dispatch-assign") Object.assign(data,{assignedVehicleId:input.vehicleId||input.assignedVehicleId||"vehicle_pending",assignedCrewId:input.crewId||"crew_pending",stops:input.stops||[{address:input.pickupAddress||input.address},{address:input.dropoffAddress||input.destinationAddress}],dispatchStatus:"tentative"});
+    if (type==="transport-bol") Object.assign(data,{bolId:id("bol"),shipper:input.shipper||input.customer||null,consignee:input.consignee||null,pieceCount:n(input.pieceCount,n((input.items||[]).length,1)),declaredValue:n(input.declaredValue,price),complianceStatus:"review_required"});
+    if (type==="transport-photo-inventory") Object.assign(data,{estimatedItemCount:n(input.estimatedItemCount,Math.max(4,Math.round(volumeCuFt/25))),estimatedVolumeCubicFeet:round(volumeCuFt,1),items:input.items||[],confidence:0.62});
+    if (type.includes("compliance") || type.includes("manifest") || type.includes("retention-policy") || type.includes("lead-risk") || type==="transport-bol") Object.assign(data,{complianceStatus:"review_required",warning:"Confirm licensing, product labels, permits, privacy rules, disposal rules, carrier authority, and local code before execution."});
     return base(type,input,data,{requiresProvider:type.includes("photo")?"computer vision":type.includes("route")?"mapping/routing":undefined});
   }
 

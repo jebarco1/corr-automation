@@ -99,6 +99,15 @@ const flows = {
     {key:"serviceType",question:"Which removal service is needed?",type:"select",options:["single haul","dumpster rental","recurring pickup","property cleanout"],required:true},
     {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true},
     {key:"disposalCost",question:"What disposal or tipping fee is expected?",type:"currency",required:true,trigger:"trash-haul-estimate"}
+  ]},
+  transportation:{ label:"Transportation", questions:[...common,
+    {key:"pickupAddress",question:"What is the pickup address?",type:"string",required:true,trigger:"transport-property-profile"},
+    {key:"dropoffAddress",question:"What is the dropoff or destination address?",type:"string",required:true},
+    {key:"serviceType",question:"Which transportation service is needed?",type:"select",options:["local move","long haul","same-day delivery","scheduled delivery","light freight","materials haul"],required:true},
+    {key:"distanceMiles",question:"What is the estimated trip distance in miles?",type:"number",required:true},
+    {key:"volumeCubicFeet",question:"What is the estimated load volume in cubic feet?",type:"number",required:true,trigger:"transport-load-plan"},
+    {key:"crewSize",question:"How many crew members should be used?",type:"number",required:true},
+    {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true,trigger:"transport-local-move-estimate"}
   ]}
 };
 
@@ -174,7 +183,7 @@ export function createInvoiceFromSession(sessionId, overrides={}) {
   const session=sessions.get(sessionId); if(!session){ const e=new Error("Guided workflow session not found"); e.statusCode=404; throw e; }
   const input=buildAutomationInput(session);
   if(session.apiResults.length===0){
-    const fallback={ landscape:"landscaping-estimate",hvac:"hvac-replacement-estimate",cleaning:"cleaning-service-estimate","pest-control":"pest-treatment-estimate",pool:"pool-service-estimate",painting:"paint-interior-estimate",roofing:"roof-replacement-estimate",plumbing:"plumbing-repair-estimate",electrical:"electrical-service-upgrade","general-contract":"gc-project-estimate",surveillance:"surveillance-install-estimate","trash-removal":"trash-haul-estimate" }[session.category];
+    const fallback={ landscape:"landscaping-estimate",hvac:"hvac-replacement-estimate",cleaning:"cleaning-service-estimate","pest-control":"pest-treatment-estimate",pool:"pool-service-estimate",painting:"paint-interior-estimate",roofing:"roof-replacement-estimate",plumbing:"plumbing-repair-estimate",electrical:"electrical-service-upgrade","general-contract":"gc-project-estimate",surveillance:"surveillance-install-estimate","trash-removal":"trash-haul-estimate",transportation:"transport-local-move-estimate" }[session.category];
     session.apiResults.push({questionKey:null,endpointType:fallback,result:runAutomation(fallback,input)});
   }
   let lineItems=session.apiResults.map(x=>resultToLineItem(x.result,session)).filter(Boolean);
