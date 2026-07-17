@@ -9,7 +9,7 @@ Every service category has the same workflow contract:
 
 Supported categories:
 
-`landscape`, `hvac`, `cleaning`, `pest-control`, `pool`, `painting`, `roofing`, `plumbing`, `electrical`, `general-contract`, `surveillance`, and `trash-removal`.
+`landscape`, `hvac`, `cleaning`, `pest-control`, `pool`, `painting`, `roofing`, `plumbing`, `electrical`, `general-contract`, `surveillance`, `trash-removal`, `transportation`, and `healthcare`.
 
 ## Start
 

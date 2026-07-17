@@ -163,7 +163,41 @@ const trashRemoval = {
   "/trash-removal/ai/photo-volume":"trash-photo-volume", "/trash-removal/contracts/pricing":"trash-contract-pricing"
 };
 
-for (const [path,type] of Object.entries({...landscape,...hvac,...cleaning,...pestControl,...poolService,...painting,...roofing,...plumbing,...electrical,...generalContracting,...surveillance,...trashRemoval})) router.post(path, execute(type));
+const transportation = {
+  "/transportation/property-profile":"transport-property-profile",
+  "/transportation/estimates/local-move":"transport-local-move-estimate",
+  "/transportation/estimates/long-haul":"transport-long-haul-estimate",
+  "/transportation/estimates/delivery":"transport-delivery-estimate",
+  "/transportation/load/plan":"transport-load-plan",
+  "/transportation/scheduling/route-optimize":"transport-route-optimize",
+  "/transportation/scheduling/window":"transport-delivery-window",
+  "/transportation/fleet/capacity":"transport-fleet-capacity",
+  "/transportation/dispatch/assign":"transport-dispatch-assign",
+  "/transportation/compliance/bol":"transport-bol",
+  "/transportation/ai/photo-inventory":"transport-photo-inventory",
+  "/transportation/contracts/pricing":"transport-contract-pricing"
+};
+
+const healthcare = {
+  "/healthcare/patient-profile":"healthcare-patient-profile",
+  "/healthcare/estimates/nursing-visit":"healthcare-nursing-visit-estimate",
+  "/healthcare/estimates/physician-visit":"healthcare-physician-visit-estimate",
+  "/healthcare/estimates/shift-staffing":"healthcare-shift-staffing-estimate",
+  "/healthcare/care-plan/generate":"healthcare-care-plan",
+  "/healthcare/clinical/risk-assessment":"healthcare-risk-assessment",
+  "/healthcare/scheduling/visit-optimize":"healthcare-visit-route-optimize",
+  "/healthcare/scheduling/shift":"healthcare-shift-schedule",
+  "/healthcare/staffing/credentials-check":"healthcare-credentials-check",
+  "/healthcare/staffing/skill-match":"healthcare-skill-match",
+  "/healthcare/dispatch/emergency":"healthcare-emergency-dispatch",
+  "/healthcare/compliance/documentation":"healthcare-documentation-compliance",
+  "/healthcare/billing/coding-suggest":"healthcare-coding-suggest",
+  "/healthcare/supplies/requirements":"healthcare-supplies-requirements",
+  "/healthcare/ai/symptom-triage":"healthcare-symptom-triage",
+  "/healthcare/contracts/pricing":"healthcare-contract-pricing"
+};
+
+for (const [path,type] of Object.entries({...landscape,...hvac,...cleaning,...pestControl,...poolService,...painting,...roofing,...plumbing,...electrical,...generalContracting,...surveillance,...trashRemoval,...transportation,...healthcare})) router.post(path, execute(type));
 
 // Shared cross-industry APIs
 const shared = {

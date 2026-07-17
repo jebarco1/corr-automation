@@ -1,0 +1,78 @@
+{
+  "category": "roofing",
+  "currency": "USD",
+  "version": 1,
+  "updatedAt": "2026-07-17T00:00:00.000Z",
+  "defaults": {
+    "unitPrices": {
+      "hourlyRate": 85,
+      "perSquare": 425,
+      "repairMinimum": 350,
+      "materialsMarkupPercent": 30
+    }
+  },
+  "areas": {
+    "Atlanta, GA": {
+      "region": "Southeast",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 85,
+        "perSquare": 425,
+        "repairMinimum": 350,
+        "materialsMarkupPercent": 30
+      },
+      "notes": "Starter area pricing for roofing. Review locally before production use."
+    },
+    "Dallas, TX": {
+      "region": "South Central",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 82.45,
+        "perSquare": 412.25,
+        "repairMinimum": 339.5,
+        "materialsMarkupPercent": 29.1
+      },
+      "notes": "Starter area pricing for roofing. Review locally before production use."
+    },
+    "Phoenix, AZ": {
+      "region": "Southwest",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 80.75,
+        "perSquare": 403.75,
+        "repairMinimum": 332.5,
+        "materialsMarkupPercent": 28.5
+      },
+      "notes": "Starter area pricing for roofing. Review locally before production use."
+    },
+    "Chicago, IL": {
+      "region": "Midwest",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 91.8,
+        "perSquare": 459,
+        "repairMinimum": 378,
+        "materialsMarkupPercent": 32.4
+      },
+      "notes": "Starter area pricing for roofing. Review locally before production use."
+    },
+    "New York, NY": {
+      "region": "Northeast",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 106.25,
+        "perSquare": 531.25,
+        "repairMinimum": 437.5,
+        "materialsMarkupPercent": 37.5
+      },
+      "notes": "Starter area pricing for roofing. Review locally before production use."
+    }
+  },
+  "meta": {
+    "source": "seed",
+    "editable": true,
+    "lastRefreshAt": null,
+    "lastRefreshMode": null,
+    "notes": "Edit this JSON or call the pricing-standards refresh workflow to update area rates from invoice logs."
+  }
+}

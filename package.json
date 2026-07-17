@@ -1,13 +1,13 @@
 {
   "name": "ha-corr-automation",
-  "version": "7.0.0",
+  "version": "0.5.0",
   "private": true,
-  "description": "HA-Corr multi-industry automation API with React guided quoting and invoicing frontend.",
+  "description": "HA-Corr multi-industry automation API (Class 0.5 Coaxium) with React guided quoting and invoicing frontend.",
   "type": "module",
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
-    "check": "node --check src/server.js && node --check src/routes/automation.js && node --check src/services/automationEngine.js && node --check src/services/regrid.js && node --check src/routes/guided.js && node --check src/services/guidedWorkflow.js && node --check src/routes/ai.js && node --check src/ai/aiOrchestrator.js && node --check src/middleware/clientApiKey.js && node --check src/config/appConfig.js",
+    "check": "node --check src/server.js && node --check src/routes/automation.js && node --check src/services/automationEngine.js && node --check src/services/regrid.js && node --check src/services/pricingStandards.js && node --check src/services/invoiceLogStore.js && node --check src/services/pricingIntelligence.js && node --check src/routes/guided.js && node --check src/services/guidedWorkflow.js && node --check src/routes/ai.js && node --check src/routes/version.js && node --check src/routes/pricingInsights.js && node --check src/ai/aiOrchestrator.js && node --check src/middleware/clientApiKey.js && node --check src/middleware/apiVersionHeaders.js && node --check src/config/appConfig.js && node --check src/config/apiVersion.js",
     "dev:api": "node --watch src/server.js",
     "dev:web": "npm --prefix client run dev",
     "build:web": "npm --prefix client run build",

@@ -1,0 +1,96 @@
+{
+  "category": "healthcare",
+  "currency": "USD",
+  "version": 1,
+  "updatedAt": "2026-07-17T00:00:00.000Z",
+  "defaults": {
+    "unitPrices": {
+      "hourlyRate": 95,
+      "nurseVisit": 165,
+      "physicianVisit": 285,
+      "shiftHourlyRN": 95,
+      "shiftHourlyLPN": 72,
+      "travelPerMile": 1.25,
+      "suppliesPerVisit": 18
+    }
+  },
+  "areas": {
+    "Atlanta, GA": {
+      "region": "Southeast",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 95,
+        "nurseVisit": 165,
+        "physicianVisit": 285,
+        "shiftHourlyRN": 95,
+        "shiftHourlyLPN": 72,
+        "travelPerMile": 1.25,
+        "suppliesPerVisit": 18
+      },
+      "notes": "Starter area pricing for healthcare. Review locally before production use."
+    },
+    "Dallas, TX": {
+      "region": "South Central",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 92.15,
+        "nurseVisit": 160.05,
+        "physicianVisit": 276.45,
+        "shiftHourlyRN": 92.15,
+        "shiftHourlyLPN": 69.84,
+        "travelPerMile": 1.21,
+        "suppliesPerVisit": 17.46
+      },
+      "notes": "Starter area pricing for healthcare. Review locally before production use."
+    },
+    "Phoenix, AZ": {
+      "region": "Southwest",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 90.25,
+        "nurseVisit": 156.75,
+        "physicianVisit": 270.75,
+        "shiftHourlyRN": 90.25,
+        "shiftHourlyLPN": 68.4,
+        "travelPerMile": 1.19,
+        "suppliesPerVisit": 17.1
+      },
+      "notes": "Starter area pricing for healthcare. Review locally before production use."
+    },
+    "Chicago, IL": {
+      "region": "Midwest",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 102.6,
+        "nurseVisit": 178.2,
+        "physicianVisit": 307.8,
+        "shiftHourlyRN": 102.6,
+        "shiftHourlyLPN": 77.76,
+        "travelPerMile": 1.35,
+        "suppliesPerVisit": 19.44
+      },
+      "notes": "Starter area pricing for healthcare. Review locally before production use."
+    },
+    "New York, NY": {
+      "region": "Northeast",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 118.75,
+        "nurseVisit": 206.25,
+        "physicianVisit": 356.25,
+        "shiftHourlyRN": 118.75,
+        "shiftHourlyLPN": 90,
+        "travelPerMile": 1.56,
+        "suppliesPerVisit": 22.5
+      },
+      "notes": "Starter area pricing for healthcare. Review locally before production use."
+    }
+  },
+  "meta": {
+    "source": "seed",
+    "editable": true,
+    "lastRefreshAt": null,
+    "lastRefreshMode": null,
+    "notes": "Edit this JSON or call the pricing-standards refresh workflow to update area rates from invoice logs."
+  }
+}

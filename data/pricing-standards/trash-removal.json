@@ -1,0 +1,78 @@
+{
+  "category": "trash-removal",
+  "currency": "USD",
+  "version": 1,
+  "updatedAt": "2026-07-17T00:00:00.000Z",
+  "defaults": {
+    "unitPrices": {
+      "hourlyRate": 75,
+      "haulMinimum": 175,
+      "perCubicYard": 55,
+      "dumpsterDay": 45
+    }
+  },
+  "areas": {
+    "Atlanta, GA": {
+      "region": "Southeast",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 75,
+        "haulMinimum": 175,
+        "perCubicYard": 55,
+        "dumpsterDay": 45
+      },
+      "notes": "Starter area pricing for trash-removal. Review locally before production use."
+    },
+    "Dallas, TX": {
+      "region": "South Central",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 72.75,
+        "haulMinimum": 169.75,
+        "perCubicYard": 53.35,
+        "dumpsterDay": 43.65
+      },
+      "notes": "Starter area pricing for trash-removal. Review locally before production use."
+    },
+    "Phoenix, AZ": {
+      "region": "Southwest",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 71.25,
+        "haulMinimum": 166.25,
+        "perCubicYard": 52.25,
+        "dumpsterDay": 42.75
+      },
+      "notes": "Starter area pricing for trash-removal. Review locally before production use."
+    },
+    "Chicago, IL": {
+      "region": "Midwest",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 81,
+        "haulMinimum": 189,
+        "perCubicYard": 59.4,
+        "dumpsterDay": 48.6
+      },
+      "notes": "Starter area pricing for trash-removal. Review locally before production use."
+    },
+    "New York, NY": {
+      "region": "Northeast",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 93.75,
+        "haulMinimum": 218.75,
+        "perCubicYard": 68.75,
+        "dumpsterDay": 56.25
+      },
+      "notes": "Starter area pricing for trash-removal. Review locally before production use."
+    }
+  },
+  "meta": {
+    "source": "seed",
+    "editable": true,
+    "lastRefreshAt": null,
+    "lastRefreshMode": null,
+    "notes": "Edit this JSON or call the pricing-standards refresh workflow to update area rates from invoice logs."
+  }
+}

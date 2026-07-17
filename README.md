@@ -1,6 +1,26 @@
-# HA-Corr Automation API v4
+# HA-Corr Automation API — Class 0.5 Coaxium
 
-Multi-trade automation API with **219 documented operations**.
+Multi-trade automation API (**Class 0.5 Coaxium**, path `/api/v1`).
+
+## API versioning
+
+Releases use **Class + codename** (current: **Class 0.5 Coaxium**). The HTTP path remains `/api/v1`.
+
+```bash
+GET /version
+GET /api/v1/version
+GET /api/v1/versions
+```
+
+Responses and every API reply include version headers:
+
+- `X-API-Class`
+- `X-API-Codename`
+- `X-API-Version-Name`
+- `X-API-Semver`
+- `X-API-Path-Version`
+
+Update `src/config/apiVersion.js` when cutting a new Class.
 
 ## Industry URL namespaces
 
@@ -16,6 +36,37 @@ Multi-trade automation API with **219 documented operations**.
 - `/api/v1/general-contract/...`
 - `/api/v1/surveillance/...`
 - `/api/v1/trash-removal/...`
+- `/api/v1/transportation/...`
+- `/api/v1/healthcare/...` (Nursing & Doctors)
+
+List every category with its description:
+
+```bash
+GET /api/v1/categories
+GET /api/v1/categories/{category}
+```
+
+## Pricing standards + invoice intelligence
+
+Editable area pricing JSON lives in `data/pricing-standards/{category}.json`.
+
+```bash
+# Read / update standards
+GET  /api/v1/pricing-standards
+GET  /api/v1/{category}/pricing-standards
+PUT  /api/v1/{category}/pricing-standards
+
+# Upload invoice logs, then ask for LLM (or local) improvement advice
+POST /api/v1/{category}/invoices/log
+GET  /api/v1/{category}/invoices/log
+POST /api/v1/{category}/invoices/suggest
+
+# Refresh standards from uploaded invoice logs
+POST /api/v1/{category}/pricing-standards/refresh
+POST /api/v1/pricing-standards/refresh
+```
+
+The refresh workflow blends realized invoice rates into each area’s unit prices and can optionally refine with OpenAI when `OPENAI_API_KEY` is set.
 
 ## Run
 
@@ -29,11 +80,11 @@ Open Swagger at `http://localhost:3000/docs`. Raw OpenAPI: `http://localhost:300
 
 ## Important implementation note
 
-Regrid-backed parcel endpoints can run when `REGRID_API_TOKEN` is configured. Other endpoints currently provide stable contracts and starter calculations. Connect weather, routing, imagery, computer vision, manufacturer, distributor, permit, disposal, accounting, and IoT adapters as required. Estimates, chemical guidance, diagnostics, safety findings, surveillance policies, and code-compliance outputs require qualified professional review before use.
+Regrid-backed parcel endpoints can run when `REGRID_API_TOKEN` is configured. Other endpoints currently provide stable contracts and starter calculations. Connect weather, routing, imagery, computer vision, manufacturer, distributor, permit, disposal, accounting, and IoT adapters as required. Estimates, chemical guidance, diagnostics, safety findings, surveillance policies, healthcare/clinical guidance, credentialing checks, coding suggestions, and code-compliance outputs require qualified professional review before use.
 
 ## Guided Start-to-Invoice workflows
 
-Version 5 adds a category-specific start API for all 12 trades. Each session asks the next required question, invokes relevant automation APIs, preserves the results, and creates a detailed invoice JSON.
+Version 5 adds a category-specific start API for all trades. Each session asks the next required question, invokes relevant automation APIs, preserves the results, and creates a detailed invoice JSON.
 
 ```text
 POST /api/v1/{category}/start

@@ -1,13 +1,16 @@
 openapi: 3.0.3
 info:
   title: HA-Corr Automation Multi-Trade API
-  version: 7.0.0
-  description: Industry-specific automation APIs for landscape, HVAC, cleaning, pest
-    control, pool service, painting, roofing, plumbing, electrical, general contracting,
-    surveillance, and trash removal. Starter calculations must be verified by licensed
-    professionals and connected providers before production decisions. Version 5 adds
-    guided start sessions that ask category-specific questions, execute trade APIs,
-    retain all results, and generate invoice-ready JSON.
+  version: 0.5.0
+  description: 'Class 0.5 Coaxium. Industry-specific automation APIs for landscape,
+    HVAC, cleaning, pest control, pool service, painting, roofing, plumbing, electrical,
+    general contracting, surveillance, trash removal, transportation, and healthcare (nursing and doctors). Starter
+    calculations must be verified by licensed professionals and connected providers
+    before production decisions. Guided start sessions ask category-specific questions,
+    execute trade APIs, retain all results, and generate invoice-ready JSON. Includes per-category pricing-standard JSON files, invoice-log upload, LLM service/pricing suggestions, and a refresh workflow.'
+  x-api-class: '0.5'
+  x-api-codename: Coaxium
+  x-api-version-name: Class 0.5 Coaxium
 servers:
 - url: http://localhost:3000/api/v1
 tags:
@@ -30,9 +33,51 @@ tags:
 - name: Shared Sales
 - name: Surveillance
 - name: Trash Removal
+- name: Transportation
+- name: Healthcare
 - name: Guided Workflows
+- name: Categories
+- name: Versioning
+- name: Pricing Intelligence
 - name: Invoices
 paths:
+  /version:
+    get:
+      tags:
+      - Versioning
+      summary: Get current API Class version
+      description: Returns the current release Class, codename, semver, path version,
+        and highlights for Class 0.5 Coaxium.
+      operationId: get_version
+      responses:
+        '200':
+          description: Current API version
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiVersion'
+              example:
+                name: Class 0.5 Coaxium
+                class: '0.5'
+                codename: Coaxium
+                semver: 0.5.0
+                apiPath: v1
+                status: current
+  /versions:
+    get:
+      tags:
+      - Versioning
+      summary: List API Class versions
+      description: Returns the release history of HA-Corr API Classes and codenames.
+      operationId: list_versions
+      responses:
+        '200':
+          description: Version catalog
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiVersionCatalog'
+
   /landscape/properties/search:
     post:
       tags:
@@ -8824,6 +8869,1482 @@ paths:
               materialTypes:
               - household debris
               truckCapacityCubicYards: 15
+  /transportation/property-profile:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Property Profile
+      description: Runs the transport property profile operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_property_profile_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-property-profile
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+  /transportation/estimates/local-move:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Local Move Estimate
+      description: Runs the transport local move estimate operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_local_move_estimate_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-local-move-estimate
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+  /transportation/estimates/long-haul:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Long Haul Estimate
+      description: Runs the transport long haul estimate operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_long_haul_estimate_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-long-haul-estimate
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+  /transportation/estimates/delivery:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Delivery Estimate
+      description: Runs the transport delivery estimate operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_delivery_estimate_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-delivery-estimate
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+  /transportation/load/plan:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Load Plan
+      description: Runs the transport load plan operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_load_plan_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-load-plan
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+  /transportation/scheduling/route-optimize:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Route Optimize
+      description: Runs the transport route optimize operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_route_optimize_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-route-optimize
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+  /transportation/scheduling/window:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Delivery Window
+      description: Runs the transport delivery window operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_delivery_window_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-delivery-window
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+  /transportation/fleet/capacity:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Fleet Capacity
+      description: Runs the transport fleet capacity operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_fleet_capacity_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-fleet-capacity
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+  /transportation/dispatch/assign:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Dispatch Assign
+      description: Runs the transport dispatch assign operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_dispatch_assign_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-dispatch-assign
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+  /transportation/compliance/bol:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Bill Of Lading
+      description: Runs the transport bill of lading operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_bol_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-bol
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+  /transportation/ai/photo-inventory:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Photo Inventory
+      description: Runs the transport photo inventory operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_photo_inventory_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-photo-inventory
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+  /transportation/contracts/pricing:
+    post:
+      tags:
+      - Transportation
+      summary: Transport Contract Pricing
+      description: Runs the transport contract pricing operation. Review the response
+        metadata for provider or professional-verification requirements.
+      operationId: transport_contract_pricing_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: transport-contract-pricing
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              pickupAddress: 100 Peachtree St, Atlanta, GA 30303
+              dropoffAddress: 500 Ponce De Leon Ave, Atlanta, GA 30308
+              distanceMiles: 8
+              volumeCubicFeet: 450
+              weightLbs: 2200
+              crewSize: 2
+              serviceType: local move
+  /healthcare/patient-profile:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Patient Profile
+      description: Runs the healthcare patient profile starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_patient_profile_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-patient-profile
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/estimates/nursing-visit:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Nursing Visit Estimate
+      description: Runs the healthcare nursing visit estimate starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_nursing_visit_estimate_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-nursing-visit-estimate
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/estimates/physician-visit:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Physician Visit Estimate
+      description: Runs the healthcare physician visit estimate starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_physician_visit_estimate_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-physician-visit-estimate
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/estimates/shift-staffing:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Shift Staffing Estimate
+      description: Runs the healthcare shift staffing estimate starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_shift_staffing_estimate_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-shift-staffing-estimate
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/care-plan/generate:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Care Plan
+      description: Runs the healthcare care plan starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_care_plan_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-care-plan
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/clinical/risk-assessment:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Risk Assessment
+      description: Runs the healthcare risk assessment starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_risk_assessment_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-risk-assessment
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/scheduling/visit-optimize:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Visit Route Optimize
+      description: Runs the healthcare visit route optimize starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_visit_route_optimize_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-visit-route-optimize
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/scheduling/shift:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Shift Schedule
+      description: Runs the healthcare shift schedule starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_shift_schedule_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-shift-schedule
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/staffing/credentials-check:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Credentials Check
+      description: Runs the healthcare credentials check starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_credentials_check_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-credentials-check
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/staffing/skill-match:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Skill Match
+      description: Runs the healthcare skill match starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_skill_match_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-skill-match
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/dispatch/emergency:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Emergency Dispatch
+      description: Runs the healthcare emergency dispatch starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_emergency_dispatch_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-emergency-dispatch
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/compliance/documentation:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Documentation Compliance
+      description: Runs the healthcare documentation compliance starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_documentation_compliance_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-documentation-compliance
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/billing/coding-suggest:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Coding Suggest
+      description: Runs the healthcare coding suggest starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_coding_suggest_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-coding-suggest
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/supplies/requirements:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Supplies Requirements
+      description: Runs the healthcare supplies requirements starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_supplies_requirements_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-supplies-requirements
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/ai/symptom-triage:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Symptom Triage
+      description: Runs the healthcare symptom triage starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_symptom_triage_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-symptom-triage
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+  /healthcare/contracts/pricing:
+    post:
+      tags:
+      - Healthcare
+      summary: Healthcare Contract Pricing
+      description: Runs the healthcare contract pricing starter calculation. Clinical outputs
+        require licensed professional review before care delivery or billing.
+      operationId: healthcare_contract_pricing_post
+      responses:
+        '200':
+          description: Successful automation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomationResponse'
+              example:
+                requestId: req_example
+                type: healthcare-contract-pricing
+                generatedAt: '2026-07-17T12:00:00.000Z'
+                input:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
+                data:
+                  status: starter-calculation
+                  suggestedPrice: 1250
+                  confidence: 0.7
+                  clinicalReviewRequired: true
+                meta:
+                  mode: starter-calculation
+        '400':
+          description: Invalid input
+        '500':
+          description: Integration or server error
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenericRequest'
+            example:
+              address: 123 Main St, Atlanta, GA 30303
+              careSetting: home
+              acuityLevel: moderate
+              role: RN
+              visitMinutes: 60
+              estimatedHours: 1
+              hourlyRate: 95
+              serviceType: nursing visit
   /business/cash-forecast:
     post:
       tags:
@@ -9710,6 +11231,267 @@ paths:
       responses:
         '200':
           description: Supported categories
+  /pricing-standards:
+    get:
+      tags:
+      - Pricing Intelligence
+      summary: List pricing-standard files for all categories
+      description: Returns metadata for editable JSON pricing standards under data/pricing-standards.
+      operationId: list_pricing_standards
+      responses:
+        '200':
+          description: Pricing standard catalog
+  /pricing-standards/refresh:
+    post:
+      tags:
+      - Pricing Intelligence
+      summary: Refresh pricing standards for all (or selected) categories
+      description: Executes the pricing refresh workflow using uploaded invoice logs. Optionally blend
+        rates and refine with the configured LLM.
+      operationId: refresh_all_pricing_standards
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                categories:
+                  type: array
+                  items:
+                    type: string
+                blend:
+                  type: number
+                  example: 0.35
+                skipLlm:
+                  type: boolean
+                force:
+                  type: boolean
+            example:
+              categories:
+              - transportation
+              - landscape
+              blend: 0.35
+      responses:
+        '202':
+          description: Refresh workflow executed
+  /{category}/pricing-standards:
+    get:
+      tags:
+      - Pricing Intelligence
+      summary: Get category pricing standards JSON
+      parameters:
+      - &pricingCategory
+        name: category
+        in: path
+        required: true
+        schema:
+          type: string
+          example: transportation
+      responses:
+        '200':
+          description: Category pricing standards
+    put:
+      tags:
+      - Pricing Intelligence
+      summary: Replace category pricing standards JSON
+      parameters:
+      - *pricingCategory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - areas
+              properties:
+                areas:
+                  type: object
+                  additionalProperties: true
+                defaults:
+                  type: object
+                currency:
+                  type: string
+            example:
+              currency: USD
+              areas:
+                Atlanta, GA:
+                  region: Southeast
+                  unitPrices:
+                    hourlyRate: 80
+                    localMoveMinimum: 275
+      responses:
+        '200':
+          description: Updated pricing standards
+  /{category}/pricing-standards/refresh:
+    post:
+      tags:
+      - Pricing Intelligence
+      summary: Refresh one category pricing standards from invoice logs
+      parameters:
+      - *pricingCategory
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                blend:
+                  type: number
+                skipLlm:
+                  type: boolean
+                force:
+                  type: boolean
+      responses:
+        '202':
+          description: Category standards refreshed
+  /{category}/invoices/log:
+    get:
+      tags:
+      - Pricing Intelligence
+      summary: List uploaded invoice logs for a category
+      parameters:
+      - *pricingCategory
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 50
+      - name: area
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Invoice log index
+    post:
+      tags:
+      - Pricing Intelligence
+      summary: Upload invoice log(s) for a category
+      description: Accepts a single invoice object or invoices array. Stored under data/invoice-logs/{category}.
+      parameters:
+      - *pricingCategory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                area:
+                  type: string
+                serviceType:
+                  type: string
+                hourlyRate:
+                  type: number
+                laborHours:
+                  type: number
+                invoice:
+                  type: object
+                  additionalProperties: true
+                invoices:
+                  type: array
+                  items:
+                    type: object
+            example:
+              area: Atlanta, GA
+              serviceType: local move
+              hourlyRate: 80
+              laborHours: 4
+              crewSize: 2
+              invoice:
+                invoiceNumber: INV-1001
+                total: 520
+                currency: USD
+                lineItems:
+                - description: Local move labor
+                  amount: 520
+      responses:
+        '201':
+          description: Invoice log stored
+  /{category}/invoices/suggest:
+    post:
+      tags:
+      - Pricing Intelligence
+      summary: Ask LLM for service and pricing improvement suggestions
+      description: Uses uploaded invoice logs plus the category pricing-standard JSON. Falls back to
+        local heuristics when OPENAI_API_KEY is not configured.
+      parameters:
+      - *pricingCategory
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                limit:
+                  type: integer
+                sampleSize:
+                  type: integer
+                allowEmpty:
+                  type: boolean
+      responses:
+        '200':
+          description: Service and pricing suggestions
+  /categories:
+    get:
+      tags:
+      - Categories
+      summary: List all service categories with descriptions
+      description: Returns every supported industry category, a short description,
+        namespace links, and recommended automation APIs.
+      operationId: list_categories_get
+      responses:
+        '200':
+          description: Category catalog
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryCatalog'
+              example:
+                count: 14
+                categories:
+                - category: transportation
+                  label: Transportation
+                  description: Local moves, long-haul and delivery quoting, load planning,
+                    route optimization, fleet capacity, and dispatch.
+                  namespace: /api/v1/transportation
+                  endpoints:
+                    start: /api/v1/transportation/start
+                    quote: /api/v1/transportation/quote
+                    sessions: /api/v1/transportation/sessions/{sessionId}
+                  recommendedApis:
+                  - transport-property-profile
+                  - transport-load-plan
+                  - transport-local-move-estimate
+                  - transport-delivery-estimate
+  /categories/{category}:
+    get:
+      tags:
+      - Categories
+      summary: Get one service category with description
+      description: Returns a single industry category, its description, namespace
+        links, and recommended automation APIs.
+      operationId: get_category_get
+      parameters:
+      - name: category
+        in: path
+        required: true
+        schema:
+          type: string
+          example: transportation
+      responses:
+        '200':
+          description: Category detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategorySummary'
+        '404':
+          description: Unknown category
   /landscape/start:
     post:
       tags:
@@ -11558,6 +13340,258 @@ paths:
                 $ref: '#/components/schemas/Invoice'
         '404':
           description: Session not found
+  /transportation/start:
+    post:
+      tags:
+      - Guided Workflows
+      summary: Start Transportation guided estimate
+      description: Creates a guided session and returns the first question. Optional
+        prefill values skip already-known questions.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GuidedStartRequest'
+            example:
+              taxRate: 8.9
+              discount: 0
+              currency: USD
+              paymentTerms: Due upon receipt
+              prefill:
+                customer:
+                  name: Taylor Smith
+                  email: taylor@example.com
+      responses:
+        '201':
+          description: Guided session created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GuidedSession'
+        '400':
+          description: Invalid input
+  /transportation/sessions/{sessionId}:
+    get:
+      tags:
+      - Guided Workflows
+      summary: Get Transportation guided session
+      parameters:
+      - &id012b
+        name: sessionId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Current workflow state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GuidedSession'
+        '404':
+          description: Session not found
+  /transportation/sessions/{sessionId}/answer:
+    post:
+      tags:
+      - Guided Workflows
+      summary: Answer the next guided question
+      parameters:
+      - *id012b
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GuidedAnswerRequest'
+            examples:
+              text:
+                value:
+                  value: commercial
+              number:
+                value:
+                  value: 2500
+              customer:
+                value:
+                  value:
+                    name: Taylor Smith
+                    email: taylor@example.com
+                    phone: 404-555-0199
+      responses:
+        '200':
+          description: Answer saved; next question and any triggered API result returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GuidedSession'
+        '400':
+          description: Required answer missing
+        '404':
+          description: Session not found
+  /transportation/sessions/{sessionId}/run-api:
+    post:
+      tags:
+      - Guided Workflows
+      summary: Run an additional trade API within the session
+      parameters:
+      - *id012b
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - endpointType
+              properties:
+                endpointType:
+                  type: string
+                  example: transport-load-plan
+                payload:
+                  type: object
+                  additionalProperties: true
+            example:
+              endpointType: transport-route-optimize
+              payload:
+                crewSize: 2
+                distanceMiles: 18
+                stops: 4
+      responses:
+        '200':
+          description: API result attached to workflow
+  /transportation/sessions/{sessionId}/invoice:
+    post:
+      tags:
+      - Invoices
+      summary: Create detailed Transportation invoice
+      description: Combines all answers and API results into a detailed draft invoice
+        JSON payload. The complete workflow evidence is embedded for auditability.
+      parameters:
+      - *id012b
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvoiceOverride'
+            example:
+              taxRate: 8.9
+              discount: 25
+              notes: Thank you for your business.
+              additionalLineItems:
+              - description: Fuel surcharge
+                quantity: 1
+                unit: fee
+                unitPrice: 35
+                amount: 35
+      responses:
+        '201':
+          description: Detailed invoice created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+        '404':
+          description: Session not found
+  /healthcare/start:
+    post:
+      tags:
+      - Guided Workflows
+      summary: Start Nursing & Doctors guided estimate
+      description: Creates a guided healthcare session for nursing/physician services.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GuidedStartRequest'
+      responses:
+        '201':
+          description: Guided session created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GuidedSession'
+  /healthcare/sessions/{sessionId}:
+    get:
+      tags:
+      - Guided Workflows
+      summary: Get Healthcare guided session
+      parameters:
+      - &id012c
+        name: sessionId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Current workflow state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GuidedSession'
+  /healthcare/sessions/{sessionId}/answer:
+    post:
+      tags:
+      - Guided Workflows
+      summary: Answer the next guided healthcare question
+      parameters:
+      - *id012c
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GuidedAnswerRequest'
+      responses:
+        '200':
+          description: Answer saved
+  /healthcare/sessions/{sessionId}/run-api:
+    post:
+      tags:
+      - Guided Workflows
+      summary: Run an additional healthcare API within the session
+      parameters:
+      - *id012c
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [endpointType]
+              properties:
+                endpointType:
+                  type: string
+                  example: healthcare-care-plan
+                payload:
+                  type: object
+                  additionalProperties: true
+      responses:
+        '200':
+          description: API result attached to workflow
+  /healthcare/sessions/{sessionId}/invoice:
+    post:
+      tags:
+      - Invoices
+      summary: Create detailed Healthcare invoice
+      parameters:
+      - *id012c
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvoiceOverride'
+      responses:
+        '201':
+          description: Detailed invoice created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
   /api/v1/guided/quote:
     post:
       tags: &id013
@@ -11728,6 +13762,22 @@ paths:
         and returns a detailed draft invoice.
       requestBody: *id014
       responses: *id015
+  /api/v1/transportation/quote:
+    post:
+      tags: *id013
+      summary: Create a complete transportation quote and invoice
+      description: Submits category, business pricing, tax settings, customer/property
+        answers, and optional line items in one request. Runs category automations
+        and returns a detailed draft invoice.
+      requestBody: *id014
+      responses: *id015
+  /api/v1/healthcare/quote:
+    post:
+      tags: *id013
+      summary: Create a complete healthcare quote and invoice
+      description: Submits nursing/doctor service answers and returns a draft invoice.
+      requestBody: *id014
+      responses: *id015
   /api/v1/ai/status:
     get:
       tags:
@@ -11814,6 +13864,115 @@ paths:
           description: Invalid client API key
 components:
   schemas:
+    ApiVersion:
+      type: object
+      required:
+      - name
+      - class
+      - codename
+      - semver
+      - apiPath
+      - status
+      properties:
+        name:
+          type: string
+          example: Class 0.5 Coaxium
+        class:
+          type: string
+          example: '0.5'
+        codename:
+          type: string
+          example: Coaxium
+        semver:
+          type: string
+          example: 0.5.0
+        apiPath:
+          type: string
+          example: v1
+        status:
+          type: string
+          example: current
+        releasedAt:
+          type: string
+          format: date
+        description:
+          type: string
+        highlights:
+          type: array
+          items:
+            type: string
+        links:
+          type: object
+          additionalProperties:
+            type: string
+    ApiVersionCatalog:
+      type: object
+      required:
+      - current
+      - apiPath
+      - count
+      - versions
+      properties:
+        current:
+          type: string
+          example: Class 0.5 Coaxium
+        apiPath:
+          type: string
+          example: v1
+        count:
+          type: integer
+          example: 1
+        versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiVersion'
+    CategorySummary:
+      type: object
+      required:
+      - category
+      - label
+      - description
+      - namespace
+      properties:
+        category:
+          type: string
+          example: transportation
+        label:
+          type: string
+          example: Transportation
+        description:
+          type: string
+          example: Local moves, long-haul and delivery quoting, load planning, route
+            optimization, fleet capacity, and dispatch.
+        namespace:
+          type: string
+          example: /api/v1/transportation
+        endpoints:
+          type: object
+          properties:
+            start:
+              type: string
+            quote:
+              type: string
+            sessions:
+              type: string
+        recommendedApis:
+          type: array
+          items:
+            type: string
+    CategoryCatalog:
+      type: object
+      required:
+      - count
+      - categories
+      properties:
+        count:
+          type: integer
+          example: 13
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategorySummary'
     GenericRequest:
       type: object
       additionalProperties: true

@@ -1,11 +1,13 @@
 import { Router } from "express";
 import { requireClientApiKey } from "../middleware/clientApiKey.js";
-import { answerGuidedWorkflow, createInvoiceFromSession, getGuidedWorkflow, listGuidedCategories, runGuidedStep, startGuidedWorkflow, createInstantQuote } from "../services/guidedWorkflow.js";
+import { answerGuidedWorkflow, createInvoiceFromSession, getCategory, getGuidedWorkflow, listCategories, listGuidedCategories, runGuidedStep, startGuidedWorkflow, createInstantQuote } from "../services/guidedWorkflow.js";
 
 const router=Router();
-const categories=["landscape","hvac","cleaning","pest-control","pool","painting","roofing","plumbing","electrical","general-contract","surveillance","trash-removal"];
+const categories=["landscape","hvac","cleaning","pest-control","pool","painting","roofing","plumbing","electrical","general-contract","surveillance","trash-removal","transportation","healthcare"];
 router.post("/guided/quote",requireClientApiKey,(req,res,next)=>{try{const {category,...input}=req.body||{}; if(!category){const e=new Error("category is required");e.statusCode=400;throw e;} res.status(201).json(createInstantQuote(category,input));}catch(e){next(e);}});
 router.get("/guided/categories",(_req,res)=>res.json({categories:listGuidedCategories()}));
+router.get("/categories",(_req,res)=>res.json(listCategories()));
+router.get("/categories/:category",(req,res,next)=>{try{res.json(getCategory(req.params.category));}catch(e){next(e);}});
 for(const category of categories){
   router.post(`/${category}/quote`,requireClientApiKey,(req,res,next)=>{try{res.status(201).json(createInstantQuote(category,req.body||{}));}catch(e){next(e);}});
   router.post(`/${category}/start`,requireClientApiKey,(req,res,next)=>{try{res.status(201).json(startGuidedWorkflow(category,req.body||{}));}catch(e){next(e);}});
