@@ -24,18 +24,23 @@ function inferCategoryLocally(message="") {
 
 async function inferCategoryWithAI(message) {
   if (!client) return inferCategoryLocally(message);
-  const response = await client.responses.create({
-    model: appConfig.ai.model,
-    instructions: "Classify a field-service request into exactly one HA-Corr category. Use the choose_category tool. Do not answer conversationally.",
-    input: message,
-    tools: [{
-      type:"function", name:"choose_category", description:"Choose the correct service category.", strict:true,
-      parameters:{ type:"object", properties:{ category:{type:"string",enum:supportedCategories}, reason:{type:"string"} }, required:["category","reason"], additionalProperties:false }
-    }],
-    tool_choice:{type:"function",name:"choose_category"}
-  });
-  const call = response.output?.find(item => item.type === "function_call" && item.name === "choose_category");
-  return call ? JSON.parse(call.arguments).category : inferCategoryLocally(message);
+  try {
+    const response = await client.responses.create({
+      model: appConfig.ai.model,
+      instructions: "Classify a field-service request into exactly one HA-Corr category. Use the choose_category tool. Do not answer conversationally.",
+      input: message,
+      tools: [{
+        type:"function", name:"choose_category", description:"Choose the correct service category.", strict:true,
+        parameters:{ type:"object", properties:{ category:{type:"string",enum:supportedCategories}, reason:{type:"string"} }, required:["category","reason"], additionalProperties:false }
+      }],
+      tool_choice:{type:"function",name:"choose_category"}
+    });
+    const call = response.output?.find(item => item.type === "function_call" && item.name === "choose_category");
+    return call ? JSON.parse(call.arguments).category : inferCategoryLocally(message);
+  } catch (error) {
+    console.warn("OpenAI category inference failed; using local keyword fallback:", error.message);
+    return inferCategoryLocally(message);
+  }
 }
 
 export async function startAIWorkflow(input={}) {
