@@ -48,7 +48,7 @@ function App() {
   const [chatLog, setChatLog] = useState([
     {
       role: "assistant",
-      text: "Describe your service problem and I’ll respond with AI guidance, category detection, and industry-standard pricing. You can also run Auto walkthrough for a full quote."
+      text: "Describe the job or paste an address. I’ll ask a few questions, then build a draft quote. Example: get quote for 121 Chorley Run, Ellenwood, GA 30294"
     }
   ]);
   const chatEndRef = useRef(null);
@@ -107,10 +107,10 @@ function App() {
     }
   }
 
-  async function sendChatMessage() {
-    const message = aiPrompt.trim();
+  async function sendChatMessage(overrideMessage) {
+    const message = String(overrideMessage ?? aiPrompt).trim();
     if (!message) {
-      setError("Type a problem or question for the AI chatbot.");
+      setError("Type a problem or answer for the AI chatbot.");
       return;
     }
     const history = chatLog
@@ -122,21 +122,36 @@ function App() {
     setAiPrompt("");
 
     try {
+      const startingNewQuote = /get quote|new quote|start over/i.test(message);
       const data = await request(`${API}/ai/assistant`, {
         method: "POST",
         body: JSON.stringify({
           message,
           category: category || undefined,
-          history
+          sessionId: startingNewQuote ? undefined : session?.sessionId,
+          history,
+          start: {
+            ...settings,
+            businessSettings: businessWithIndustryPrices()
+          }
         })
       });
       setAiMeta(data);
       setAssistantMessage(data.reply);
       if (data.category) setCategory(data.category);
+      if (data.workflow) {
+        setSession(data.workflow);
+        setAnswer("");
+      }
+      if (startingNewQuote) setInvoice(null);
+      if (data.invoice || data.result?.invoiceNumber) {
+        setInvoice(data.invoice || data.result);
+      }
       pushChat("assistant", data.reply, {
         mode: data.mode,
         category: data.categoryLabel || data.category,
-        actions: data.suggestedActions
+        actions: data.suggestedActions,
+        nextQuestion: data.nextQuestion || data.workflow?.nextQuestion || null
       });
     } catch {
       // error banner already set by request()
@@ -320,7 +335,7 @@ function App() {
     setChatLog([
       {
         role: "assistant",
-        text: "Chat reset. Type a problem and send it to AI, or run Auto walkthrough for a full quote."
+        text: "Chat reset. Describe the job or paste an address and I’ll ask questions to build a quote."
       }
     ]);
   }
@@ -430,42 +445,61 @@ function App() {
 
               <div className="chat-composer">
                 <label className="field">
-                  <span>Describe the problem</span>
+                  <span>{session?.nextQuestion ? "Your answer" : "Describe the job / address"}</span>
                   <textarea
                     rows="3"
                     value={aiPrompt}
                     onChange={e => setAiPrompt(e.target.value)}
                     onKeyDown={onComposerKeyDown}
-                    placeholder={selected ? `Example: ${selected.prompts[0]}` : "Example: My upstairs AC runs but does not cool"}
+                    placeholder={
+                      session?.nextQuestion
+                        ? (session.nextQuestion.options?.join(", ") || session.nextQuestion.example?.toString() || "Type your answer…")
+                        : "Example: get quote for 121 Chorley Run, Ellenwood, GA 30294"
+                    }
                   />
                 </label>
-                <div className="prompt-row">
-                  {(selected?.prompts || categories[0].prompts).map(prompt => (
-                    <button type="button" className="prompt-chip mini" key={prompt} onClick={() => setAiPrompt(prompt)}>
-                      <Sparkles size={14} />
-                      {prompt}
-                    </button>
-                  ))}
-                </div>
+                {session?.nextQuestion?.options?.length ? (
+                  <div className="prompt-row">
+                    {session.nextQuestion.options.map(option => (
+                      <button type="button" className="prompt-chip mini" key={option} disabled={busy} onClick={() => sendChatMessage(option)}>
+                        {option}
+                      </button>
+                    ))}
+                  </div>
+                ) : !session ? (
+                  <div className="prompt-row">
+                    {(selected?.prompts || [
+                      "get quote for 121 Chorley Run, Ellenwood, GA 30294",
+                      ...categories[0].prompts
+                    ]).slice(0, 3).map(prompt => (
+                      <button type="button" className="prompt-chip mini" key={prompt} onClick={() => setAiPrompt(prompt)}>
+                        <Sparkles size={14} />
+                        {prompt}
+                      </button>
+                    ))}
+                  </div>
+                ) : null}
                 <div className="composer-actions">
-                  <button className="primary" disabled={busy || !aiPrompt.trim()} onClick={sendChatMessage}>
-                    <MessageSquare size={16} /> Ask AI
+                  <button className="primary" disabled={busy || !aiPrompt.trim()} onClick={() => sendChatMessage()}>
+                    <MessageSquare size={16} /> {session ? "Send answer" : "Ask AI"}
                   </button>
+                  {session && !session.nextQuestion && (
+                    <button className="primary" disabled={busy} onClick={() => sendChatMessage("generate")}>
+                      <Receipt size={16} /> Generate quote
+                    </button>
+                  )}
                   <button className="ghost" disabled={busy} onClick={runAutoWalkthrough}>
                     <Wand2 size={16} /> Auto walkthrough
-                  </button>
-                  <button className="ghost" disabled={busy} onClick={startManual}>
-                    Guided quote <ChevronRight size={16} />
                   </button>
                 </div>
               </div>
             </div>
 
             <div className="card side-panel">
-              <h3>{selected?.label || "AI chatbot"}</h3>
+              <h3>{selected?.label || "AI quote chatbot"}</h3>
               <p>
                 {selected?.description
-                  || "Type any field-service problem. The chatbot calls /api/v1/ai/assistant, detects the trade, and responds with next steps plus industry pricing context."}
+                  || "Type a job or address. The bot asks quote questions one by one, then generates a draft invoice."}
               </p>
               <div className="chips">
                 {(selected?.apis || aiMeta?.recommendedApis || []).map(api => <span key={api}>{api}</span>)}
