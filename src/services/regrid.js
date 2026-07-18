@@ -192,14 +192,22 @@ export async function getParcelAcreageByAddress(address) {
     throw error;
   }
 
+  const buildingSquareFeet = normalizeNumber(firstDefined(properties, [
+    "ll_bldg_footprint_sqft", "area_building", "bldg_sqft", "building_sqft", "living_area"
+  ]));
+
   return {
     requestedAddress: address,
     matchedAddress: buildAddress(properties, address),
     parcelId: getParcelId(properties),
     acreage: round(selected.acres, 3),
     squareFeet: Math.round(selected.squareFeet),
+    lotSquareFeet: Math.round(selected.squareFeet),
+    buildingSquareFeet: buildingSquareFeet != null ? Math.round(buildingSquareFeet) : null,
     measurementSource: selected.source,
     confidence: reported ? "provider-reported" : "geometry-calculated",
+    latitude: normalizeNumber(properties.lat),
+    longitude: normalizeNumber(properties.lon),
     boundary: feature.geometry,
     provider: "Regrid",
     warnings: [

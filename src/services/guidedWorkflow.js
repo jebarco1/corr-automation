@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import { categoryApiTools } from "../ai/toolCatalog.js";
 import { runAutomation } from "./automationEngine.js";
+import { getParcelAcreageByAddress } from "./regrid.js";
 
 const sessions = new Map();
 const now = () => new Date().toISOString();
@@ -14,16 +15,24 @@ const common = [
   { key:"requestedDate", question:"When should the work be performed?", type:"date", required:false, example:"2026-07-20" }
 ];
 
+/** Square footage is filled from Regrid using the service address (not asked). */
+const parcelAutoTriggers = {
+  landscape: "mowable-area",
+  hvac: "hvac-load-estimate",
+  cleaning: "cleaning-property-profile",
+  "pest-control": "pest-property-profile",
+  painting: "paint-surface-area",
+  roofing: "roof-area-estimate"
+};
+
 const flows = {
   landscape:{ label:"Landscape", description:"Lawn care, grounds maintenance, mowing, mulch, irrigation, and property outdoor service estimates.", questions:[...common,
-    {key:"squareFeet",question:"What is the estimated service area in square feet?",type:"number",required:true,trigger:"mowable-area"},
     {key:"serviceType",question:"Which landscape service is needed?",type:"select",options:["mowing","cleanup","mulch","fertilization","full maintenance"],required:true},
     {key:"crewSize",question:"How many crew members should be used?",type:"number",required:true},
     {key:"estimatedHours",question:"How many work hours are expected?",type:"number",required:true,trigger:"labor"},
     {key:"hourlyRate",question:"What hourly labor rate should be applied?",type:"currency",required:true,trigger:"landscaping-estimate"}
   ]},
   hvac:{ label:"HVAC & Mechanical", description:"Heating, cooling, and mechanical system diagnostics, load estimates, replacements, and maintenance plans.", questions:[...common,
-    {key:"squareFeet",question:"What is the conditioned building square footage?",type:"number",required:true,trigger:"hvac-load-estimate"},
     {key:"systemType",question:"Which system needs service?",type:"select",options:["split system","heat pump","rooftop unit","boiler","chiller","air handler","other"],required:true},
     {key:"serviceType",question:"What HVAC service is requested?",type:"select",options:["diagnostic","repair","maintenance","replacement","installation"],required:true,trigger:"hvac-fault-detection"},
     {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true},
@@ -31,7 +40,6 @@ const flows = {
     {key:"materialCost",question:"What is the estimated equipment and material cost?",type:"currency",required:true,trigger:"hvac-replacement-estimate"}
   ]},
   cleaning:{ label:"Janitorial & Cleaning", description:"Recurring janitorial, deep cleans, move-in/out, post-construction, carpet, floor care, and window cleaning.", questions:[...common,
-    {key:"squareFeet",question:"How many square feet must be cleaned?",type:"number",required:true,trigger:"cleaning-property-profile"},
     {key:"serviceType",question:"Which cleaning service is needed?",type:"select",options:["recurring janitorial","deep clean","move-in/out","post-construction","carpet","floor care","windows"],required:true},
     {key:"frequency",question:"How often should service occur?",type:"select",options:["one-time","daily","weekly","biweekly","monthly"],required:true},
     {key:"crewSize",question:"How many cleaners should be assigned?",type:"number",required:true},
@@ -39,7 +47,6 @@ const flows = {
     {key:"hourlyRate",question:"What hourly rate should be used?",type:"currency",required:true,trigger:"cleaning-service-estimate"}
   ]},
   "pest-control":{ label:"Pest Control", description:"Inspections, treatments, termite bonds, rodent control, and recurring pest service planning.", questions:[...common,
-    {key:"squareFeet",question:"What is the treatment area square footage?",type:"number",required:true,trigger:"pest-property-profile"},
     {key:"pestType",question:"Which pest is involved?",type:"select",options:["general insects","termites","rodents","bed bugs","mosquitoes","wildlife","other"],required:true,trigger:"pest-risk-assessment"},
     {key:"serviceType",question:"Which treatment plan is requested?",type:"select",options:["inspection","one-time treatment","recurring service","termite bond","exclusion"],required:true},
     {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true},
@@ -52,14 +59,12 @@ const flows = {
     {key:"materialCost",question:"What chemical and parts cost is expected?",type:"currency",required:true,trigger:"pool-service-estimate"}
   ]},
   painting:{ label:"Painting", description:"Interior and exterior painting, cabinets, surface area takeoffs, materials, and crew planning.", questions:[...common,
-    {key:"squareFeet",question:"What surface area will be painted?",type:"number",required:true,trigger:"paint-surface-area"},
     {key:"serviceType",question:"Which painting service is needed?",type:"select",options:["interior","exterior","cabinets","touch-up","commercial coating"],required:true},
     {key:"coats",question:"How many coats are required?",type:"number",required:true},
     {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true},
     {key:"materialCost",question:"What is the estimated paint and materials cost?",type:"currency",required:true,trigger:"paint-interior-estimate"}
   ]},
   roofing:{ label:"Roofing", description:"Roof inspections, repairs, replacements, storm damage assessments, and material calculations.", questions:[...common,
-    {key:"squareFeet",question:"What is the roof footprint square footage?",type:"number",required:true,trigger:"roof-area-estimate"},
     {key:"serviceType",question:"Which roofing service is needed?",type:"select",options:["inspection","repair","replacement","storm damage","maintenance"],required:true},
     {key:"roofMaterial",question:"What roofing material is involved?",type:"select",options:["asphalt shingle","metal","tile","flat membrane","wood shake","other"],required:true},
     {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true},
@@ -81,7 +86,6 @@ const flows = {
   ]},
   "general-contract":{ label:"General Contracting", description:"Remodels, build-outs, project scopes, bids, critical-path scheduling, and closeout packages.", questions:[...common,
     {key:"projectType",question:"What type of project is planned?",type:"select",options:["remodel","addition","repair","build-out","new construction","restoration"],required:true,trigger:"gc-scope-generator"},
-    {key:"squareFeet",question:"What is the project square footage?",type:"number",required:true},
     {key:"estimatedHours",question:"How many total labor hours are expected?",type:"number",required:true},
     {key:"materialCost",question:"What material cost is expected?",type:"currency",required:true},
     {key:"equipmentCost",question:"What equipment or rental cost is expected?",type:"currency",required:false},
@@ -200,15 +204,63 @@ export function getCategory(category) {
   return categorySummary(category, flow);
 }
 
-export function startGuidedWorkflow(category, input={}) {
+function squareFeetForCategory(category, parcel) {
+  const lot = parcel.lotSquareFeet || parcel.squareFeet || null;
+  const building = parcel.buildingSquareFeet || null;
+  // Landscape/pest use lot area; building-centric trades prefer footprint/living area.
+  if (["landscape", "pest-control"].includes(category)) return lot;
+  if (["hvac", "cleaning", "painting", "roofing", "general-contract"].includes(category)) return building || lot;
+  return lot || building;
+}
+
+async function enrichSessionFromRegrid(session) {
+  const address = session.answers.serviceAddress || session.answers.pickupAddress;
+  if (!address || session.answers.regridLookupAt) return session;
+
+  try {
+    const parcel = await getParcelAcreageByAddress(address);
+    const squareFeet = squareFeetForCategory(session.category, parcel);
+    session.answers.squareFeet = squareFeet;
+    session.answers.acres = parcel.acreage;
+    session.answers.lotSquareFeet = parcel.lotSquareFeet || parcel.squareFeet;
+    session.answers.buildingSquareFeet = parcel.buildingSquareFeet;
+    session.answers.parcelId = parcel.parcelId;
+    session.answers.matchedAddress = parcel.matchedAddress;
+    session.answers.regridMeasurementSource = parcel.measurementSource;
+    session.answers.regridLookupAt = now();
+    if (parcel.matchedAddress && session.answers.serviceAddress) {
+      session.answers.serviceAddress = parcel.matchedAddress;
+    }
+
+    const trigger = parcelAutoTriggers[session.category];
+    if (trigger && squareFeet != null) {
+      const result = runAutomation(trigger, buildAutomationInput(session));
+      session.apiResults.push({ questionKey: "squareFeet", endpointType: trigger, result, source: "regrid-auto" });
+    }
+  } catch (error) {
+    session.answers.regridLookupAt = now();
+    session.answers.regridError = error.message || "Regrid lookup failed";
+    // Keep quote flowing even if parcel lookup misses.
+    if (session.answers.squareFeet == null) {
+      session.answers.squareFeet = null;
+    }
+  }
+  session.updatedAt = now();
+  return session;
+}
+
+export async function startGuidedWorkflow(category, input={}) {
   const flow=flows[category];
   if(!flow){ const e=new Error(`Unsupported category: ${category}`); e.statusCode=404; throw e; }
   const session={ sessionId:uid("session"), category,label:flow.label,status:"in_progress",createdAt:now(),updatedAt:now(),currentIndex:0,questions:flow.questions,answers:{...(input.prefill||{})},apiResults:[],businessSettings:{...(input.businessSettings||{})},invoiceSettings:{taxRate:Number(input.taxRate||0),discount:Number(input.discount||0),currency:input.currency||"USD",paymentTerms:input.paymentTerms||"Due upon receipt"} };
   sessions.set(session.sessionId,session);
+  if (session.answers.serviceAddress || session.answers.pickupAddress) {
+    await enrichSessionFromRegrid(session);
+  }
   return sessionView(session);
 }
 
-export function answerGuidedWorkflow(sessionId, input={}) {
+export async function answerGuidedWorkflow(sessionId, input={}) {
   const session=sessions.get(sessionId); if(!session){ const e=new Error("Guided workflow session not found"); e.statusCode=404; throw e; }
   if(session.status==="completed") return sessionView(session);
   const q=nextQuestion(session); if(!q){ session.status="ready_for_invoice"; return sessionView(session); }
@@ -216,6 +268,10 @@ export function answerGuidedWorkflow(sessionId, input={}) {
   if(q.required && (value===undefined || value===null || value==="")){ const e=new Error(`Answer is required for ${q.key}`); e.statusCode=400; throw e; }
   session.answers[q.key]=value;
   session.currentIndex++;
+  if (q.key === "serviceAddress" || q.key === "pickupAddress") {
+    delete session.answers.regridLookupAt;
+    await enrichSessionFromRegrid(session);
+  }
   if(q.trigger){ const result=runAutomation(q.trigger,buildAutomationInput(session)); session.apiResults.push({questionKey:q.key,endpointType:q.trigger,result}); }
   session.updatedAt=now();
   if(!nextQuestion(session)) session.status="ready_for_invoice";
@@ -262,9 +318,9 @@ function sessionView(session){
 }
 
 
-export function createInstantQuote(category, input={}) {
+export async function createInstantQuote(category, input={}) {
   const answers = input.answers || {};
-  const start = startGuidedWorkflow(category, {
+  const start = await startGuidedWorkflow(category, {
     taxRate: input.taxRate,
     discount: input.discount,
     currency: input.currency,

@@ -68,11 +68,18 @@ export async function startAIWorkflow(input={}) {
     const error = new Error("The AI could not determine a supported category. Select a category or provide more service details.");
     error.statusCode = 400; throw error;
   }
-  const workflow = startGuidedWorkflow(category, input.start || {});
+  const start = { ...(input.start || {}) };
+  const pricing = pricingSnapshot(category);
+  const autoPrefill = buildPrefillFromMessage(message, category, pricing);
+  start.prefill = { ...(start.prefill || {}), ...autoPrefill };
+  const workflow = await startGuidedWorkflow(category, start);
+  const sqftNote = workflow.answers?.squareFeet
+    ? ` Regrid measured about ${Number(workflow.answers.squareFeet).toLocaleString()} sqft from the address.`
+    : "";
   return {
     mode: appConfig.ai.enabled ? "openai" : "local-fallback",
     category,
-    assistantMessage: `I selected ${workflow.categoryLabel}. ${workflow.nextQuestion?.question || "The workflow is ready for an invoice."}`,
+    assistantMessage: `I selected ${workflow.categoryLabel}.${sqftNote} ${workflow.nextQuestion?.question || "The workflow is ready for an invoice."}`,
     recommendedApis: categoryApiTools[category] || [],
     workflow
   };
@@ -93,7 +100,7 @@ export async function continueAIWorkflow(input={}) {
       if (question.type === "number" || question.type === "currency") parsedValue = Number(String(message).replace(/[^0-9.-]/g,""));
       else parsedValue = message;
     }
-    result = answerGuidedWorkflow(sessionId,{value:parsedValue});
+    result = await answerGuidedWorkflow(sessionId,{value:parsedValue});
   }
   const workflow = result.workflow || (result.invoiceId ? getGuidedWorkflow(sessionId) : result);
   return {
@@ -345,26 +352,36 @@ async function continueQuoteChat(sessionId, message, input = {}) {
     });
   }
 
-  const updated = answerGuidedWorkflow(sessionId, { value });
+  const askedKey = workflow.nextQuestion?.key;
+  const updated = await answerGuidedWorkflow(sessionId, { value });
   const acknowledged = typeof value === "object" ? (value.name || "saved") : String(value);
+
+  let intro = `Thanks — recorded **${acknowledged}**.`;
+  if (askedKey === "serviceAddress" || askedKey === "pickupAddress") {
+    if (updated.answers?.squareFeet != null) {
+      intro += ` Regrid auto-filled **${Number(updated.answers.squareFeet).toLocaleString()} sqft** (${updated.answers.acres ?? "?"} acres).`;
+    } else if (updated.answers?.regridError) {
+      intro += ` Regrid could not resolve parcel area yet (${updated.answers.regridError}).`;
+    }
+  }
 
   if (!updated.nextQuestion) {
     return questionResponse({
       workflow: updated,
-      intro: `Thanks — recorded **${acknowledged}**. I have everything needed for your ${updated.categoryLabel} quote.`
+      intro: `${intro} I have everything needed for your ${updated.categoryLabel} quote.`
     });
   }
 
   return questionResponse({
     workflow: updated,
-    intro: `Thanks — recorded **${acknowledged}**.`
+    intro
   });
 }
 
-function startQuoteChat({ message, category, input = {} }) {
+async function startQuoteChat({ message, category, input = {} }) {
   const pricing = pricingSnapshot(category);
   const prefill = buildPrefillFromMessage(message, category, pricing);
-  const workflow = startGuidedWorkflow(category, {
+  const workflow = await startGuidedWorkflow(category, {
     ...(input.start || {}),
     prefill: {
       ...(input.start?.prefill || {}),
@@ -374,13 +391,19 @@ function startQuoteChat({ message, category, input = {} }) {
 
   const label = workflow.categoryLabel || categoryLabels[category];
   const hourly = pricing?.unitPrices?.hourlyRate;
-  const addressNote = prefill.serviceAddress ? ` for ${prefill.serviceAddress}` : "";
+  const addressNote = workflow.answers?.serviceAddress || prefill.serviceAddress
+    ? ` for ${workflow.answers?.matchedAddress || workflow.answers?.serviceAddress || prefill.serviceAddress}`
+    : "";
+  const sqftNote = workflow.answers?.squareFeet != null
+    ? `Regrid auto-filled **${Number(workflow.answers.squareFeet).toLocaleString()} sqft** (${workflow.answers.acres ?? "?"} acres) from the address — no square-footage question needed.`
+    : (workflow.answers?.regridError
+      ? `Regrid could not resolve parcel area yet (${workflow.answers.regridError}).`
+      : null);
   const intro = [
     `I'll build a ${label} quote${addressNote}.`,
     hourly ? `Industry-standard labor near Atlanta starts around $${hourly}/hr.` : null,
-    Object.keys(prefill).length
-      ? `I prefilled: ${Object.keys(prefill).join(", ")}. Answer the next question to continue.`
-      : "Answer a few quick questions so I can price it."
+    sqftNote,
+    "Answer the next question to continue."
   ].filter(Boolean).join(" ");
 
   return questionResponse({ workflow, intro, mode: appConfig.ai.enabled ? "openai-quote-chat" : "quote-chat" });
@@ -430,5 +453,5 @@ export async function chatWithAssistant(input = {}) {
     });
   }
 
-  return startQuoteChat({ message, category: inferred, input });
+  return await startQuoteChat({ message, category: inferred, input });
 }
