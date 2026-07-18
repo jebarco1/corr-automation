@@ -44,7 +44,7 @@ function calculateGeometryArea(feature) {
 
 function calculateReportedArea(properties) {
   const acres = normalizeNumber(firstDefined(properties, [
-    "acres", "acreage", "ll_gisacre", "gisacre", "gis_acres"
+    "acres", "acreage", "ll_gisacre", "gisacre", "gis_acres", "deeded_acres"
   ]));
 
   if (acres !== null && acres > 0) {
@@ -62,9 +62,23 @@ function calculateReportedArea(properties) {
   return null;
 }
 
+function parcelProperties(feature) {
+  const props = feature?.properties || {};
+  const fields = props.fields && typeof props.fields === "object" ? props.fields : {};
+  // Regrid v2 nests schema attributes under properties.fields.
+  return {
+    ...fields,
+    ...props,
+    ...fields,
+    headline: props.headline || fields.headline || null,
+    path: props.path || fields.path || null,
+    ll_uuid: props.ll_uuid || fields.ll_uuid || null
+  };
+}
+
 function buildAddress(properties, fallback = null) {
   return firstDefined(properties, [
-    "address", "situs_address", "site_address", "full_address", "formatted_address"
+    "address", "situs_address", "site_address", "full_address", "formatted_address", "headline"
   ]) || fallback;
 }
 
@@ -163,7 +177,7 @@ export async function getParcelAcreageByAddress(address) {
   }
 
   const feature = features[0];
-  const properties = feature.properties || {};
+  const properties = parcelProperties(feature);
   const reported = calculateReportedArea(properties);
   const calculated = calculateGeometryArea(feature);
   const selected = reported || (calculated ? {
@@ -197,21 +211,40 @@ export async function getParcelAcreageByAddress(address) {
 
 export async function getNearbyParcelAddresses({ latitude, longitude, radiusMiles, limit }) {
   const radiusMeters = Math.round(radiusMiles * METERS_PER_MILE);
+  // NOTE: Regrid's point API returns ONLY { count } when return_count=true.
+  // Request parcels/features separately from an optional count lookup.
   const data = await regridGet("/api/v2/parcels/point", {
     lat: latitude,
     lon: longitude,
     radius: radiusMeters,
     limit,
     return_geometry: true,
-    return_count: true
+    return_parcels: true
   });
+
+  let providerCount = null;
+  try {
+    const countData = await regridGet("/api/v2/parcels/point", {
+      lat: latitude,
+      lon: longitude,
+      radius: radiusMeters,
+      return_count: true
+    });
+    providerCount = countData?.count ?? null;
+  } catch {
+    providerCount = null;
+  }
 
   const seen = new Set();
   const parcels = getFeatures(data)
     .map(feature => {
-      const properties = feature.properties || {};
+      const properties = parcelProperties(feature);
       const address = buildAddress(properties);
-      const center = featureCenter(feature);
+      const center = featureCenter(feature) || (
+        normalizeNumber(properties.lat) != null && normalizeNumber(properties.lon) != null
+          ? { latitude: Number(properties.lat), longitude: Number(properties.lon) }
+          : null
+      );
       const reported = calculateReportedArea(properties);
       const calculated = calculateGeometryArea(feature);
       const areaValue = reported || (calculated ? {
@@ -247,7 +280,7 @@ export async function getNearbyParcelAddresses({ latitude, longitude, radiusMile
     radiusMiles,
     radiusMeters,
     resultCount: parcels.length,
-    providerCount: data?.count ?? null,
+    providerCount: providerCount ?? parcels.length,
     parcels,
     provider: "Regrid",
     warnings: [
