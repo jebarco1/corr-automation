@@ -4,7 +4,7 @@ import { answerGuidedWorkflow, createInvoiceFromSession, getCategory, getGuidedW
 const router = Router();
 const categories = ["landscape", "hvac", "cleaning", "pest-control", "pool", "painting", "roofing", "plumbing", "electrical", "general-contract", "surveillance", "trash-removal", "transportation", "healthcare"];
 
-router.post("/guided/quote", (req, res, next) => {
+router.post("/guided/quote", async (req, res, next) => {
   try {
     const { category, ...input } = req.body || {};
     if (!category) {
@@ -12,7 +12,7 @@ router.post("/guided/quote", (req, res, next) => {
       error.statusCode = 400;
       throw error;
     }
-    res.status(201).json(createInstantQuote(category, input));
+    res.status(201).json(await createInstantQuote(category, input));
   } catch (error) {
     next(error);
   }
@@ -29,16 +29,16 @@ router.get("/categories/:category", (req, res, next) => {
 });
 
 for (const category of categories) {
-  router.post(`/${category}/quote`, (req, res, next) => {
+  router.post(`/${category}/quote`, async (req, res, next) => {
     try {
-      res.status(201).json(createInstantQuote(category, req.body || {}));
+      res.status(201).json(await createInstantQuote(category, req.body || {}));
     } catch (error) {
       next(error);
     }
   });
-  router.post(`/${category}/start`, (req, res, next) => {
+  router.post(`/${category}/start`, async (req, res, next) => {
     try {
-      res.status(201).json(startGuidedWorkflow(category, req.body || {}));
+      res.status(201).json(await startGuidedWorkflow(category, req.body || {}));
     } catch (error) {
       next(error);
     }
@@ -50,9 +50,9 @@ for (const category of categories) {
       next(error);
     }
   });
-  router.post(`/${category}/sessions/:sessionId/answer`, (req, res, next) => {
+  router.post(`/${category}/sessions/:sessionId/answer`, async (req, res, next) => {
     try {
-      res.json(answerGuidedWorkflow(req.params.sessionId, req.body || {}));
+      res.json(await answerGuidedWorkflow(req.params.sessionId, req.body || {}));
     } catch (error) {
       next(error);
     }
