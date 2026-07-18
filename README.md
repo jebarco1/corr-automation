@@ -64,9 +64,14 @@ POST /api/v1/{category}/invoices/suggest
 # Refresh standards from uploaded invoice logs
 POST /api/v1/{category}/pricing-standards/refresh
 POST /api/v1/pricing-standards/refresh
+
+# Workflow: ask AI for industry-standard rates and update JSON
+GET  /api/v1/workflows
+POST /api/v1/{category}/workflows/industry-standards
+POST /api/v1/workflows/industry-standards
 ```
 
-The refresh workflow blends realized invoice rates into each area’s unit prices and can optionally refine with OpenAI when `OPENAI_API_KEY` is set.
+The industry-standards workflow asks OpenAI for mid-market rates (or uses curated local fallbacks) and writes `data/pricing-standards/{category}.json`. The invoice refresh workflow blends realized invoice rates into each area’s unit prices and can optionally refine with OpenAI when `OPENAI_API_KEY` is set.
 
 ## Sales / client expansion
 
@@ -97,14 +102,16 @@ You can also omit `clients` and set `"category"` after uploading invoice logs to
 
 ## Run
 
+`.env` is **not** in git (secrets stay local). After every clone/pull, create it from the example:
+
 ```bash
 cp .env.example .env
-# set OPENAI_API_KEY in .env for AI-assisted quoting
+# set OPENAI_API_KEY in .env for the home AI chatbot and quoting
 npm install
 npm run dev
 ```
 
-Open the home page at `http://localhost:3000/` — category selection and starter prompts are local (no API call to begin). Set `OPENAI_API_KEY` in `.env` for AI chat/quoting.
+Open the home page at `http://localhost:3000/` — type a problem in the AI chatbot (calls `/api/v1/ai/assistant`). Category prompts are local; OpenAI uses `OPENAI_API_KEY` from your local `.env` only.
 
 Open Swagger at `http://localhost:3000/docs`. Raw OpenAPI: `http://localhost:3000/openapi.yaml`.
 
@@ -135,13 +142,20 @@ npm run key:generate
 
 Place it in `.env` as `CORR_CLIENT_API_KEYS`. Multiple keys may be comma-separated. React and external callers send the selected key in `X-API-Key`. Store the OpenAI secret only in the server `.env` as `OPENAI_API_KEY`.
 
-Start a workflow through AI:
+Homepage AI chatbot (type a problem → get a reply):
+
+```bash
+curl -X POST http://localhost:3000/api/v1/ai/assistant \
+  -H "Content-Type: application/json" \
+  -d '{"message":"My upstairs AC runs but does not cool"}'
+```
+
+Start a guided quote workflow through AI:
 
 ```bash
 curl -X POST http://localhost:3000/api/v1/ai/start \
   -H "Content-Type: application/json" \
-  -H "X-API-Key: corr_your_generated_key" \
   -d '{"message":"The upstairs HVAC runs but does not cool","start":{"taxRate":8.9}}'
 ```
 
-Continue the conversation with `POST /api/v1/ai/chat`. The AI selects a category, recommends the appropriate internal APIs, starts the guided workflow, and returns the next question. Invoice creation remains deterministic and requires the `invoice` action.
+Continue the guided workflow with `POST /api/v1/ai/chat`. The assistant chatbot uses OpenAI when `OPENAI_API_KEY` is set and falls back to local category/pricing guidance otherwise.

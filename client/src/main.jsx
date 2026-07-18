@@ -1,7 +1,9 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { BookOpen, Building2, ChevronRight, FileText, Play, Receipt, RotateCcw, Settings2, Sparkles } from "lucide-react";
+import { BookOpen, Building2, ChevronRight, FileText, MessageSquare, Play, Receipt, RotateCcw, Settings2, Sparkles, Wand2, Workflow } from "lucide-react";
 import { categories, getCategory } from "./categoryCatalog.js";
+import { buildAutoAnswers, defaultMarketArea, formatPriceLabel, getIndustryPrices } from "./industryPrices.js";
+import WorkflowsPanel from "./WorkflowsPanel.jsx";
 import "./styles.css";
 
 const API = "/api/v1";
@@ -41,9 +43,38 @@ function App() {
   const [error, setError] = useState("");
   const [aiPrompt, setAiPrompt] = useState("");
   const [assistantMessage, setAssistantMessage] = useState("");
+  const [aiMeta, setAiMeta] = useState(null);
+  const [aiStatus, setAiStatus] = useState(null);
+  const [chatLog, setChatLog] = useState([
+    {
+      role: "assistant",
+      text: "Describe your service problem and I’ll respond with AI guidance, category detection, and industry-standard pricing. You can also run Auto walkthrough for a full quote."
+    }
+  ]);
+  const chatEndRef = useRef(null);
 
   const selected = useMemo(() => getCategory(category), [category]);
+  const prices = useMemo(() => getIndustryPrices(category), [category]);
   const current = useMemo(() => session?.nextQuestion, [session]);
+  const priceEntries = useMemo(
+    () => Object.entries(prices).filter(([key]) => !String(key).startsWith("default")),
+    [prices]
+  );
+
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chatLog, session, assistantMessage]);
+
+  useEffect(() => {
+    fetch(`${API}/ai/status`)
+      .then(r => r.json())
+      .then(setAiStatus)
+      .catch(() => setAiStatus({ enabled: false }));
+  }, []);
+
+  function pushChat(role, text, meta = null) {
+    setChatLog(prev => [...prev, { role, text, meta }]);
+  }
 
   async function request(url, options = {}) {
     setBusy(true);
@@ -64,22 +95,92 @@ function App() {
     }
   }
 
-  function applyPrompt(prompt) {
-    setAiPrompt(prompt);
+  function onCategoryChange(nextCategory) {
+    setCategory(nextCategory);
+    const next = getCategory(nextCategory);
+    setInvoice(null);
+    setSession(null);
+    if (nextCategory) {
+      pushChat("assistant", `Category set to ${next?.label || nextCategory}. Type your problem and send it to AI, or run Auto walkthrough.`);
+    } else {
+      pushChat("assistant", "Auto-detect is on. Describe the problem and AI will pick the category.");
+    }
   }
 
-  async function start() {
-    if (!category) {
-      setError("Select a service category to continue.");
+  async function sendChatMessage() {
+    const message = aiPrompt.trim();
+    if (!message) {
+      setError("Type a problem or question for the AI chatbot.");
       return;
     }
-    const message = aiPrompt.trim() || `Start a ${selected.label} quote using available APIs: ${selected.apis.join(", ")}`;
+    const history = chatLog
+      .filter(item => item.role === "user" || item.role === "assistant")
+      .slice(-10)
+      .map(item => ({ role: item.role, content: item.text }));
+
+    pushChat("user", message);
+    setAiPrompt("");
+
+    try {
+      const data = await request(`${API}/ai/assistant`, {
+        method: "POST",
+        body: JSON.stringify({
+          message,
+          category: category || undefined,
+          history
+        })
+      });
+      setAiMeta(data);
+      setAssistantMessage(data.reply);
+      if (data.category) setCategory(data.category);
+      pushChat("assistant", data.reply, {
+        mode: data.mode,
+        category: data.categoryLabel || data.category,
+        actions: data.suggestedActions
+      });
+    } catch {
+      // error banner already set by request()
+    }
+  }
+
+  function onComposerKeyDown(event) {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      if (!busy) sendChatMessage();
+    }
+  }
+
+  function businessWithIndustryPrices() {
+    return {
+      ...business,
+      defaultCrewSize: prices.defaultCrewSize || business.defaultCrewSize,
+      unitPrices: {
+        ...business.unitPrices,
+        hourlyRate: prices.hourlyRate || business.unitPrices.hourlyRate,
+        materialCost: prices.materialCost || business.unitPrices.materialCost || 0,
+        disposalCost: prices.disposalCost || business.unitPrices.disposalCost || 0
+      }
+    };
+  }
+
+  async function startManual() {
+    const message = aiPrompt.trim() || selected?.prompts?.[0] || chatLog.filter(i => i.role === "user").at(-1)?.text;
+    if (!message) {
+      setError("Describe the problem first, then start a guided quote.");
+      return;
+    }
+    pushChat("user", message);
+    setAiPrompt("");
     const data = await request(`${API}/ai/start`, {
       method: "POST",
       body: JSON.stringify({
-        category,
+        category: category || undefined,
         message,
-        start: { ...settings, businessSettings: business, prefill: {} }
+        start: {
+          ...settings,
+          businessSettings: businessWithIndustryPrices(),
+          prefill: {}
+        }
       })
     });
     setSession(data.workflow);
@@ -87,6 +188,81 @@ function App() {
     setCategory(data.category || category);
     setInvoice(null);
     setAnswer("");
+    pushChat("assistant", data.assistantMessage || "Walkthrough started. Answer the next question.");
+  }
+
+  async function runAutoWalkthrough() {
+    const message = aiPrompt.trim() || selected?.prompts?.[0] || chatLog.filter(i => i.role === "user").at(-1)?.text;
+    if (!message) {
+      setError("Describe the problem first, then run Auto walkthrough.");
+      return;
+    }
+
+    pushChat("user", message);
+    setAiPrompt("");
+    pushChat("assistant", "Starting automated AI walkthrough with industry-standard pricing…");
+
+    const pricedBusiness = businessWithIndustryPrices();
+    let data = await request(`${API}/ai/start`, {
+      method: "POST",
+      body: JSON.stringify({
+        category: category || undefined,
+        message,
+        start: {
+          ...settings,
+          businessSettings: pricedBusiness,
+          prefill: {}
+        }
+      })
+    });
+
+    let workflow = data.workflow;
+    const resolvedCategory = data.category || category;
+    setCategory(resolvedCategory);
+    const categoryDef = getCategory(resolvedCategory);
+    const categoryPrices = getIndustryPrices(resolvedCategory);
+    const autoAnswers = buildAutoAnswers(categoryDef, message, categoryPrices);
+
+    setSession(workflow);
+    setAssistantMessage(data.assistantMessage);
+    pushChat("assistant", data.assistantMessage || `Session created for ${categoryDef?.label || resolvedCategory}.`);
+
+    let guard = 0;
+    while (workflow?.nextQuestion && guard < 40) {
+      guard += 1;
+      const question = workflow.nextQuestion;
+      let value = autoAnswers[question.key];
+      if (value === undefined || value === null || value === "") {
+        if (question.type === "select") value = question.options?.[0];
+        else if (question.type === "number" || question.type === "currency") value = question.example ?? 1;
+        else if (question.type === "object") value = autoAnswers.customer;
+        else if (question.type === "date") value = autoAnswers.requestedDate;
+        else value = question.example || "N/A";
+      }
+
+      const display = typeof value === "object" ? JSON.stringify(value) : String(value);
+      pushChat("user", `${question.question} → ${display}`);
+
+      data = await request(`${API}/ai/chat`, {
+        method: "POST",
+        body: JSON.stringify({
+          sessionId: workflow.sessionId,
+          action: "answer",
+          value,
+          message: display
+        })
+      });
+      workflow = data.workflow;
+      setSession(workflow);
+      setAssistantMessage(data.assistantMessage);
+      if (data.assistantMessage) pushChat("assistant", data.assistantMessage);
+    }
+
+    if (workflow && !workflow.nextQuestion) {
+      pushChat("assistant", "Auto walkthrough complete. Review answers, then generate the invoice.");
+    }
+    setAnswer("");
+    setInvoice(null);
   }
 
   async function submitAnswer() {
@@ -101,6 +277,7 @@ function App() {
         return;
       }
     }
+    pushChat("user", typeof value === "object" ? JSON.stringify(value) : String(value));
     const data = await request(`${API}/ai/chat`, {
       method: "POST",
       body: JSON.stringify({
@@ -113,6 +290,7 @@ function App() {
     setSession(data.workflow);
     setAssistantMessage(data.assistantMessage);
     setAnswer("");
+    if (data.assistantMessage) pushChat("assistant", data.assistantMessage);
   }
 
   async function makeInvoice() {
@@ -127,6 +305,7 @@ function App() {
     setInvoice(data.result);
     setAssistantMessage(data.assistantMessage);
     setSession(data.workflow);
+    pushChat("assistant", data.assistantMessage || `Draft invoice ${data.result?.invoiceNumber} ready.`);
   }
 
   function reset() {
@@ -135,6 +314,15 @@ function App() {
     setAnswer("");
     setError("");
     setAssistantMessage("");
+    setAiMeta(null);
+    setAiPrompt("");
+    setCategory("");
+    setChatLog([
+      {
+        role: "assistant",
+        text: "Chat reset. Type a problem and send it to AI, or run Auto walkthrough for a full quote."
+      }
+    ]);
   }
 
   return (
@@ -149,7 +337,8 @@ function App() {
         </div>
         <nav>
           {[
-            ["workflow", Play, "Guided Quote"],
+            ["workflow", MessageSquare, "AI Chat"],
+            ["workflows", Workflow, "Workflows"],
             ["settings", Settings2, "Business Setup"],
             ["docs", BookOpen, "Documentation"]
           ].map(([id, Icon, label]) => (
@@ -159,121 +348,165 @@ function App() {
             </button>
           ))}
         </nav>
-        <div className="aside-note">Select a category, use API-based prompts, and quote without configuring client keys in the UI. OpenAI runs from server env.</div>
+        <div className="aside-note">Home chatbot sends problems to OpenAI via /api/v1/ai/assistant. Workflows update industry pricing JSON. Set OPENAI_API_KEY in server .env.</div>
       </aside>
+
       <main>
         <header>
           <div>
             <p className="eyebrow">MULTI-INDUSTRY OPERATIONS</p>
-            <h1>{tab === "workflow" ? "Guided quote builder" : tab === "settings" ? "Business pricing setup" : "API documentation"}</h1>
+            <h1>
+              {tab === "workflow"
+                ? "AI service chatbot"
+                : tab === "workflows"
+                  ? "Pricing workflows"
+                  : tab === "settings"
+                    ? "Business pricing setup"
+                    : "API documentation"}
+            </h1>
           </div>
-          {session && (
+          {(session || chatLog.length > 1) && tab === "workflow" && (
             <button className="ghost" onClick={reset}>
               <RotateCcw size={16} />
-              New quote
+              New chat
             </button>
           )}
         </header>
+
         {error && <div className="error">{error}</div>}
 
         {tab === "workflow" && (
-          <section>
-            {!session ? (
-              <div className="grid two">
-                <div className="card hero">
-                  <span className="step">STEP 1</span>
-                  <h2>Select a service category</h2>
-                  <p>Categories and starter prompts load locally from the available automation APIs. No API call is required to begin.</p>
-
-                  <label className="field">
-                    <span>Category</span>
-                    <select value={category} onChange={e => { setCategory(e.target.value); setAiPrompt(""); }}>
-                      <option value="">Choose a category...</option>
-                      {categories.map(item => (
-                        <option value={item.category} key={item.category}>{item.label}</option>
-                      ))}
-                    </select>
-                  </label>
-
-                  {selected && (
-                    <>
-                      <p className="save-note">{selected.description}</p>
-                      <div className="chips">
-                        {selected.apis.map(api => <span key={api}>{api}</span>)}
-                      </div>
-                      <label className="field">
-                        <span>Starter prompts from available APIs</span>
-                        <div className="prompt-list">
-                          {selected.prompts.map(prompt => (
-                            <button type="button" className="prompt-chip" key={prompt} onClick={() => applyPrompt(prompt)}>
-                              <Sparkles size={14} />
-                              {prompt}
-                            </button>
-                          ))}
-                        </div>
-                      </label>
-                      <label className="field">
-                        <span>Describe the job</span>
-                        <textarea
-                          rows="4"
-                          value={aiPrompt}
-                          onChange={e => setAiPrompt(e.target.value)}
-                          placeholder={`Example: ${selected.prompts[0]}`}
-                        />
-                      </label>
-                      <details className="question-preview">
-                        <summary>Questions this category will ask ({selected.questions.length})</summary>
-                        <ol>
-                          {selected.questions.map(question => (
-                            <li key={question.key}>
-                              {question.question}
-                              {question.api ? <small> → {question.api}</small> : null}
-                            </li>
-                          ))}
-                        </ol>
-                      </details>
-                    </>
-                  )}
-
-                  <button className="primary" disabled={busy || !category} onClick={start}>
-                    Start guided quote <ChevronRight size={18} />
-                  </button>
-                </div>
-
-                <div className="card summary">
-                  <h3>How this works</h3>
-                  <dl>
-                    <div><dt>1</dt><dd>Pick a category from the local catalog</dd></div>
-                    <div><dt>2</dt><dd>Use prompts tied to that category’s APIs</dd></div>
-                    <div><dt>3</dt><dd>Answer questions; server uses OPENAI_API_KEY from env</dd></div>
-                    <div><dt>4</dt><dd>Generate a detailed invoice when ready</dd></div>
-                  </dl>
-                  <h3>Business defaults</h3>
-                  <dl>
-                    <div><dt>Business</dt><dd>{business.businessName}</dd></div>
-                    <div><dt>Hourly rate</dt><dd>${business.unitPrices.hourlyRate}</dd></div>
-                    <div><dt>Tax</dt><dd>{settings.taxRate}%</dd></div>
-                    <div><dt>Terms</dt><dd>{settings.paymentTerms}</dd></div>
-                  </dl>
-                  <button className="link" onClick={() => setTab("settings")}>Edit pricing and tax settings</button>
+          <section className="grid landing">
+            <div className="card chat-panel">
+              <div className="chat-toolbar">
+                <label className="field compact">
+                  <span>Category hint</span>
+                  <select value={category} onChange={e => onCategoryChange(e.target.value)}>
+                    <option value="">Auto-detect with AI</option>
+                    {categories.map(item => (
+                      <option value={item.category} key={item.category}>{item.label}</option>
+                    ))}
+                  </select>
+                </label>
+                <div className="toolbar-meta">
+                  <span className={`step ${aiStatus?.enabled ? "success" : ""}`}>
+                    {aiStatus?.enabled ? `AI ON · ${aiStatus.model || "openai"}` : "AI FALLBACK"}
+                  </span>
+                  <strong>{defaultMarketArea}</strong>
                 </div>
               </div>
-            ) : (
-              <div className="grid flow">
-                <div className="card">
+
+              {selected && (
+                <div className="price-strip">
+                  {priceEntries.slice(0, 6).map(([key, value]) => (
+                    <div className="price-pill" key={key}>
+                      <small>{formatPriceLabel(key)}</small>
+                      <strong>{typeof value === "number" ? (String(key).toLowerCase().includes("percent") || String(key).includes("Multiplier") ? value : `$${Number(value).toLocaleString()}`) : String(value)}</strong>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div className="chat-window">
+                {chatLog.map((item, index) => (
+                  <div className={`bubble ${item.role}`} key={`${item.role}-${index}`}>
+                    <strong>{item.role === "user" ? "You" : "HA-Corr AI"}</strong>
+                    <p>{item.text}</p>
+                    {item.meta?.mode && (
+                      <small className="bubble-meta">
+                        {item.meta.mode}{item.meta.category ? ` · ${item.meta.category}` : ""}
+                      </small>
+                    )}
+                  </div>
+                ))}
+                {busy && (
+                  <div className="bubble assistant typing">
+                    <strong>HA-Corr AI</strong>
+                    <p>Thinking…</p>
+                  </div>
+                )}
+                <div ref={chatEndRef} />
+              </div>
+
+              <div className="chat-composer">
+                <label className="field">
+                  <span>Describe the problem</span>
+                  <textarea
+                    rows="3"
+                    value={aiPrompt}
+                    onChange={e => setAiPrompt(e.target.value)}
+                    onKeyDown={onComposerKeyDown}
+                    placeholder={selected ? `Example: ${selected.prompts[0]}` : "Example: My upstairs AC runs but does not cool"}
+                  />
+                </label>
+                <div className="prompt-row">
+                  {(selected?.prompts || categories[0].prompts).map(prompt => (
+                    <button type="button" className="prompt-chip mini" key={prompt} onClick={() => setAiPrompt(prompt)}>
+                      <Sparkles size={14} />
+                      {prompt}
+                    </button>
+                  ))}
+                </div>
+                <div className="composer-actions">
+                  <button className="primary" disabled={busy || !aiPrompt.trim()} onClick={sendChatMessage}>
+                    <MessageSquare size={16} /> Ask AI
+                  </button>
+                  <button className="ghost" disabled={busy} onClick={runAutoWalkthrough}>
+                    <Wand2 size={16} /> Auto walkthrough
+                  </button>
+                  <button className="ghost" disabled={busy} onClick={startManual}>
+                    Guided quote <ChevronRight size={16} />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="card side-panel">
+              <h3>{selected?.label || "AI chatbot"}</h3>
+              <p>
+                {selected?.description
+                  || "Type any field-service problem. The chatbot calls /api/v1/ai/assistant, detects the trade, and responds with next steps plus industry pricing context."}
+              </p>
+              <div className="chips">
+                {(selected?.apis || aiMeta?.recommendedApis || []).map(api => <span key={api}>{api}</span>)}
+              </div>
+
+              {aiMeta && !session && (
+                <>
+                  <h3>Last AI response</h3>
+                  <dl className="mini-dl">
+                    <div><dt>Mode</dt><dd>{aiMeta.mode}</dd></div>
+                    <div><dt>Category</dt><dd>{aiMeta.categoryLabel || aiMeta.category || "—"}</dd></div>
+                    <div><dt>Hourly</dt><dd>{aiMeta.pricing?.unitPrices?.hourlyRate != null ? `$${aiMeta.pricing.unitPrices.hourlyRate}` : "—"}</dd></div>
+                  </dl>
+                  <div className="chips">
+                    {(aiMeta.suggestedActions || []).map(action => <span key={action}>{action}</span>)}
+                  </div>
+                </>
+              )}
+
+              {!session && selected && (
+                <>
+                  <h3>Industry rates</h3>
+                  <dl className="mini-dl">
+                    <div><dt>Market</dt><dd>{defaultMarketArea}</dd></div>
+                    <div><dt>Hourly</dt><dd>${prices.hourlyRate || "—"}</dd></div>
+                    <div><dt>Default hours</dt><dd>{prices.defaultHours || "—"}</dd></div>
+                    <div><dt>Crew</dt><dd>{prices.defaultCrewSize || business.defaultCrewSize}</dd></div>
+                  </dl>
+                </>
+              )}
+
+              {session && (
+                <>
                   <div className="progress">
                     <span>{session.categoryLabel}</span>
                     <span>{Math.min(session.progress.currentIndex + 1, session.progress.total)} / {session.progress.total}</span>
                   </div>
                   <div className="bar">
-                    <i style={{ width: `${Math.min(100, (session.progress.currentIndex / session.progress.total) * 100)}%` }} />
+                    <i style={{ width: `${Math.min(100, (session.progress.currentIndex / Math.max(1, session.progress.total)) * 100)}%` }} />
                   </div>
-                  {assistantMessage && (
-                    <div className="assistant-message">
-                      <strong>AI Assistant</strong>
-                      <p>{assistantMessage}</p>
-                    </div>
-                  )}
+
                   {current ? (
                     <>
                       <span className="step">NEXT QUESTION</span>
@@ -286,27 +519,29 @@ function App() {
                   ) : (
                     <>
                       <span className="step success">READY</span>
-                      <h2>All required information is collected.</h2>
-                      <p>Review the accumulated answers and API calculations, then generate the invoice.</p>
+                      <h2>Walkthrough complete</h2>
+                      <p>Answers were filled with industry-standard pricing assumptions. Generate the invoice when ready.</p>
                       <button className="primary" onClick={makeInvoice} disabled={busy}>
                         <Receipt size={18} /> Generate detailed invoice
                       </button>
                     </>
                   )}
-                </div>
-                <div className="card activity">
-                  <h3>Collected information</h3>
+
+                  <h3>Collected answers</h3>
                   <pre>{JSON.stringify(session.answers, null, 2)}</pre>
                   <h3>API calculations</h3>
                   <div className="chips">
                     {session.apiResults?.map((item, index) => <span key={index}>{item.endpointType}</span>)}
                   </div>
-                </div>
-              </div>
-            )}
+                </>
+              )}
+            </div>
+
             {invoice && <Invoice invoice={invoice} />}
           </section>
         )}
+
+        {tab === "workflows" && <WorkflowsPanel request={request} />}
 
         {tab === "settings" && (
           <section className="grid two">
@@ -328,7 +563,7 @@ function App() {
               <Field label="Tax rate (%)" type="number" value={settings.taxRate} onChange={v => setSettings({ ...settings, taxRate: v })} />
               <Field label="Default discount" type="number" value={settings.discount} onChange={v => setSettings({ ...settings, discount: v })} />
               <Field label="Payment terms" value={settings.paymentTerms} onChange={v => setSettings({ ...settings, paymentTerms: v })} />
-              <p className="save-note">These values are passed into every new guided session and invoice.</p>
+              <p className="save-note">Auto walkthrough overrides hourly/material defaults with the selected category’s industry-standard rates.</p>
             </div>
           </section>
         )}
@@ -377,7 +612,7 @@ function QuestionInput({ question, value, setValue }) {
 
 function Invoice({ invoice }) {
   return (
-    <div className="card invoice">
+    <div className="card invoice landing-span">
       <div className="invoice-head">
         <div>
           <p className="eyebrow">DRAFT INVOICE</p>
@@ -422,10 +657,6 @@ function Invoice({ invoice }) {
         <span>Tax ({invoice.taxRate}%) <b>${invoice.tax.toFixed(2)}</b></span>
         <strong>Total <b>${invoice.total.toFixed(2)}</b></strong>
       </div>
-      <details>
-        <summary>Invoice JSON payload</summary>
-        <pre>{JSON.stringify(invoice, null, 2)}</pre>
-      </details>
     </div>
   );
 }
@@ -441,19 +672,18 @@ function Docs() {
       </div>
       <div className="card">
         <FileText />
-        <h2>UI workflow</h2>
-        <code>Home page uses local category catalog</code>
-        <code>POST /api/v1/ai/start</code>
-        <code>POST /api/v1/ai/chat</code>
-        <code>OPENAI_API_KEY from server .env</code>
+        <h2>Home AI chatbot</h2>
+        <code>POST /api/v1/ai/assistant</code>
+        <code>Type a problem → AI reply</code>
+        <code>Auto walkthrough → /api/v1/ai/start</code>
       </div>
       <div className="card">
         <Play />
-        <h2>Env setup</h2>
+        <h2>Industry workflow</h2>
+        <code>POST /api/v1/&#123;category&#125;/workflows/industry-standards</code>
+        <code>Updates data/pricing-standards/*.json</code>
         <pre>{`OPENAI_API_KEY=sk-...
-OPENAI_MODEL=gpt-5-mini
-# Optional for external API clients:
-# CORR_CLIENT_API_KEYS=corr_...`}</pre>
+OPENAI_MODEL=gpt-5-mini`}</pre>
       </div>
     </section>
   );
