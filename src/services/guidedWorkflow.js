@@ -2,6 +2,7 @@ import crypto from "crypto";
 import { categoryApiTools } from "../ai/toolCatalog.js";
 import { runAutomation } from "./automationEngine.js";
 import { getParcelAcreageByAddress } from "./regrid.js";
+import { buildSmartDefaults, refineDefaultsFromMeasurements } from "./quoteAutomation.js";
 
 const sessions = new Map();
 const now = () => new Date().toISOString();
@@ -9,10 +10,10 @@ const money = value => Number(Number(value || 0).toFixed(2));
 const uid = prefix => `${prefix}_${crypto.randomUUID()}`;
 
 const common = [
-  { key:"customer", question:"Who is the customer?", type:"object", required:true, example:{name:"Taylor Smith",email:"taylor@example.com",phone:"404-555-0199"}},
-  { key:"serviceAddress", question:"What is the service address?", type:"string", required:true, example:"123 Main St, Atlanta, GA 30303" },
-  { key:"propertyType", question:"What type of property is this?", type:"select", options:["residential","commercial","hoa","multi-family","industrial"], required:true },
-  { key:"requestedDate", question:"When should the work be performed?", type:"date", required:false, example:"2026-07-20" }
+  { key:"customer", question:"Who is the customer?", type:"object", required:true, ask:false, example:{name:"Taylor Smith",email:"taylor@example.com",phone:"404-555-0199"}},
+  { key:"serviceAddress", question:"What is the service address?", type:"string", required:true, ask:true, example:"123 Main St, Atlanta, GA 30303" },
+  { key:"propertyType", question:"What type of property is this?", type:"select", options:["residential","commercial","hoa","multi-family","industrial"], required:true, ask:false },
+  { key:"requestedDate", question:"When should the work be performed?", type:"date", required:false, ask:false, example:"2026-07-20" }
 ];
 
 /** Square footage is filled from Regrid using the service address (not asked). */
@@ -27,106 +28,161 @@ const parcelAutoTriggers = {
 
 const flows = {
   landscape:{ label:"Landscape", description:"Lawn care, grounds maintenance, mowing, mulch, irrigation, and property outdoor service estimates.", questions:[...common,
-    {key:"serviceType",question:"Which landscape service is needed?",type:"select",options:["mowing","cleanup","mulch","fertilization","full maintenance"],required:true},
-    {key:"crewSize",question:"How many crew members should be used?",type:"number",required:true},
-    {key:"estimatedHours",question:"How many work hours are expected?",type:"number",required:true,trigger:"labor"},
-    {key:"hourlyRate",question:"What hourly labor rate should be applied?",type:"currency",required:true,trigger:"landscaping-estimate"}
+    {key:"serviceType",question:"Which landscape service is needed?",type:"select",options:["mowing","cleanup","mulch","fertilization","full maintenance"],ask:false, required:true},
+    {key:"crewSize",question:"How many crew members should be used?",type:"number",ask:false, required:true},
+    {key:"estimatedHours",question:"How many work hours are expected?",type:"number",ask:false, required:true,trigger:"labor"},
+    {key:"hourlyRate",question:"What hourly labor rate should be applied?",type:"currency",ask:false, required:true,trigger:"landscaping-estimate"}
   ]},
   hvac:{ label:"HVAC & Mechanical", description:"Heating, cooling, and mechanical system diagnostics, load estimates, replacements, and maintenance plans.", questions:[...common,
-    {key:"systemType",question:"Which system needs service?",type:"select",options:["split system","heat pump","rooftop unit","boiler","chiller","air handler","other"],required:true},
-    {key:"serviceType",question:"What HVAC service is requested?",type:"select",options:["diagnostic","repair","maintenance","replacement","installation"],required:true,trigger:"hvac-fault-detection"},
-    {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true},
-    {key:"hourlyRate",question:"What hourly labor rate should be applied?",type:"currency",required:true},
-    {key:"materialCost",question:"What is the estimated equipment and material cost?",type:"currency",required:true,trigger:"hvac-replacement-estimate"}
+    {key:"systemType",question:"Which system needs service?",type:"select",options:["split system","heat pump","rooftop unit","boiler","chiller","air handler","other"],ask:false, required:true},
+    {key:"serviceType",question:"What HVAC service is requested?",type:"select",options:["diagnostic","repair","maintenance","replacement","installation"],ask:false, required:true,trigger:"hvac-fault-detection"},
+    {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",ask:false, required:true},
+    {key:"hourlyRate",question:"What hourly labor rate should be applied?",type:"currency",ask:false, required:true},
+    {key:"materialCost",question:"What is the estimated equipment and material cost?",type:"currency",ask:false, required:true,trigger:"hvac-replacement-estimate"}
   ]},
   cleaning:{ label:"Janitorial & Cleaning", description:"Recurring janitorial, deep cleans, move-in/out, post-construction, carpet, floor care, and window cleaning.", questions:[...common,
-    {key:"serviceType",question:"Which cleaning service is needed?",type:"select",options:["recurring janitorial","deep clean","move-in/out","post-construction","carpet","floor care","windows"],required:true},
-    {key:"frequency",question:"How often should service occur?",type:"select",options:["one-time","daily","weekly","biweekly","monthly"],required:true},
-    {key:"crewSize",question:"How many cleaners should be assigned?",type:"number",required:true},
-    {key:"estimatedHours",question:"How many hours per visit are expected?",type:"number",required:true},
-    {key:"hourlyRate",question:"What hourly rate should be used?",type:"currency",required:true,trigger:"cleaning-service-estimate"}
+    {key:"serviceType",question:"Which cleaning service is needed?",type:"select",options:["recurring janitorial","deep clean","move-in/out","post-construction","carpet","floor care","windows"],ask:false, required:true},
+    {key:"frequency",question:"How often should service occur?",type:"select",options:["one-time","daily","weekly","biweekly","monthly"],ask:false, required:true},
+    {key:"crewSize",question:"How many cleaners should be assigned?",type:"number",ask:false, required:true},
+    {key:"estimatedHours",question:"How many hours per visit are expected?",type:"number",ask:false, required:true},
+    {key:"hourlyRate",question:"What hourly rate should be used?",type:"currency",ask:false, required:true,trigger:"cleaning-service-estimate"}
   ]},
   "pest-control":{ label:"Pest Control", description:"Inspections, treatments, termite bonds, rodent control, and recurring pest service planning.", questions:[...common,
-    {key:"pestType",question:"Which pest is involved?",type:"select",options:["general insects","termites","rodents","bed bugs","mosquitoes","wildlife","other"],required:true,trigger:"pest-risk-assessment"},
-    {key:"serviceType",question:"Which treatment plan is requested?",type:"select",options:["inspection","one-time treatment","recurring service","termite bond","exclusion"],required:true},
-    {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true},
-    {key:"materialCost",question:"What is the estimated treatment material cost?",type:"currency",required:true,trigger:"pest-treatment-estimate"}
+    {key:"pestType",question:"Which pest is involved?",type:"select",options:["general insects","termites","rodents","bed bugs","mosquitoes","wildlife","other"],ask:false, required:true,trigger:"pest-risk-assessment"},
+    {key:"serviceType",question:"Which treatment plan is requested?",type:"select",options:["inspection","one-time treatment","recurring service","termite bond","exclusion"],ask:false, required:true},
+    {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",ask:false, required:true},
+    {key:"materialCost",question:"What is the estimated treatment material cost?",type:"currency",ask:false, required:true,trigger:"pest-treatment-estimate"}
   ]},
   pool:{ label:"Pool Service", description:"Pool chemistry, equipment checks, openings/closings, repairs, and recurring pool maintenance.", questions:[...common,
-    {key:"poolGallons",question:"What is the estimated pool volume in gallons?",type:"number",required:true,trigger:"pool-water-chemistry"},
-    {key:"serviceType",question:"Which pool service is needed?",type:"select",options:["weekly service","opening","closing","equipment repair","cleaning","chemical balancing"],required:true},
-    {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true},
-    {key:"materialCost",question:"What chemical and parts cost is expected?",type:"currency",required:true,trigger:"pool-service-estimate"}
+    {key:"poolGallons",question:"What is the estimated pool volume in gallons?",type:"number",ask:false, required:true,trigger:"pool-water-chemistry"},
+    {key:"serviceType",question:"Which pool service is needed?",type:"select",options:["weekly service","opening","closing","equipment repair","cleaning","chemical balancing"],ask:false, required:true},
+    {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",ask:false, required:true},
+    {key:"materialCost",question:"What chemical and parts cost is expected?",type:"currency",ask:false, required:true,trigger:"pool-service-estimate"}
   ]},
   painting:{ label:"Painting", description:"Interior and exterior painting, cabinets, surface area takeoffs, materials, and crew planning.", questions:[...common,
-    {key:"serviceType",question:"Which painting service is needed?",type:"select",options:["interior","exterior","cabinets","touch-up","commercial coating"],required:true},
-    {key:"coats",question:"How many coats are required?",type:"number",required:true},
-    {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true},
-    {key:"materialCost",question:"What is the estimated paint and materials cost?",type:"currency",required:true,trigger:"paint-interior-estimate"}
+    {key:"serviceType",question:"Which painting service is needed?",type:"select",options:["interior","exterior","cabinets","touch-up","commercial coating"],ask:false, required:true},
+    {key:"coats",question:"How many coats are required?",type:"number",ask:false, required:true},
+    {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",ask:false, required:true},
+    {key:"materialCost",question:"What is the estimated paint and materials cost?",type:"currency",ask:false, required:true,trigger:"paint-interior-estimate"}
   ]},
   roofing:{ label:"Roofing", description:"Roof inspections, repairs, replacements, storm damage assessments, and material calculations.", questions:[...common,
-    {key:"serviceType",question:"Which roofing service is needed?",type:"select",options:["inspection","repair","replacement","storm damage","maintenance"],required:true},
-    {key:"roofMaterial",question:"What roofing material is involved?",type:"select",options:["asphalt shingle","metal","tile","flat membrane","wood shake","other"],required:true},
-    {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true},
-    {key:"materialCost",question:"What is the estimated roofing material cost?",type:"currency",required:true,trigger:"roof-replacement-estimate"}
+    {key:"serviceType",question:"Which roofing service is needed?",type:"select",options:["inspection","repair","replacement","storm damage","maintenance"],ask:false, required:true},
+    {key:"roofMaterial",question:"What roofing material is involved?",type:"select",options:["asphalt shingle","metal","tile","flat membrane","wood shake","other"],ask:false, required:true},
+    {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",ask:false, required:true},
+    {key:"materialCost",question:"What is the estimated roofing material cost?",type:"currency",ask:false, required:true,trigger:"roof-replacement-estimate"}
   ]},
   plumbing:{ label:"Plumbing", description:"Leak and drain diagnostics, water heater work, repiping, sewer camera review, and emergency dispatch.", questions:[...common,
-    {key:"serviceType",question:"Which plumbing service is needed?",type:"select",options:["leak repair","drain clearing","water heater","fixture installation","repiping","sewer","backflow"],required:true,trigger:"plumbing-leak-diagnostic"},
-    {key:"urgency",question:"How urgent is the request?",type:"select",options:["routine","same day","emergency"],required:true},
-    {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true},
-    {key:"hourlyRate",question:"What hourly labor rate should be applied?",type:"currency",required:true},
-    {key:"materialCost",question:"What parts and materials cost is expected?",type:"currency",required:true,trigger:"plumbing-repair-estimate"}
+    {key:"serviceType",question:"Which plumbing service is needed?",type:"select",options:["leak repair","drain clearing","water heater","fixture installation","repiping","sewer","backflow"],ask:false, required:true,trigger:"plumbing-leak-diagnostic"},
+    {key:"urgency",question:"How urgent is the request?",type:"select",options:["routine","same day","emergency"],ask:false, required:true},
+    {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",ask:false, required:true},
+    {key:"hourlyRate",question:"What hourly labor rate should be applied?",type:"currency",ask:false, required:true},
+    {key:"materialCost",question:"What parts and materials cost is expected?",type:"currency",ask:false, required:true,trigger:"plumbing-repair-estimate"}
   ]},
   electrical:{ label:"Electrical", description:"Panel capacity, circuit diagnostics, EV chargers, generators, lighting upgrades, and electrical safety inspections.", questions:[...common,
-    {key:"serviceType",question:"Which electrical service is needed?",type:"select",options:["diagnostic","panel upgrade","EV charger","generator","lighting","rewire","safety inspection"],required:true,trigger:"electrical-circuit-diagnostic"},
-    {key:"voltage",question:"What voltage applies?",type:"number",required:false,example:240},
-    {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true},
-    {key:"hourlyRate",question:"What hourly labor rate should be applied?",type:"currency",required:true},
-    {key:"materialCost",question:"What equipment and materials cost is expected?",type:"currency",required:true,trigger:"electrical-service-upgrade"}
+    {key:"serviceType",question:"Which electrical service is needed?",type:"select",options:["diagnostic","panel upgrade","EV charger","generator","lighting","rewire","safety inspection"],ask:false, required:true,trigger:"electrical-circuit-diagnostic"},
+    {key:"voltage",question:"What voltage applies?",type:"number",ask:false, required:false,example:240},
+    {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",ask:false, required:true},
+    {key:"hourlyRate",question:"What hourly labor rate should be applied?",type:"currency",ask:false, required:true},
+    {key:"materialCost",question:"What equipment and materials cost is expected?",type:"currency",ask:false, required:true,trigger:"electrical-service-upgrade"}
   ]},
   "general-contract":{ label:"General Contracting", description:"Remodels, build-outs, project scopes, bids, critical-path scheduling, and closeout packages.", questions:[...common,
-    {key:"projectType",question:"What type of project is planned?",type:"select",options:["remodel","addition","repair","build-out","new construction","restoration"],required:true,trigger:"gc-scope-generator"},
-    {key:"estimatedHours",question:"How many total labor hours are expected?",type:"number",required:true},
-    {key:"materialCost",question:"What material cost is expected?",type:"currency",required:true},
-    {key:"equipmentCost",question:"What equipment or rental cost is expected?",type:"currency",required:false},
-    {key:"markupMultiplier",question:"What pricing multiplier should be applied?",type:"number",required:true,example:1.35,trigger:"gc-project-estimate"}
+    {key:"projectType",question:"What type of project is planned?",type:"select",options:["remodel","addition","repair","build-out","new construction","restoration"],ask:false, required:true,trigger:"gc-scope-generator"},
+    {key:"estimatedHours",question:"How many total labor hours are expected?",type:"number",ask:false, required:true},
+    {key:"materialCost",question:"What material cost is expected?",type:"currency",ask:false, required:true},
+    {key:"equipmentCost",question:"What equipment or rental cost is expected?",type:"currency",ask:false, required:false},
+    {key:"markupMultiplier",question:"What pricing multiplier should be applied?",type:"number",ask:false, required:true,example:1.35,trigger:"gc-project-estimate"}
   ]},
   surveillance:{ label:"Surveillance", description:"Camera layouts, storage and bandwidth planning, installation estimates, and site security assessments.", questions:[...common,
-    {key:"cameraCount",question:"How many cameras are required?",type:"number",required:true,trigger:"camera-layout-design"},
-    {key:"retentionDays",question:"How many days should video be retained?",type:"number",required:true,trigger:"surveillance-storage-calculator"},
-    {key:"serviceType",question:"Which surveillance service is requested?",type:"select",options:["new installation","upgrade","repair","site assessment","maintenance"],required:true},
-    {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true},
-    {key:"materialCost",question:"What equipment and materials cost is expected?",type:"currency",required:true,trigger:"surveillance-install-estimate"}
+    {key:"cameraCount",question:"How many cameras are required?",type:"number",ask:false, required:true,trigger:"camera-layout-design"},
+    {key:"retentionDays",question:"How many days should video be retained?",type:"number",ask:false, required:true,trigger:"surveillance-storage-calculator"},
+    {key:"serviceType",question:"Which surveillance service is requested?",type:"select",options:["new installation","upgrade","repair","site assessment","maintenance"],ask:false, required:true},
+    {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",ask:false, required:true},
+    {key:"materialCost",question:"What equipment and materials cost is expected?",type:"currency",ask:false, required:true,trigger:"surveillance-install-estimate"}
   ]},
   "trash-removal":{ label:"Trash Removal", description:"Junk hauling, dumpster rentals, volume estimates, disposal site matching, and waste compliance manifests.", questions:[...common,
-    {key:"volumeCubicYards",question:"What is the estimated debris volume in cubic yards?",type:"number",required:true,trigger:"trash-volume-estimate"},
-    {key:"materialType",question:"What material will be removed?",type:"select",options:["household debris","construction debris","yard waste","appliances","furniture","mixed waste"],required:true,trigger:"trash-material-classification"},
-    {key:"serviceType",question:"Which removal service is needed?",type:"select",options:["single haul","dumpster rental","recurring pickup","property cleanout"],required:true},
-    {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true},
-    {key:"disposalCost",question:"What disposal or tipping fee is expected?",type:"currency",required:true,trigger:"trash-haul-estimate"}
+    {key:"volumeCubicYards",question:"What is the estimated debris volume in cubic yards?",type:"number",ask:false, required:true,trigger:"trash-volume-estimate"},
+    {key:"materialType",question:"What material will be removed?",type:"select",options:["household debris","construction debris","yard waste","appliances","furniture","mixed waste"],ask:false, required:true,trigger:"trash-material-classification"},
+    {key:"serviceType",question:"Which removal service is needed?",type:"select",options:["single haul","dumpster rental","recurring pickup","property cleanout"],ask:false, required:true},
+    {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",ask:false, required:true},
+    {key:"disposalCost",question:"What disposal or tipping fee is expected?",type:"currency",ask:false, required:true,trigger:"trash-haul-estimate"}
   ]},
   transportation:{ label:"Transportation", description:"Local moves, long-haul and delivery quoting, load planning, route optimization, fleet capacity, and dispatch.", questions:[...common,
-    {key:"pickupAddress",question:"What is the pickup address?",type:"string",required:true,trigger:"transport-property-profile"},
-    {key:"dropoffAddress",question:"What is the dropoff or destination address?",type:"string",required:true},
-    {key:"serviceType",question:"Which transportation service is needed?",type:"select",options:["local move","long haul","same-day delivery","scheduled delivery","light freight","materials haul"],required:true},
-    {key:"distanceMiles",question:"What is the estimated trip distance in miles?",type:"number",required:true},
-    {key:"volumeCubicFeet",question:"What is the estimated load volume in cubic feet?",type:"number",required:true,trigger:"transport-load-plan"},
-    {key:"crewSize",question:"How many crew members should be used?",type:"number",required:true},
-    {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",required:true,trigger:"transport-local-move-estimate"}
+    {key:"pickupAddress",question:"What is the pickup address?",type:"string",ask:true, required:true,trigger:"transport-property-profile"},
+    {key:"dropoffAddress",question:"What is the dropoff or destination address?",type:"string",ask:true, required:true},
+    {key:"serviceType",question:"Which transportation service is needed?",type:"select",options:["local move","long haul","same-day delivery","scheduled delivery","light freight","materials haul"],ask:false, required:true},
+    {key:"distanceMiles",question:"What is the estimated trip distance in miles?",type:"number",ask:false, required:true},
+    {key:"volumeCubicFeet",question:"What is the estimated load volume in cubic feet?",type:"number",ask:false, required:true,trigger:"transport-load-plan"},
+    {key:"crewSize",question:"How many crew members should be used?",type:"number",ask:false, required:true},
+    {key:"estimatedHours",question:"How many labor hours are expected?",type:"number",ask:false, required:true,trigger:"transport-local-move-estimate"}
   ]},
   healthcare:{ label:"Nursing & Doctors", description:"Home health and clinical staffing for nursing and physician visits, care plans, credentials, shift coverage, and visit routing.", questions:[...common,
-    {key:"careSetting",question:"Where will care be delivered?",type:"select",options:["home","assisted living","clinic","facility","telehealth hybrid"],required:true,trigger:"healthcare-patient-profile"},
-    {key:"serviceType",question:"Which clinical service is needed?",type:"select",options:["nursing visit","physician visit","private duty shift","post-acute follow-up","chronic care management","urgent home visit"],required:true},
-    {key:"acuityLevel",question:"What is the patient acuity level?",type:"select",options:["low","moderate","high","critical"],required:true,trigger:"healthcare-risk-assessment"},
-    {key:"role",question:"Which clinician role should be assigned?",type:"select",options:["RN","LPN","NP","physician","caregiver with RN oversight"],required:true},
-    {key:"visitMinutes",question:"How many minutes should the visit or shift block cover?",type:"number",required:true},
-    {key:"estimatedHours",question:"How many billable clinical hours are expected?",type:"number",required:true,trigger:"healthcare-nursing-visit-estimate"}
+    {key:"careSetting",question:"Where will care be delivered?",type:"select",options:["home","assisted living","clinic","facility","telehealth hybrid"],ask:false, required:true,trigger:"healthcare-patient-profile"},
+    {key:"serviceType",question:"Which clinical service is needed?",type:"select",options:["nursing visit","physician visit","private duty shift","post-acute follow-up","chronic care management","urgent home visit"],ask:false, required:true},
+    {key:"acuityLevel",question:"What is the patient acuity level?",type:"select",options:["low","moderate","high","critical"],ask:false, required:true,trigger:"healthcare-risk-assessment"},
+    {key:"role",question:"Which clinician role should be assigned?",type:"select",options:["RN","LPN","NP","physician","caregiver with RN oversight"],ask:false, required:true},
+    {key:"visitMinutes",question:"How many minutes should the visit or shift block cover?",type:"number",ask:false, required:true},
+    {key:"estimatedHours",question:"How many billable clinical hours are expected?",type:"number",ask:false, required:true,trigger:"healthcare-nursing-visit-estimate"}
   ]}
 };
 
+// Transportation uses pickup/dropoff; service address is auto-copied from pickup.
+flows.transportation.questions = flows.transportation.questions.map(question => (
+  question.key === "serviceAddress"
+    ? { ...question, ask: false, required: false }
+    : question
+));
+
+function defaultValueForQuestion(question) {
+  if (question.type === "select") return question.options?.[0];
+  if (question.type === "number" || question.type === "currency") return question.example ?? 1;
+  if (question.type === "object") return question.example || { name: "Property Owner", email: "customer@example.com", phone: "404-555-0100" };
+  if (question.type === "date") return new Date(Date.now() + 3 * 86400000).toISOString().slice(0, 10);
+  return question.example || "";
+}
+
+function applyAutomationDefaults(session, message = "") {
+  const smart = buildSmartDefaults(session.category, message, session.businessSettings, session.answers);
+  session.answers = refineDefaultsFromMeasurements(session.category, smart, session.businessSettings);
+  if (session.category === "transportation" && session.answers.pickupAddress && !session.answers.serviceAddress) {
+    session.answers.serviceAddress = session.answers.pickupAddress;
+  }
+  for (const question of session.questions) {
+    if (session.answers[question.key] !== undefined) continue;
+    if (question.ask === false) {
+      session.answers[question.key] = defaultValueForQuestion(question);
+    }
+  }
+  return session;
+}
+
+function runAnswerTriggers(session) {
+  const ran = new Set(session.apiResults.map(item => `${item.questionKey}:${item.endpointType}`));
+  for (const question of session.questions) {
+    if (!question.trigger || session.answers[question.key] === undefined) continue;
+    const stamp = `${question.key}:${question.trigger}`;
+    if (ran.has(stamp)) continue;
+    const result = runAutomation(question.trigger, buildAutomationInput(session));
+    session.apiResults.push({ questionKey: question.key, endpointType: question.trigger, result, source: "auto-default" });
+    ran.add(stamp);
+  }
+}
+
+/** Only surface questions the user must answer; skip AI/auto-filled fields. */
 function nextQuestion(session) {
-  while (session.currentIndex < session.questions.length && session.answers[session.questions[session.currentIndex].key] !== undefined) session.currentIndex++;
-  return session.questions[session.currentIndex] || null;
+  while (session.currentIndex < session.questions.length) {
+    const question = session.questions[session.currentIndex];
+    if (session.answers[question.key] !== undefined) {
+      session.currentIndex += 1;
+      continue;
+    }
+    if (question.ask === false) {
+      session.answers[question.key] = defaultValueForQuestion(question);
+      session.currentIndex += 1;
+      continue;
+    }
+    return question;
+  }
+  return null;
 }
 
 function buildAutomationInput(session) {
@@ -252,11 +308,33 @@ async function enrichSessionFromRegrid(session) {
 export async function startGuidedWorkflow(category, input={}) {
   const flow=flows[category];
   if(!flow){ const e=new Error(`Unsupported category: ${category}`); e.statusCode=404; throw e; }
-  const session={ sessionId:uid("session"), category,label:flow.label,status:"in_progress",createdAt:now(),updatedAt:now(),currentIndex:0,questions:flow.questions,answers:{...(input.prefill||{})},apiResults:[],businessSettings:{...(input.businessSettings||{})},invoiceSettings:{taxRate:Number(input.taxRate||0),discount:Number(input.discount||0),currency:input.currency||"USD",paymentTerms:input.paymentTerms||"Due upon receipt"} };
+  const session={
+    sessionId:uid("session"),
+    category,
+    label:flow.label,
+    status:"in_progress",
+    createdAt:now(),
+    updatedAt:now(),
+    currentIndex:0,
+    questions:flow.questions.map(question => ({ ...question })),
+    answers:{...(input.prefill||{})},
+    apiResults:[],
+    sourceMessage: String(input.message || input.prompt || ""),
+    businessSettings:{...(input.businessSettings||{})},
+    invoiceSettings:{taxRate:Number(input.taxRate||0),discount:Number(input.discount||0),currency:input.currency||"USD",paymentTerms:input.paymentTerms||"Due upon receipt"}
+  };
+  applyAutomationDefaults(session, session.sourceMessage);
   sessions.set(session.sessionId,session);
   if (session.answers.serviceAddress || session.answers.pickupAddress) {
     await enrichSessionFromRegrid(session);
+    Object.assign(
+      session.answers,
+      refineDefaultsFromMeasurements(session.category, session.answers, session.businessSettings)
+    );
   }
+  runAnswerTriggers(session);
+  if (!nextQuestion(session)) session.status = "ready_for_invoice";
+  session.updatedAt = now();
   return sessionView(session);
 }
 
@@ -268,11 +346,29 @@ export async function answerGuidedWorkflow(sessionId, input={}) {
   if(q.required && (value===undefined || value===null || value==="")){ const e=new Error(`Answer is required for ${q.key}`); e.statusCode=400; throw e; }
   session.answers[q.key]=value;
   session.currentIndex++;
-  if (q.key === "serviceAddress" || q.key === "pickupAddress") {
+
+  // One freeform reply can also carry other missing ask fields (e.g. second address).
+  if (input.message || typeof value === "string") {
+    const merged = buildSmartDefaults(
+      session.category,
+      String(input.message || value || ""),
+      session.businessSettings,
+      session.answers
+    );
+    session.answers = merged;
+  }
+
+  if (q.key === "serviceAddress" || q.key === "pickupAddress" || q.key === "dropoffAddress") {
     delete session.answers.regridLookupAt;
     await enrichSessionFromRegrid(session);
+    Object.assign(
+      session.answers,
+      refineDefaultsFromMeasurements(session.category, session.answers, session.businessSettings)
+    );
   }
   if(q.trigger){ const result=runAutomation(q.trigger,buildAutomationInput(session)); session.apiResults.push({questionKey:q.key,endpointType:q.trigger,result}); }
+  applyAutomationDefaults(session, session.sourceMessage || String(input.message || ""));
+  runAnswerTriggers(session);
   session.updatedAt=now();
   if(!nextQuestion(session)) session.status="ready_for_invoice";
   return sessionView(session);
@@ -314,7 +410,28 @@ export function getGuidedWorkflow(sessionId){ const s=sessions.get(sessionId); i
 
 function sessionView(session){
   const question=nextQuestion(session);
-  return {sessionId:session.sessionId,category:session.category,categoryLabel:session.label,status:session.status,progress:{answered:Object.keys(session.answers).length,total:session.questions.length,currentIndex:session.currentIndex},nextQuestion:question?{key:question.key,question:question.question,type:question.type,required:question.required,options:question.options,example:question.example}:null,answers:session.answers,businessSettings:session.businessSettings,apiResults:session.apiResults,invoice:session.invoice||null,links:{self:`/api/v1/${session.category}/sessions/${session.sessionId}`,answer:`/api/v1/${session.category}/sessions/${session.sessionId}/answer`,runApi:`/api/v1/${session.category}/sessions/${session.sessionId}/run-api`,invoice:`/api/v1/${session.category}/sessions/${session.sessionId}/invoice`}};
+  const askable = session.questions.filter(item => item.ask !== false);
+  const askableAnswered = askable.filter(item => session.answers[item.key] !== undefined).length;
+  return {
+    sessionId:session.sessionId,
+    category:session.category,
+    categoryLabel:session.label,
+    status:session.status,
+    progress:{
+      answered:Object.keys(session.answers).length,
+      total:session.questions.length,
+      currentIndex:session.currentIndex,
+      askableTotal: askable.length,
+      askableAnswered
+    },
+    nextQuestion:question?{key:question.key,question:question.question,type:question.type,required:question.required,ask:question.ask !== false,options:question.options,example:question.example}:null,
+    answers:session.answers,
+    autoFilled: session.questions.filter(item => item.ask === false && session.answers[item.key] !== undefined).map(item => item.key),
+    businessSettings:session.businessSettings,
+    apiResults:session.apiResults,
+    invoice:session.invoice||null,
+    links:{self:`/api/v1/${session.category}/sessions/${session.sessionId}`,answer:`/api/v1/${session.category}/sessions/${session.sessionId}/answer`,runApi:`/api/v1/${session.category}/sessions/${session.sessionId}/run-api`,invoice:`/api/v1/${session.category}/sessions/${session.sessionId}/invoice`}
+  };
 }
 
 
@@ -326,20 +443,22 @@ export async function createInstantQuote(category, input={}) {
     currency: input.currency,
     paymentTerms: input.paymentTerms,
     businessSettings: input.businessSettings,
+    message: input.message || input.prompt || "",
     prefill: answers
   });
   const session = sessions.get(start.sessionId);
   for (const question of session.questions) {
-    if (session.answers[question.key] === undefined && question.required) {
+    if (session.answers[question.key] === undefined && question.required && question.ask !== false) {
       const error = new Error(`Missing required answer: ${question.key}`);
       error.statusCode = 400;
       throw error;
     }
-    if (session.answers[question.key] !== undefined && question.trigger) {
-      const result = runAutomation(question.trigger, buildAutomationInput(session));
-      session.apiResults.push({ questionKey: question.key, endpointType: question.trigger, result });
+    if (session.answers[question.key] === undefined && question.required) {
+      session.answers[question.key] = defaultValueForQuestion(question);
     }
   }
+  applyAutomationDefaults(session, input.message || input.prompt || "");
+  runAnswerTriggers(session);
   session.currentIndex = session.questions.length;
   session.status = "ready_for_invoice";
   return createInvoiceFromSession(session.sessionId, {

@@ -3,6 +3,12 @@ import { appConfig } from "../config/appConfig.js";
 import { categoryApiTools, supportedCategories } from "./toolCatalog.js";
 import { answerGuidedWorkflow, createInvoiceFromSession, getGuidedWorkflow, runGuidedStep, startGuidedWorkflow } from "../services/guidedWorkflow.js";
 import { getPricingStandards } from "../services/pricingStandards.js";
+import {
+  buildSmartDefaults,
+  extractAddress,
+  extractAddresses,
+  parseCustomerFromText
+} from "../services/quoteAutomation.js";
 
 const client = appConfig.ai.enabled ? new OpenAI({ apiKey: appConfig.ai.apiKey, baseURL: appConfig.ai.baseURL }) : null;
 
@@ -45,7 +51,7 @@ async function inferCategoryWithAI(message) {
   try {
     const response = await client.responses.create({
       model: appConfig.ai.model,
-      instructions: "Classify a field-service request into exactly one HA-Corr category. Use the choose_category tool. Do not answer conversationally.",
+      instructions: "Classify a field-service request into exactly one HA-Corr category. Use the choose_category tool. Prefer the closest trade. Do not ask clarifying questions.",
       input: message,
       tools: [{
         type:"function", name:"choose_category", description:"Choose the correct service category.", strict:true,
@@ -59,55 +65,6 @@ async function inferCategoryWithAI(message) {
     console.warn("OpenAI category inference failed; using local keyword fallback:", error.message);
     return inferCategoryLocally(message);
   }
-}
-
-export async function startAIWorkflow(input={}) {
-  const message = String(input.message || "").trim();
-  const category = input.category || await inferCategoryWithAI(message);
-  if (!category || !supportedCategories.includes(category)) {
-    const error = new Error("The AI could not determine a supported category. Select a category or provide more service details.");
-    error.statusCode = 400; throw error;
-  }
-  const start = { ...(input.start || {}) };
-  const pricing = pricingSnapshot(category);
-  const autoPrefill = buildPrefillFromMessage(message, category, pricing);
-  start.prefill = { ...(start.prefill || {}), ...autoPrefill };
-  const workflow = await startGuidedWorkflow(category, start);
-  const sqftNote = workflow.answers?.squareFeet
-    ? ` Regrid measured about ${Number(workflow.answers.squareFeet).toLocaleString()} sqft from the address.`
-    : "";
-  return {
-    mode: appConfig.ai.enabled ? "openai" : "local-fallback",
-    category,
-    assistantMessage: `I selected ${workflow.categoryLabel}.${sqftNote} ${workflow.nextQuestion?.question || "The workflow is ready for an invoice."}`,
-    recommendedApis: categoryApiTools[category] || [],
-    workflow
-  };
-}
-
-export async function continueAIWorkflow(input={}) {
-  const { sessionId, message, value, action="answer", endpointType, payload } = input;
-  if (!sessionId) { const e=new Error("sessionId is required");e.statusCode=400;throw e; }
-  let result;
-  if (action === "run-api") result = runGuidedStep(sessionId,{endpointType,payload});
-  else if (action === "invoice") result = createInvoiceFromSession(sessionId,input.invoice || {});
-  else {
-    const workflow = getGuidedWorkflow(sessionId);
-    let parsedValue = value;
-    if (parsedValue === undefined) {
-      const question = workflow.nextQuestion;
-      if (!question) return {assistantMessage:"All questions are complete. You can generate the invoice.",workflow};
-      if (question.type === "number" || question.type === "currency") parsedValue = Number(String(message).replace(/[^0-9.-]/g,""));
-      else parsedValue = message;
-    }
-    result = await answerGuidedWorkflow(sessionId,{value:parsedValue});
-  }
-  const workflow = result.workflow || (result.invoiceId ? getGuidedWorkflow(sessionId) : result);
-  return {
-    assistantMessage: result.invoiceId ? `Draft invoice ${result.invoiceNumber} was created for $${result.total}.` : (workflow.nextQuestion?.question || "All required information is collected. Generate the invoice when ready."),
-    result,
-    workflow
-  };
 }
 
 function pricingSnapshot(category) {
@@ -128,16 +85,6 @@ function pricingSnapshot(category) {
   }
 }
 
-function extractAddress(message = "") {
-  const text = String(message || "");
-  const match = text.match(
-    /\d{1,6}\s+[A-Za-z0-9.'#\- ]+,\s*[A-Za-z .'#-]+,\s*[A-Z]{2}(?:\s+\d{5}(?:-\d{4})?)?/i
-  ) || text.match(
-    /\d{1,6}\s+[A-Za-z0-9.'#\- ]+(?:,\s*[A-Za-z .'#-]+){1,3}(?:\s+\d{5}(?:-\d{4})?)?/
-  );
-  return match?.[0]?.replace(/\s+/g, " ").replace(/^[-:]\s*/, "").trim() || null;
-}
-
 function invalidAnswer(message) {
   const error = new Error(message);
   error.statusCode = 400;
@@ -148,46 +95,21 @@ function looksLikeGenerateCommand(message = "") {
   return /^(yes|y|ok|okay|sure|generate|create|invoice|quote|done|build it|make (the )?quote|make (the )?invoice)\b/i.test(String(message).trim());
 }
 
+function shouldAutoGenerate(input = {}) {
+  return input.autoGenerate !== false;
+}
+
 function formatQuestionPrompt(question) {
-  if (!question) return "I have everything needed for your quote. Reply **generate** to create the draft invoice.";
+  if (!question) return "Draft invoice is ready to generate.";
   const lines = [question.question];
-  if (question.type === "select" && question.options?.length) {
+  if (question.key?.includes("Address") || question.key === "serviceAddress") {
+    lines.push("Paste a full street address (example: 123 Main St, Atlanta, GA 30303). Everything else is auto-filled.");
+  } else if (question.type === "select" && question.options?.length) {
     lines.push(`Options: ${question.options.join(", ")}`);
   } else if (question.example != null && question.type !== "object") {
     lines.push(`Example: ${typeof question.example === "object" ? JSON.stringify(question.example) : question.example}`);
-  } else if (question.type === "object") {
-    lines.push("Reply with name, email, and phone (example: Taylor Smith, taylor@example.com, 404-555-0199).");
   }
   return lines.join("\n");
-}
-
-function parseCustomer(message) {
-  try {
-    const parsed = JSON.parse(message);
-    if (parsed && typeof parsed === "object") {
-      return {
-        name: parsed.name || "Customer",
-        email: parsed.email || "customer@example.com",
-        phone: parsed.phone || "404-555-0100"
-      };
-    }
-  } catch {
-    // freeform
-  }
-  const email = message.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i)?.[0];
-  const phone = message.match(/(?:\+?1[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/)?.[0];
-  let name = message
-    .replace(email || "", "")
-    .replace(phone || "", "")
-    .replace(/[|,]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-  if (!name || name.length < 2) name = "Customer";
-  return {
-    name,
-    email: email || "customer@example.com",
-    phone: phone || "404-555-0100"
-  };
 }
 
 function parseAnswerForQuestion(question, message) {
@@ -195,7 +117,7 @@ function parseAnswerForQuestion(question, message) {
   if (!question) return text;
 
   if (question.type === "object" || question.key === "customer") {
-    return parseCustomer(text);
+    return parseCustomerFromText(text);
   }
 
   if (question.type === "select") {
@@ -234,38 +156,8 @@ function parseAnswerForQuestion(question, message) {
   return text;
 }
 
-function buildPrefillFromMessage(message, category, pricing) {
-  const prefill = {};
-  const address = extractAddress(message);
-  if (address) prefill.serviceAddress = address;
-
-  const text = message.toLowerCase();
-  if (/commercial|office|retail|warehouse/.test(text)) prefill.propertyType = "commercial";
-  else if (/hoa/.test(text)) prefill.propertyType = "hoa";
-  else if (/apartment|multi[- ]?family/.test(text)) prefill.propertyType = "multi-family";
-  else if (address || /home|house|residential/.test(text)) prefill.propertyType = "residential";
-
-  if (pricing?.unitPrices?.hourlyRate != null) prefill.hourlyRate = pricing.unitPrices.hourlyRate;
-
-  if (category === "landscape") {
-    if (/mow/.test(text)) prefill.serviceType = "mowing";
-    else if (/mulch/.test(text)) prefill.serviceType = "mulch";
-    else if (/fertil/.test(text)) prefill.serviceType = "fertilization";
-    else if (/cleanup|clean up/.test(text)) prefill.serviceType = "cleanup";
-  }
-  if (category === "hvac") {
-    if (/replac/.test(text)) prefill.serviceType = "replacement";
-    else if (/maintain|tune/.test(text)) prefill.serviceType = "maintenance";
-    else if (/install/.test(text)) prefill.serviceType = "installation";
-    else if (/repair|cool|heat|ac |a\/c/.test(text)) prefill.serviceType = "diagnostic";
-  }
-  if (category === "plumbing") {
-    if (/water heater/.test(text)) prefill.serviceType = "water heater";
-    else if (/drain|clog/.test(text)) prefill.serviceType = "drain clearing";
-    else if (/leak/.test(text)) prefill.serviceType = "leak repair";
-  }
-
-  return prefill;
+function buildPrefillFromMessage(message, category, businessSettings = {}) {
+  return buildSmartDefaults(category, message, businessSettings, {});
 }
 
 function matchCategoryFromMessage(message = "") {
@@ -286,27 +178,160 @@ function assistantEnvelope(partial) {
   };
 }
 
-function questionResponse({ workflow, intro, mode = "quote-chat" }) {
+function automationNotes(workflow) {
+  const notes = [];
+  if (workflow.answers?.squareFeet != null) {
+    notes.push(`Regrid auto-filled **${Number(workflow.answers.squareFeet).toLocaleString()} sqft** (${workflow.answers.acres ?? "?"} acres).`);
+  } else if (workflow.answers?.regridError) {
+    notes.push(`Parcel lookup note: ${workflow.answers.regridError}.`);
+  }
+  if (workflow.answers?.serviceType) notes.push(`Service assumed: **${workflow.answers.serviceType}**.`);
+  if (workflow.answers?.hourlyRate != null) notes.push(`Labor rate: **$${workflow.answers.hourlyRate}/hr**.`);
+  if (workflow.autoFilled?.length) notes.push(`Auto-filled ${workflow.autoFilled.length} fields (crew, hours, materials, etc.).`);
+  return notes;
+}
+
+function invoiceReply(invoice, workflow) {
+  const address = workflow?.answers?.matchedAddress || workflow?.answers?.serviceAddress || workflow?.answers?.pickupAddress || "";
+  return [
+    `Draft quote **${invoice.invoiceNumber}** is ready for **$${Number(invoice.total).toFixed(2)}** ${invoice.currency}.`,
+    address ? `Job site: ${address}.` : null,
+    "Review line items in the side panel — edit assumptions anytime and regenerate."
+  ].filter(Boolean).join(" ");
+}
+
+function maybeCreateInvoice(sessionId, input = {}) {
+  if (!shouldAutoGenerate(input)) return null;
+  return createInvoiceFromSession(sessionId, input.invoice || input.start || {});
+}
+
+function questionResponse({ workflow, intro, mode = "quote-chat", invoice = null }) {
   const pricing = pricingSnapshot(workflow.category);
   const nextQuestion = workflow.nextQuestion;
   const ready = !nextQuestion;
   const reply = [
     intro,
     "",
-    formatQuestionPrompt(nextQuestion)
+    invoice ? null : formatQuestionPrompt(nextQuestion)
   ].filter(Boolean).join("\n").trim();
 
   return assistantEnvelope({
     mode,
-    reply,
+    reply: invoice ? invoiceReply(invoice, workflow) : reply,
     category: workflow.category,
     categoryLabel: workflow.categoryLabel || categoryLabels[workflow.category],
     workflow,
-    nextQuestion,
-    suggestedActions: ready ? ["generate-invoice"] : ["answer-question"],
+    nextQuestion: invoice ? null : nextQuestion,
+    invoice,
+    result: invoice || undefined,
+    suggestedActions: invoice || ready ? ["generate-invoice"] : ["answer-question"],
     pricing,
     recommendedApis: pricing?.recommendedApis || categoryApiTools[workflow.category] || []
   });
+}
+
+async function finishIfReady(sessionId, workflow, intro, input = {}, mode = "quote-chat") {
+  if (workflow.nextQuestion) {
+    return questionResponse({ workflow, intro, mode });
+  }
+  const invoice = maybeCreateInvoice(sessionId, input);
+  if (!invoice) {
+    return questionResponse({
+      workflow,
+      intro: `${intro} I have everything needed — reply **generate** to create the draft invoice.`
+    });
+  }
+  const fresh = getGuidedWorkflow(sessionId);
+  return questionResponse({
+    workflow: fresh,
+    intro,
+    mode,
+    invoice
+  });
+}
+
+export async function startAIWorkflow(input={}) {
+  const message = String(input.message || "").trim();
+  const category = input.category || await inferCategoryWithAI(message);
+  if (!category || !supportedCategories.includes(category)) {
+    const error = new Error("The AI could not determine a supported category. Select a category or provide more service details.");
+    error.statusCode = 400; throw error;
+  }
+  const start = { ...(input.start || {}), message };
+  const autoPrefill = buildPrefillFromMessage(message, category, start.businessSettings || {});
+  start.prefill = { ...(start.prefill || {}), ...autoPrefill };
+  const workflow = await startGuidedWorkflow(category, start);
+  const sqftNote = workflow.answers?.squareFeet
+    ? ` Regrid measured about ${Number(workflow.answers.squareFeet).toLocaleString()} sqft from the address.`
+    : "";
+
+  let invoice = null;
+  if (!workflow.nextQuestion && shouldAutoGenerate(input)) {
+    invoice = createInvoiceFromSession(workflow.sessionId, input.invoice || start);
+  }
+  const fresh = invoice ? getGuidedWorkflow(workflow.sessionId) : workflow;
+
+  return {
+    mode: appConfig.ai.enabled ? "openai" : "local-fallback",
+    category,
+    assistantMessage: invoice
+      ? invoiceReply(invoice, fresh)
+      : `I selected ${fresh.categoryLabel}.${sqftNote} ${fresh.nextQuestion?.question || "Ready for invoice."}`,
+    recommendedApis: categoryApiTools[category] || [],
+    workflow: fresh,
+    invoice,
+    result: invoice || undefined
+  };
+}
+
+export async function continueAIWorkflow(input={}) {
+  const { sessionId, message, value, action="answer", endpointType, payload } = input;
+  if (!sessionId) { const e=new Error("sessionId is required");e.statusCode=400;throw e; }
+  let result;
+  if (action === "run-api") result = runGuidedStep(sessionId,{endpointType,payload});
+  else if (action === "invoice") result = createInvoiceFromSession(sessionId,input.invoice || {});
+  else {
+    const workflow = getGuidedWorkflow(sessionId);
+    let parsedValue = value;
+    if (parsedValue === undefined) {
+      const question = workflow.nextQuestion;
+      if (!question) {
+        if (shouldAutoGenerate(input) || looksLikeGenerateCommand(message)) {
+          const invoice = createInvoiceFromSession(sessionId, input.invoice || {});
+          return {
+            assistantMessage: invoiceReply(invoice, getGuidedWorkflow(sessionId)),
+            result: invoice,
+            workflow: getGuidedWorkflow(sessionId),
+            invoice
+          };
+        }
+        return {assistantMessage:"All questions are complete. You can generate the invoice.",workflow};
+      }
+      parsedValue = parseAnswerForQuestion(question, message);
+    }
+    result = await answerGuidedWorkflow(sessionId,{ value:parsedValue, message });
+  }
+  let workflow = result.workflow || (result.invoiceId ? getGuidedWorkflow(sessionId) : result);
+
+  if (!result.invoiceId && !workflow.nextQuestion && shouldAutoGenerate(input)) {
+    const invoice = createInvoiceFromSession(sessionId, input.invoice || {});
+    workflow = getGuidedWorkflow(sessionId);
+    return {
+      assistantMessage: invoiceReply(invoice, workflow),
+      result: invoice,
+      workflow,
+      invoice
+    };
+  }
+
+  return {
+    assistantMessage: result.invoiceId
+      ? invoiceReply(result, workflow)
+      : (workflow.nextQuestion?.question || "All required information is collected. Generate the invoice when ready."),
+    result,
+    workflow,
+    invoice: result.invoiceId ? result : undefined
+  };
 }
 
 async function continueQuoteChat(sessionId, message, input = {}) {
@@ -320,12 +345,12 @@ async function continueQuoteChat(sessionId, message, input = {}) {
   }
 
   if (!workflow.nextQuestion) {
-    if (looksLikeGenerateCommand(message) || input.action === "invoice") {
+    if (looksLikeGenerateCommand(message) || input.action === "invoice" || shouldAutoGenerate(input)) {
       const invoice = createInvoiceFromSession(sessionId, input.invoice || input.start || {});
       const fresh = getGuidedWorkflow(sessionId);
       return assistantEnvelope({
         mode: "quote-chat",
-        reply: `Draft quote ${invoice.invoiceNumber} is ready for $${Number(invoice.total).toFixed(2)} ${invoice.currency}. Review the line items in the side panel.`,
+        reply: invoiceReply(invoice, fresh),
         category: fresh.category,
         categoryLabel: fresh.categoryLabel,
         workflow: fresh,
@@ -353,36 +378,25 @@ async function continueQuoteChat(sessionId, message, input = {}) {
   }
 
   const askedKey = workflow.nextQuestion?.key;
-  const updated = await answerGuidedWorkflow(sessionId, { value });
+  const updated = await answerGuidedWorkflow(sessionId, { value, message });
   const acknowledged = typeof value === "object" ? (value.name || "saved") : String(value);
 
-  let intro = `Thanks — recorded **${acknowledged}**.`;
+  let intro = `Got it — **${acknowledged}**.`;
+  intro = [intro, ...automationNotes(updated)].join(" ");
+
   if (askedKey === "serviceAddress" || askedKey === "pickupAddress") {
-    if (updated.answers?.squareFeet != null) {
-      intro += ` Regrid auto-filled **${Number(updated.answers.squareFeet).toLocaleString()} sqft** (${updated.answers.acres ?? "?"} acres).`;
-    } else if (updated.answers?.regridError) {
-      intro += ` Regrid could not resolve parcel area yet (${updated.answers.regridError}).`;
-    }
+    // notes already cover regrid
   }
 
-  if (!updated.nextQuestion) {
-    return questionResponse({
-      workflow: updated,
-      intro: `${intro} I have everything needed for your ${updated.categoryLabel} quote.`
-    });
-  }
-
-  return questionResponse({
-    workflow: updated,
-    intro
-  });
+  return finishIfReady(sessionId, updated, intro, input);
 }
 
 async function startQuoteChat({ message, category, input = {} }) {
-  const pricing = pricingSnapshot(category);
-  const prefill = buildPrefillFromMessage(message, category, pricing);
+  const businessSettings = input.start?.businessSettings || {};
+  const prefill = buildPrefillFromMessage(message, category, businessSettings);
   const workflow = await startGuidedWorkflow(category, {
     ...(input.start || {}),
+    message,
     prefill: {
       ...(input.start?.prefill || {}),
       ...prefill
@@ -390,27 +404,32 @@ async function startQuoteChat({ message, category, input = {} }) {
   });
 
   const label = workflow.categoryLabel || categoryLabels[category];
+  const pricing = pricingSnapshot(category);
   const hourly = pricing?.unitPrices?.hourlyRate;
   const addressNote = workflow.answers?.serviceAddress || prefill.serviceAddress
     ? ` for ${workflow.answers?.matchedAddress || workflow.answers?.serviceAddress || prefill.serviceAddress}`
     : "";
-  const sqftNote = workflow.answers?.squareFeet != null
-    ? `Regrid auto-filled **${Number(workflow.answers.squareFeet).toLocaleString()} sqft** (${workflow.answers.acres ?? "?"} acres) from the address — no square-footage question needed.`
-    : (workflow.answers?.regridError
-      ? `Regrid could not resolve parcel area yet (${workflow.answers.regridError}).`
-      : null);
+
   const intro = [
-    `I'll build a ${label} quote${addressNote}.`,
-    hourly ? `Industry-standard labor near Atlanta starts around $${hourly}/hr.` : null,
-    sqftNote,
-    "Answer the next question to continue."
+    `Building your **${label}** quote${addressNote}.`,
+    hourly ? `Using Atlanta industry labor near $${hourly}/hr.` : null,
+    ...automationNotes(workflow),
+    workflow.nextQuestion
+      ? "I only need the missing detail below — everything else is automated."
+      : "No more questions — generating your draft invoice now."
   ].filter(Boolean).join(" ");
 
-  return questionResponse({ workflow, intro, mode: appConfig.ai.enabled ? "openai-quote-chat" : "quote-chat" });
+  return finishIfReady(
+    workflow.sessionId,
+    workflow,
+    intro,
+    input,
+    appConfig.ai.enabled ? "openai-quote-chat" : "quote-chat"
+  );
 }
 
 /**
- * Homepage chatbot: starts/continues a quote interview by asking the next question.
+ * Homepage chatbot: minimize questions; auto-fill pricing/labor/materials and generate the invoice.
  */
 export async function chatWithAssistant(input = {}) {
   const message = String(input.message || "").trim();
@@ -424,25 +443,32 @@ export async function chatWithAssistant(input = {}) {
     return continueQuoteChat(input.sessionId, message, input);
   }
 
+  // Address-only prompts: still need a trade. Prefer landscape as grounds/default when "quote" + address.
   const categoryHint = input.category && supportedCategories.includes(input.category) ? input.category : null;
   let inferred = categoryHint || matchCategoryFromMessage(message) || null;
+
+  if (!inferred && extractAddress(message) && /quote|estimate|invoice|bid|price/i.test(message)) {
+    inferred = "landscape";
+  }
+
   if (!inferred && !input.skipLlm) {
     inferred = await inferCategoryWithAI(message);
   }
   if (!inferred) inferred = inferCategoryLocally(message);
 
   if (!inferred) {
+    const addresses = extractAddresses(message);
     const options = supportedCategories.map((category, index) => `${index + 1}. ${categoryLabels[category]}`).join("\n");
     return assistantEnvelope({
       mode: "quote-chat",
       reply: [
-        extractAddress(message)
-          ? `I can quote work at ${extractAddress(message)}. Which service is this for?`
-          : "I can build a quote for that. Which service is this for?",
+        addresses[0]
+          ? `I can quote work at ${addresses[0]}. Which service?`
+          : "I can build a quote from a short description. Which service?",
         "",
         options,
         "",
-        "Reply with the service name (for example: Landscape, HVAC, Plumbing)."
+        "Reply with the service name (for example: Landscape or Plumbing). Include the address in the same message if you have it."
       ].join("\n"),
       category: null,
       categoryLabel: null,

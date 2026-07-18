@@ -48,7 +48,7 @@ function App() {
   const [chatLog, setChatLog] = useState([
     {
       role: "assistant",
-      text: "Describe the job or paste an address. I’ll ask a few questions, then build a draft quote. Example: get quote for 121 Chorley Run, Ellenwood, GA 30294"
+      text: "Describe the job and paste an address — I’ll auto-fill pricing, labor, and property size (via Regrid), then draft the invoice. Example: mowing quote for 121 Cascade Way, Coppell, TX 75019"
     }
   ]);
   const chatEndRef = useRef(null);
@@ -144,7 +144,7 @@ function App() {
         setAnswer("");
       }
       if (startingNewQuote) setInvoice(null);
-      if (data.invoice || data.result?.invoiceNumber) {
+      if (data.invoice || data.result?.invoiceNumber || data.result?.invoiceId) {
         setInvoice(data.invoice || data.result);
       }
       pushChat("assistant", data.reply, {
@@ -209,75 +209,76 @@ function App() {
   async function runAutoWalkthrough() {
     const message = aiPrompt.trim() || selected?.prompts?.[0] || chatLog.filter(i => i.role === "user").at(-1)?.text;
     if (!message) {
-      setError("Describe the problem first, then run Auto walkthrough.");
+      setError("Describe the problem first, then run Auto fill + invoice.");
       return;
     }
 
     pushChat("user", message);
     setAiPrompt("");
-    pushChat("assistant", "Starting automated AI walkthrough with industry-standard pricing…");
+    pushChat("assistant", "Automating quote: industry rates, Regrid size, and draft invoice…");
 
-    const pricedBusiness = businessWithIndustryPrices();
-    let data = await request(`${API}/ai/start`, {
+    const data = await request(`${API}/ai/assistant`, {
       method: "POST",
       body: JSON.stringify({
-        category: category || undefined,
         message,
+        category: category || undefined,
+        autoGenerate: true,
         start: {
           ...settings,
-          businessSettings: pricedBusiness,
-          prefill: {}
+          businessSettings: businessWithIndustryPrices()
         }
       })
     });
 
-    let workflow = data.workflow;
-    const resolvedCategory = data.category || category;
-    setCategory(resolvedCategory);
-    const categoryDef = getCategory(resolvedCategory);
-    const categoryPrices = getIndustryPrices(resolvedCategory);
-    const autoAnswers = buildAutoAnswers(categoryDef, message, categoryPrices);
-
-    setSession(workflow);
-    setAssistantMessage(data.assistantMessage);
-    pushChat("assistant", data.assistantMessage || `Session created for ${categoryDef?.label || resolvedCategory}.`);
-
-    let guard = 0;
-    while (workflow?.nextQuestion && guard < 40) {
-      guard += 1;
-      const question = workflow.nextQuestion;
-      let value = autoAnswers[question.key];
-      if (value === undefined || value === null || value === "") {
-        if (question.type === "select") value = question.options?.[0];
-        else if (question.type === "number" || question.type === "currency") value = question.example ?? 1;
-        else if (question.type === "object") value = autoAnswers.customer;
-        else if (question.type === "date") value = autoAnswers.requestedDate;
-        else value = question.example || "N/A";
-      }
-
-      const display = typeof value === "object" ? JSON.stringify(value) : String(value);
-      pushChat("user", `${question.question} → ${display}`);
-
-      data = await request(`${API}/ai/chat`, {
-        method: "POST",
-        body: JSON.stringify({
-          sessionId: workflow.sessionId,
-          action: "answer",
-          value,
-          message: display
-        })
-      });
-      workflow = data.workflow;
-      setSession(workflow);
-      setAssistantMessage(data.assistantMessage);
-      if (data.assistantMessage) pushChat("assistant", data.assistantMessage);
+    setAiMeta(data);
+    setAssistantMessage(data.reply);
+    if (data.category) setCategory(data.category);
+    if (data.workflow) setSession(data.workflow);
+    if (data.invoice || data.result?.invoiceNumber || data.result?.invoiceId) {
+      setInvoice(data.invoice || data.result);
     }
 
-    if (workflow && !workflow.nextQuestion) {
-      pushChat("assistant", "Auto walkthrough complete. Review answers, then generate the invoice.");
+    // If the only missing piece is an address, answer it from local auto defaults when possible.
+    let workflow = data.workflow;
+    if (workflow?.nextQuestion) {
+      const categoryDef = getCategory(data.category || category);
+      const autoAnswers = buildAutoAnswers(categoryDef, message, getIndustryPrices(data.category || category));
+      let guard = 0;
+      while (workflow?.nextQuestion && guard < 10) {
+        guard += 1;
+        const question = workflow.nextQuestion;
+        let value = autoAnswers[question.key];
+        if (value === undefined || value === null || value === "") {
+          if (question.type === "select") value = question.options?.[0];
+          else if (question.type === "number" || question.type === "currency") value = question.example ?? 1;
+          else if (question.type === "object") value = autoAnswers.customer;
+          else if (question.type === "date") value = autoAnswers.requestedDate;
+          else value = question.example || autoAnswers.serviceAddress || "123 Peachtree St, Atlanta, GA 30303";
+        }
+        const display = typeof value === "object" ? JSON.stringify(value) : String(value);
+        pushChat("user", `${question.question} → ${display}`);
+        const next = await request(`${API}/ai/assistant`, {
+          method: "POST",
+          body: JSON.stringify({
+            message: display,
+            sessionId: workflow.sessionId,
+            autoGenerate: true,
+            start: settings
+          })
+        });
+        workflow = next.workflow;
+        setSession(workflow);
+        setAssistantMessage(next.reply);
+        if (next.reply) pushChat("assistant", next.reply);
+        if (next.invoice || next.result?.invoiceNumber) {
+          setInvoice(next.invoice || next.result);
+          break;
+        }
+      }
+    } else {
+      pushChat("assistant", data.reply || "Draft invoice ready.");
     }
     setAnswer("");
-    setInvoice(null);
   }
 
   async function submitAnswer() {
@@ -335,7 +336,7 @@ function App() {
     setChatLog([
       {
         role: "assistant",
-        text: "Chat reset. Describe the job or paste an address and I’ll ask questions to build a quote."
+        text: "Chat reset. Describe the job + address and I’ll automate the quote."
       }
     ]);
   }
@@ -481,15 +482,15 @@ function App() {
                 ) : null}
                 <div className="composer-actions">
                   <button className="primary" disabled={busy || !aiPrompt.trim()} onClick={() => sendChatMessage()}>
-                    <MessageSquare size={16} /> {session ? "Send answer" : "Ask AI"}
+                    <MessageSquare size={16} /> {session?.nextQuestion ? "Send answer" : "Build quote"}
                   </button>
-                  {session && !session.nextQuestion && (
+                  {session && !session.nextQuestion && !invoice && (
                     <button className="primary" disabled={busy} onClick={() => sendChatMessage("generate")}>
                       <Receipt size={16} /> Generate quote
                     </button>
                   )}
                   <button className="ghost" disabled={busy} onClick={runAutoWalkthrough}>
-                    <Wand2 size={16} /> Auto walkthrough
+                    <Wand2 size={16} /> Auto fill + invoice
                   </button>
                 </div>
               </div>
@@ -499,7 +500,7 @@ function App() {
               <h3>{selected?.label || "AI quote chatbot"}</h3>
               <p>
                 {selected?.description
-                  || "Type a job or address. The bot asks quote questions one by one, then generates a draft invoice."}
+                  || "Type a job + address. AI fills rates, hours, and materials; Regrid fills property size; invoice drafts automatically."}
               </p>
               <div className="chips">
                 {(selected?.apis || aiMeta?.recommendedApis || []).map(api => <span key={api}>{api}</span>)}
@@ -535,31 +536,49 @@ function App() {
                 <>
                   <div className="progress">
                     <span>{session.categoryLabel}</span>
-                    <span>{Math.min(session.progress.currentIndex + 1, session.progress.total)} / {session.progress.total}</span>
+                    <span>
+                      {(session.progress.askableAnswered ?? session.progress.answered)} /
+                      {" "}
+                      {(session.progress.askableTotal ?? session.progress.total)} asked
+                    </span>
                   </div>
                   <div className="bar">
-                    <i style={{ width: `${Math.min(100, (session.progress.currentIndex / Math.max(1, session.progress.total)) * 100)}%` }} />
+                    <i style={{
+                      width: `${Math.min(100, ((session.progress.askableAnswered ?? session.progress.currentIndex) / Math.max(1, session.progress.askableTotal ?? session.progress.total)) * 100)}%`
+                    }} />
                   </div>
 
                   {current ? (
                     <>
-                      <span className="step">NEXT QUESTION</span>
+                      <span className="step">ONLY NEED THIS</span>
                       <h2>{current.question}</h2>
+                      <p className="save-note">Everything else (rates, hours, materials, property type) is auto-filled.</p>
                       <QuestionInput question={current} value={answer} setValue={setAnswer} />
                       <button className="primary" onClick={submitAnswer} disabled={busy || answer === ""}>
-                        Save answer <ChevronRight size={18} />
+                        Save & continue <ChevronRight size={18} />
                       </button>
                     </>
                   ) : (
                     <>
-                      <span className="step success">READY</span>
-                      <h2>Walkthrough complete</h2>
-                      <p>Answers were filled with industry-standard pricing assumptions. Generate the invoice when ready.</p>
-                      <button className="primary" onClick={makeInvoice} disabled={busy}>
-                        <Receipt size={18} /> Generate detailed invoice
-                      </button>
+                      <span className="step success">{invoice ? "INVOICE READY" : "READY"}</span>
+                      <h2>{invoice ? "Draft invoice created" : "Automation complete"}</h2>
+                      <p>Industry rates, crew, hours, and Regrid measurements were applied automatically.</p>
+                      {!invoice && (
+                        <button className="primary" onClick={makeInvoice} disabled={busy}>
+                          <Receipt size={18} /> Generate detailed invoice
+                        </button>
+                      )}
                     </>
                   )}
+
+                  {session.autoFilled?.length ? (
+                    <>
+                      <h3>Auto-filled</h3>
+                      <div className="chips">
+                        {session.autoFilled.map(key => <span key={key}>{key}</span>)}
+                      </div>
+                    </>
+                  ) : null}
 
                   <h3>Collected answers</h3>
                   <pre>{JSON.stringify(session.answers, null, 2)}</pre>

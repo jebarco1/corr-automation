@@ -6,9 +6,9 @@ export const categories = [
     description: "Lawn care, grounds maintenance, mowing, mulch, and outdoor service estimates.",
     apis: ["mowable-area", "labor", "landscaping-estimate"],
     prompts: [
-      "Weekly mowing for a 8,000 sqft residential lawn",
-      "Spring cleanup and mulch install for an HOA entrance",
-      "Commercial grounds maintenance quote"
+      "Mowing quote for 121 Cascade Way, Coppell, TX 75019",
+      "Spring cleanup and mulch at 123 Peachtree St, Atlanta, GA 30303",
+      "Commercial grounds maintenance quote for an Atlanta office"
     ],
     questions: [
       { key: "customer", question: "Who is the customer?", type: "object", required: true, example: { name: "Taylor Smith", email: "taylor@example.com", phone: "404-555-0199" } },
