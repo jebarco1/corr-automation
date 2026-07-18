@@ -14,6 +14,9 @@
 .bubble p{margin:0;color:inherit}
 .bubble.assistant{align-self:flex-start;background:#163d27;color:#edf7f0}
 .bubble.user{align-self:flex-end;background:#dff5c8;color:#173222}
+.bubble.typing{opacity:.85}
+.bubble-meta{display:block;margin-top:8px;opacity:.7;font-size:11px}
+.bubble p{white-space:pre-wrap}
 .chat-composer{border-top:1px solid #e5eee8;padding-top:14px}
 .prompt-row{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 12px}
 .prompt-chip.mini{padding:8px 10px;font-size:12px;border-radius:999px}

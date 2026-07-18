@@ -33,7 +33,7 @@ function Field({ label, value, onChange, type = "text", placeholder }) {
 
 function App() {
   const [tab, setTab] = useState("workflow");
-  const [category, setCategory] = useState(categories[0]?.category || "");
+  const [category, setCategory] = useState("");
   const [business, setBusiness] = useState(defaultBusiness);
   const [settings, setSettings] = useState(defaultStart);
   const [session, setSession] = useState(null);
@@ -41,12 +41,14 @@ function App() {
   const [invoice, setInvoice] = useState(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-  const [aiPrompt, setAiPrompt] = useState(categories[0]?.prompts?.[0] || "");
+  const [aiPrompt, setAiPrompt] = useState("");
   const [assistantMessage, setAssistantMessage] = useState("");
+  const [aiMeta, setAiMeta] = useState(null);
+  const [aiStatus, setAiStatus] = useState(null);
   const [chatLog, setChatLog] = useState([
     {
       role: "assistant",
-      text: "Choose a category, review industry-standard prices, then describe the job. Use Auto walkthrough to fill answers with market rates."
+      text: "Describe your service problem and I’ll respond with AI guidance, category detection, and industry-standard pricing. You can also run Auto walkthrough for a full quote."
     }
   ]);
   const chatEndRef = useRef(null);
@@ -63,8 +65,15 @@ function App() {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatLog, session, assistantMessage]);
 
-  function pushChat(role, text) {
-    setChatLog(prev => [...prev, { role, text }]);
+  useEffect(() => {
+    fetch(`${API}/ai/status`)
+      .then(r => r.json())
+      .then(setAiStatus)
+      .catch(() => setAiStatus({ enabled: false }));
+  }, []);
+
+  function pushChat(role, text, meta = null) {
+    setChatLog(prev => [...prev, { role, text, meta }]);
   }
 
   async function request(url, options = {}) {
@@ -89,10 +98,56 @@ function App() {
   function onCategoryChange(nextCategory) {
     setCategory(nextCategory);
     const next = getCategory(nextCategory);
-    setAiPrompt(next?.prompts?.[0] || "");
     setInvoice(null);
     setSession(null);
-    pushChat("assistant", `Switched to ${next?.label || nextCategory}. Industry-standard pricing for ${defaultMarketArea} is ready. Describe the job or run Auto walkthrough.`);
+    if (nextCategory) {
+      pushChat("assistant", `Category set to ${next?.label || nextCategory}. Type your problem and send it to AI, or run Auto walkthrough.`);
+    } else {
+      pushChat("assistant", "Auto-detect is on. Describe the problem and AI will pick the category.");
+    }
+  }
+
+  async function sendChatMessage() {
+    const message = aiPrompt.trim();
+    if (!message) {
+      setError("Type a problem or question for the AI chatbot.");
+      return;
+    }
+    const history = chatLog
+      .filter(item => item.role === "user" || item.role === "assistant")
+      .slice(-10)
+      .map(item => ({ role: item.role, content: item.text }));
+
+    pushChat("user", message);
+    setAiPrompt("");
+
+    try {
+      const data = await request(`${API}/ai/assistant`, {
+        method: "POST",
+        body: JSON.stringify({
+          message,
+          category: category || undefined,
+          history
+        })
+      });
+      setAiMeta(data);
+      setAssistantMessage(data.reply);
+      if (data.category) setCategory(data.category);
+      pushChat("assistant", data.reply, {
+        mode: data.mode,
+        category: data.categoryLabel || data.category,
+        actions: data.suggestedActions
+      });
+    } catch {
+      // error banner already set by request()
+    }
+  }
+
+  function onComposerKeyDown(event) {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      if (!busy) sendChatMessage();
+    }
   }
 
   function businessWithIndustryPrices() {
@@ -109,16 +164,17 @@ function App() {
   }
 
   async function startManual() {
-    if (!category) {
-      setError("Select a service category to continue.");
+    const message = aiPrompt.trim() || selected?.prompts?.[0] || chatLog.filter(i => i.role === "user").at(-1)?.text;
+    if (!message) {
+      setError("Describe the problem first, then start a guided quote.");
       return;
     }
-    const message = aiPrompt.trim() || selected.prompts[0];
     pushChat("user", message);
+    setAiPrompt("");
     const data = await request(`${API}/ai/start`, {
       method: "POST",
       body: JSON.stringify({
-        category,
+        category: category || undefined,
         message,
         start: {
           ...settings,
@@ -136,20 +192,21 @@ function App() {
   }
 
   async function runAutoWalkthrough() {
-    if (!category || !selected) {
-      setError("Select a service category to continue.");
+    const message = aiPrompt.trim() || selected?.prompts?.[0] || chatLog.filter(i => i.role === "user").at(-1)?.text;
+    if (!message) {
+      setError("Describe the problem first, then run Auto walkthrough.");
       return;
     }
-    const message = aiPrompt.trim() || selected.prompts[0];
-    const autoAnswers = buildAutoAnswers(selected, message, prices);
+
     pushChat("user", message);
-    pushChat("assistant", `Starting auto walkthrough for ${selected.label} using industry-standard rates (base market: ${defaultMarketArea}).`);
+    setAiPrompt("");
+    pushChat("assistant", "Starting automated AI walkthrough with industry-standard pricing…");
 
     const pricedBusiness = businessWithIndustryPrices();
     let data = await request(`${API}/ai/start`, {
       method: "POST",
       body: JSON.stringify({
-        category,
+        category: category || undefined,
         message,
         start: {
           ...settings,
@@ -160,11 +217,16 @@ function App() {
     });
 
     let workflow = data.workflow;
+    const resolvedCategory = data.category || category;
+    setCategory(resolvedCategory);
+    const categoryDef = getCategory(resolvedCategory);
+    const categoryPrices = getIndustryPrices(resolvedCategory);
+    const autoAnswers = buildAutoAnswers(categoryDef, message, categoryPrices);
+
     setSession(workflow);
     setAssistantMessage(data.assistantMessage);
-    pushChat("assistant", data.assistantMessage || "Session created.");
+    pushChat("assistant", data.assistantMessage || `Session created for ${categoryDef?.label || resolvedCategory}.`);
 
-    // Auto-answer each question with industry-standard / inferred values.
     let guard = 0;
     while (workflow?.nextQuestion && guard < 40) {
       guard += 1;
@@ -197,7 +259,7 @@ function App() {
     }
 
     if (workflow && !workflow.nextQuestion) {
-      pushChat("assistant", "Auto walkthrough complete using industry-standard pricing. Review answers, then generate the invoice.");
+      pushChat("assistant", "Auto walkthrough complete. Review answers, then generate the invoice.");
     }
     setAnswer("");
     setInvoice(null);
@@ -252,10 +314,13 @@ function App() {
     setAnswer("");
     setError("");
     setAssistantMessage("");
+    setAiMeta(null);
+    setAiPrompt("");
+    setCategory("");
     setChatLog([
       {
         role: "assistant",
-        text: "Walkthrough reset. Choose a category and describe the job, or run Auto walkthrough with industry-standard prices."
+        text: "Chat reset. Type a problem and send it to AI, or run Auto walkthrough for a full quote."
       }
     ]);
   }
@@ -272,7 +337,7 @@ function App() {
         </div>
         <nav>
           {[
-            ["workflow", MessageSquare, "Chat Quote"],
+            ["workflow", MessageSquare, "AI Chat"],
             ["workflows", Workflow, "Workflows"],
             ["settings", Settings2, "Business Setup"],
             ["docs", BookOpen, "Documentation"]
@@ -283,7 +348,7 @@ function App() {
             </button>
           ))}
         </nav>
-        <div className="aside-note">Workflows ask AI for industry-standard rates and update pricing JSON. Chat Quote uses local category prompts. OpenAI runs from server OPENAI_API_KEY.</div>
+        <div className="aside-note">Home chatbot sends problems to OpenAI via /api/v1/ai/assistant. Workflows update industry pricing JSON. Set OPENAI_API_KEY in server .env.</div>
       </aside>
 
       <main>
@@ -292,7 +357,7 @@ function App() {
             <p className="eyebrow">MULTI-INDUSTRY OPERATIONS</p>
             <h1>
               {tab === "workflow"
-                ? "Chat quote walkthrough"
+                ? "AI service chatbot"
                 : tab === "workflows"
                   ? "Pricing workflows"
                   : tab === "settings"
@@ -303,7 +368,7 @@ function App() {
           {(session || chatLog.length > 1) && tab === "workflow" && (
             <button className="ghost" onClick={reset}>
               <RotateCcw size={16} />
-              New quote
+              New chat
             </button>
           )}
         </header>
@@ -315,15 +380,18 @@ function App() {
             <div className="card chat-panel">
               <div className="chat-toolbar">
                 <label className="field compact">
-                  <span>Category</span>
+                  <span>Category hint</span>
                   <select value={category} onChange={e => onCategoryChange(e.target.value)}>
+                    <option value="">Auto-detect with AI</option>
                     {categories.map(item => (
                       <option value={item.category} key={item.category}>{item.label}</option>
                     ))}
                   </select>
                 </label>
                 <div className="toolbar-meta">
-                  <span className="step">INDUSTRY RATES</span>
+                  <span className={`step ${aiStatus?.enabled ? "success" : ""}`}>
+                    {aiStatus?.enabled ? `AI ON · ${aiStatus.model || "openai"}` : "AI FALLBACK"}
+                  </span>
                   <strong>{defaultMarketArea}</strong>
                 </div>
               </div>
@@ -342,54 +410,84 @@ function App() {
               <div className="chat-window">
                 {chatLog.map((item, index) => (
                   <div className={`bubble ${item.role}`} key={`${item.role}-${index}`}>
-                    <strong>{item.role === "user" ? "You" : "HA-Corr"}</strong>
+                    <strong>{item.role === "user" ? "You" : "HA-Corr AI"}</strong>
                     <p>{item.text}</p>
+                    {item.meta?.mode && (
+                      <small className="bubble-meta">
+                        {item.meta.mode}{item.meta.category ? ` · ${item.meta.category}` : ""}
+                      </small>
+                    )}
                   </div>
                 ))}
+                {busy && (
+                  <div className="bubble assistant typing">
+                    <strong>HA-Corr AI</strong>
+                    <p>Thinking…</p>
+                  </div>
+                )}
                 <div ref={chatEndRef} />
               </div>
 
               <div className="chat-composer">
                 <label className="field">
-                  <span>Chat prompt</span>
+                  <span>Describe the problem</span>
                   <textarea
                     rows="3"
                     value={aiPrompt}
                     onChange={e => setAiPrompt(e.target.value)}
-                    placeholder={selected ? `Example: ${selected.prompts[0]}` : "Describe the job..."}
+                    onKeyDown={onComposerKeyDown}
+                    placeholder={selected ? `Example: ${selected.prompts[0]}` : "Example: My upstairs AC runs but does not cool"}
                   />
                 </label>
-                {selected && (
-                  <div className="prompt-row">
-                    {selected.prompts.map(prompt => (
-                      <button type="button" className="prompt-chip mini" key={prompt} onClick={() => setAiPrompt(prompt)}>
-                        <Sparkles size={14} />
-                        {prompt}
-                      </button>
-                    ))}
-                  </div>
-                )}
+                <div className="prompt-row">
+                  {(selected?.prompts || categories[0].prompts).map(prompt => (
+                    <button type="button" className="prompt-chip mini" key={prompt} onClick={() => setAiPrompt(prompt)}>
+                      <Sparkles size={14} />
+                      {prompt}
+                    </button>
+                  ))}
+                </div>
                 <div className="composer-actions">
-                  <button className="ghost" disabled={busy || !category} onClick={startManual}>
-                    Start chat <ChevronRight size={16} />
+                  <button className="primary" disabled={busy || !aiPrompt.trim()} onClick={sendChatMessage}>
+                    <MessageSquare size={16} /> Ask AI
                   </button>
-                  <button className="primary" disabled={busy || !category} onClick={runAutoWalkthrough}>
+                  <button className="ghost" disabled={busy} onClick={runAutoWalkthrough}>
                     <Wand2 size={16} /> Auto walkthrough
+                  </button>
+                  <button className="ghost" disabled={busy} onClick={startManual}>
+                    Guided quote <ChevronRight size={16} />
                   </button>
                 </div>
               </div>
             </div>
 
             <div className="card side-panel">
-              <h3>{selected?.label || "Category"} overview</h3>
-              <p>{selected?.description}</p>
+              <h3>{selected?.label || "AI chatbot"}</h3>
+              <p>
+                {selected?.description
+                  || "Type any field-service problem. The chatbot calls /api/v1/ai/assistant, detects the trade, and responds with next steps plus industry pricing context."}
+              </p>
               <div className="chips">
-                {selected?.apis?.map(api => <span key={api}>{api}</span>)}
+                {(selected?.apis || aiMeta?.recommendedApis || []).map(api => <span key={api}>{api}</span>)}
               </div>
 
-              {!session && (
+              {aiMeta && !session && (
                 <>
-                  <h3>Auto walkthrough uses</h3>
+                  <h3>Last AI response</h3>
+                  <dl className="mini-dl">
+                    <div><dt>Mode</dt><dd>{aiMeta.mode}</dd></div>
+                    <div><dt>Category</dt><dd>{aiMeta.categoryLabel || aiMeta.category || "—"}</dd></div>
+                    <div><dt>Hourly</dt><dd>{aiMeta.pricing?.unitPrices?.hourlyRate != null ? `$${aiMeta.pricing.unitPrices.hourlyRate}` : "—"}</dd></div>
+                  </dl>
+                  <div className="chips">
+                    {(aiMeta.suggestedActions || []).map(action => <span key={action}>{action}</span>)}
+                  </div>
+                </>
+              )}
+
+              {!session && selected && (
+                <>
+                  <h3>Industry rates</h3>
                   <dl className="mini-dl">
                     <div><dt>Market</dt><dd>{defaultMarketArea}</dd></div>
                     <div><dt>Hourly</dt><dd>${prices.hourlyRate || "—"}</dd></div>
@@ -574,10 +672,10 @@ function Docs() {
       </div>
       <div className="card">
         <FileText />
-        <h2>Landing chat</h2>
-        <code>Category dropdown (local)</code>
-        <code>Industry-standard prices (local)</code>
-        <code>Auto walkthrough → /api/v1/ai/*</code>
+        <h2>Home AI chatbot</h2>
+        <code>POST /api/v1/ai/assistant</code>
+        <code>Type a problem → AI reply</code>
+        <code>Auto walkthrough → /api/v1/ai/start</code>
       </div>
       <div className="card">
         <Play />

@@ -150,13 +150,20 @@ npm run key:generate
 
 Place it in `.env` as `CORR_CLIENT_API_KEYS`. Multiple keys may be comma-separated. React and external callers send the selected key in `X-API-Key`. Store the OpenAI secret only in the server `.env` as `OPENAI_API_KEY`.
 
-Start a workflow through AI:
+Homepage AI chatbot (type a problem → get a reply):
+
+```bash
+curl -X POST http://localhost:3000/api/v1/ai/assistant \
+  -H "Content-Type: application/json" \
+  -d '{"message":"My upstairs AC runs but does not cool"}'
+```
+
+Start a guided quote workflow through AI:
 
 ```bash
 curl -X POST http://localhost:3000/api/v1/ai/start \
   -H "Content-Type: application/json" \
-  -H "X-API-Key: corr_your_generated_key" \
   -d '{"message":"The upstairs HVAC runs but does not cool","start":{"taxRate":8.9}}'
 ```
 
-Continue the conversation with `POST /api/v1/ai/chat`. The AI selects a category, recommends the appropriate internal APIs, starts the guided workflow, and returns the next question. Invoice creation remains deterministic and requires the `invoice` action.
+Continue the guided workflow with `POST /api/v1/ai/chat`. The assistant chatbot uses OpenAI when `OPENAI_API_KEY` is set and falls back to local category/pricing guidance otherwise.

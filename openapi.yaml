@@ -13968,6 +13968,52 @@ paths:
       responses:
         '200':
           description: AI status
+  /api/v1/ai/assistant:
+    post:
+      tags:
+      - AI Orchestrator
+      summary: Homepage AI chatbot — send a problem and get an AI response
+      description: Freeform chatbot endpoint. Accepts a user problem/message, optional
+        category hint and conversation history, calls OpenAI (or local fallback), and
+        returns a reply plus detected category and industry pricing context.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - message
+              properties:
+                message:
+                  type: string
+                  example: My upstairs AC runs but does not cool
+                category:
+                  type: string
+                  nullable: true
+                history:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      role:
+                        type: string
+                        enum:
+                        - user
+                        - assistant
+                      content:
+                        type: string
+                skipLlm:
+                  type: boolean
+            example:
+              message: Kitchen drain is clogged and backing up
+              category: null
+              history: []
+      responses:
+        '200':
+          description: AI chatbot reply
+        '400':
+          description: Missing message
   /api/v1/ai/start:
     post:
       tags:
