@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { BookOpen, Building2, ChevronRight, FileText, MessageSquare, Play, Receipt, RotateCcw, Settings2, Sparkles, Wand2, Workflow } from "lucide-react";
+import { BookOpen, Building2, ChevronRight, FileText, MessageSquare, Play, Receipt, RotateCcw, Settings2, Sparkles, Wand2, Workflow, Bot } from "lucide-react";
 import { categories, getCategory } from "./categoryCatalog.js";
 import { buildAutoAnswers, defaultMarketArea, formatPriceLabel, getIndustryPrices } from "./industryPrices.js";
 import WorkflowsPanel from "./WorkflowsPanel.jsx";
+import AutopilotDemo from "./AutopilotDemo.jsx";
 import "./styles.css";
 
 const API = "/api/v1";
@@ -32,7 +33,7 @@ function Field({ label, value, onChange, type = "text", placeholder }) {
 }
 
 function App() {
-  const [tab, setTab] = useState("workflow");
+  const [tab, setTab] = useState("autopilot");
   const [category, setCategory] = useState("");
   const [business, setBusiness] = useState(defaultBusiness);
   const [settings, setSettings] = useState(defaultStart);
@@ -402,6 +403,7 @@ function App() {
         </div>
         <nav>
           {[
+            ["autopilot", Bot, "Autopilot"],
             ["workflow", MessageSquare, "AI Chat"],
             ["workflows", Workflow, "Workflows"],
             ["settings", Settings2, "Business Setup"],
@@ -413,7 +415,7 @@ function App() {
             </button>
           ))}
         </nav>
-        <div className="aside-note">Home chatbot sends problems to OpenAI via /api/v1/ai/assistant. Workflows update industry pricing JSON. Set OPENAI_API_KEY in server .env.</div>
+        <div className="aside-note">Autopilot is a live simulation of hunt → quote → schedule → pay for one category. AI Chat and Workflows hit real APIs when keys are set.</div>
       </aside>
 
       <main>
@@ -421,13 +423,15 @@ function App() {
           <div>
             <p className="eyebrow">MULTI-INDUSTRY OPERATIONS</p>
             <h1>
-              {tab === "workflow"
-                ? "AI service chatbot"
-                : tab === "workflows"
-                  ? "Pricing workflows"
-                  : tab === "settings"
-                    ? "Business pricing setup"
-                    : "API documentation"}
+              {tab === "autopilot"
+                ? "Business autopilot demo"
+                : tab === "workflow"
+                  ? "AI service chatbot"
+                  : tab === "workflows"
+                    ? "Pricing workflows"
+                    : tab === "settings"
+                      ? "Business pricing setup"
+                      : "API documentation"}
             </h1>
           </div>
           {(session || chatLog.length > 1) && tab === "workflow" && (
@@ -439,6 +443,8 @@ function App() {
         </header>
 
         {error && <div className="error">{error}</div>}
+
+        {tab === "autopilot" && <AutopilotDemo />}
 
         {tab === "workflow" && (
           <section className="grid landing">

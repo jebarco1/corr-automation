@@ -161,7 +161,7 @@ npm install
 npm run dev
 ```
 
-Open the home page at `http://localhost:3000/` — type a problem in the AI chatbot (calls `/api/v1/ai/assistant`). Category prompts are local; OpenAI uses `OPENAI_API_KEY` from your local `.env` only.
+Open the home page at `http://localhost:3000/` — the **Autopilot** tab runs a live simulation of hunt → quote → schedule → pay for one category (no provider spend). The AI chatbot tab calls `/api/v1/ai/assistant`. Category prompts are local; OpenAI uses `OPENAI_API_KEY` from your local `.env` only.
 
 Open Swagger at `http://localhost:3000/docs`. Raw OpenAPI: `http://localhost:3000/openapi.yaml`.
 
