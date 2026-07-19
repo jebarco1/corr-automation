@@ -48,9 +48,13 @@ function App() {
   const [chatLog, setChatLog] = useState([
     {
       role: "assistant",
-      text: "Describe the job and paste an address — I’ll auto-fill pricing, labor, and property size (via Regrid), then draft the invoice. Example: mowing quote for 121 Cascade Way, Coppell, TX 75019"
+      text: "Choose a category to load its service catalog. Then pick a service, paste the address for parcel details, and I’ll finish the quote."
     }
   ]);
+  const [offeredServices, setOfferedServices] = useState([]);
+  const [selectedService, setSelectedService] = useState(null);
+  const [parcel, setParcel] = useState(null);
+  const [quoteStage, setQuoteStage] = useState(null);
   const chatEndRef = useRef(null);
 
   const selected = useMemo(() => getCategory(category), [category]);
@@ -95,22 +99,79 @@ function App() {
     }
   }
 
-  function onCategoryChange(nextCategory) {
+  function applyAssistantPayload(data, { resetInvoice = false } = {}) {
+    setAiMeta(data);
+    setAssistantMessage(data.reply);
+    setQuoteStage(data.stage || null);
+    setOfferedServices(data.offeredServices || []);
+    setSelectedService(data.selectedService || null);
+    setParcel(data.parcel || null);
+    if (data.category) setCategory(data.category);
+    if (data.workflow) {
+      setSession(data.workflow);
+      setAnswer("");
+    }
+    if (resetInvoice) setInvoice(null);
+    if (data.invoice || data.result?.invoiceNumber || data.result?.invoiceId) {
+      setInvoice(data.invoice || data.result);
+    }
+    pushChat("assistant", data.reply, {
+      mode: data.mode,
+      stage: data.stage,
+      category: data.categoryLabel || data.category,
+      actions: data.suggestedActions,
+      nextQuestion: data.nextQuestion || data.workflow?.nextQuestion || null,
+      services: data.offeredServices || null,
+      parcel: data.parcel || null
+    });
+  }
+
+  async function onCategoryChange(nextCategory) {
     setCategory(nextCategory);
-    const next = getCategory(nextCategory);
     setInvoice(null);
     setSession(null);
-    if (nextCategory) {
-      pushChat("assistant", `Category set to ${next?.label || nextCategory}. Type your problem and send it to AI, or run Auto walkthrough.`);
-    } else {
-      pushChat("assistant", "Auto-detect is on. Describe the problem and AI will pick the category.");
+    setOfferedServices([]);
+    setSelectedService(null);
+    setParcel(null);
+    setQuoteStage(null);
+    if (!nextCategory) {
+      pushChat("assistant", "Pick a category to load its service catalog JSON, or describe the job for auto-detect.");
+      return;
+    }
+    const next = getCategory(nextCategory);
+    const categoryPrices = getIndustryPrices(nextCategory);
+    pushChat("user", `Category: ${next?.label || nextCategory}`);
+    try {
+      const data = await request(`${API}/ai/assistant`, {
+        method: "POST",
+        body: JSON.stringify({
+          message: "start",
+          category: nextCategory,
+          start: {
+            ...settings,
+            businessSettings: {
+              ...business,
+              defaultCrewSize: categoryPrices.defaultCrewSize || business.defaultCrewSize,
+              unitPrices: {
+                ...business.unitPrices,
+                hourlyRate: categoryPrices.hourlyRate || business.unitPrices.hourlyRate,
+                materialCost: categoryPrices.materialCost || business.unitPrices.materialCost || 0,
+                disposalCost: categoryPrices.disposalCost || business.unitPrices.disposalCost || 0
+              }
+            }
+          }
+        })
+      });
+      applyAssistantPayload(data, { resetInvoice: true });
+    } catch {
+      // error banner already set by request()
     }
   }
 
   async function sendChatMessage(overrideMessage) {
     const message = String(overrideMessage ?? aiPrompt).trim();
     if (!message) {
-      setError("Type a problem or answer for the AI chatbot.");
+      setError(category ? "Pick a service, paste an address, or type an answer." : "Choose a category or describe the job.");
       return;
     }
     const history = chatLog
@@ -136,23 +197,7 @@ function App() {
           }
         })
       });
-      setAiMeta(data);
-      setAssistantMessage(data.reply);
-      if (data.category) setCategory(data.category);
-      if (data.workflow) {
-        setSession(data.workflow);
-        setAnswer("");
-      }
-      if (startingNewQuote) setInvoice(null);
-      if (data.invoice || data.result?.invoiceNumber || data.result?.invoiceId) {
-        setInvoice(data.invoice || data.result);
-      }
-      pushChat("assistant", data.reply, {
-        mode: data.mode,
-        category: data.categoryLabel || data.category,
-        actions: data.suggestedActions,
-        nextQuestion: data.nextQuestion || data.workflow?.nextQuestion || null
-      });
+      applyAssistantPayload(data, { resetInvoice: startingNewQuote });
     } catch {
       // error banner already set by request()
     }
@@ -333,10 +378,14 @@ function App() {
     setAiMeta(null);
     setAiPrompt("");
     setCategory("");
+    setOfferedServices([]);
+    setSelectedService(null);
+    setParcel(null);
+    setQuoteStage(null);
     setChatLog([
       {
         role: "assistant",
-        text: "Chat reset. Describe the job + address and I’ll automate the quote."
+        text: "Chat reset. Choose a category to load services from its JSON catalog."
       }
     ]);
   }
@@ -396,9 +445,9 @@ function App() {
             <div className="card chat-panel">
               <div className="chat-toolbar">
                 <label className="field compact">
-                  <span>Category hint</span>
+                  <span>Category</span>
                   <select value={category} onChange={e => onCategoryChange(e.target.value)}>
-                    <option value="">Auto-detect with AI</option>
+                    <option value="">Select category…</option>
                     {categories.map(item => (
                       <option value={item.category} key={item.category}>{item.label}</option>
                     ))}
@@ -446,20 +495,47 @@ function App() {
 
               <div className="chat-composer">
                 <label className="field">
-                  <span>{session?.nextQuestion ? "Your answer" : "Describe the job / address"}</span>
+                  <span>
+                    {quoteStage === "pick-service"
+                      ? "Pick a service (number or name)"
+                      : quoteStage === "need-address"
+                        ? "Paste the service address"
+                        : session?.nextQuestion
+                          ? "Your answer"
+                          : "Describe the job / address"}
+                  </span>
                   <textarea
                     rows="3"
                     value={aiPrompt}
                     onChange={e => setAiPrompt(e.target.value)}
                     onKeyDown={onComposerKeyDown}
                     placeholder={
-                      session?.nextQuestion
-                        ? (session.nextQuestion.options?.join(", ") || session.nextQuestion.example?.toString() || "Type your answer…")
-                        : "Example: get quote for 121 Chorley Run, Ellenwood, GA 30294"
+                      quoteStage === "need-address"
+                        ? "121 Cascade Way, Coppell, TX 75019"
+                        : quoteStage === "pick-service"
+                          ? "Example: 1 or Lawn Mowing"
+                          : session?.nextQuestion
+                            ? (session.nextQuestion.options?.join(", ") || session.nextQuestion.example?.toString() || "Type your answer…")
+                            : "Choose a category first, or describe the job"
                     }
                   />
                 </label>
-                {session?.nextQuestion?.options?.length ? (
+                {offeredServices.length > 0 && quoteStage === "pick-service" ? (
+                  <div className="prompt-row">
+                    {offeredServices.slice(0, 12).map(service => (
+                      <button
+                        type="button"
+                        className="prompt-chip mini"
+                        key={service.id}
+                        disabled={busy}
+                        onClick={() => sendChatMessage(String(service.index))}
+                        title={service.description}
+                      >
+                        {service.index}. {service.name}
+                      </button>
+                    ))}
+                  </div>
+                ) : session?.nextQuestion?.options?.length ? (
                   <div className="prompt-row">
                     {session.nextQuestion.options.map(option => (
                       <button type="button" className="prompt-chip mini" key={option} disabled={busy} onClick={() => sendChatMessage(option)}>
@@ -470,7 +546,7 @@ function App() {
                 ) : !session ? (
                   <div className="prompt-row">
                     {(selected?.prompts || [
-                      "get quote for 121 Chorley Run, Ellenwood, GA 30294",
+                      "mowing quote for 121 Cascade Way, Coppell, TX 75019",
                       ...categories[0].prompts
                     ]).slice(0, 3).map(prompt => (
                       <button type="button" className="prompt-chip mini" key={prompt} onClick={() => setAiPrompt(prompt)}>
@@ -482,9 +558,14 @@ function App() {
                 ) : null}
                 <div className="composer-actions">
                   <button className="primary" disabled={busy || !aiPrompt.trim()} onClick={() => sendChatMessage()}>
-                    <MessageSquare size={16} /> {session?.nextQuestion ? "Send answer" : "Build quote"}
+                    <MessageSquare size={16} /> {
+                      quoteStage === "pick-service" ? "Choose service"
+                        : quoteStage === "need-address" ? "Load parcel"
+                          : session?.nextQuestion ? "Send answer"
+                            : "Continue"
+                    }
                   </button>
-                  {session && !session.nextQuestion && !invoice && (
+                  {session && !session.nextQuestion && !invoice && quoteStage !== "pick-service" && (
                     <button className="primary" disabled={busy} onClick={() => sendChatMessage("generate")}>
                       <Receipt size={16} /> Generate quote
                     </button>
@@ -500,8 +581,33 @@ function App() {
               <h3>{selected?.label || "AI quote chatbot"}</h3>
               <p>
                 {selected?.description
-                  || "Type a job + address. AI fills rates, hours, and materials; Regrid fills property size; invoice drafts automatically."}
+                  || "Flow: category → services from JSON → parcel by address → quote questions / invoice."}
               </p>
+              {quoteStage && (
+                <p className="save-note">Stage: <strong>{quoteStage}</strong>{selectedService ? ` · ${selectedService.name}` : ""}</p>
+              )}
+              {parcel && (
+                <>
+                  <h3>Parcel information</h3>
+                  <dl className="mini-dl">
+                    <div><dt>Address</dt><dd>{parcel.address || "—"}</dd></div>
+                    <div><dt>Area</dt><dd>{parcel.squareFeet != null ? `${Number(parcel.squareFeet).toLocaleString()} sqft` : (parcel.error || "—")}</dd></div>
+                    <div><dt>Acres</dt><dd>{parcel.acres ?? "—"}</dd></div>
+                    <div><dt>Building</dt><dd>{parcel.buildingSquareFeet != null ? `${Number(parcel.buildingSquareFeet).toLocaleString()} sqft` : "—"}</dd></div>
+                    <div><dt>Parcel ID</dt><dd>{parcel.parcelId || "—"}</dd></div>
+                  </dl>
+                </>
+              )}
+              {offeredServices.length > 0 && quoteStage === "pick-service" && (
+                <>
+                  <h3>Catalog services ({offeredServices.length})</h3>
+                  <div className="chips">
+                    {offeredServices.slice(0, 16).map(service => (
+                      <span key={service.id}>{service.index}. {service.name}</span>
+                    ))}
+                  </div>
+                </>
+              )}
               <div className="chips">
                 {(selected?.apis || aiMeta?.recommendedApis || []).map(api => <span key={api}>{api}</span>)}
               </div>
