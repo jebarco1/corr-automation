@@ -30,7 +30,7 @@ const CATEGORY_EXPANSION = {
   transportation: ["same-day delivery", "white-glove moving", "materials haul for trades", "recurring B2B routes"],
   healthcare: ["physician house calls", "chronic care management", "private duty shifts", "post-acute follow-up"],
   "bakery-food": ["wholesale cafe program", "wedding dessert tables", "corporate breakfast routes", "allergen-friendly specialty"],
-  "law-office": ["business formation packages", "monthly GC retainer", "estate planning clinics", "real estate closing desk"]
+  "law-office": ["business formation packages", "monthly GC retainer", "estate planning clinics", "real estate closing desk", "divorce retainer packages"]
 };
 
 function money(value) {

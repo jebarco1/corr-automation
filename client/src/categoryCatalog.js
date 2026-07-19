@@ -276,11 +276,11 @@ export const categories = [
   {
     category: "law-office",
     label: "Law Office",
-    description: "Consultations, document review/drafting, retainers, court appearances, and small-business legal packages.",
+    description: "Consultations, document review/drafting, retainers, divorce/family matters, court appearances, and small-business legal packages.",
     apis: ["law-office-matter-profile", "law-office-consultation-estimate", "law-office-document-estimate", "law-office-retainer-estimate", "law-office-appearance-estimate"],
     prompts: [
       "Contract review for a vendor agreement",
-      "Business formation package for a new LLC",
+      "Divorce retainer and filings support",
       "Estate planning consult and basic will package"
     ],
     questions: [
@@ -288,7 +288,7 @@ export const categories = [
       { key: "serviceAddress", question: "What is the primary client or matter address?", type: "string", required: true },
       { key: "propertyType", question: "What type of property/context is this?", type: "select", options: ["residential", "commercial", "hoa", "multi-family", "industrial"], required: true },
       { key: "practiceArea", question: "What practice area applies?", type: "select", options: ["business", "contracts", "employment", "real estate", "estate planning", "family", "collections", "intellectual property", "general counsel"], required: true, api: "law-office-matter-profile" },
-      { key: "serviceType", question: "Which legal service is needed?", type: "select", options: ["initial consultation", "document review", "contract drafting", "retainer block", "business formation", "employment advisory", "real estate closing", "estate planning", "court appearance", "demand letter", "compliance audit"], required: true },
+      { key: "serviceType", question: "Which legal service is needed?", type: "select", options: ["initial consultation", "document review", "contract drafting", "retainer block", "business formation", "employment advisory", "real estate closing", "estate planning", "divorce", "family matter", "court appearance", "demand letter", "compliance audit"], required: true },
       { key: "urgency", question: "How urgent is the matter?", type: "select", options: ["standard", "rush", "same-week hearing"], required: true },
       { key: "attorneyRole", question: "Which role should primarily staff the matter?", type: "select", options: ["partner", "associate", "paralegal with attorney review"], required: true },
       { key: "estimatedHours", question: "How many billable hours are expected?", type: "number", required: true, api: "law-office-consultation-estimate" },

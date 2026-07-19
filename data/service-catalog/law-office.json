@@ -3,7 +3,7 @@
   "label": "Law Office",
   "description": "Consultations, document work, retainers, court appearances, and small-business legal packages.",
   "version": 1,
-  "updatedAt": "2026-07-19T18:45:00.000Z",
+  "updatedAt": "2026-07-19T19:20:00.000Z",
   "defaultServiceId": "initial-consultation",
   "services": [
     {
@@ -235,12 +235,46 @@
       "inGuidedWorkflow": true
     },
     {
+      "id": "divorce",
+      "name": "Divorce",
+      "description": "Divorce engagement covering intake, filings support, and retainer-based counsel.",
+      "aliases": [
+        "divorce lawyer",
+        "divorce attorney",
+        "divorce consult",
+        "uncontested divorce",
+        "contested divorce",
+        "dissolution of marriage"
+      ],
+      "billingUnit": "matter",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 12,
+      "relatedApis": [
+        "law-office-matter-profile",
+        "law-office-retainer-estimate",
+        "law-office-appearance-estimate"
+      ],
+      "active": true,
+      "quoteKey": "divorce",
+      "inGuidedWorkflow": true
+    },
+    {
       "id": "family-matter",
       "name": "Family Law Matter",
-      "description": "Scoped family-law engagement (consult + filings support).",
+      "description": "Scoped family-law engagement (custody, support, or related filings).",
       "aliases": [
-        "divorce consult",
-        "family law"
+        "family law",
+        "custody matter",
+        "child support"
       ],
       "billingUnit": "matter",
       "typicalFrequency": [

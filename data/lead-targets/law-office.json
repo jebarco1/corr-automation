@@ -1,7 +1,7 @@
 {
   "category": "law-office",
   "version": 2,
-  "updatedAt": "2026-07-19T18:45:00.000Z",
+  "updatedAt": "2026-07-19T19:20:00.000Z",
   "marketFile": "data/markets/georgia-cities.json",
   "usePilotCities": true,
   "segments": [
@@ -63,12 +63,15 @@
     "customerTypes": [
       "homeowner",
       "estate planning client",
-      "family law prospect"
+      "family law prospect",
+      "divorce client"
     ],
     "intentPhrases": [
       "estate planning attorney",
       "will and trust lawyer",
-      "real estate closing attorney"
+      "real estate closing attorney",
+      "divorce attorney",
+      "divorce lawyer"
     ],
     "excludeKeywords": [
       "attorney jobs",
@@ -77,6 +80,7 @@
     ],
     "suggestedServiceIds": [
       "estate-planning",
+      "divorce",
       "initial-consultation",
       "real-estate-closing"
     ]

@@ -210,13 +210,18 @@ export function buildAutoAnswers(categoryDef, promptText = "", prices = {}) {
   }
 
   if (categoryDef?.category === "law-office") {
-    answers.practiceArea = pickOption(prompt, categoryDef.questions.find(q => q.key === "practiceArea")?.options, "business");
     answers.serviceType = pickOption(prompt, categoryDef.questions.find(q => q.key === "serviceType")?.options, "initial consultation");
+    answers.practiceArea = /divorce|family/i.test(answers.serviceType) || /divorce|custody|child support/i.test(prompt)
+      ? "family"
+      : pickOption(prompt, categoryDef.questions.find(q => q.key === "practiceArea")?.options, "business");
     answers.urgency = pickOption(prompt, ["standard", "rush", "same-week hearing"], /rush|urgent|hearing/i.test(prompt) ? "rush" : "standard");
     answers.attorneyRole = pickOption(prompt, ["partner", "associate", "paralegal with attorney review"], /partner/i.test(prompt) ? "partner" : "associate");
-    answers.estimatedHours = /retainer/i.test(answers.serviceType) ? 10 : /appearance|closing|estate|formation/i.test(answers.serviceType) ? 5 : 2;
+    answers.estimatedHours = /divorce/i.test(answers.serviceType) ? 12
+      : /retainer|family matter/i.test(answers.serviceType) ? 10
+      : /appearance|closing|estate|formation/i.test(answers.serviceType) ? 5
+      : 2;
     answers.hourlyRate = answers.attorneyRole === "partner" ? (prices.partnerHourly || 375) : answers.attorneyRole.includes("paralegal") ? (prices.paralegalHourly || 125) : (prices.associateHourly || prices.hourlyRate || 225);
-    answers.retainerAmount = /retainer/i.test(answers.serviceType) ? (prices.retainerMinimum || 1500) : 0;
+    answers.retainerAmount = /retainer|divorce|family matter/i.test(answers.serviceType) ? (prices.retainerMinimum || 1500) : 0;
   }
 
   // Fill any remaining select/number keys from question definitions

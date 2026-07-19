@@ -63,7 +63,7 @@ const SERVICES = {
   hvac: ["Diagnostic Visit", "Maintenance Plan", "RTU Replacement", "Filter Program"],
   cleaning: ["Weekly Janitorial", "Deep Clean", "Move-out Clean", "Floor Care"],
   "bakery-food": ["Custom Cake Order", "Catering Tray", "Corporate Breakfast", "Wholesale Bread Program"],
-  "law-office": ["Initial Consultation", "Document Review", "Retainer Block", "Business Formation Package"],
+  "law-office": ["Initial Consultation", "Document Review", "Divorce", "Retainer Block", "Business Formation Package"],
   default: ["Inspection", "Service Visit", "Maintenance Plan", "Project Estimate"]
 };
 
