@@ -1,5 +1,6 @@
 import { listServiceCatalogs, listServices } from "./serviceCatalog.js";
 import { getGuidedFlow } from "./guidedWorkflow.js";
+import { getFormulaOverride, getInputOverride } from "./serviceDocOverrides.js";
 
 /** Category-level pricing formulas used by automation / guided quoting. */
 const categoryFormulas = {
@@ -129,78 +130,6 @@ const categoryFormulas = {
   }
 };
 
-/** Optional per-service formula overrides keyed by `${category}:${serviceId}` or quoteKey. */
-const serviceFormulaOverrides = {
-  "hvac:diagnostic": {
-    formula: "diagnosticFee (+ max(0, estimatedHours − 1) × hourlyRate) [+ materials]",
-    summary: "Visit/diagnostic fee first; additional labor billed hourly.",
-    notes: ["Replacement estimate APIs are not used for diagnostic visits."]
-  },
-  "hvac:system-diagnostic": {
-    formula: "diagnosticFee (+ max(0, estimatedHours − 1) × hourlyRate) [+ materials]",
-    summary: "Visit/diagnostic fee first; additional labor billed hourly."
-  },
-  "hvac:replacement": {
-    formula: "((buildingSqft / 600) × $2,200 + $2,500) × 1.35",
-    summary: "Tonnage-based equipment replacement estimate with markup."
-  },
-  "hvac:system-replacement": {
-    formula: "((buildingSqft / 600) × $2,200 + $2,500) × 1.35",
-    summary: "Tonnage-based equipment replacement estimate with markup."
-  },
-  "law-office:divorce": {
-    formula: "max(retainerMinimum, billableHours × roleHourlyRate × 1.25)  [hours default 12]",
-    summary: "Family-law divorce engagement priced as a retainer-backed matter.",
-    notes: ["Practice area defaults to family.", "Appearance fees may apply for hearings."]
-  },
-  "law-office:family-matter": {
-    formula: "max(retainerMinimum, billableHours × roleHourlyRate × 1.25)  [hours default 8–10]",
-    summary: "Scoped family-law matter with retainer floor."
-  },
-  "law-office:retainer-block": {
-    formula: "max(retainerMinimum, prepaidHours × roleHourlyRate)",
-    summary: "Prepaid hour block / retainer engagement."
-  },
-  "law-office:court-appearance": {
-    formula: "max(appearanceFee, billableHours × roleHourlyRate × 1.25)",
-    summary: "Hearing/appearance fee or billable time, whichever applies."
-  },
-  "law-office:initial-consultation": {
-    formula: "max(consultationFee, billableHours × roleHourlyRate × 1.25)",
-    summary: "Intake consult with consultation fee floor when configured."
-  },
-  "transportation:packing": {
-    formula: "(estimatedHours × hourlyRate × crewSize + packingMaterials) × 1.35",
-    summary: "Packing-only labor and materials (no line-haul fuel/tolls).",
-    notes: ["Single service address; pickup/dropoff not required."]
-  },
-  "transportation:loading-only": {
-    formula: "(estimatedHours × hourlyRate × crewSize) × 1.35",
-    summary: "Loading labor only at a single site.",
-    notes: ["Single service address; pickup/dropoff not required."]
-  },
-  "bakery-food:rush-order": {
-    formula: "(productionHours × hourlyRate + ingredientCost + deliveryFee) × 1.45 × rushMultiplier(~1.35)",
-    summary: "Standard bakery formula with rush multiplier."
-  },
-  "bakery-food:local-delivery": {
-    formula: "deliveryFee ≈ $25 + distanceMiles × $1.50",
-    summary: "Delivery fee estimate; may combine with product order pricing."
-  },
-  "plumbing:water-heater": {
-    formula: "(estimatedHours × hourlyRate + waterHeaterInstall) × urgencyMultiplier",
-    summary: "Labor plus water-heater install material default."
-  },
-  "electrical:panel-upgrade": {
-    formula: "(estimatedHours × hourlyRate + panelUpgrade) × 1.35",
-    summary: "Labor plus panel-upgrade equipment default."
-  },
-  "electrical:ev-charger": {
-    formula: "(estimatedHours × hourlyRate + evChargerInstall) × 1.35",
-    summary: "Labor plus EV charger install equipment default."
-  }
-};
-
 function inputFromQuestion(question) {
   return {
     key: question.key,
@@ -259,20 +188,43 @@ function inputsForService(category, service, questions) {
     });
   }
 
+  const stored = getInputOverride(category, service.id);
+  if (stored) {
+    const remove = new Set(stored.remove || []);
+    inputs = inputs.filter(item => !remove.has(item.key));
+    inputs = inputs.map(item => {
+      const patch = stored.patch?.[item.key];
+      return patch ? { ...item, ...patch, key: item.key } : item;
+    });
+    for (const added of stored.add || []) {
+      if (!added?.key) continue;
+      const idx = inputs.findIndex(item => item.key === added.key);
+      const next = {
+        key: added.key,
+        label: added.label || added.key,
+        type: added.type || "string",
+        required: added.required !== false,
+        askedOfUser: added.askedOfUser === true,
+        autoFilled: added.askedOfUser !== true,
+        options: added.options,
+        example: added.example,
+        notes: added.notes
+      };
+      if (idx >= 0) inputs[idx] = { ...inputs[idx], ...next };
+      else inputs.push(next);
+    }
+  }
+
   return inputs;
 }
 
 function formulaForService(category, service) {
-  const byId = serviceFormulaOverrides[`${category}:${service.id}`];
-  const byKey = service.quoteKey
-    ? serviceFormulaOverrides[`${category}:${String(service.quoteKey).replace(/\s+/g, "-")}`]
-    : null;
+  const override = getFormulaOverride(category, service.id, service.quoteKey);
   const base = categoryFormulas[category] || {
     formula: "(estimatedHours × hourlyRate × crewSize + materials + fees) × markupMultiplier",
     summary: "Category trade estimate with configured markup.",
     notes: []
   };
-  const override = byId || byKey;
   if (!override) return { ...base, scope: "category" };
   return {
     formula: override.formula || base.formula,
@@ -280,6 +232,10 @@ function formulaForService(category, service) {
     notes: [...(override.notes || []), ...(base.notes || [])].filter(Boolean),
     scope: "service"
   };
+}
+
+export function getCategoryFormula(category) {
+  return categoryFormulas[category] || null;
 }
 
 function documentService(category, service, questions) {

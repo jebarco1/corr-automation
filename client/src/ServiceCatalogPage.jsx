@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { Calculator, ChevronDown, Layers, ListFilter, Search } from "lucide-react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Bot, Calculator, Check, ChevronDown, Layers, ListFilter, Search, Send, Sparkles, X } from "lucide-react";
 
 const API = "/api/v1";
 
@@ -19,9 +19,9 @@ function InputRow({ input }) {
   );
 }
 
-function ServiceCard({ service, open, onToggle }) {
+function ServiceCard({ service, open, onToggle, selected, onSelect }) {
   return (
-    <article className={`svc-card ${open ? "open" : ""}`}>
+    <article className={`svc-card ${open ? "open" : ""} ${selected ? "selected" : ""}`}>
       <button type="button" className="svc-card-head" onClick={onToggle} aria-expanded={open}>
         <div>
           <strong>{service.name}</strong>
@@ -37,6 +37,12 @@ function ServiceCard({ service, open, onToggle }) {
 
       {open && (
         <div className="svc-card-body">
+          <div className="svc-card-actions">
+            <button type="button" className="ghost" onClick={onSelect}>
+              <Bot size={14} /> Use in AI chat
+            </button>
+          </div>
+
           <section>
             <h4>Required inputs</h4>
             <ul className="svc-input-list">
@@ -75,6 +81,47 @@ function ServiceCard({ service, open, onToggle }) {
   );
 }
 
+function RecommendationCard({ rec, busy, onApply, onDismiss }) {
+  return (
+    <div className={`svc-rec ${rec.status}`}>
+      <div className="svc-rec-head">
+        <strong>{rec.title}</strong>
+        <span className="svc-pill">{rec.type.replace(/_/g, " ")}</span>
+      </div>
+      <p>{rec.rationale}</p>
+      {rec.preview?.after && (
+        <pre className="svc-rec-preview">{typeof rec.preview.after === "string" ? rec.preview.after : JSON.stringify(rec.preview.after, null, 2)}</pre>
+      )}
+      {rec.preview?.issues?.length > 0 && (
+        <ul className="svc-notes">
+          {rec.preview.issues.slice(0, 4).map(issue => (
+            <li key={`${issue.code}-${issue.message}`}>{issue.message}</li>
+          ))}
+        </ul>
+      )}
+      {rec.status === "pending" ? (
+        <div className="svc-rec-actions">
+          <button type="button" className="primary" disabled={busy} onClick={onApply}>
+            <Check size={14} /> Apply
+          </button>
+          <button type="button" className="ghost" disabled={busy} onClick={onDismiss}>
+            <X size={14} /> Dismiss
+          </button>
+        </div>
+      ) : (
+        <small className="svc-rec-status">{rec.status === "applied" ? "Applied to catalog" : "Dismissed"}</small>
+      )}
+    </div>
+  );
+}
+
+const SUGGESTIONS = [
+  "Suggest a new service to add",
+  "Update the description",
+  "Improve the calculation formula",
+  "Check input variables"
+];
+
 export default function ServiceCatalogPage() {
   const [docs, setDocs] = useState(null);
   const [error, setError] = useState("");
@@ -82,24 +129,56 @@ export default function ServiceCatalogPage() {
   const [query, setQuery] = useState("");
   const [guidedOnly, setGuidedOnly] = useState(false);
   const [openIds, setOpenIds] = useState(() => new Set());
+  const [focusServiceId, setFocusServiceId] = useState(null);
+
+  const [sessionId, setSessionId] = useState(null);
+  const [chatLog, setChatLog] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);
+  const [chatInput, setChatInput] = useState("");
+  const [chatBusy, setChatBusy] = useState(false);
+  const [chatError, setChatError] = useState("");
+  const [aiEnabled, setAiEnabled] = useState(false);
+  const chatEndRef = useRef(null);
+
+  async function reloadDocs(preferredCategory) {
+    const data = await fetch(`${API}/service-docs`).then(r => {
+      if (!r.ok) throw new Error(`Failed to load service docs (${r.status})`);
+      return r.json();
+    });
+    setDocs(data);
+    const nextCategory = preferredCategory || category || data.categories?.[0]?.category || "";
+    setCategory(nextCategory);
+    return data;
+  }
 
   useEffect(() => {
     let cancelled = false;
-    fetch(`${API}/service-docs`)
-      .then(r => {
-        if (!r.ok) throw new Error(`Failed to load service docs (${r.status})`);
-        return r.json();
-      })
-      .then(data => {
-        if (cancelled) return;
-        setDocs(data);
-        setCategory(data.categories?.[0]?.category || "");
-      })
+    reloadDocs()
       .catch(err => {
         if (!cancelled) setError(err.message || "Failed to load service catalog");
       });
+    fetch(`${API}/ai/status`)
+      .then(r => r.json())
+      .then(status => { if (!cancelled) setAiEnabled(!!status.enabled); })
+      .catch(() => {});
     return () => { cancelled = true; };
   }, []);
+
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chatLog, recommendations]);
+
+  useEffect(() => {
+    // Reset advisor thread when category changes
+    setSessionId(null);
+    setChatLog([{
+      role: "assistant",
+      text: `Ask me to add a service, update a description or formula, or check inputs for ${category || "this category"}. Apply a recommendation to write it into the catalog.`
+    }]);
+    setRecommendations([]);
+    setFocusServiceId(null);
+    setChatError("");
+  }, [category]);
 
   const selected = useMemo(
     () => docs?.categories?.find(item => item.category === category) || null,
@@ -132,12 +211,105 @@ export default function ServiceCatalogPage() {
     });
   }
 
-  function expandAll() {
-    setOpenIds(new Set(filtered.map(service => service.id)));
+  function syncAdvisor(payload) {
+    if (payload.sessionId) setSessionId(payload.sessionId);
+    if (payload.messages) setChatLog(payload.messages);
+    else if (payload.reply) {
+      setChatLog(prev => [...prev, { role: "assistant", text: payload.reply }]);
+    }
+    if (payload.recommendations) setRecommendations(payload.recommendations);
+    if (payload.focusServiceId) setFocusServiceId(payload.focusServiceId);
+    if (payload.catalog) setDocs(payload.catalog);
+    else if (payload.docs && selected) {
+      setDocs(prev => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          categories: prev.categories.map(item => (
+            item.category === payload.docs.category ? payload.docs : item
+          )),
+          totalServices: prev.categories.reduce((sum, item) => (
+            sum + (item.category === payload.docs.category ? payload.docs.count : item.count)
+          ), 0)
+        };
+      });
+    }
   }
 
-  function collapseAll() {
-    setOpenIds(new Set());
+  async function sendChat(message) {
+    const text = String(message || "").trim();
+    if (!text || !category || chatBusy) return;
+    setChatBusy(true);
+    setChatError("");
+    setChatLog(prev => [...prev, { role: "user", text }]);
+    setChatInput("");
+    try {
+      const res = await fetch(`${API}/service-docs/advisor/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId,
+          category,
+          serviceId: focusServiceId,
+          message: text
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || `Chat failed (${res.status})`);
+      syncAdvisor(data);
+      if (data.applied) {
+        await reloadDocs(category);
+      }
+    } catch (err) {
+      setChatError(err.message || "Chat failed");
+    } finally {
+      setChatBusy(false);
+    }
+  }
+
+  async function applyRec(recommendationId) {
+    if (!sessionId || chatBusy) return;
+    setChatBusy(true);
+    setChatError("");
+    try {
+      const res = await fetch(`${API}/service-docs/advisor/apply`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId, recommendationId })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || `Apply failed (${res.status})`);
+      syncAdvisor(data);
+      await reloadDocs(category);
+      if (data.applied?.serviceId || data.focusServiceId) {
+        const id = data.focusServiceId || data.applied.serviceId;
+        setFocusServiceId(id);
+        setOpenIds(prev => new Set(prev).add(id));
+      }
+    } catch (err) {
+      setChatError(err.message || "Apply failed");
+    } finally {
+      setChatBusy(false);
+    }
+  }
+
+  async function dismissRec(recommendationId) {
+    if (!sessionId || chatBusy) return;
+    setChatBusy(true);
+    try {
+      const res = await fetch(`${API}/service-docs/advisor/dismiss`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId, recommendationId })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || `Dismiss failed (${res.status})`);
+      syncAdvisor(data);
+    } catch (err) {
+      setChatError(err.message || "Dismiss failed");
+    } finally {
+      setChatBusy(false);
+    }
   }
 
   if (error) {
@@ -153,6 +325,9 @@ export default function ServiceCatalogPage() {
     );
   }
 
+  const pendingRecs = recommendations.filter(item => item.status === "pending");
+  const focusName = selected?.services?.find(item => item.id === focusServiceId)?.name;
+
   return (
     <section className="svc-page">
       <div className="card svc-hero">
@@ -161,7 +336,7 @@ export default function ServiceCatalogPage() {
           <h2>Every service, input, and formula</h2>
           <p>
             Browse all {docs.totalServices} services across {docs.count} categories.
-            Each entry shows the description, guided inputs, and the pricing calculation used for quotes.
+            Use the AI advisor to suggest new services, update descriptions/calculations, validate inputs, and apply changes.
           </p>
         </div>
         <div className="svc-hero-stats">
@@ -171,7 +346,7 @@ export default function ServiceCatalogPage() {
         </div>
       </div>
 
-      <div className="svc-layout">
+      <div className="svc-layout with-chat">
         <aside className="card svc-cats">
           <div className="svc-cats-head">
             <Layers size={16} />
@@ -224,8 +399,8 @@ export default function ServiceCatalogPage() {
                     Guided only
                   </label>
                   <div className="svc-tool-actions">
-                    <button type="button" className="ghost" onClick={expandAll}>Expand all</button>
-                    <button type="button" className="ghost" onClick={collapseAll}>Collapse</button>
+                    <button type="button" className="ghost" onClick={() => setOpenIds(new Set(filtered.map(s => s.id)))}>Expand all</button>
+                    <button type="button" className="ghost" onClick={() => setOpenIds(new Set())}>Collapse</button>
                   </div>
                 </div>
               </div>
@@ -247,13 +422,91 @@ export default function ServiceCatalogPage() {
                     key={service.id}
                     service={service}
                     open={openIds.has(service.id)}
+                    selected={focusServiceId === service.id}
                     onToggle={() => toggle(service.id)}
+                    onSelect={() => setFocusServiceId(service.id)}
                   />
                 ))}
               </div>
             </>
           )}
         </div>
+
+        <aside className="card svc-advisor">
+          <div className="svc-advisor-head">
+            <div>
+              <p className="eyebrow">AI SERVICE ADVISOR</p>
+              <h3><Sparkles size={18} /> Catalog chatbot</h3>
+              <p>
+                {aiEnabled ? "OpenAI enabled" : "Local advisor mode"}
+                {focusName ? ` · focused on ${focusName}` : ""}
+              </p>
+            </div>
+          </div>
+
+          <div className="svc-advisor-prompts">
+            {SUGGESTIONS.map(item => (
+              <button key={item} type="button" className="prompt-chip mini" disabled={chatBusy} onClick={() => sendChat(item)}>
+                {item}
+              </button>
+            ))}
+          </div>
+
+          <div className="svc-advisor-chat">
+            {chatLog.map((item, index) => (
+              <div key={`${item.role}-${index}`} className={`bubble ${item.role}`}>
+                <strong>{item.role === "assistant" ? "Advisor" : "You"}</strong>
+                <p>{item.text}</p>
+              </div>
+            ))}
+            {chatBusy && <div className="bubble assistant typing"><strong>Advisor</strong><p>Thinking…</p></div>}
+            <div ref={chatEndRef} />
+          </div>
+
+          {chatError && <div className="error">{chatError}</div>}
+
+          {!!pendingRecs.length && (
+            <div className="svc-rec-list">
+              <h4>Recommendations</h4>
+              {pendingRecs.map(rec => (
+                <RecommendationCard
+                  key={rec.id}
+                  rec={rec}
+                  busy={chatBusy}
+                  onApply={() => applyRec(rec.id)}
+                  onDismiss={() => dismissRec(rec.id)}
+                />
+              ))}
+            </div>
+          )}
+
+          {recommendations.some(item => item.status === "applied") && (
+            <div className="svc-rec-list applied-list">
+              <h4>Applied</h4>
+              {recommendations.filter(item => item.status === "applied").slice(-3).map(rec => (
+                <RecommendationCard key={rec.id} rec={rec} busy={chatBusy} onApply={() => {}} onDismiss={() => {}} />
+              ))}
+            </div>
+          )}
+
+          <form
+            className="svc-advisor-composer"
+            onSubmit={e => {
+              e.preventDefault();
+              sendChat(chatInput);
+            }}
+          >
+            <input
+              value={chatInput}
+              onChange={e => setChatInput(e.target.value)}
+              placeholder='Try: add a service called "…" or check inputs'
+              disabled={chatBusy}
+            />
+            <button className="primary" type="submit" disabled={chatBusy || !chatInput.trim()}>
+              <Send size={16} />
+            </button>
+          </form>
+        </aside>
       </div>
     </section>
   );
