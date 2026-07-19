@@ -5,6 +5,13 @@ import axios from "axios";
 import { fileURLToPath } from "url";
 import { supportedCategories } from "../ai/toolCatalog.js";
 import { listServices } from "./serviceCatalog.js";
+import {
+  getOrigamiStatus,
+  huntCityWithOrigami,
+  isOrigamiEnabled
+} from "./origamiClient.js";
+
+export { getOrigamiStatus, isOrigamiEnabled };
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const marketsDir = path.join(__dirname, "../../data/markets");
@@ -71,6 +78,17 @@ export function normalizeLeadSegment(segment) {
   if (value === "b2b" || value === "business" || value === "commercial") return "b2b";
   if (value === "residential" || value === "resi" || value === "homeowner" || value === "consumer") return "residential";
   const error = new Error("segment must be 'b2b' or 'residential'");
+  error.statusCode = 400;
+  throw error;
+}
+
+/** Resolve hunt provider: origami | local | auto (origami when key set). */
+export function resolveLeadProvider(provider) {
+  const value = String(provider || process.env.LEAD_PROVIDER || "auto").toLowerCase().trim();
+  if (value === "origami" || value === "origami-chat" || value === "origami.chat") return "origami";
+  if (value === "local" || value === "ddg" || value === "duckduckgo" || value === "web") return "local";
+  if (value === "auto" || value === "default" || !value) return isOrigamiEnabled() ? "origami" : "local";
+  const error = new Error("provider must be 'origami', 'local', or 'auto'");
   error.statusCode = 400;
   throw error;
 }
@@ -577,6 +595,38 @@ function loadSiblingSegmentLeads(segment, category, city) {
   }
 }
 
+async function collectLocalRawHits(category, city, targets, segment, queries, input = {}) {
+  let raw = await collectSearchResults(queries, { perQueryLimit: 4 });
+  // Residential often needs association/office contact queries to get public phone/email/address.
+  if (segment === "residential") {
+    const contactQueries = [
+      `HOA management ${city.city} ${city.state} phone email`,
+      `condo association ${city.city} ${city.state} contact address`,
+      `apartment leasing office ${city.city} ${city.state} phone`,
+      `community association ${city.city} ${city.state} "contact us"`
+    ];
+    raw = raw.concat(await collectSearchResults(contactQueries, { perQueryLimit: 4 }));
+  }
+  // If web search is empty/rate-limited, reuse contact-ready association leads from B2B.
+  if (!raw.length && segment === "residential") {
+    raw = loadSiblingSegmentLeads(segment, category, city).map(lead => ({
+      title: lead.name,
+      url: lead.url,
+      snippet: lead.snippet,
+      source: "b2b-contact-transfer",
+      query: "transferred from b2b contact-ready lead",
+      phone: lead.phone,
+      email: lead.email,
+      address: lead.address,
+      customerType: lead.customerType
+    }));
+  }
+  if (!raw.length) {
+    raw = localFallbackLeads(category, city, targets).map(item => ({ ...item, query: queries[0] }));
+  }
+  return raw;
+}
+
 export async function huntLeadsForCategory(category, input = {}) {
   if (!supportedCategories.includes(category)) {
     const error = new Error(`Unsupported category: ${category}`);
@@ -585,6 +635,8 @@ export async function huntLeadsForCategory(category, input = {}) {
   }
 
   const segment = input.segment ? normalizeLeadSegment(input.segment) : "b2b";
+  const provider = resolveLeadProvider(input.provider);
+  const fallbackLocal = input.fallbackLocal !== false;
   const targets = getSegmentLeadTargets(category, segment);
   const cities = listPilotCities({
     cities: input.cities,
@@ -601,44 +653,76 @@ export async function huntLeadsForCategory(category, input = {}) {
   const queryLimit = Number(input.queryLimit || 3);
   const cityResults = [];
   const allLeads = [];
+  const providerNotes = [];
   const outDir = path.join(segmentDir(segment), category);
+
+  if (provider === "origami" && !isOrigamiEnabled()) {
+    if (!fallbackLocal) {
+      const error = new Error("Origami provider requested but ORIGAMI_API_KEY is not set");
+      error.statusCode = 503;
+      throw error;
+    }
+    providerNotes.push({
+      provider: "origami",
+      note: "ORIGAMI_API_KEY missing; using local hunt"
+    });
+  }
 
   for (const city of cities) {
     const queries = buildQueries(category, city, targets, queryLimit);
-    let raw = await collectSearchResults(queries, { perQueryLimit: 4 });
-    // Residential often needs association/office contact queries to get public phone/email/address.
-    if (segment === "residential") {
-      const contactQueries = [
-        `HOA management ${city.city} ${city.state} phone email`,
-        `condo association ${city.city} ${city.state} contact address`,
-        `apartment leasing office ${city.city} ${city.state} phone`,
-        `community association ${city.city} ${city.state} "contact us"`
-      ];
-      raw = raw.concat(await collectSearchResults(contactQueries, { perQueryLimit: 4 }));
-    }
-    // If web search is empty/rate-limited, reuse contact-ready association leads from B2B.
-    let borrowed = [];
-    if (!raw.length && segment === "residential") {
-      borrowed = loadSiblingSegmentLeads(segment, category, city).map(lead => ({
-        title: lead.name,
-        url: lead.url,
-        snippet: lead.snippet,
-        source: "b2b-contact-transfer",
-        query: "transferred from b2b contact-ready lead",
-        phone: lead.phone,
-        email: lead.email,
-        address: lead.address,
-        customerType: lead.customerType
-      }));
-      raw = borrowed;
-    }
-    if (!raw.length) {
-      raw = localFallbackLeads(category, city, targets).map(item => ({ ...item, query: queries[0] }));
+    let raw = [];
+    let cityProvider = "local";
+    let origamiMeta = null;
+
+    const tryOrigami = provider === "origami" && isOrigamiEnabled();
+    if (tryOrigami) {
+      try {
+        const origamiResult = await huntCityWithOrigami({
+          category,
+          segment,
+          city,
+          targets,
+          limit: perCityLimit,
+          model: input.origamiModel
+        });
+        origamiMeta = {
+          agentId: origamiResult.agentId,
+          runId: origamiResult.runId,
+          tableId: origamiResult.tableId,
+          tableUrl: origamiResult.tableUrl,
+          status: origamiResult.status,
+          text: origamiResult.text
+        };
+        raw = origamiResult.hits || [];
+        cityProvider = raw.length ? "origami" : "origami-empty";
+        if (!raw.length && fallbackLocal) {
+          providerNotes.push({
+            city: city.label,
+            provider: "origami",
+            note: "No rows returned; falling back to local hunt"
+          });
+          raw = await collectLocalRawHits(category, city, targets, segment, queries, input);
+          cityProvider = "local-fallback";
+        }
+      } catch (error) {
+        providerNotes.push({
+          city: city.label,
+          provider: "origami",
+          error: error.message,
+          code: error.code || null
+        });
+        if (!fallbackLocal) throw error;
+        raw = await collectLocalRawHits(category, city, targets, segment, queries, input);
+        cityProvider = "local-fallback";
+      }
+    } else {
+      raw = await collectLocalRawHits(category, city, targets, segment, queries, input);
+      cityProvider = "local";
     }
 
     const dedupe = new Map();
     for (const item of raw) {
-      if (item.source !== "b2b-contact-transfer") {
+      if (item.source !== "b2b-contact-transfer" && item.source !== "origami") {
         if (isCompetitor(`${item.title} ${item.snippet}`, targets.excludeKeywords || [], segment)) continue;
         if (isLowQualityLead(item.title, item.url)) continue;
       }
@@ -667,9 +751,12 @@ export async function huntLeadsForCategory(category, input = {}) {
         address: item.address || snippetContacts.address,
         customerType,
         suggestedService: service,
-        score: scoreLead({ title: item.title, snippet: item.snippet, customerType, city }),
+        score: scoreLead({ title: item.title, snippet: item.snippet, customerType, city })
+          + (item.source === "origami" ? 8 : 0),
         query: item.query,
         source: item.source,
+        provider: item.source === "origami" ? "origami" : cityProvider,
+        origami: item.origami || undefined,
         status: item.source === "local-fallback" ? "needs-verification" : "new",
         gatheredAt: new Date().toISOString()
       };
@@ -682,7 +769,11 @@ export async function huntLeadsForCategory(category, input = {}) {
 
     const leads = [];
     for (const lead of shortlist) {
-      leads.push(await enrichLeadContacts(lead, city, input));
+      // Origami rows often already include phone/email/address; still enrich missing fields.
+      leads.push(await enrichLeadContacts(lead, city, {
+        ...input,
+        enrichContacts: input.enrichContacts !== false
+      }));
     }
     leads.sort((a, b) => b.score - a.score);
 
@@ -695,6 +786,8 @@ export async function huntLeadsForCategory(category, input = {}) {
       state: city.state,
       market: city.label,
       pilot: !!city.pilot,
+      provider: cityProvider,
+      origami: origamiMeta,
       updatedAt: new Date().toISOString(),
       queries,
       count: leads.length,
@@ -712,9 +805,11 @@ export async function huntLeadsForCategory(category, input = {}) {
       state: city.state,
       label: city.label,
       pilot: !!city.pilot,
+      provider: cityProvider,
       count: leads.length,
       file: relative,
-      queries
+      queries,
+      origami: origamiMeta
     });
     allLeads.push(...leads);
   }
@@ -722,6 +817,7 @@ export async function huntLeadsForCategory(category, input = {}) {
   const summary = {
     segment,
     category,
+    provider,
     updatedAt: new Date().toISOString(),
     marketFile: "data/markets/georgia-cities.json",
     pilotCities: cities.filter(city => city.pilot).map(city => city.label),
@@ -733,6 +829,7 @@ export async function huntLeadsForCategory(category, input = {}) {
       withEmail: allLeads.filter(lead => lead.email).length,
       withAddress: allLeads.filter(lead => lead.address).length
     },
+    providerNotes,
     cities: cityResults
   };
   writeJson(path.join(outDir, "_summary.json"), summary);
@@ -740,11 +837,14 @@ export async function huntLeadsForCategory(category, input = {}) {
   return {
     segment,
     category,
+    provider,
+    origami: getOrigamiStatus(),
     marketFile: "data/markets/georgia-cities.json",
     targetFile: `data/lead-targets/${category}.json`,
     cities: cityResults,
     leadCount: allLeads.length,
     contactCoverage: summary.contactCoverage,
+    providerNotes,
     leads: allLeads.sort((a, b) => b.score - a.score),
     summaryFile: `data/leads/${segment}/${category}/_summary.json`
   };

@@ -10,6 +10,7 @@ import {
 import {
   getGeorgiaMarkets,
   getLeadTargets,
+  getOrigamiStatus,
   getSegmentLeadTargets,
   huntB2bLeads,
   huntLeadsForAllCategories,
@@ -134,9 +135,32 @@ router.get("/leads/segments", (_req, res) => {
     segments: LEAD_SEGMENTS,
     marketFile: "data/markets/georgia-cities.json",
     pilotCities: listPilotCities().map(city => city.label),
+    origami: getOrigamiStatus(),
     endpoints: {
       b2b: { list: "/api/v1/leads/b2b", hunt: "/api/v1/leads/b2b/hunt" },
-      residential: { list: "/api/v1/leads/residential", hunt: "/api/v1/leads/residential/hunt" }
+      residential: { list: "/api/v1/leads/residential", hunt: "/api/v1/leads/residential/hunt" },
+      origamiStatus: "/api/v1/leads/origami/status"
+    }
+  });
+});
+
+router.get("/leads/origami/status", (_req, res) => {
+  res.json({
+    ...getOrigamiStatus(),
+    usage: {
+      huntBody: {
+        provider: "origami | local | auto",
+        fallbackLocal: true,
+        cities: ["Atlanta"],
+        perCityLimit: 5,
+        categories: ["landscape"]
+      },
+      endpoints: {
+        b2bHunt: "POST /api/v1/leads/b2b/hunt",
+        residentialHunt: "POST /api/v1/leads/residential/hunt",
+        categoryHunt: "POST /api/v1/{category}/leads/hunt"
+      },
+      docs: "https://docs.origami.chat/agents/quickstart"
     }
   });
 });

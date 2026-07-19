@@ -100,6 +100,26 @@ Example body:
 
 You can also omit `clients` and set `"category"` after uploading invoice logs to derive areas from `data/invoice-logs`.
 
+## Georgia lead hunting (B2B + residential)
+
+Pilot markets live in `data/markets/georgia-cities.json`. Segment targets are in `data/lead-targets/{category}.json`. Hunted leads write under `data/leads/b2b/` and `data/leads/residential/`.
+
+```bash
+GET  /api/v1/leads/b2b
+GET  /api/v1/leads/residential
+GET  /api/v1/leads/origami/status
+POST /api/v1/leads/b2b/hunt
+POST /api/v1/leads/residential/hunt
+```
+
+Hunt body supports `provider: "origami" | "local" | "auto"` (default `auto`). When `ORIGAMI_API_KEY` is set, hunts use the [Origami Chat agent API](https://docs.origami.chat/agents/quickstart) to build contact tables (phone, email, address), then fall back to the local DuckDuckGo headhunter if a city returns empty or errors.
+
+```bash
+# CLI
+npm run leads:hunt:b2b
+LEAD_PROVIDER=origami npm run leads:hunt:residential
+```
+
 ## Run
 
 `.env` is **not** in git (secrets stay local). After every clone/pull, create it from the example:

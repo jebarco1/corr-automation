@@ -5,11 +5,14 @@ const pilots = listPilotCities().map(city => city.label);
 const segment = String(process.env.LEAD_SEGMENT || "both").toLowerCase();
 const options = {
   queryLimit: Number(process.env.LEAD_QUERY_LIMIT || 2),
-  perCityLimit: Number(process.env.LEAD_PER_CITY_LIMIT || 4)
+  perCityLimit: Number(process.env.LEAD_PER_CITY_LIMIT || 4),
+  provider: process.env.LEAD_PROVIDER || "auto",
+  fallbackLocal: process.env.LEAD_FALLBACK_LOCAL !== "false"
 };
 
 console.log("Pilot cities:", pilots.join(", "));
 console.log("Segment:", segment);
+console.log("Provider:", options.provider);
 
 const output = {};
 if (segment === "b2b" || segment === "both") {
