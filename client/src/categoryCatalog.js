@@ -208,19 +208,18 @@ export const categories = [
   {
     category: "transportation",
     label: "Transportation",
-    description: "Local moves, delivery, load planning, routing, and dispatch.",
+    description: "Local moves, delivery, load planning, routing, and dispatch. Shipping jobs always collect FROM and TO addresses.",
     apis: ["transport-property-profile", "transport-load-plan", "transport-local-move-estimate", "transport-delivery-estimate"],
     prompts: [
-      "Local 2-bedroom move across town",
-      "Same-day delivery for 12 stops",
-      "Materials haul for a construction site"
+      "Local move from 100 Peachtree St, Atlanta, GA 30303 to 500 Ponce De Leon Ave, Atlanta, GA 30308",
+      "Same-day delivery from Midtown Atlanta to Decatur",
+      "Materials haul from a supplier yard to a jobsite"
     ],
     questions: [
       { key: "customer", question: "Who is the customer?", type: "object", required: true, example: { name: "Taylor Smith", email: "taylor@example.com" } },
-      { key: "serviceAddress", question: "What is the primary service address?", type: "string", required: true },
       { key: "propertyType", question: "What type of property is this?", type: "select", options: ["residential", "commercial", "hoa", "multi-family", "industrial"], required: true },
-      { key: "pickupAddress", question: "What is the pickup address?", type: "string", required: true, api: "transport-property-profile" },
-      { key: "dropoffAddress", question: "What is the dropoff or destination address?", type: "string", required: true },
+      { key: "pickupAddress", question: "What is the FROM (pickup) address?", type: "string", required: true, api: "transport-property-profile" },
+      { key: "dropoffAddress", question: "What is the TO (dropoff / destination) address?", type: "string", required: true },
       { key: "serviceType", question: "Which transportation service is needed?", type: "select", options: ["local move", "long haul", "same-day delivery", "scheduled delivery", "light freight", "materials haul"], required: true },
       { key: "distanceMiles", question: "What is the estimated trip distance in miles?", type: "number", required: true },
       { key: "volumeCubicFeet", question: "What is the estimated load volume in cubic feet?", type: "number", required: true, api: "transport-load-plan" },

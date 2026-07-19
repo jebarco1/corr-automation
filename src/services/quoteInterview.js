@@ -21,9 +21,20 @@ function serviceOptions(category) {
       billingUnit: service.billingUnit,
       typicalFrequency: service.typicalFrequency,
       relatedApis: service.relatedApis || [],
-      inGuidedWorkflow: !!service.inGuidedWorkflow
+      inGuidedWorkflow: !!service.inGuidedWorkflow,
+      requiresShipping: service.requiresShipping === true
+        || (category === "transportation" && service.requiresShipping !== false
+          && !["packing", "loading-only"].includes(service.id))
     }))
   };
+}
+
+function serviceNeedsShipping(service, category) {
+  if (!service) return false;
+  if (service.requiresShipping === true) return true;
+  if (service.requiresShipping === false) return false;
+  if (category !== "transportation") return false;
+  return !["packing", "loading-only"].includes(service.id);
 }
 
 /** Strict selection: number, id, name, or alias. Returns null if unclear. */
@@ -60,9 +71,13 @@ export function selectServiceFromMessage(category, message = "") {
 }
 
 function parcelSummary(answers = {}) {
-  if (!answers.serviceAddress && !answers.pickupAddress && !answers.regridLookupAt) return null;
+  if (!answers.serviceAddress && !answers.pickupAddress && !answers.dropoffAddress && !answers.regridLookupAt) {
+    return null;
+  }
   return {
     address: answers.matchedAddress || answers.serviceAddress || answers.pickupAddress || null,
+    pickupAddress: answers.pickupAddress || null,
+    dropoffAddress: answers.dropoffAddress || null,
     squareFeet: answers.squareFeet ?? null,
     lotSquareFeet: answers.lotSquareFeet ?? null,
     buildingSquareFeet: answers.buildingSquareFeet ?? null,
@@ -75,11 +90,17 @@ function parcelSummary(answers = {}) {
 
 function formatParcelLines(parcel) {
   if (!parcel) return [];
-  if (parcel.error && parcel.squareFeet == null) {
-    return [`Parcel lookup: could not resolve size yet (${parcel.error}).`];
-  }
   const lines = [];
-  if (parcel.address) lines.push(`Parcel address: ${parcel.address}`);
+  if (parcel.pickupAddress || parcel.dropoffAddress) {
+    if (parcel.pickupAddress) lines.push(`From (pickup): ${parcel.pickupAddress}`);
+    if (parcel.dropoffAddress) lines.push(`To (dropoff): ${parcel.dropoffAddress}`);
+  } else if (parcel.address) {
+    lines.push(`Parcel address: ${parcel.address}`);
+  }
+  if (parcel.error && parcel.squareFeet == null) {
+    lines.push(`Parcel lookup: could not resolve size yet (${parcel.error}).`);
+    return lines;
+  }
   if (parcel.squareFeet != null) {
     const acresPart = parcel.acres != null && Number(parcel.squareFeet) === Number(parcel.lotSquareFeet)
       ? ` (${parcel.acres} acres)`
@@ -118,6 +139,50 @@ export function formatQuoteResultReply({ service, parcel, invoice, categoryLabel
     }
   }
   return lines.filter(Boolean).join("\n");
+}
+
+function askPickupReply(service) {
+  return {
+    reply: [
+      `Service selected: ${service.name}.`,
+      "This shipping service needs both addresses.",
+      "First, what is the FROM (pickup) address?",
+      "Example: 100 Peachtree St, Atlanta, GA 30303"
+    ].join("\n"),
+    suggestedActions: ["provide-pickup-address"],
+    awaitingAddress: true,
+    awaitingPickupAddress: true,
+    nextQuestion: {
+      key: "pickupAddress",
+      question: "What is the FROM (pickup) address?",
+      type: "string",
+      required: true,
+      ask: true,
+      example: "100 Peachtree St, Atlanta, GA 30303"
+    }
+  };
+}
+
+function askDropoffReply(service, pickupAddress) {
+  return {
+    reply: [
+      `Got pickup: ${pickupAddress}.`,
+      `Service: ${service.name}.`,
+      "What is the TO (dropoff / destination) address?",
+      "Example: 500 Ponce De Leon Ave, Atlanta, GA 30308"
+    ].join("\n"),
+    suggestedActions: ["provide-dropoff-address"],
+    awaitingAddress: true,
+    awaitingDropoffAddress: true,
+    nextQuestion: {
+      key: "dropoffAddress",
+      question: "What is the TO (dropoff / destination) address?",
+      type: "string",
+      required: true,
+      ask: true,
+      example: "500 Ponce De Leon Ave, Atlanta, GA 30308"
+    }
+  };
 }
 
 function interviewView(interview, extras = {}) {
@@ -189,46 +254,104 @@ export async function startServiceOffer({ category, categoryLabel, message = "",
 async function beginGuidedQuote(interview, message = "") {
   const service = interview.selectedService;
   const combinedMessage = [interview.sourceMessage, message].filter(Boolean).join("\n");
-  const address = interview.pendingAddress || extractAddress(message) || extractAddresses(combinedMessage)[0];
+  const addresses = extractAddresses(combinedMessage);
+  const address = interview.pendingAddress || extractAddress(message) || addresses[0];
+  const needsShipping = serviceNeedsShipping(service, interview.category);
 
   if (!address && interview.category !== "transportation") {
     interview.stage = "need-address";
     return {
       ...interviewView(interview),
       reply: [
-        `Service selected: **${service.name}**.`,
+        `Service selected: ${service.name}.`,
         "Next I need the job-site address so I can pull parcel (lot/building) information.",
         "Paste a full street address (example: 121 Cascade Way, Coppell, TX 75019)."
       ].join("\n"),
       suggestedActions: ["provide-address"],
-      awaitingAddress: true
+      awaitingAddress: true,
+      nextQuestion: {
+        key: "serviceAddress",
+        question: "What is the service address?",
+        type: "string",
+        required: true,
+        ask: true,
+        example: "121 Cascade Way, Coppell, TX 75019"
+      }
     };
   }
 
-  if (interview.category === "transportation") {
-    const addresses = extractAddresses(combinedMessage);
-    if (!addresses[0] && !interview.pendingAddress) {
-      interview.stage = "need-address";
+  if (interview.category === "transportation" && needsShipping) {
+    const pickupAddress = interview.pendingPickupAddress || addresses[0] || interview.pendingAddress || null;
+    const dropoffAddress = interview.pendingDropoffAddress
+      || (addresses[1] && addresses[1] !== pickupAddress ? addresses[1] : null)
+      || null;
+
+    if (!pickupAddress) {
+      interview.stage = "need-pickup";
       return {
         ...interviewView(interview),
-        reply: [
-          `Service selected: **${service.name}**.`,
-          "Send the **pickup** address (and dropoff if you have it). I’ll load parcel details for the pickup site."
-        ].join("\n"),
-        suggestedActions: ["provide-address"],
-        awaitingAddress: true
+        ...askPickupReply(service)
       };
     }
+
+    interview.pendingPickupAddress = pickupAddress;
+    interview.pendingAddress = pickupAddress;
+
+    if (!dropoffAddress) {
+      interview.stage = "need-dropoff";
+      return {
+        ...interviewView(interview),
+        ...askDropoffReply(service, pickupAddress)
+      };
+    }
+
+    interview.pendingDropoffAddress = dropoffAddress;
+  } else if (interview.category === "transportation" && !address) {
+    interview.stage = "need-address";
+    return {
+      ...interviewView(interview),
+      reply: [
+        `Service selected: ${service.name}.`,
+        "What is the service address for this job?",
+        "Example: 100 Peachtree St, Atlanta, GA 30303"
+      ].join("\n"),
+      suggestedActions: ["provide-address"],
+      awaitingAddress: true,
+      nextQuestion: {
+        key: "serviceAddress",
+        question: "What is the service address?",
+        type: "string",
+        required: true,
+        ask: true,
+        example: "100 Peachtree St, Atlanta, GA 30303"
+      }
+    };
   }
 
   const businessSettings = interview.start.businessSettings || {};
+  const pickupAddress = needsShipping
+    ? (interview.pendingPickupAddress || addresses[0] || address)
+    : undefined;
+  const dropoffAddress = needsShipping
+    ? (interview.pendingDropoffAddress || addresses[1] || null)
+    : undefined;
+
   const prefill = buildSmartDefaults(interview.category, combinedMessage, businessSettings, {
     serviceId: service.id,
     serviceType: service.quoteKey || service.name,
     estimatedHours: service.defaultHours,
-    serviceAddress: address || interview.pendingAddress || undefined,
-    pickupAddress: interview.category === "transportation" ? (address || interview.pendingAddress) : undefined
+    serviceAddress: needsShipping ? pickupAddress : (address || interview.pendingAddress || undefined),
+    pickupAddress: needsShipping ? pickupAddress : undefined,
+    dropoffAddress: needsShipping ? dropoffAddress : undefined,
+    requiresShipping: needsShipping
   });
+
+  // Shipping quotes must keep explicit from/to — don't let autofill invent a missing dropoff.
+  if (needsShipping) {
+    prefill.pickupAddress = pickupAddress;
+    prefill.dropoffAddress = dropoffAddress;
+    prefill.serviceAddress = pickupAddress;
+  }
 
   if (interview.category === "general-contract") {
     prefill.projectType = service.quoteKey || service.id.replace(/-/g, " ");
@@ -306,7 +429,10 @@ export async function applyServiceSelection(interviewId, serviceOrMessage, messa
         name: service.name,
         description: service.description,
         quoteKey: service.quoteKey,
-        defaultHours: service.defaultHours
+        defaultHours: service.defaultHours,
+        requiresShipping: service.requiresShipping === true
+          || (interview.category === "transportation" && service.requiresShipping !== false
+            && !["packing", "loading-only"].includes(service.id))
       };
     } catch {
       return {
@@ -327,12 +453,17 @@ export async function applyServiceSelection(interviewId, serviceOrMessage, messa
     description: service.description,
     quoteKey: service.quoteKey,
     defaultHours: service.defaultHours,
-    relatedApis: service.relatedApis || []
+    relatedApis: service.relatedApis || [],
+    requiresShipping: serviceNeedsShipping(service, interview.category)
   };
   interview.sourceMessage = [interview.sourceMessage, message].filter(Boolean).join("\n");
 
-  const addressInMessage = extractAddress(message);
-  if (addressInMessage) interview.pendingAddress = addressInMessage;
+  const addressesInMessage = extractAddresses(message);
+  if (addressesInMessage[0]) interview.pendingAddress = addressesInMessage[0];
+  if (serviceNeedsShipping(interview.selectedService, interview.category)) {
+    if (addressesInMessage[0]) interview.pendingPickupAddress = addressesInMessage[0];
+    if (addressesInMessage[1]) interview.pendingDropoffAddress = addressesInMessage[1];
+  }
 
   return beginGuidedQuote(interview, message);
 }
@@ -349,18 +480,50 @@ export async function continueInterview(interviewId, message, input = {}) {
     return applyServiceSelection(interviewId, message, message);
   }
 
-  if (interview.stage === "need-address") {
-    const address = extractAddress(message);
+  if (interview.stage === "need-address" || interview.stage === "need-pickup" || interview.stage === "need-dropoff") {
+    const addresses = extractAddresses(message);
+    const address = extractAddress(message) || addresses[0];
     if (!address) {
+      const prompt = interview.stage === "need-dropoff"
+        ? "Please paste the TO (dropoff) address including city and state (example: 500 Ponce De Leon Ave, Atlanta, GA 30308)."
+        : interview.stage === "need-pickup"
+          ? "Please paste the FROM (pickup) address including city and state (example: 100 Peachtree St, Atlanta, GA 30303)."
+          : "Please paste a full street address including city and state (example: 123 Main St, Atlanta, GA 30303).";
       return {
         ...interviewView(interview),
-        reply: "Please paste a full street address including city and state (example: 123 Main St, Atlanta, GA 30303).",
-        suggestedActions: ["provide-address"],
-        awaitingAddress: true
+        reply: prompt,
+        suggestedActions: interview.stage === "need-dropoff"
+          ? ["provide-dropoff-address"]
+          : interview.stage === "need-pickup"
+            ? ["provide-pickup-address"]
+            : ["provide-address"],
+        awaitingAddress: true,
+        awaitingPickupAddress: interview.stage === "need-pickup",
+        awaitingDropoffAddress: interview.stage === "need-dropoff"
       };
     }
-    interview.pendingAddress = address;
+
     interview.sourceMessage = [interview.sourceMessage, message].filter(Boolean).join("\n");
+
+    if (interview.stage === "need-pickup") {
+      interview.pendingPickupAddress = address;
+      interview.pendingAddress = address;
+      // If the user pasted both addresses in one reply, capture dropoff now.
+      if (addresses[1] && addresses[1] !== address) {
+        interview.pendingDropoffAddress = addresses[1];
+      } else {
+        interview.stage = "need-dropoff";
+        return {
+          ...interviewView(interview),
+          ...askDropoffReply(interview.selectedService, address)
+        };
+      }
+    } else if (interview.stage === "need-dropoff") {
+      interview.pendingDropoffAddress = address;
+    } else {
+      interview.pendingAddress = address;
+    }
+
     return beginGuidedQuote(interview, message);
   }
 
