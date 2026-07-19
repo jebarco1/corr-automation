@@ -79,18 +79,45 @@ function formatParcelLines(parcel) {
     return [`Parcel lookup: could not resolve size yet (${parcel.error}).`];
   }
   const lines = [];
-  if (parcel.address) lines.push(`Parcel address: **${parcel.address}**`);
+  if (parcel.address) lines.push(`Parcel address: ${parcel.address}`);
   if (parcel.squareFeet != null) {
-    lines.push(`Measured area: **${Number(parcel.squareFeet).toLocaleString()} sqft** (${parcel.acres ?? "?"} acres)`);
+    const acresPart = parcel.acres != null && Number(parcel.squareFeet) === Number(parcel.lotSquareFeet)
+      ? ` (${parcel.acres} acres)`
+      : "";
+    lines.push(`Measured area: ${Number(parcel.squareFeet).toLocaleString()} sqft${acresPart}`);
   }
   if (parcel.buildingSquareFeet != null && parcel.buildingSquareFeet !== parcel.squareFeet) {
-    lines.push(`Building footprint: **${Number(parcel.buildingSquareFeet).toLocaleString()} sqft**`);
+    lines.push(`Building footprint: ${Number(parcel.buildingSquareFeet).toLocaleString()} sqft`);
   }
   if (parcel.lotSquareFeet != null && parcel.lotSquareFeet !== parcel.squareFeet) {
-    lines.push(`Lot size: **${Number(parcel.lotSquareFeet).toLocaleString()} sqft**`);
+    const acresPart = parcel.acres != null ? ` (${parcel.acres} acres)` : "";
+    lines.push(`Lot size: ${Number(parcel.lotSquareFeet).toLocaleString()} sqft${acresPart}`);
   }
-  if (parcel.parcelId) lines.push(`Parcel id: ${parcel.parcelId}`);
+  if (parcel.parcelId) lines.push(`Parcel ID: ${parcel.parcelId}`);
   return lines;
+}
+
+/** Single clean quote-result block for chat (no markdown, no duplicated sections). */
+export function formatQuoteResultReply({ service, parcel, invoice, categoryLabel } = {}) {
+  const lines = ["Quote result"];
+  if (service?.name) {
+    lines.push(`Service: ${service.name}${service.id ? ` (${service.id})` : ""}`);
+  } else if (categoryLabel) {
+    lines.push(`Category: ${categoryLabel}`);
+  }
+  lines.push(...formatParcelLines(parcel));
+  if (invoice?.invoiceNumber) {
+    lines.push(
+      `Draft quote ${invoice.invoiceNumber} is ready for $${Number(invoice.total).toFixed(2)} ${invoice.currency || "USD"}.`
+    );
+    if (Array.isArray(invoice.lineItems) && invoice.lineItems.length) {
+      lines.push("Line items:");
+      for (const item of invoice.lineItems.slice(0, 6)) {
+        lines.push(`- ${item.description}: $${Number(item.amount).toFixed(2)}`);
+      }
+    }
+  }
+  return lines.filter(Boolean).join("\n");
 }
 
 function interviewView(interview, extras = {}) {
@@ -229,11 +256,12 @@ async function beginGuidedQuote(interview, message = "") {
       ...interviewView(interview),
       invoice,
       result: invoice,
-      reply: [
-        `Service: **${service.name}** (\`${service.id}\`).`,
-        ...formatParcelLines(interview.parcel),
-        `Draft quote **${invoice.invoiceNumber}** is ready for **$${Number(invoice.total).toFixed(2)}** ${invoice.currency}.`
-      ].join("\n"),
+      reply: formatQuoteResultReply({
+        service,
+        parcel: interview.parcel,
+        invoice,
+        categoryLabel: interview.categoryLabel
+      }),
       suggestedActions: ["generate-invoice"],
       nextQuestion: null
     };
@@ -242,10 +270,10 @@ async function beginGuidedQuote(interview, message = "") {
   return {
     ...interviewView(interview),
     reply: [
-      `Service: **${service.name}** (\`${service.id}\`).`,
+      `Service: ${service.name} (${service.id}).`,
       ...parcelLines,
-      "A couple details are still needed for the quote:",
       "",
+      "A couple details are still needed for the quote:",
       workflow.nextQuestion.question,
       workflow.nextQuestion.options?.length ? `Options: ${workflow.nextQuestion.options.join(", ")}` : null
     ].filter(Boolean).join("\n"),
@@ -353,18 +381,18 @@ export async function continueInterview(interviewId, message, input = {}) {
         ...interviewView(interview),
         invoice,
         result: invoice,
-        reply: [
-          `Draft quote **${invoice.invoiceNumber}** is ready for **$${Number(invoice.total).toFixed(2)}** ${invoice.currency}.`,
-          interview.selectedService ? `Service: ${interview.selectedService.name}.` : null,
-          interview.parcel?.address ? `Job site: ${interview.parcel.address}.` : null,
-          "Review line items in the side panel."
-        ].filter(Boolean).join(" "),
+        reply: formatQuoteResultReply({
+          service: interview.selectedService,
+          parcel: interview.parcel,
+          invoice,
+          categoryLabel: interview.categoryLabel
+        }),
         suggestedActions: ["generate-invoice"]
       };
     }
     return {
       ...interviewView(interview),
-      reply: "Everything is collected. Reply **generate** to create the draft invoice.",
+      reply: "Everything is collected. Reply generate to create the draft invoice.",
       suggestedActions: ["generate-invoice"]
     };
   }
@@ -390,14 +418,17 @@ export async function continueInterview(interviewId, message, input = {}) {
     const invoice = createInvoiceFromSession(interview.guidedSessionId, input.invoice || interview.start || {});
     workflow = getGuidedWorkflow(interview.guidedSessionId);
     interview.stage = "done";
+    interview.parcel = parcelSummary(workflow.answers);
     return {
       ...interviewView(interview),
       invoice,
       result: invoice,
-      reply: [
-        parcelLines.join(" "),
-        `Draft quote **${invoice.invoiceNumber}** is ready for **$${Number(invoice.total).toFixed(2)}** ${invoice.currency}.`
-      ].filter(Boolean).join("\n"),
+      reply: formatQuoteResultReply({
+        service: interview.selectedService,
+        parcel: interview.parcel,
+        invoice,
+        categoryLabel: interview.categoryLabel
+      }),
       suggestedActions: ["generate-invoice"]
     };
   }
@@ -405,11 +436,11 @@ export async function continueInterview(interviewId, message, input = {}) {
   return {
     ...interviewView(interview),
     reply: [
-      `Got it.`,
+      "Got it.",
       ...parcelLines,
       workflow.nextQuestion
         ? `\n${workflow.nextQuestion.question}${workflow.nextQuestion.options?.length ? `\nOptions: ${workflow.nextQuestion.options.join(", ")}` : ""}`
-        : "\nReply **generate** to create the draft invoice."
+        : "\nReply generate to create the draft invoice."
     ].filter(Boolean).join("\n"),
     suggestedActions: workflow.nextQuestion ? ["answer-question"] : ["generate-invoice"],
     nextQuestion: workflow.nextQuestion

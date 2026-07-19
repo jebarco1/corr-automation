@@ -133,7 +133,11 @@ export function buildSmartDefaults(category, message = "", businessSettings = {}
   if (!answers.crewSize) answers.crewSize = prices.defaultCrewSize || 2;
   if (!answers.hourlyRate) answers.hourlyRate = prices.hourlyRate || 85;
   if (answers.estimatedHours == null) answers.estimatedHours = prices.defaultHours || 2;
-  if (answers.materialCost == null) answers.materialCost = prices.materialCost || 0;
+  if (answers.materialCost == null) {
+    const serviceType = String(answers.serviceType || "").toLowerCase();
+    const lightService = /diagnostic|maintenance|repair|inspection|consult|visit/.test(serviceType);
+    answers.materialCost = lightService ? 0 : (prices.materialCost || 0);
+  }
   if (answers.disposalCost == null && prices.disposalCost != null) answers.disposalCost = prices.disposalCost;
   if (answers.equipmentCost == null) answers.equipmentCost = prices.equipmentCost || 0;
   if (answers.markupMultiplier == null) answers.markupMultiplier = prices.markupMultiplier || 1.35;
@@ -179,9 +183,22 @@ export function buildSmartDefaults(category, message = "", businessSettings = {}
       else if (/repair/.test(lower)) answers.serviceType = "repair";
       else answers.serviceType = "diagnostic";
     }
-    if (answers.serviceType === "replacement" && (existing.materialCost == null)) {
-      answers.materialCost = Math.max(Number(answers.materialCost || 0), 4500);
-      answers.estimatedHours = Math.max(Number(answers.estimatedHours || 0), 6);
+    if (answers.serviceType === "replacement" || answers.serviceType === "installation") {
+      if (existing.materialCost == null) {
+        answers.materialCost = Math.max(Number(answers.materialCost || 0), answers.serviceType === "replacement" ? 4500 : 1200);
+      }
+      if (existing.estimatedHours == null) {
+        answers.estimatedHours = Math.max(Number(answers.estimatedHours || 0), answers.serviceType === "replacement" ? 6 : 4);
+      }
+    } else {
+      // Diagnostic / repair / maintenance should not inherit replacement material defaults.
+      if (existing.materialCost == null) answers.materialCost = 0;
+      if (answers.serviceType === "diagnostic") {
+        if (existing.estimatedHours == null) answers.estimatedHours = 1;
+        if (answers.diagnosticFee == null) answers.diagnosticFee = prices.diagnosticFee || 89;
+      } else if (answers.serviceType === "maintenance" && existing.estimatedHours == null) {
+        answers.estimatedHours = 1.5;
+      }
     }
   }
 

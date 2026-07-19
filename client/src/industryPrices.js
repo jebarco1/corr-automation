@@ -90,8 +90,17 @@ export function buildAutoAnswers(categoryDef, promptText = "", prices = {}) {
     answers.serviceType = pickOption(prompt, categoryDef.questions.find(q => q.key === "serviceType")?.options, "diagnostic");
     if (/replac/i.test(prompt)) {
       answers.serviceType = "replacement";
-      answers.materialCost = prices.materialCost || 4500;
+      answers.materialCost = 4500;
       answers.estimatedHours = 6;
+    } else if (/install/i.test(prompt)) {
+      answers.serviceType = "installation";
+      answers.materialCost = 1200;
+      answers.estimatedHours = 4;
+    } else {
+      answers.materialCost = 0;
+      answers.estimatedHours = answers.serviceType === "maintenance" ? 1.5 : 1;
+      answers.diagnosticFee = prices.diagnosticFee || 89;
+      answers.hourlyRate = prices.hourlyRate || 125;
     }
   }
 

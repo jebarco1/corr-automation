@@ -27,6 +27,11 @@
 .mini-dl div{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #edf1ee;font-size:14px}
 .mini-dl dt{color:#718078}.mini-dl dd{font-weight:700;margin:0}
 .landing-span{grid-column:1 / -1}
+.quote-result{background:linear-gradient(160deg,#f7fbf8,#eef6f0)}
+.quote-result .simple-list li{grid-template-columns:1fr auto;display:grid;gap:2px 12px}
+.quote-result .simple-list strong{grid-column:1}
+.quote-result .simple-list small{grid-column:1;color:#718078}
+.quote-result .simple-list span{grid-column:2;grid-row:1 / span 2;align-self:center;font-weight:850;color:#163d27}
 .grid.workflows{grid-template-columns:1.55fr .85fr;align-items:start}
 .workflow-hero{grid-column:1 / -1;display:flex;justify-content:space-between;gap:20px;align-items:end;background:linear-gradient(135deg,#f3f8f4,#e7f1ea)}
 .workflow-hero-copy h2{margin-top:8px}.workflow-hero-actions{display:flex;gap:10px;flex-wrap:wrap}

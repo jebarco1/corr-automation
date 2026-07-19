@@ -173,10 +173,20 @@ function applyAutomationDefaults(session, message = "") {
   return session;
 }
 
+function shouldRunTrigger(session, question) {
+  if (!question.trigger) return false;
+  const serviceType = String(session.answers.serviceType || session.answers.projectType || "").toLowerCase();
+  // Don't price a diagnostic/repair as a full replacement or service upgrade.
+  if (question.trigger === "hvac-replacement-estimate" && !/replac|install/.test(serviceType)) return false;
+  if (question.trigger === "electrical-service-upgrade" && /diagnostic|inspect|repair/.test(serviceType)) return false;
+  if (question.trigger === "roof-replacement-estimate" && /inspect|repair|maintain/.test(serviceType)) return false;
+  return true;
+}
+
 function runAnswerTriggers(session) {
   const ran = new Set(session.apiResults.map(item => `${item.questionKey}:${item.endpointType}`));
   for (const question of session.questions) {
-    if (!question.trigger || session.answers[question.key] === undefined) continue;
+    if (!shouldRunTrigger(session, question) || session.answers[question.key] === undefined) continue;
     const stamp = `${question.key}:${question.trigger}`;
     if (ran.has(stamp)) continue;
     const result = runAutomation(question.trigger, buildAutomationInput(session));
@@ -218,6 +228,7 @@ function buildAutomationInput(session) {
     materialCost:Number(a.materialCost||unitPrices.materialCost||0),
     equipmentCost:Number(a.equipmentCost||unitPrices.equipmentCost||0),
     disposalCost:Number(a.disposalCost||unitPrices.disposalCost||0),
+    diagnosticFee:Number(a.diagnosticFee||unitPrices.diagnosticFee||0),
     squareFeet:Number(a.squareFeet||a.areaSquareFeet||2500),
     unitPrices
   };
@@ -227,11 +238,95 @@ function resultToLineItem(result, session) {
   const data = result.data || {};
   const type = result.type || "";
   const billableType = /estimate|pricing|service|replacement|installation|haul|coding-suggest/i.test(type);
-  const nonBillable = /diagnostic|risk|profile|classification|layout|chemistry|health-score|pump-health|device-health|turf-health|symptom-triage|credentials-check|skill-match|care-plan|documentation-compliance/i.test(type);
+  const nonBillable = /diagnostic|risk|profile|classification|layout|chemistry|health-score|pump-health|device-health|turf-health|symptom-triage|credentials-check|skill-match|care-plan|documentation-compliance|load-estimate|fault-detection|mowable-area|water-chemistry|allergen-check|matter-profile|order-profile/i.test(type);
   if (!billableType || nonBillable) return null;
-  const amount = money(data.suggestedPrice ?? data.estimatedPrice ?? data.estimatedCost ?? 0);
+  const amount = money(data.suggestedPrice ?? data.suggestedCustomerPrice ?? data.estimatedPrice ?? data.estimatedCost ?? 0);
   if (!amount) return null;
   return { description:`${session.label}: ${String(session.answers.serviceType || session.answers.projectType || result.type).replaceAll("-"," ")}`, quantity:1, unit:"service", unitPrice:amount, amount, sourceApi:result.type, sourceRequestId:result.requestId };
+}
+
+function serviceAwareFallbackType(session) {
+  const serviceType = String(session.answers.serviceType || session.answers.projectType || "").toLowerCase();
+  if (session.category === "hvac") {
+    if (/replac|install/.test(serviceType)) return "hvac-replacement-estimate";
+    if (/maintain/.test(serviceType)) return "hvac-maintenance-plan";
+    return null; // diagnostic/repair → fee-based fallback below
+  }
+  if (session.category === "electrical" && /diagnostic|inspect|repair/.test(serviceType)) return null;
+  return {
+    landscape: "landscaping-estimate",
+    hvac: "hvac-replacement-estimate",
+    cleaning: "cleaning-service-estimate",
+    "pest-control": "pest-treatment-estimate",
+    pool: "pool-service-estimate",
+    painting: "paint-interior-estimate",
+    roofing: "roof-replacement-estimate",
+    plumbing: "plumbing-repair-estimate",
+    electrical: "electrical-service-upgrade",
+    "general-contract": "gc-project-estimate",
+    surveillance: "surveillance-install-estimate",
+    "trash-removal": "trash-haul-estimate",
+    transportation: "transport-local-move-estimate",
+    healthcare: "healthcare-nursing-visit-estimate",
+    "bakery-food": "bakery-production-estimate",
+    "law-office": "law-office-consultation-estimate"
+  }[session.category];
+}
+
+function feeBasedLineItems(session, input) {
+  const serviceType = String(session.answers.serviceType || session.answers.projectType || "").toLowerCase();
+  const unitPrices = session.businessSettings?.unitPrices || {};
+  if (session.category === "hvac" && /diagnostic/.test(serviceType)) {
+    const fee = money(input.diagnosticFee ?? unitPrices.diagnosticFee ?? 89);
+    const hours = Math.max(1, Number(input.estimatedHours || 1));
+    const rate = Number(input.hourlyRate || unitPrices.hourlyRate || 125);
+    const labor = hours > 1 ? money((hours - 1) * rate) : 0;
+    const items = [{
+      description: `${session.label}: System diagnostic visit`,
+      quantity: 1,
+      unit: "visit",
+      unitPrice: fee,
+      amount: fee,
+      sourceApi: "hvac-diagnostic-fee"
+    }];
+    if (labor > 0) {
+      items.push({
+        description: `${session.label}: Extended diagnostic labor`,
+        quantity: hours - 1,
+        unit: "hour",
+        unitPrice: rate,
+        amount: labor,
+        sourceApi: "guided-fallback"
+      });
+    }
+    return items;
+  }
+  if ((session.category === "hvac" || session.category === "electrical" || session.category === "plumbing")
+    && /repair|maintain|diagnostic|inspect/.test(serviceType)) {
+    const hours = Number(input.estimatedHours || 1);
+    const rate = Number(input.hourlyRate || unitPrices.hourlyRate || 125);
+    const labor = money(hours * rate);
+    const items = [{
+      description: `${session.label}: ${serviceType || "service"} labor`,
+      quantity: hours,
+      unit: "hour",
+      unitPrice: rate,
+      amount: labor,
+      sourceApi: "guided-fallback"
+    }];
+    if (Number(input.materialCost) > 0) {
+      items.push({
+        description: "Materials and parts",
+        quantity: 1,
+        unit: "lot",
+        unitPrice: Number(input.materialCost),
+        amount: Number(input.materialCost),
+        sourceApi: "guided-input"
+      });
+    }
+    return items;
+  }
+  return null;
 }
 
 function categorySummary(category, flow) {
@@ -423,14 +518,19 @@ export function createInvoiceFromSession(sessionId, overrides={}) {
   const session=sessions.get(sessionId); if(!session){ const e=new Error("Guided workflow session not found"); e.statusCode=404; throw e; }
   const input=buildAutomationInput(session);
   if(session.apiResults.length===0){
-    const fallback={ landscape:"landscaping-estimate",hvac:"hvac-replacement-estimate",cleaning:"cleaning-service-estimate","pest-control":"pest-treatment-estimate",pool:"pool-service-estimate",painting:"paint-interior-estimate",roofing:"roof-replacement-estimate",plumbing:"plumbing-repair-estimate",electrical:"electrical-service-upgrade","general-contract":"gc-project-estimate",surveillance:"surveillance-install-estimate","trash-removal":"trash-haul-estimate",transportation:"transport-local-move-estimate",healthcare:"healthcare-nursing-visit-estimate","bakery-food":"bakery-production-estimate","law-office":"law-office-consultation-estimate" }[session.category];
-    session.apiResults.push({questionKey:null,endpointType:fallback,result:runAutomation(fallback,input)});
+    const fallback = serviceAwareFallbackType(session);
+    if (fallback) {
+      session.apiResults.push({questionKey:null,endpointType:fallback,result:runAutomation(fallback,input)});
+    }
   }
   let lineItems=session.apiResults.map(x=>resultToLineItem(x.result,session)).filter(Boolean);
   if(!lineItems.length){
-    const labor=money(Number(input.estimatedHours||1)*Number(input.hourlyRate||85));
-    lineItems=[{description:`${session.label} labor`,quantity:Number(input.estimatedHours||1),unit:"hour",unitPrice:Number(input.hourlyRate||85),amount:labor,sourceApi:"guided-fallback"}];
-    if(Number(input.materialCost)>0) lineItems.push({description:"Materials and equipment",quantity:1,unit:"lot",unitPrice:Number(input.materialCost),amount:Number(input.materialCost),sourceApi:"guided-input"});
+    lineItems = feeBasedLineItems(session, input) || (() => {
+      const labor=money(Number(input.estimatedHours||1)*Number(input.hourlyRate||85));
+      const items=[{description:`${session.label} labor`,quantity:Number(input.estimatedHours||1),unit:"hour",unitPrice:Number(input.hourlyRate||85),amount:labor,sourceApi:"guided-fallback"}];
+      if(Number(input.materialCost)>0) items.push({description:"Materials and equipment",quantity:1,unit:"lot",unitPrice:Number(input.materialCost),amount:Number(input.materialCost),sourceApi:"guided-input"});
+      return items;
+    })();
   }
   if(Array.isArray(overrides.additionalLineItems)) lineItems.push(...overrides.additionalLineItems);
   const subtotal=money(lineItems.reduce((s,x)=>s+Number(x.amount||0),0));
