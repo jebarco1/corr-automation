@@ -43,7 +43,7 @@ const categoryWords = {
   transportation:["transport","moving","local move","long haul","delivery","freight","pickup","dropoff","relocate","truckload","courier"," move","mover","apartment move","house move"],
   healthcare:["nurse","nursing","rn ","lpn","doctor","physician","home health","home visit","patient","clinical","medical staffing","hospice","care plan"],
   "bakery-food":["bakery","cake","cupcake","pastry","catering tray","dessert table","wholesale bread","cookie box","gluten-free bake","food service catering"],
-  "law-office":["lawyer","attorney","law office","legal consult","contract review","retainer","court appearance","estate planning","trademark filing","demand letter"]
+  "law-office":["lawyer","attorney","law office","legal consult","contract review","retainer","court appearance","estate planning","trademark filing","demand letter","divorce","family law"]
 };
 
 function inferCategoryLocally(message="") {

@@ -127,7 +127,7 @@
       "category": "law-office",
       "label": "Law Office",
       "file": "data/service-catalog/law-office.json",
-      "serviceCount": 14,
+      "serviceCount": 15,
       "defaultServiceId": "initial-consultation",
       "endpoint": "/api/v1/law-office/services"
     }

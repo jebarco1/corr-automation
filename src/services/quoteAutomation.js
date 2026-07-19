@@ -340,21 +340,28 @@ export function buildSmartDefaults(category, message = "", businessSettings = {}
   }
 
   if (category === "law-office") {
-    if (!answers.practiceArea) {
-      answers.practiceArea = pickOption(lower, ["contracts", "employment", "real estate", "estate planning", "family", "collections", "intellectual property", "general counsel", "business"], "business");
-    }
     if (!answers.serviceType) {
-      answers.serviceType = pickOption(lower, ["document review", "contract drafting", "retainer block", "business formation", "employment advisory", "real estate closing", "estate planning", "court appearance", "demand letter", "compliance audit", "initial consultation"], "initial consultation");
+      answers.serviceType = pickOption(lower, ["divorce", "family matter", "document review", "contract drafting", "retainer block", "business formation", "employment advisory", "real estate closing", "estate planning", "court appearance", "demand letter", "compliance audit", "initial consultation"], "initial consultation");
+    }
+    if (!answers.practiceArea) {
+      const serviceType = String(answers.serviceType || "").toLowerCase();
+      answers.practiceArea = /divorce|family/.test(serviceType) || /divorce|custody|child support/.test(lower)
+        ? "family"
+        : pickOption(lower, ["contracts", "employment", "real estate", "estate planning", "family", "collections", "intellectual property", "general counsel", "business"], "business");
     }
     if (!answers.urgency) answers.urgency = pickOption(lower, ["same-week hearing", "rush", "standard"], /rush|urgent|hearing/.test(lower) ? "rush" : "standard");
     if (!answers.attorneyRole) {
       answers.attorneyRole = /partner/.test(lower) ? "partner" : /paralegal/.test(lower) ? "paralegal with attorney review" : "associate";
     }
     if (answers.estimatedHours == null) {
-      answers.estimatedHours = /retainer/.test(String(answers.serviceType)) ? 10 : /appearance|closing|estate|formation/.test(String(answers.serviceType)) ? 5 : 2;
+      const serviceType = String(answers.serviceType || "");
+      answers.estimatedHours = /divorce/i.test(serviceType) ? 12
+        : /retainer|family matter/i.test(serviceType) ? 10
+        : /appearance|closing|estate|formation/i.test(serviceType) ? 5
+        : 2;
     }
     answers.hourlyRate = answers.attorneyRole === "partner" ? (prices.partnerHourly || 375) : answers.attorneyRole.includes("paralegal") ? (prices.paralegalHourly || 125) : (prices.associateHourly || prices.hourlyRate || 225);
-    if (answers.retainerAmount == null && /retainer/.test(String(answers.serviceType))) {
+    if (answers.retainerAmount == null && /retainer|divorce|family matter/i.test(String(answers.serviceType))) {
       answers.retainerAmount = prices.retainerMinimum || 1500;
     }
   }

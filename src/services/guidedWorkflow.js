@@ -133,9 +133,9 @@ const flows = {
     {key:"estimatedHours",question:"How many production labor hours are expected?",type:"number",ask:false, required:true,trigger:"bakery-production-estimate"},
     {key:"materialCost",question:"What ingredient and packaging cost is expected?",type:"currency",ask:false, required:true,trigger:"bakery-catering-estimate"}
   ]},
-  "law-office":{ label:"Law Office", description:"Consultations, document review/drafting, retainers, court appearances, and small-business legal packages.", questions:[...common,
+  "law-office":{ label:"Law Office", description:"Consultations, document review/drafting, retainers, divorce/family matters, court appearances, and small-business legal packages.", questions:[...common,
     {key:"practiceArea",question:"What practice area applies?",type:"select",options:["business","contracts","employment","real estate","estate planning","family","collections","intellectual property","general counsel"],ask:false, required:true,trigger:"law-office-matter-profile"},
-    {key:"serviceType",question:"Which legal service is needed?",type:"select",options:["initial consultation","document review","contract drafting","retainer block","business formation","employment advisory","real estate closing","estate planning","court appearance","demand letter","compliance audit"],ask:false, required:true},
+    {key:"serviceType",question:"Which legal service is needed?",type:"select",options:["initial consultation","document review","contract drafting","retainer block","business formation","employment advisory","real estate closing","estate planning","divorce","family matter","court appearance","demand letter","compliance audit"],ask:false, required:true},
     {key:"urgency",question:"How urgent is the matter?",type:"select",options:["standard","rush","same-week hearing"],ask:false, required:true},
     {key:"attorneyRole",question:"Which role should primarily staff the matter?",type:"select",options:["partner","associate","paralegal with attorney review"],ask:false, required:true},
     {key:"estimatedHours",question:"How many billable hours are expected?",type:"number",ask:false, required:true,trigger:"law-office-consultation-estimate"},
