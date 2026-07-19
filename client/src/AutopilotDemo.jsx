@@ -3,6 +3,7 @@ import {
   Activity,
   Bot,
   CircleDollarSign,
+  ClipboardList,
   MapPin,
   Pause,
   Play,
@@ -13,6 +14,7 @@ import {
 } from "lucide-react";
 import { categories } from "./categoryCatalog.js";
 import { buildAutopilotScenario, PHASES, PIPELINE_STAGES } from "./autopilotSim.js";
+import AutopilotResults from "./AutopilotResults.jsx";
 
 const SPEED_OPTIONS = [
   { id: "1x", label: "1×", factor: 1 },
@@ -37,19 +39,23 @@ function emptyMetrics() {
   };
 }
 
-export default function AutopilotDemo() {
+export default function AutopilotDemo({ onOpenVendor } = {}) {
   const [category, setCategory] = useState("landscape");
   const [running, setRunning] = useState(false);
   const [speed, setSpeed] = useState("2x");
   const [phase, setPhase] = useState("idle");
   const [feed, setFeed] = useState([]);
   const [leads, setLeads] = useState([]);
+  const [jobs, setJobs] = useState([]);
   const [metrics, setMetrics] = useState(emptyMetrics());
   const [activeCities, setActiveCities] = useState([]);
   const [latestInvoice, setLatestInvoice] = useState(null);
   const [cycle, setCycle] = useState(0);
   const [elapsed, setElapsed] = useState(0);
   const [livePulse, setLivePulse] = useState(false);
+  const [view, setView] = useState("live");
+  const [focusLeadId, setFocusLeadId] = useState(null);
+  const [focusJobId, setFocusJobId] = useState(null);
 
   const scenario = useMemo(
     () => buildAutopilotScenario(category, {
@@ -66,6 +72,7 @@ export default function AutopilotDemo() {
 
   const selected = categories.find(item => item.category === category);
   const speedFactor = SPEED_OPTIONS.find(item => item.id === speed)?.factor || 1;
+  const hasResults = phase === "complete" || (leads.length > 0 && !running);
 
   useEffect(() => {
     feedEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -88,11 +95,15 @@ export default function AutopilotDemo() {
     setPhase("idle");
     setFeed([]);
     setLeads([]);
+    setJobs([]);
     setMetrics(emptyMetrics());
     setActiveCities([]);
     setLatestInvoice(null);
     setElapsed(0);
     setLivePulse(false);
+    setView("live");
+    setFocusLeadId(null);
+    setFocusJobId(null);
     if (!keepCategory) setCategory("landscape");
   }
 
@@ -100,6 +111,19 @@ export default function AutopilotDemo() {
     setLeads(prev => {
       const index = prev.findIndex(item => item.id === leadId);
       if (index === -1 && fullLead) return [{ ...fullLead, ...patch }, ...prev];
+      if (index === -1) return prev;
+      const next = [...prev];
+      next[index] = { ...next[index], ...patch };
+      return next;
+    });
+  }
+
+  function upsertJob(job, patch) {
+    if (!job && !patch?.id) return;
+    setJobs(prev => {
+      const id = job?.id || patch.id;
+      const index = prev.findIndex(item => item.id === id);
+      if (index === -1 && job) return [{ ...job, ...patch }, ...prev];
       if (index === -1) return prev;
       const next = [...prev];
       next[index] = { ...next[index], ...patch };
@@ -143,6 +167,9 @@ export default function AutopilotDemo() {
       }
     }
 
+    if (event.job) upsertJob(event.job);
+    if (event.jobPatch) upsertJob(null, event.jobPatch);
+
     if (event.metric?.key === "costUsd") {
       setMetrics(prev => ({ ...prev, costUsd: event.metric.value }));
     }
@@ -160,18 +187,41 @@ export default function AutopilotDemo() {
       setMetrics(prev => ({ ...prev, paid: prev.paid + (event.metric.delta || 1) }));
     }
 
-    if (event.invoice) setLatestInvoice(event.invoice);
+    if (event.invoice) {
+      setLatestInvoice(event.invoice);
+      if (event.leadPatch?.quoteStatus === "accepted" || event.type === "accepted") {
+        setLatestInvoice(prev => (prev ? { ...prev, status: "accepted" } : prev));
+      }
+    }
+    if (event.type === "accepted" && event.leadId) {
+      setLatestInvoice(prev => (
+        prev && (!prev.id || prev.id === `qt_${event.leadId}`)
+          ? { ...prev, status: "accepted" }
+          : prev
+      ));
+    }
+    if (event.type === "paid" && event.leadId) {
+      setLatestInvoice(prev => (
+        prev && (!prev.id || prev.id === `qt_${event.leadId}`)
+          ? { ...prev, status: "paid" }
+          : prev
+      ));
+    }
   }
 
   function startSimulation(plan = scenario) {
     clearAllTimers();
     setFeed([]);
     setLeads([]);
+    setJobs([]);
     setMetrics(emptyMetrics());
     setActiveCities([]);
     setLatestInvoice(null);
     setPhase("idle");
     setRunning(true);
+    setView("live");
+    setFocusLeadId(null);
+    setFocusJobId(null);
     setElapsed(0);
     startedAtRef.current = Date.now();
 
@@ -189,6 +239,10 @@ export default function AutopilotDemo() {
             clearInterval(tickRef.current);
             tickRef.current = null;
           }
+          // Let React flush lead/job state, then open results.
+          setTimeout(() => {
+            setView("results");
+          }, 80);
         }
       }, delay);
       timersRef.current.push(timer);
@@ -216,11 +270,37 @@ export default function AutopilotDemo() {
     setCycle(value => value + 1);
   }
 
+  function openResults(leadId = null, jobId = null) {
+    setFocusLeadId(leadId);
+    setFocusJobId(jobId);
+    setView("results");
+  }
+
   const phaseIndex = Math.max(0, PHASES.findIndex(item => item.id === phase));
   const pipeline = PIPELINE_STAGES.map(stage => ({
     ...stage,
     items: leads.filter(lead => lead.stage === stage.id)
   }));
+
+  if (view === "results") {
+    return (
+      <AutopilotResults
+        leads={leads}
+        jobs={jobs}
+        metrics={metrics}
+        scenario={scenario}
+        elapsed={elapsed}
+        initialLeadId={focusLeadId}
+        initialJobId={focusJobId}
+        onBack={() => setView("live")}
+        onRunAgain={() => {
+          setView("live");
+          onPlay();
+        }}
+        onOpenVendor={onOpenVendor}
+      />
+    );
+  }
 
   return (
     <section className="autopilot">
@@ -233,7 +313,7 @@ export default function AutopilotDemo() {
           </h2>
           <p>
             Watch one category hunt leads, enrich contacts, quote jobs, schedule work, and collect payment —
-            as a live demo loop. Simulated for the vendor website (no Origami/OpenAI spend).
+            then open the results page for every lead, job, value, and next action.
           </p>
           <div className="autopilot-controls">
             <label className="field compact">
@@ -281,6 +361,12 @@ export default function AutopilotDemo() {
                 <RotateCcw size={16} />
                 Reset
               </button>
+              {hasResults && (
+                <button className="primary results-cta" type="button" onClick={() => openResults()}>
+                  <ClipboardList size={16} />
+                  {phase === "complete" ? "View results" : "View progress results"}
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -310,6 +396,16 @@ export default function AutopilotDemo() {
           </div>
         </div>
       </div>
+
+      {phase === "complete" && (
+        <div className="notice results-banner">
+          Cycle complete — <strong>{formatUsd(metrics.revenue)}</strong> revenue on ~{formatUsd(metrics.costUsd)} spend.
+          {" "}
+          <button className="link" type="button" onClick={() => openResults()}>
+            Open results, suggestions &amp; actions →
+          </button>
+        </div>
+      )}
 
       <div className="autopilot-metrics">
         {[
@@ -407,7 +503,7 @@ export default function AutopilotDemo() {
       <div className="card autopilot-pipeline">
         <div className="panel-head">
           <h3>Pipeline</h3>
-          <small>Leads move stages as the autopilot runs</small>
+          <small>Click a lead card to open results detail</small>
         </div>
         <div className="pipeline-board">
           {pipeline.map(column => (
@@ -418,7 +514,19 @@ export default function AutopilotDemo() {
               </header>
               <div className="pipe-list">
                 {column.items.map(lead => (
-                  <article key={lead.id} className="pipe-card">
+                  <article
+                    key={lead.id}
+                    className="pipe-card clickable"
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => openResults(lead.id, lead.jobId || null)}
+                    onKeyDown={e => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        openResults(lead.id, lead.jobId || null);
+                      }
+                    }}
+                  >
                     <strong>{lead.name}</strong>
                     <small>{lead.market}</small>
                     <span>{lead.service}</span>

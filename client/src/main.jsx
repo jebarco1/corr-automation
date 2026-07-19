@@ -458,7 +458,7 @@ function App() {
 
         {error && <div className="error">{error}</div>}
 
-        {tab === "autopilot" && <AutopilotDemo />}
+        {tab === "autopilot" && <AutopilotDemo onOpenVendor={() => setTab("vendor")} />}
         {tab === "vendor" && <VendorOps />}
 
         {tab === "workflow" && (

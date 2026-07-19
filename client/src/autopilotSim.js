@@ -190,14 +190,16 @@ export function buildAutopilotScenario(category = "landscape", options = {}) {
       leadId: lead.id,
       leadPatch: { stage: "contacted" }
     });
+    const quoteId = `qt_${lead.id}`;
     push(520, {
       type: "quote",
       title: `Quote drafted · ${lead.service}`,
       detail: `${lead.name} · $${lead.quoteAmount.toLocaleString()}`,
       leadId: lead.id,
-      leadPatch: { stage: "quoted" },
+      leadPatch: { stage: "quoted", quoteId, quoteStatus: "draft" },
       metric: { key: "quotes", delta: 1 },
       invoice: {
+        id: quoteId,
         customer: lead.name,
         service: lead.service,
         amount: lead.quoteAmount,
@@ -216,13 +218,17 @@ export function buildAutopilotScenario(category = "landscape", options = {}) {
     detail: "Simulating acceptances, crew dispatch, and payments"
   });
 
+  const crews = ["Crew A · North", "Crew B · Midtown", "Crew C · East"];
   won.forEach((lead, index) => {
+    const quoteId = `qt_${lead.id}`;
+    const jobId = `job_${lead.id}`;
+    const dayOffset = 1 + index;
     push(560 + index * 160, {
       type: "accepted",
       title: `Quote accepted · ${lead.name}`,
       detail: `$${lead.quoteAmount.toLocaleString()} locked`,
       leadId: lead.id,
-      leadPatch: { stage: "won" },
+      leadPatch: { stage: "won", quoteId, quoteStatus: "accepted" },
       metric: { key: "won", delta: 1, revenue: lead.quoteAmount }
     });
     push(420, {
@@ -230,14 +236,30 @@ export function buildAutopilotScenario(category = "landscape", options = {}) {
       title: `Job scheduled · ${lead.service}`,
       detail: `Crew assigned · ${lead.address}`,
       leadId: lead.id,
-      leadPatch: { stage: "scheduled" }
+      leadPatch: { stage: "scheduled", jobId },
+      job: {
+        id: jobId,
+        leadId: lead.id,
+        quoteId,
+        title: lead.service,
+        customer: lead.name,
+        phone: lead.phone,
+        email: lead.email,
+        address: lead.address,
+        market: lead.market,
+        amount: lead.quoteAmount,
+        status: "scheduled",
+        assignee: crews[index % crews.length],
+        scheduledLabel: `Tomorrow +${dayOffset}d · 9:00 AM`
+      }
     });
     push(480, {
       type: "paid",
       title: `Payment captured · ${lead.name}`,
       detail: `Deposit/balance · $${lead.quoteAmount.toLocaleString()}`,
       leadId: lead.id,
-      leadPatch: { stage: "paid" },
+      leadPatch: { stage: "paid", paid: true },
+      jobPatch: { id: jobId, status: "paid", paidAmount: lead.quoteAmount },
       metric: { key: "paid", delta: 1, revenue: lead.quoteAmount }
     });
   });
@@ -298,3 +320,204 @@ export const PHASES = [
   { id: "fulfill", label: "Fulfill & collect" },
   { id: "complete", label: "Cycle done" }
 ];
+
+const STAGE_LABELS = Object.fromEntries(PIPELINE_STAGES.map(item => [item.id, item.label]));
+
+/**
+ * Value snapshot + ranked next actions after a completed (or paused mid-run) cycle.
+ */
+export function buildAutopilotResults({
+  leads = [],
+  jobs = [],
+  metrics = {},
+  category = "landscape",
+  label = "Category",
+  summary = {},
+  elapsed = 0
+} = {}) {
+  const spend = Number(metrics.costUsd || summary.estimatedApiSpend || 0);
+  const revenue = Number(metrics.revenue || 0);
+  const pipelineValue = leads
+    .filter(lead => ["quoted", "won", "scheduled", "nurture", "contacted", "contact-ready"].includes(lead.stage))
+    .reduce((sum, lead) => sum + Number(lead.quoteAmount || 0), 0);
+  const openPipeline = leads
+    .filter(lead => ["quoted", "nurture", "contacted", "contact-ready"].includes(lead.stage))
+    .reduce((sum, lead) => sum + Number(lead.quoteAmount || 0), 0);
+  const roiMultiple = spend > 0 ? Math.round((revenue / spend) * 10) / 10 : null;
+  const conversionRate = metrics.leads
+    ? Math.round(((metrics.won || 0) / metrics.leads) * 100)
+    : 0;
+
+  const value = {
+    revenue,
+    spend,
+    net: Math.round((revenue - spend) * 100) / 100,
+    roiMultiple,
+    pipelineValue: Math.round(pipelineValue * 100) / 100,
+    openPipeline: Math.round(openPipeline * 100) / 100,
+    conversionRate,
+    leads: metrics.leads || leads.length,
+    quotes: metrics.quotes || 0,
+    won: metrics.won || 0,
+    paid: metrics.paid || 0,
+    jobs: jobs.length,
+    elapsed,
+    projectedRevenue: Number(summary.projectedRevenue || 0)
+  };
+
+  const suggestions = buildAutopilotSuggestions({ leads, jobs, metrics, value, category, label });
+  const detailedLeads = [...leads]
+    .sort((a, b) => {
+      const rank = stageRank(b.stage) - stageRank(a.stage);
+      if (rank !== 0) return rank;
+      return Number(b.score || 0) - Number(a.score || 0);
+    })
+    .map(lead => ({
+      ...lead,
+      stageLabel: STAGE_LABELS[lead.stage] || lead.stage,
+      job: jobs.find(job => job.leadId === lead.id) || null
+    }));
+
+  return {
+    category,
+    label,
+    value,
+    suggestions,
+    leads: detailedLeads,
+    jobs: [...jobs].sort((a, b) => Number(b.amount || 0) - Number(a.amount || 0)),
+    summary
+  };
+}
+
+function stageRank(stage) {
+  const order = ["paid", "scheduled", "won", "quoted", "contacted", "nurture", "contact-ready", "new", "queued"];
+  const index = order.indexOf(stage);
+  return index === -1 ? 0 : order.length - index;
+}
+
+export function buildAutopilotSuggestions({ leads = [], jobs = [], metrics = {}, value = {}, category, label } = {}) {
+  const suggestions = [];
+  const nurture = leads.filter(lead => lead.stage === "nurture");
+  const quoted = leads.filter(lead => lead.stage === "quoted");
+  const contactReady = leads.filter(lead => lead.stage === "contact-ready");
+  const paidJobs = jobs.filter(job => job.status === "paid");
+  const scheduledJobs = jobs.filter(job => job.status === "scheduled");
+  const topNurture = [...nurture].sort((a, b) => b.score - a.score)[0];
+  const topQuoted = [...quoted].sort((a, b) => b.quoteAmount - a.quoteAmount)[0];
+  const topReady = [...contactReady].sort((a, b) => b.score - a.score)[0];
+
+  if (nurture.length) {
+    suggestions.push({
+      id: "follow-nurture",
+      priority: "high",
+      title: `Call or text ${nurture.length} nurture lead${nurture.length === 1 ? "" : "s"}`,
+      detail: topNurture
+        ? `Start with ${topNurture.name} (score ${topNurture.score}) — ${topNurture.service} · ${formatMoney(topNurture.quoteAmount)} potential.`
+        : "Warm leads need a day-2 follow-up before they go cold.",
+      actionLabel: "Open top nurture lead",
+      actionType: "select-lead",
+      leadId: topNurture?.id
+    });
+  }
+
+  if (quoted.length) {
+    suggestions.push({
+      id: "close-quotes",
+      priority: "high",
+      title: `Close ${quoted.length} open quote${quoted.length === 1 ? "" : "s"}`,
+      detail: topQuoted
+        ? `${topQuoted.name} has a ${formatMoney(topQuoted.quoteAmount)} draft sitting unanswered — send a short “ready to book?” nudge.`
+        : "Quoted leads convert fastest with a same-day reminder.",
+      actionLabel: "Review open quote",
+      actionType: "select-lead",
+      leadId: topQuoted?.id
+    });
+  }
+
+  if (scheduledJobs.length) {
+    suggestions.push({
+      id: "confirm-jobs",
+      priority: "medium",
+      title: `Confirm ${scheduledJobs.length} scheduled job${scheduledJobs.length === 1 ? "" : "s"}`,
+      detail: `${scheduledJobs[0].customer} · ${scheduledJobs[0].title} with ${scheduledJobs[0].assignee}. Confirm window and send arrival SMS.`,
+      actionLabel: "Open job detail",
+      actionType: "select-job",
+      jobId: scheduledJobs[0].id,
+      leadId: scheduledJobs[0].leadId
+    });
+  }
+
+  if (paidJobs.length) {
+    suggestions.push({
+      id: "import-crm",
+      priority: "medium",
+      title: "Import paid wins into Vendor Ops CRM",
+      detail: `${paidJobs.length} paid job${paidJobs.length === 1 ? "" : "s"} · ${formatMoney(value.revenue)} captured. Persist them under your tenant so crews and invoices stay real.`,
+      actionLabel: "Open Vendor Ops",
+      actionType: "open-vendor"
+    });
+  }
+
+  if (contactReady.length && !quoted.length) {
+    suggestions.push({
+      id: "start-outreach",
+      priority: "high",
+      title: `Start outreach on ${contactReady.length} contact-ready lead${contactReady.length === 1 ? "" : "s"}`,
+      detail: topReady
+        ? `${topReady.name} is enriched (${topReady.phone}) — send the ${topReady.service} intro now.`
+        : "Contacts are verified; don’t leave them idle.",
+      actionLabel: "Open contact-ready lead",
+      actionType: "select-lead",
+      leadId: topReady?.id
+    });
+  }
+
+  if ((value.roiMultiple || 0) >= 20 || (value.conversionRate || 0) >= 30) {
+    suggestions.push({
+      id: "expand-cities",
+      priority: "medium",
+      title: `Scale ${label} hunt to more cities`,
+      detail: `This cycle returned ~${value.roiMultiple || "—"}× on ~${formatMoney(value.spend)} API spend. Add a 5th market or raise monthly hunt volume.`,
+      actionLabel: "Run again",
+      actionType: "run-again"
+    });
+  } else {
+    suggestions.push({
+      id: "tune-category",
+      priority: "low",
+      title: "Try another category with the same playbook",
+      detail: `Compare conversion on HVAC, cleaning, or plumbing using the same Georgia pilot cities.`,
+      actionLabel: "Back to live sim",
+      actionType: "back-live"
+    });
+  }
+
+  suggestions.push({
+    id: "public-booking",
+    priority: "low",
+    title: "Share the public booking page",
+    detail: "Customers can self-book at /book/demo-landscape while you work the CRM queue.",
+    actionLabel: "Open booking page",
+    actionType: "open-booking",
+    href: "/book/demo-landscape"
+  });
+
+  if ((metrics.outreach || 0) > 0 && nurture.length + quoted.length > 0) {
+    suggestions.push({
+      id: "copy-script",
+      priority: "low",
+      title: "Use today’s outreach script",
+      detail: `“Hi — we help ${label.toLowerCase()} accounts in your area with fast quotes and scheduled crews. Want a ${topQuoted?.service || topNurture?.service || "service"} estimate this week?”`,
+      actionLabel: "Copy script",
+      actionType: "copy-script",
+      copyText: `Hi — we help ${label} accounts in your area with fast quotes and scheduled crews. Want an estimate this week?`
+    });
+  }
+
+  const priorityRank = { high: 0, medium: 1, low: 2 };
+  return suggestions.sort((a, b) => (priorityRank[a.priority] ?? 9) - (priorityRank[b.priority] ?? 9));
+}
+
+function formatMoney(value) {
+  return `$${Number(value || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+}
