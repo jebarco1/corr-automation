@@ -2,6 +2,12 @@ import { Router } from "express";
 import { answerGuidedWorkflow, createInvoiceFromSession, getCategory, getGuidedWorkflow, listCategories, listGuidedCategories, runGuidedStep, startGuidedWorkflow, createInstantQuote } from "../services/guidedWorkflow.js";
 import { getServiceById, listServiceCatalogs, listServices } from "../services/serviceCatalog.js";
 import { getServiceDocs, listServiceDocs } from "../services/serviceDocs.js";
+import {
+  applyServiceRecommendation,
+  chatServiceAdvisor,
+  dismissServiceRecommendation,
+  getServiceAdvisorSession
+} from "../services/serviceAdvisor.js";
 
 const router = Router();
 const categories = ["landscape", "hvac", "cleaning", "pest-control", "pool", "painting", "roofing", "plumbing", "electrical", "general-contract", "surveillance", "trash-removal", "transportation", "healthcare", "bakery-food", "law-office"];
@@ -45,6 +51,38 @@ router.get("/services/:category", (req, res, next) => {
 router.get("/service-docs", (_req, res, next) => {
   try {
     res.json(listServiceDocs());
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/service-docs/advisor/chat", async (req, res, next) => {
+  try {
+    res.json(await chatServiceAdvisor(req.body || {}));
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/service-docs/advisor/apply", (req, res, next) => {
+  try {
+    res.json(applyServiceRecommendation(req.body || {}));
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/service-docs/advisor/dismiss", (req, res, next) => {
+  try {
+    res.json(dismissServiceRecommendation(req.body || {}));
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/service-docs/advisor/sessions/:sessionId", (req, res, next) => {
+  try {
+    res.json(getServiceAdvisorSession(req.params.sessionId));
   } catch (error) {
     next(error);
   }
