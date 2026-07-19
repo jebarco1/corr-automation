@@ -13,3 +13,5 @@ coverage/
 tmp/
 data/db/*.sqlite
 data/db/*.sqlite-*
+data/db/*.json
+data/db/*.tmp

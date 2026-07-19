@@ -1,4 +1,4 @@
-import { getDb, makeId, nowIso, parseJson } from "../db/sqlite.js";
+import { getStore, makeId, nowIso, parseJson } from "../db/store.js";
 import { emitVendorEvent } from "./webhooks.js";
 
 export const LEAD_STATUSES = [
@@ -34,40 +34,20 @@ function mapLead(row) {
 }
 
 export function listLeads(vendorId, options = {}) {
-  const clauses = ["vendor_id = ?"];
-  const params = [vendorId];
-  if (options.status) {
-    clauses.push("status = ?");
-    params.push(options.status);
-  }
-  if (options.category) {
-    clauses.push("category = ?");
-    params.push(options.category);
-  }
-  if (options.segment) {
-    clauses.push("segment = ?");
-    params.push(options.segment);
-  }
-  if (options.assignee) {
-    clauses.push("assignee = ?");
-    params.push(options.assignee);
-  }
-  const limit = Math.min(Number(options.limit || 100), 500);
-  const rows = getDb().prepare(`
-    SELECT * FROM leads
-    WHERE ${clauses.join(" AND ")}
-    ORDER BY updated_at DESC
-    LIMIT ?
-  `).all(...params, limit);
-  return {
-    count: rows.length,
-    leads: rows.map(mapLead)
-  };
+  const query = { vendor_id: vendorId };
+  if (options.status) query.status = options.status;
+  if (options.category) query.category = options.category;
+  if (options.segment) query.segment = options.segment;
+  if (options.assignee) query.assignee = options.assignee;
+  const rows = getStore().leads.find(query, {
+    sort: [{ key: "updated_at", dir: "desc" }],
+    limit: Math.min(Number(options.limit || 100), 500)
+  });
+  return { count: rows.length, leads: rows.map(mapLead) };
 }
 
 export function getLead(vendorId, leadId) {
-  const row = getDb().prepare("SELECT * FROM leads WHERE vendor_id = ? AND id = ?").get(vendorId, leadId);
-  return mapLead(row);
+  return mapLead(getStore().leads.findOne({ vendor_id: vendorId, id: leadId }));
 }
 
 export function createLead(vendorId, input = {}) {
@@ -76,40 +56,33 @@ export function createLead(vendorId, input = {}) {
     error.statusCode = 400;
     throw error;
   }
-  const db = getDb();
   const now = nowIso();
   const id = makeId("vld");
   const status = LEAD_STATUSES.includes(input.status) ? input.status : "new";
-  db.prepare(`
-    INSERT INTO leads (
-      id, vendor_id, external_lead_id, segment, category, name, phone, email, address,
-      city, state, url, customer_type, score, status, assignee, notes_json, quote_id, source,
-      payload_json, created_at, updated_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `).run(
+  getStore().leads.insert({
     id,
-    vendorId,
-    input.externalLeadId || input.leadId || null,
-    input.segment || null,
-    input.category || null,
-    input.name,
-    input.phone || null,
-    input.email || null,
-    input.address || null,
-    input.city || null,
-    input.state || null,
-    input.url || null,
-    input.customerType || null,
-    Number(input.score || 0),
+    vendor_id: vendorId,
+    external_lead_id: input.externalLeadId || input.leadId || null,
+    segment: input.segment || null,
+    category: input.category || null,
+    name: input.name,
+    phone: input.phone || null,
+    email: input.email || null,
+    address: input.address || null,
+    city: input.city || null,
+    state: input.state || null,
+    url: input.url || null,
+    customer_type: input.customerType || null,
+    score: Number(input.score || 0),
     status,
-    input.assignee || null,
-    JSON.stringify(input.notes || []),
-    input.quoteId || null,
-    input.source || "manual",
-    JSON.stringify(input.payload || input),
-    now,
-    now
-  );
+    assignee: input.assignee || null,
+    notes_json: input.notes || [],
+    quote_id: input.quoteId || null,
+    source: input.source || "manual",
+    payload_json: input.payload || input,
+    created_at: now,
+    updated_at: now
+  });
   const lead = getLead(vendorId, id);
   if (status === "contact-ready" || (lead.phone || lead.email)) {
     emitVendorEvent(vendorId, "lead.ready", { lead }).catch(() => {});
@@ -135,19 +108,26 @@ export function updateLead(vendorId, leadId, patch = {}) {
     notes: patch.notes ?? existing.notes,
     payload: patch.payload ?? existing.payload
   };
-  const now = nowIso();
-  getDb().prepare(`
-    UPDATE leads SET
-      segment = ?, category = ?, name = ?, phone = ?, email = ?, address = ?,
-      city = ?, state = ?, url = ?, customer_type = ?, score = ?, status = ?,
-      assignee = ?, notes_json = ?, quote_id = ?, source = ?, payload_json = ?, updated_at = ?
-    WHERE vendor_id = ? AND id = ?
-  `).run(
-    next.segment, next.category, next.name, next.phone, next.email, next.address,
-    next.city, next.state, next.url, next.customerType, Number(next.score || 0), next.status,
-    next.assignee, JSON.stringify(next.notes || []), next.quoteId, next.source,
-    JSON.stringify(next.payload || {}), now, vendorId, leadId
-  );
+  getStore().leads.updateWhere({ vendor_id: vendorId, id: leadId }, {
+    segment: next.segment,
+    category: next.category,
+    name: next.name,
+    phone: next.phone,
+    email: next.email,
+    address: next.address,
+    city: next.city,
+    state: next.state,
+    url: next.url,
+    customer_type: next.customerType,
+    score: Number(next.score || 0),
+    status: next.status,
+    assignee: next.assignee,
+    notes_json: next.notes || [],
+    quote_id: next.quoteId,
+    source: next.source,
+    payload_json: next.payload || {},
+    updated_at: nowIso()
+  });
   const lead = getLead(vendorId, leadId);
   if (patch.status === "contact-ready") {
     emitVendorEvent(vendorId, "lead.ready", { lead }).catch(() => {});
@@ -173,8 +153,7 @@ export function addLeadNote(vendorId, leadId, noteInput = {}) {
     error.statusCode = 400;
     throw error;
   }
-  const notes = [...(lead.notes || []), note];
-  return updateLead(vendorId, leadId, { notes });
+  return updateLead(vendorId, leadId, { notes: [...(lead.notes || []), note] });
 }
 
 export function assignLead(vendorId, leadId, assignee) {
@@ -193,9 +172,7 @@ export function linkLeadQuote(vendorId, leadId, quoteId) {
 export function importHuntLeads(vendorId, huntLeads = [], options = {}) {
   const imported = [];
   for (const item of huntLeads) {
-    const status = (item.phone || item.email || item.address)
-      ? (item.status === "contact-ready" ? "contact-ready" : "contact-ready")
-      : "new";
+    const status = (item.phone || item.email || item.address) ? "contact-ready" : "new";
     imported.push(createLead(vendorId, {
       externalLeadId: item.leadId,
       segment: item.segment || options.segment,

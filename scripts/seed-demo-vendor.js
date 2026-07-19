@@ -1,8 +1,8 @@
 import "dotenv/config";
 import { ensureDemoVendor, createVendorKey } from "../src/services/vendors.js";
-import { getDb } from "../src/db/sqlite.js";
+import { getStore } from "../src/db/store.js";
 
-getDb();
+getStore();
 const demo = ensureDemoVendor();
 let apiKey = demo.apiKey;
 if (!apiKey) {

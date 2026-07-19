@@ -102,8 +102,8 @@ You can also omit `clients` and set `"category"` after uploading invoice logs to
 
 ## Vendor website MVP (tenants, CRM, quotes, jobs, booking)
 
-SQLite-backed multi-tenant layer for vendor websites.
-Uses built-in `node:sqlite` on **Node 22.5+** (e.g. 22.17.1), with `better-sqlite3` as fallback on older Node.
+JSON file–backed multi-tenant layer for vendor websites (no native SQLite drivers).
+Data lives at `data/db/ha-corr.json` and works on any Node 18+ runtime.
 
 ```bash
 npm run vendor:seed   # creates demo-landscape + prints vcorr_ API key

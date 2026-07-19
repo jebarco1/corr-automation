@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { getDb, makeId, nowIso, parseJson } from "../db/sqlite.js";
+import { getStore, makeId, nowIso, parseJson } from "../db/store.js";
 import { getLead, linkLeadQuote, updateLead } from "./vendorLeads.js";
 import { sendEmail, sendSms } from "./notifications.js";
 import { emitVendorEvent } from "./webhooks.js";
@@ -36,30 +36,21 @@ function mapQuote(row) {
 }
 
 export function getQuote(vendorId, quoteId) {
-  const row = getDb().prepare("SELECT * FROM quotes WHERE vendor_id = ? AND id = ?").get(vendorId, quoteId);
-  return mapQuote(row);
+  return mapQuote(getStore().quotes.findOne({ vendor_id: vendorId, id: quoteId }));
 }
 
 export function getQuoteByToken(token) {
-  const row = getDb().prepare("SELECT * FROM quotes WHERE public_token = ?").get(token);
-  return mapQuote(row);
+  return mapQuote(getStore().quotes.findOne({ public_token: token }));
 }
 
 export function listQuotes(vendorId, options = {}) {
-  const clauses = ["vendor_id = ?"];
-  const params = [vendorId];
-  if (options.status) {
-    clauses.push("status = ?");
-    params.push(options.status);
-  }
-  if (options.leadId) {
-    clauses.push("lead_id = ?");
-    params.push(options.leadId);
-  }
-  const rows = getDb().prepare(`
-    SELECT * FROM quotes WHERE ${clauses.join(" AND ")}
-    ORDER BY updated_at DESC LIMIT ?
-  `).all(...params, Math.min(Number(options.limit || 100), 500));
+  const query = { vendor_id: vendorId };
+  if (options.status) query.status = options.status;
+  if (options.leadId) query.lead_id = options.leadId;
+  const rows = getStore().quotes.find(query, {
+    sort: [{ key: "updated_at", dir: "desc" }],
+    limit: Math.min(Number(options.limit || 100), 500)
+  });
   return { count: rows.length, quotes: rows.map(mapQuote) };
 }
 
@@ -91,30 +82,28 @@ export function createQuote(vendorId, input = {}) {
     amountCents
   }];
 
-  getDb().prepare(`
-    INSERT INTO quotes (
-      id, vendor_id, lead_id, category, customer_name, customer_email, customer_phone,
-      service_address, service_name, amount_cents, currency, status, line_items_json, notes,
-      public_token, sent_at, accepted_at, rejected_at, created_at, updated_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'draft', ?, ?, ?, NULL, NULL, NULL, ?, ?)
-  `).run(
+  getStore().quotes.insert({
     id,
-    vendorId,
-    lead?.id || null,
-    input.category || lead?.category || null,
-    input.customerName || lead?.name || null,
-    input.customerEmail || lead?.email || null,
-    input.customerPhone || lead?.phone || null,
-    input.serviceAddress || lead?.address || null,
-    input.serviceName || lineItems[0]?.description || "Service",
-    amountCents,
-    input.currency || "USD",
-    JSON.stringify(lineItems),
-    input.notes || null,
-    token,
-    now,
-    now
-  );
+    vendor_id: vendorId,
+    lead_id: lead?.id || null,
+    category: input.category || lead?.category || null,
+    customer_name: input.customerName || lead?.name || null,
+    customer_email: input.customerEmail || lead?.email || null,
+    customer_phone: input.customerPhone || lead?.phone || null,
+    service_address: input.serviceAddress || lead?.address || null,
+    service_name: input.serviceName || lineItems[0]?.description || "Service",
+    amount_cents: amountCents,
+    currency: input.currency || "USD",
+    status: "draft",
+    line_items_json: lineItems,
+    notes: input.notes || null,
+    public_token: token,
+    sent_at: null,
+    accepted_at: null,
+    rejected_at: null,
+    created_at: now,
+    updated_at: now
+  });
 
   if (lead) linkLeadQuote(vendorId, lead.id, id);
   return getQuote(vendorId, id);
@@ -134,9 +123,11 @@ export async function sendQuote(vendorId, quoteId, options = {}) {
   }
 
   const now = nowIso();
-  getDb().prepare(`
-    UPDATE quotes SET status = 'sent', sent_at = ?, updated_at = ? WHERE id = ? AND vendor_id = ?
-  `).run(now, now, quoteId, vendorId);
+  getStore().quotes.updateWhere({ id: quoteId, vendor_id: vendorId }, {
+    status: "sent",
+    sent_at: now,
+    updated_at: now
+  });
 
   if (quote.leadId) updateLead(vendorId, quote.leadId, { status: "quoted", quoteId });
 
@@ -185,10 +176,11 @@ export async function acceptQuote(vendorId, quoteId, options = {}) {
     throw error;
   }
   const now = nowIso();
-  getDb().prepare(`
-    UPDATE quotes SET status = 'accepted', accepted_at = ?, updated_at = ?
-    WHERE id = ? AND vendor_id = ?
-  `).run(now, now, quoteId, vendorId);
+  getStore().quotes.updateWhere({ id: quoteId, vendor_id: vendorId }, {
+    status: "accepted",
+    accepted_at: now,
+    updated_at: now
+  });
 
   if (quote.leadId) updateLead(vendorId, quote.leadId, { status: "won", quoteId });
 
@@ -215,10 +207,12 @@ export async function rejectQuote(vendorId, quoteId, options = {}) {
     throw error;
   }
   const now = nowIso();
-  getDb().prepare(`
-    UPDATE quotes SET status = 'rejected', rejected_at = ?, updated_at = ?, notes = ?
-    WHERE id = ? AND vendor_id = ?
-  `).run(now, now, options.reason || quote.notes, quoteId, vendorId);
+  getStore().quotes.updateWhere({ id: quoteId, vendor_id: vendorId }, {
+    status: "rejected",
+    rejected_at: now,
+    updated_at: now,
+    notes: options.reason || quote.notes
+  });
 
   if (quote.leadId) updateLead(vendorId, quote.leadId, { status: "lost", quoteId });
   const updated = getQuote(vendorId, quoteId);
@@ -227,10 +221,10 @@ export async function rejectQuote(vendorId, quoteId, options = {}) {
 }
 
 export function markQuotePaid(vendorId, quoteId) {
-  const now = nowIso();
-  getDb().prepare(`
-    UPDATE quotes SET status = 'paid', updated_at = ? WHERE id = ? AND vendor_id = ?
-  `).run(now, quoteId, vendorId);
+  getStore().quotes.updateWhere({ id: quoteId, vendor_id: vendorId }, {
+    status: "paid",
+    updated_at: nowIso()
+  });
   const quote = getQuote(vendorId, quoteId);
   if (quote?.leadId) updateLead(vendorId, quote.leadId, { status: "paid", quoteId });
   return quote;

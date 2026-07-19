@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { getDb, makeId, nowIso, parseJson, rowToVendor } from "../db/sqlite.js";
+import { getStore, makeId, nowIso, rowToVendor } from "../db/store.js";
 
 function hashKey(raw) {
   return crypto.createHash("sha256").update(String(raw)).digest("hex");
@@ -18,41 +18,44 @@ export function generateVendorApiKey() {
 }
 
 export function createVendor(input = {}) {
-  const db = getDb();
+  const db = getStore();
   const now = nowIso();
   const id = makeId("vnd");
   let slug = slugify(input.slug || input.name);
-  const existing = db.prepare("SELECT id FROM vendors WHERE slug = ?").get(slug);
-  if (existing) slug = `${slug}-${crypto.randomBytes(2).toString("hex")}`;
+  if (db.vendors.findOne({ slug })) {
+    slug = `${slug}-${crypto.randomBytes(2).toString("hex")}`;
+  }
 
-  db.prepare(`
-    INSERT INTO vendors (id, slug, name, email, phone, default_category, branding_json, created_at, updated_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `).run(
+  db.vendors.insert({
     id,
     slug,
-    input.name || "New Vendor",
-    input.email || null,
-    input.phone || null,
-    input.defaultCategory || input.category || "landscape",
-    JSON.stringify(input.branding || {}),
-    now,
-    now
-  );
+    name: input.name || "New Vendor",
+    email: input.email || null,
+    phone: input.phone || null,
+    default_category: input.defaultCategory || input.category || "landscape",
+    branding_json: input.branding || {},
+    created_at: now,
+    updated_at: now
+  });
 
   const key = createVendorKey(id, { label: input.keyLabel || "default" });
   return { vendor: getVendorById(id), apiKey: key.apiKey, keyMeta: key.meta };
 }
 
 export function createVendorKey(vendorId, input = {}) {
-  const db = getDb();
+  const db = getStore();
   const raw = generateVendorApiKey();
   const id = makeId("vk");
   const now = nowIso();
-  db.prepare(`
-    INSERT INTO vendor_api_keys (id, vendor_id, key_hash, key_prefix, label, created_at, revoked_at)
-    VALUES (?, ?, ?, ?, ?, ?, NULL)
-  `).run(id, vendorId, hashKey(raw), raw.slice(0, 12), input.label || "default", now);
+  db.vendor_api_keys.insert({
+    id,
+    vendor_id: vendorId,
+    key_hash: hashKey(raw),
+    key_prefix: raw.slice(0, 12),
+    label: input.label || "default",
+    created_at: now,
+    revoked_at: null
+  });
   return {
     apiKey: raw,
     meta: { id, vendorId, keyPrefix: raw.slice(0, 12), label: input.label || "default", createdAt: now }
@@ -60,53 +63,41 @@ export function createVendorKey(vendorId, input = {}) {
 }
 
 export function getVendorById(id) {
-  const row = getDb().prepare("SELECT * FROM vendors WHERE id = ?").get(id);
-  return rowToVendor(row);
+  return rowToVendor(getStore().vendors.findOne({ id }));
 }
 
 export function getVendorBySlug(slug) {
-  const row = getDb().prepare("SELECT * FROM vendors WHERE slug = ?").get(slug);
-  return rowToVendor(row);
+  return rowToVendor(getStore().vendors.findOne({ slug }));
 }
 
 export function resolveVendorFromApiKey(rawKey) {
   if (!rawKey) return null;
-  const row = getDb().prepare(`
-    SELECT k.*, v.slug as vendor_slug, v.name as vendor_name, v.email as vendor_email,
-           v.phone as vendor_phone, v.default_category, v.branding_json, v.created_at as vendor_created,
-           v.updated_at as vendor_updated
-    FROM vendor_api_keys k
-    JOIN vendors v ON v.id = k.vendor_id
-    WHERE k.key_hash = ? AND k.revoked_at IS NULL
-  `).get(hashKey(rawKey));
-  if (!row) return null;
+  const db = getStore();
+  const key = db.vendor_api_keys.findOne({ key_hash: hashKey(rawKey), revoked_at: null });
+  if (!key) return null;
+  const vendor = db.vendors.findOne({ id: key.vendor_id });
+  if (!vendor) return null;
   return {
-    keyId: row.id,
-    keyPrefix: row.key_prefix,
-    vendor: {
-      id: row.vendor_id,
-      slug: row.vendor_slug,
-      name: row.vendor_name,
-      email: row.email || row.vendor_email,
-      phone: row.vendor_phone,
-      defaultCategory: row.default_category,
-      branding: parseJson(row.branding_json, {}),
-      createdAt: row.vendor_created,
-      updatedAt: row.vendor_updated
-    }
+    keyId: key.id,
+    keyPrefix: key.key_prefix,
+    vendor: rowToVendor(vendor)
   };
 }
 
 export function listVendorKeys(vendorId) {
-  return getDb().prepare(`
-    SELECT id, key_prefix as keyPrefix, label, created_at as createdAt, revoked_at as revokedAt
-    FROM vendor_api_keys WHERE vendor_id = ? ORDER BY created_at DESC
-  `).all(vendorId);
+  return getStore().vendor_api_keys
+    .find({ vendor_id: vendorId }, { sort: [{ key: "created_at", dir: "desc" }] })
+    .map(row => ({
+      id: row.id,
+      keyPrefix: row.key_prefix,
+      label: row.label,
+      createdAt: row.created_at,
+      revokedAt: row.revoked_at
+    }));
 }
 
 export function ensureDemoVendor() {
-  const db = getDb();
-  const existing = db.prepare("SELECT * FROM vendors WHERE slug = ?").get("demo-landscape");
+  const existing = getStore().vendors.findOne({ slug: "demo-landscape" });
   if (existing) {
     return { vendor: rowToVendor(existing), created: false, apiKey: null };
   }

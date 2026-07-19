@@ -16,7 +16,7 @@ Still **not** a full field-service suite (no technician GPS, inventory, accounti
 | # | Item | Status | Notes |
 |---|---|---|---|
 | 1 | Tenant + auth | **Done** | `POST /vendors`, `vcorr_` keys, `requireVendorApiKey`, scoped SQLite rows |
-| 2 | DB persistence | **Done** | `better-sqlite3` at `data/db/ha-corr.sqlite` — leads, quotes, payments, jobs, sessions, webhooks, notifications |
+| 2 | DB persistence | **Done** | Pure JSON store at `data/db/ha-corr.json` — leads, quotes, payments, jobs, sessions, webhooks, notifications (no SQLite) |
 | 3 | Lead CRM API | **Done** | list/create/patch, notes, assign, link → quote, import hunt files |
 | 4 | Quote lifecycle | **Done** | draft → send → accept/reject (+ public token links) |
 | 5 | Payments | **Done** | Stripe Checkout when `STRIPE_SECRET_KEY` set; mock checkout otherwise |

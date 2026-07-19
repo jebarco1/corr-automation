@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { getDb } from "../db/sqlite.js";
 import { getVendorById, getVendorBySlug, getVendorPublicProfile } from "../services/vendors.js";
 import { createLead } from "../services/vendorLeads.js";
 import {
@@ -12,6 +11,7 @@ import {
 import {
   completePayment,
   createCheckoutForQuote,
+  getPaymentById,
   handleStripeWebhook
 } from "../services/vendorPayments.js";
 import { emitVendorEvent } from "../services/webhooks.js";
@@ -190,9 +190,9 @@ router.post("/public/quotes/:token/checkout", async (req, res, next) => {
 
 router.post("/public/payments/:paymentId/mock-complete", async (req, res, next) => {
   try {
-    const row = getDb().prepare("SELECT * FROM payments WHERE id = ?").get(req.params.paymentId);
-    if (!row) return res.status(404).json({ error: "Payment not found" });
-    if (row.provider !== "mock" && !process.env.ALLOW_MOCK_PAYMENTS) {
+    const payment = getPaymentById(req.params.paymentId);
+    if (!payment) return res.status(404).json({ error: "Payment not found" });
+    if (payment.provider !== "mock" && !process.env.ALLOW_MOCK_PAYMENTS) {
       return res.status(400).json({ error: "Mock completion only for mock payments" });
     }
     const result = await completePayment(req.params.paymentId);
@@ -212,8 +212,8 @@ router.post("/public/payments/:paymentId/mock-complete", async (req, res, next) 
 
 router.get("/public/payments/:paymentId/mock-complete", async (req, res, next) => {
   try {
-    const row = getDb().prepare("SELECT * FROM payments WHERE id = ?").get(req.params.paymentId);
-    if (!row) return res.status(404).json({ error: "Payment not found" });
+    const payment = getPaymentById(req.params.paymentId);
+    if (!payment) return res.status(404).json({ error: "Payment not found" });
     const result = await completePayment(req.params.paymentId);
     const token = result.quote?.publicToken;
     if (token) return res.redirect(`/book/quote/${token}?paid=1`);

@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import axios from "axios";
-import { getDb, makeId, nowIso, parseJson } from "../db/sqlite.js";
+import { getStore, makeId, nowIso, parseJson } from "../db/store.js";
 
 export const VENDOR_EVENTS = [
   "lead.ready",
@@ -23,25 +23,29 @@ export function createWebhookEndpoint(vendorId, input = {}) {
   const events = Array.isArray(input.events) && input.events.length
     ? input.events
     : [...VENDOR_EVENTS];
-  getDb().prepare(`
-    INSERT INTO webhook_endpoints (id, vendor_id, url, secret, events_json, enabled, created_at)
-    VALUES (?, ?, ?, ?, ?, 1, ?)
-  `).run(id, vendorId, input.url, secret, JSON.stringify(events), nowIso());
+  getStore().webhook_endpoints.insert({
+    id,
+    vendor_id: vendorId,
+    url: input.url,
+    secret,
+    events_json: events,
+    enabled: 1,
+    created_at: nowIso()
+  });
   return getWebhookEndpoint(vendorId, id);
 }
 
 export function listWebhookEndpoints(vendorId) {
-  return getDb().prepare(`
-    SELECT id, url, secret, events_json, enabled, created_at
-    FROM webhook_endpoints WHERE vendor_id = ? ORDER BY created_at DESC
-  `).all(vendorId).map(row => ({
-    id: row.id,
-    url: row.url,
-    secret: row.secret,
-    events: parseJson(row.events_json, []),
-    enabled: Boolean(row.enabled),
-    createdAt: row.created_at
-  }));
+  return getStore().webhook_endpoints
+    .find({ vendor_id: vendorId }, { sort: [{ key: "created_at", dir: "desc" }] })
+    .map(row => ({
+      id: row.id,
+      url: row.url,
+      secret: row.secret,
+      events: parseJson(row.events_json, []),
+      enabled: Boolean(row.enabled),
+      createdAt: row.created_at
+    }));
 }
 
 export function getWebhookEndpoint(vendorId, id) {
@@ -49,12 +53,20 @@ export function getWebhookEndpoint(vendorId, id) {
 }
 
 export function listWebhookDeliveries(vendorId, limit = 50) {
-  return getDb().prepare(`
-    SELECT id, endpoint_id as endpointId, event, status, attempts, last_error as lastError,
-           created_at as createdAt
-    FROM webhook_deliveries WHERE vendor_id = ?
-    ORDER BY created_at DESC LIMIT ?
-  `).all(vendorId, Math.min(Number(limit) || 50, 200));
+  return getStore().webhook_deliveries
+    .find({ vendor_id: vendorId }, {
+      sort: [{ key: "created_at", dir: "desc" }],
+      limit: Math.min(Number(limit) || 50, 200)
+    })
+    .map(row => ({
+      id: row.id,
+      endpointId: row.endpoint_id,
+      event: row.event,
+      status: row.status,
+      attempts: row.attempts,
+      lastError: row.last_error,
+      createdAt: row.created_at
+    }));
 }
 
 function signPayload(secret, body) {
@@ -74,6 +86,7 @@ export async function emitVendorEvent(vendorId, event, data = {}) {
   };
   const body = JSON.stringify(payload);
   const results = [];
+  const db = getStore();
 
   for (const endpoint of endpoints) {
     const deliveryId = makeId("whd");
@@ -96,22 +109,33 @@ export async function emitVendorEvent(vendorId, event, data = {}) {
       status = "failed";
       lastError = error.message;
     }
-    getDb().prepare(`
-      INSERT INTO webhook_deliveries
-        (id, vendor_id, endpoint_id, event, payload_json, status, attempts, last_error, created_at)
-      VALUES (?, ?, ?, ?, ?, ?, 1, ?, ?)
-    `).run(deliveryId, vendorId, endpoint.id, event, body, status, lastError, nowIso());
+    db.webhook_deliveries.insert({
+      id: deliveryId,
+      vendor_id: vendorId,
+      endpoint_id: endpoint.id,
+      event,
+      payload_json: payload,
+      status,
+      attempts: 1,
+      last_error: lastError,
+      created_at: nowIso()
+    });
     results.push({ deliveryId, endpointId: endpoint.id, status, lastError });
   }
 
-  // Always record an in-app delivery for observability even with no endpoints.
   if (!endpoints.length) {
     const deliveryId = makeId("whd");
-    getDb().prepare(`
-      INSERT INTO webhook_deliveries
-        (id, vendor_id, endpoint_id, event, payload_json, status, attempts, last_error, created_at)
-      VALUES (?, ?, NULL, ?, ?, 'logged', 0, NULL, ?)
-    `).run(deliveryId, vendorId, event, body, nowIso());
+    db.webhook_deliveries.insert({
+      id: deliveryId,
+      vendor_id: vendorId,
+      endpoint_id: null,
+      event,
+      payload_json: payload,
+      status: "logged",
+      attempts: 0,
+      last_error: null,
+      created_at: nowIso()
+    });
     results.push({ deliveryId, status: "logged" });
   }
 
