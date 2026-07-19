@@ -102,8 +102,17 @@ You can also omit `clients` and set `"category"` after uploading invoice logs to
 
 ## Vendor website MVP (tenants, CRM, quotes, jobs, booking)
 
-JSON file–backed multi-tenant layer for vendor websites (no native SQLite drivers).
-Data lives at `data/db/ha-corr.json` and works on any Node 18+ runtime.
+JSON file–backed multi-tenant layer for vendor websites (**no SQLite / no `node:sqlite`**).
+Data lives at `data/db/ha-corr.json` and works on Node 18/20/22.
+
+If you still see `ERR_UNKNOWN_BUILTIN_MODULE: node:sqlite`, you are on an old commit — pull latest and restart:
+
+```bash
+git pull origin cursor/add-transportation-api-0ac7
+rm -rf node_modules
+npm install
+npm run dev
+```
 
 ```bash
 npm run vendor:seed   # creates demo-landscape + prints vcorr_ API key
