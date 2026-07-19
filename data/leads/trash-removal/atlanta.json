@@ -1,0 +1,84 @@
+{
+  "category": "trash-removal",
+  "city": "Atlanta",
+  "state": "GA",
+  "market": "Atlanta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T01:58:20.234Z",
+  "queries": [
+    "construction company in Atlanta GA",
+    "construction company Atlanta GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_8b375c6488fa",
+      "category": "trash-removal",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta property management company",
+      "url": null,
+      "snippet": "Potential trash-removal customer target: property management company in Atlanta, GA. Verify contact details before outreach.",
+      "customerType": "property management company",
+      "suggestedService": {
+        "serviceId": "dumpster-rental",
+        "serviceName": "Dumpster Rental",
+        "quoteKey": "dumpster rental"
+      },
+      "score": 90,
+      "query": "construction company in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:20.234Z"
+    },
+    {
+      "leadId": "lead_a4d2f73e8dcf",
+      "category": "trash-removal",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta construction company",
+      "url": null,
+      "snippet": "Potential trash-removal customer target: construction company in Atlanta, GA. Verify contact details before outreach.",
+      "customerType": "construction company",
+      "suggestedService": {
+        "serviceId": "dumpster-rental",
+        "serviceName": "Dumpster Rental",
+        "quoteKey": "dumpster rental"
+      },
+      "score": 80,
+      "query": "construction company in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:20.234Z"
+    },
+    {
+      "leadId": "lead_5ea13ce2ae24",
+      "category": "trash-removal",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta retail center",
+      "url": null,
+      "snippet": "Potential trash-removal customer target: retail center in Atlanta, GA. Verify contact details before outreach.",
+      "customerType": "retail center",
+      "suggestedService": {
+        "serviceId": "dumpster-rental",
+        "serviceName": "Dumpster Rental",
+        "quoteKey": "dumpster rental"
+      },
+      "score": 80,
+      "query": "construction company in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:20.234Z"
+    }
+  ]
+}

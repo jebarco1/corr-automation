@@ -1,0 +1,33 @@
+{
+  "category": "pool",
+  "version": 1,
+  "updatedAt": "2026-07-19T01:57:32.000Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "usePilotCities": true,
+  "customerTypes": [
+    "HOA",
+    "apartment complex",
+    "hotel",
+    "community center",
+    "fitness club"
+  ],
+  "intentPhrases": [
+    "commercial pool service",
+    "community pool maintenance",
+    "hotel pool service"
+  ],
+  "excludeKeywords": [
+    "pool company",
+    "pool cleaning near me"
+  ],
+  "suggestedServiceIds": [
+    "weekly-service",
+    "equipment-repair",
+    "opening"
+  ],
+  "queryTemplates": [
+    "{customerType} in {city} {state}",
+    "{customerType} {city} {state} contact",
+    "{intentPhrase} {city} {state}"
+  ]
+}

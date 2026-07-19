@@ -1,0 +1,34 @@
+{
+  "category": "hvac",
+  "version": 1,
+  "updatedAt": "2026-07-19T01:57:32.000Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "usePilotCities": true,
+  "customerTypes": [
+    "apartment complex",
+    "property management company",
+    "restaurant",
+    "medical office",
+    "warehouse facility"
+  ],
+  "intentPhrases": [
+    "HVAC service contract",
+    "rooftop unit maintenance",
+    "commercial HVAC"
+  ],
+  "excludeKeywords": [
+    "HVAC company",
+    "AC repair near me",
+    "licensed HVAC contractor"
+  ],
+  "suggestedServiceIds": [
+    "maintenance",
+    "diagnostic",
+    "replacement"
+  ],
+  "queryTemplates": [
+    "{customerType} in {city} {state}",
+    "{customerType} {city} {state} contact",
+    "{intentPhrase} {city} {state}"
+  ]
+}

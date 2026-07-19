@@ -1,0 +1,63 @@
+{
+  "category": "landscape",
+  "updatedAt": "2026-07-19T01:58:16.387Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 16,
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 4,
+      "file": "data/leads/landscape/atlanta.json",
+      "queries": [
+        "HOA in Atlanta GA",
+        "HOA Atlanta GA contact"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 4,
+      "file": "data/leads/landscape/augusta.json",
+      "queries": [
+        "HOA in Augusta GA",
+        "HOA Augusta GA contact"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 4,
+      "file": "data/leads/landscape/macon.json",
+      "queries": [
+        "HOA in Macon GA",
+        "HOA Macon GA contact"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 4,
+      "file": "data/leads/landscape/savannah.json",
+      "queries": [
+        "HOA in Savannah GA",
+        "HOA Savannah GA contact"
+      ]
+    }
+  ]
+}

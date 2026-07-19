@@ -1,0 +1,97 @@
+{
+  "updatedAt": "2026-07-19T01:58:25.855Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "categories": [
+    {
+      "category": "landscape",
+      "leadCount": 16,
+      "cityCount": 4,
+      "summaryFile": "data/leads/landscape/_summary.json"
+    },
+    {
+      "category": "hvac",
+      "leadCount": 13,
+      "cityCount": 4,
+      "summaryFile": "data/leads/hvac/_summary.json"
+    },
+    {
+      "category": "cleaning",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/cleaning/_summary.json"
+    },
+    {
+      "category": "pest-control",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/pest-control/_summary.json"
+    },
+    {
+      "category": "pool",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/pool/_summary.json"
+    },
+    {
+      "category": "painting",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/painting/_summary.json"
+    },
+    {
+      "category": "roofing",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/roofing/_summary.json"
+    },
+    {
+      "category": "plumbing",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/plumbing/_summary.json"
+    },
+    {
+      "category": "electrical",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/electrical/_summary.json"
+    },
+    {
+      "category": "general-contract",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/general-contract/_summary.json"
+    },
+    {
+      "category": "surveillance",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/surveillance/_summary.json"
+    },
+    {
+      "category": "trash-removal",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/trash-removal/_summary.json"
+    },
+    {
+      "category": "transportation",
+      "leadCount": 14,
+      "cityCount": 4,
+      "summaryFile": "data/leads/transportation/_summary.json"
+    },
+    {
+      "category": "healthcare",
+      "leadCount": 14,
+      "cityCount": 4,
+      "summaryFile": "data/leads/healthcare/_summary.json"
+    }
+  ],
+  "totalLeads": 177
+}

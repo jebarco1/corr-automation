@@ -1,0 +1,33 @@
+{
+  "category": "trash-removal",
+  "version": 1,
+  "updatedAt": "2026-07-19T01:57:32.000Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "usePilotCities": true,
+  "customerTypes": [
+    "construction company",
+    "property management company",
+    "retail center",
+    "apartment complex",
+    "warehouse"
+  ],
+  "intentPhrases": [
+    "dumpster rental commercial",
+    "construction debris haul",
+    "property cleanout"
+  ],
+  "excludeKeywords": [
+    "junk removal company",
+    "hauling company near me"
+  ],
+  "suggestedServiceIds": [
+    "dumpster-rental",
+    "construction-debris",
+    "property-cleanout"
+  ],
+  "queryTemplates": [
+    "{customerType} in {city} {state}",
+    "{customerType} {city} {state} contact",
+    "{intentPhrase} {city} {state}"
+  ]
+}

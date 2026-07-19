@@ -1,0 +1,63 @@
+{
+  "category": "pest-control",
+  "updatedAt": "2026-07-19T01:58:18.706Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 12,
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/pest-control/atlanta.json",
+      "queries": [
+        "restaurant in Atlanta GA",
+        "restaurant Atlanta GA contact"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/pest-control/augusta.json",
+      "queries": [
+        "restaurant in Augusta GA",
+        "restaurant Augusta GA contact"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/pest-control/macon.json",
+      "queries": [
+        "restaurant in Macon GA",
+        "restaurant Macon GA contact"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/pest-control/savannah.json",
+      "queries": [
+        "restaurant in Savannah GA",
+        "restaurant Savannah GA contact"
+      ]
+    }
+  ]
+}

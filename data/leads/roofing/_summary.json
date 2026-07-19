@@ -1,0 +1,63 @@
+{
+  "category": "roofing",
+  "updatedAt": "2026-07-19T01:58:19.454Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 12,
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/roofing/atlanta.json",
+      "queries": [
+        "property management company in Atlanta GA",
+        "property management company Atlanta GA contact"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/roofing/augusta.json",
+      "queries": [
+        "property management company in Augusta GA",
+        "property management company Augusta GA contact"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/roofing/macon.json",
+      "queries": [
+        "property management company in Macon GA",
+        "property management company Macon GA contact"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/roofing/savannah.json",
+      "queries": [
+        "property management company in Savannah GA",
+        "property management company Savannah GA contact"
+      ]
+    }
+  ]
+}

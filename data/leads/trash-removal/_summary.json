@@ -1,0 +1,63 @@
+{
+  "category": "trash-removal",
+  "updatedAt": "2026-07-19T01:58:20.370Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 12,
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/trash-removal/atlanta.json",
+      "queries": [
+        "construction company in Atlanta GA",
+        "construction company Atlanta GA contact"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/trash-removal/augusta.json",
+      "queries": [
+        "construction company in Augusta GA",
+        "construction company Augusta GA contact"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/trash-removal/macon.json",
+      "queries": [
+        "construction company in Macon GA",
+        "construction company Macon GA contact"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/trash-removal/savannah.json",
+      "queries": [
+        "construction company in Savannah GA",
+        "construction company Savannah GA contact"
+      ]
+    }
+  ]
+}

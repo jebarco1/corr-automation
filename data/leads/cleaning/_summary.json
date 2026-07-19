@@ -1,0 +1,63 @@
+{
+  "category": "cleaning",
+  "updatedAt": "2026-07-19T01:58:18.406Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 12,
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/cleaning/atlanta.json",
+      "queries": [
+        "office building in Atlanta GA",
+        "office building Atlanta GA contact"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/cleaning/augusta.json",
+      "queries": [
+        "office building in Augusta GA",
+        "office building Augusta GA contact"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/cleaning/macon.json",
+      "queries": [
+        "office building in Macon GA",
+        "office building Macon GA contact"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/cleaning/savannah.json",
+      "queries": [
+        "office building in Savannah GA",
+        "office building Savannah GA contact"
+      ]
+    }
+  ]
+}

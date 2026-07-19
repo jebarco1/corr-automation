@@ -1,0 +1,63 @@
+{
+  "category": "painting",
+  "updatedAt": "2026-07-19T01:58:19.270Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 12,
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/painting/atlanta.json",
+      "queries": [
+        "HOA in Atlanta GA",
+        "HOA Atlanta GA contact"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/painting/augusta.json",
+      "queries": [
+        "HOA in Augusta GA",
+        "HOA Augusta GA contact"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/painting/macon.json",
+      "queries": [
+        "HOA in Macon GA",
+        "HOA Macon GA contact"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/painting/savannah.json",
+      "queries": [
+        "HOA in Savannah GA",
+        "HOA Savannah GA contact"
+      ]
+    }
+  ]
+}

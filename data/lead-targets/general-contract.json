@@ -1,0 +1,33 @@
+{
+  "category": "general-contract",
+  "version": 1,
+  "updatedAt": "2026-07-19T01:57:32.000Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "usePilotCities": true,
+  "customerTypes": [
+    "retail landlord",
+    "property management company",
+    "medical office",
+    "restaurant group",
+    "HOA"
+  ],
+  "intentPhrases": [
+    "tenant improvement",
+    "commercial remodel RFP",
+    "build-out contractor needed"
+  ],
+  "excludeKeywords": [
+    "general contractor company",
+    "GC near me"
+  ],
+  "suggestedServiceIds": [
+    "build-out",
+    "remodel",
+    "repair"
+  ],
+  "queryTemplates": [
+    "{customerType} in {city} {state}",
+    "{customerType} {city} {state} contact",
+    "{intentPhrase} {city} {state}"
+  ]
+}

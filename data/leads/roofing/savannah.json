@@ -1,0 +1,84 @@
+{
+  "category": "roofing",
+  "city": "Savannah",
+  "state": "GA",
+  "market": "Savannah, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T01:58:19.454Z",
+  "queries": [
+    "property management company in Savannah GA",
+    "property management company Savannah GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_2f08c54245d3",
+      "category": "roofing",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah property management company",
+      "url": null,
+      "snippet": "Potential roofing customer target: property management company in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "property management company",
+      "suggestedService": {
+        "serviceId": "inspection",
+        "serviceName": "Roof Inspection",
+        "quoteKey": "inspection"
+      },
+      "score": 90,
+      "query": "property management company in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:19.454Z"
+    },
+    {
+      "leadId": "lead_10d5902b2974",
+      "category": "roofing",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah church",
+      "url": null,
+      "snippet": "Potential roofing customer target: church in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "church",
+      "suggestedService": {
+        "serviceId": "inspection",
+        "serviceName": "Roof Inspection",
+        "quoteKey": "inspection"
+      },
+      "score": 80,
+      "query": "property management company in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:19.454Z"
+    },
+    {
+      "leadId": "lead_78475d3b125c",
+      "category": "roofing",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah school",
+      "url": null,
+      "snippet": "Potential roofing customer target: school in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "school",
+      "suggestedService": {
+        "serviceId": "inspection",
+        "serviceName": "Roof Inspection",
+        "quoteKey": "inspection"
+      },
+      "score": 80,
+      "query": "property management company in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:19.454Z"
+    }
+  ]
+}

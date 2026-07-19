@@ -1,0 +1,33 @@
+{
+  "category": "healthcare",
+  "version": 1,
+  "updatedAt": "2026-07-19T01:57:32.000Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "usePilotCities": true,
+  "customerTypes": [
+    "assisted living",
+    "home health agency",
+    "senior living community",
+    "rehabilitation center",
+    "private duty referral"
+  ],
+  "intentPhrases": [
+    "home health staffing",
+    "physician house calls",
+    "nursing visit coverage"
+  ],
+  "excludeKeywords": [
+    "home health agency hiring",
+    "nurse jobs"
+  ],
+  "suggestedServiceIds": [
+    "nursing-visit",
+    "physician-visit",
+    "private-duty-shift"
+  ],
+  "queryTemplates": [
+    "{customerType} in {city} {state}",
+    "{customerType} {city} {state} contact",
+    "{intentPhrase} {city} {state}"
+  ]
+}

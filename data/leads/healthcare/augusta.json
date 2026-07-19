@@ -1,0 +1,107 @@
+{
+  "category": "healthcare",
+  "city": "Augusta",
+  "state": "GA",
+  "market": "Augusta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T01:58:25.659Z",
+  "queries": [
+    "assisted living in Augusta GA",
+    "assisted living Augusta GA contact"
+  ],
+  "count": 4,
+  "leads": [
+    {
+      "leadId": "lead_69bdf4e05d41",
+      "category": "healthcare",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "The 20 Best Assisted Living Facilities in Augusta, GA - Seniorly",
+      "url": "https://www.seniorly.com/assisted-living/georgia/augusta",
+      "snippet": "Get pricing & read reviews for The 20 Best Assisted Living in Augusta, GA. Find detailed property information, photos & talk to local Augusta senior living advisors.",
+      "customerType": "assisted living",
+      "suggestedService": {
+        "serviceId": "nursing-visit",
+        "serviceName": "Nursing Visit",
+        "quoteKey": "nursing visit"
+      },
+      "score": 75,
+      "query": "assisted living in Augusta GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:25.659Z"
+    },
+    {
+      "leadId": "lead_56a767866eb2",
+      "category": "healthcare",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "The 10 Best Assisted Living Facilities in Augusta, GA - Caring.com",
+      "url": "https://www.caring.com/senior-living/assisted-living/georgia/augusta",
+      "snippet": "Find reviews for the best assisted living facilities in Augusta, GA for 2025. Also, find resources for seniors and info about the costs and regulations in the city.",
+      "customerType": "assisted living",
+      "suggestedService": {
+        "serviceId": "nursing-visit",
+        "serviceName": "Nursing Visit",
+        "quoteKey": "nursing visit"
+      },
+      "score": 75,
+      "query": "assisted living in Augusta GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:25.659Z"
+    },
+    {
+      "leadId": "lead_00e98da5825e",
+      "category": "healthcare",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Assisted Living in Augusta, GA - Compare Providers & Costs (2026)",
+      "url": "https://careavailability.com/assisted-living/georgia/augusta/",
+      "snippet": "Assisted living in Augusta, Georgia gives seniors access to housing, personal care, and daily support in Georgia&#x27;s second-largest metro and home to Augusta University&#x27;s academic health system, one of the Southeast&#x27;s leading medical centers.",
+      "customerType": "assisted living",
+      "suggestedService": {
+        "serviceId": "nursing-visit",
+        "serviceName": "Nursing Visit",
+        "quoteKey": "nursing visit"
+      },
+      "score": 75,
+      "query": "assisted living in Augusta GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:25.659Z"
+    },
+    {
+      "leadId": "lead_d19805d5203b",
+      "category": "healthcare",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Assisted Living & Memory Care in Martinez, GA | Thrive at Augusta",
+      "url": "https://thrivesl.com/communities/thrive-at-augusta/",
+      "snippet": "Thrive at Augusta is a premier senior living community providing assisted living and memory care services and housing in the Augusta & Martinez, Georgia, areas. Learn more!",
+      "customerType": "assisted living",
+      "suggestedService": {
+        "serviceId": "nursing-visit",
+        "serviceName": "Nursing Visit",
+        "quoteKey": "nursing visit"
+      },
+      "score": 75,
+      "query": "assisted living in Augusta GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:25.659Z"
+    }
+  ]
+}

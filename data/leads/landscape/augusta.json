@@ -1,0 +1,107 @@
+{
+  "category": "landscape",
+  "city": "Augusta",
+  "state": "GA",
+  "market": "Augusta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T01:58:15.041Z",
+  "queries": [
+    "HOA in Augusta GA",
+    "HOA Augusta GA contact"
+  ],
+  "count": 4,
+  "leads": [
+    {
+      "leadId": "lead_6b7129c9e606",
+      "category": "landscape",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "HOA laws and regulations in Augusta, GA - 2026 - steadily.com",
+      "url": "https://www.steadily.com/blog/hoa-laws-regulations-augusta",
+      "snippet": "HOA fees in Augusta, GA Homeowners associations (HOAs) in Augusta, GA, manage and maintain community standards and amenities, funded primarily through HOA fees paid by the property owners.",
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "full-maintenance",
+        "serviceName": "Full Grounds Maintenance",
+        "quoteKey": "full maintenance"
+      },
+      "score": 85,
+      "query": "HOA in Augusta GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:15.041Z"
+    },
+    {
+      "leadId": "lead_f7e703a52279",
+      "category": "landscape",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "AMP HOA Management | HOA Management Solutions",
+      "url": "https://amp-hoa.com/",
+      "snippet": "Our team of licensed Community Association Managers and Real Estate Brokers brings extensive expertise in HOA management, financial reporting, project coordination, property oversight, and systems administration. We provide practical, results-driven solutions to complex challenges and proudly serve communities throughout Georgia and South Carolina.",
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "full-maintenance",
+        "serviceName": "Full Grounds Maintenance",
+        "quoteKey": "full maintenance"
+      },
+      "score": 75,
+      "query": "HOA in Augusta GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:15.041Z"
+    },
+    {
+      "leadId": "lead_e5dc2a143608",
+      "category": "landscape",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Community Association Management Augusta, GA | Call Us Now!",
+      "url": "https://www.bragghoa.com/community-association-management",
+      "snippet": "If you&#x27;re searching for community association management services, then consider calling Bragg & Associates Real Estate at (706) 210-0494.",
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "full-maintenance",
+        "serviceName": "Full Grounds Maintenance",
+        "quoteKey": "full maintenance"
+      },
+      "score": 55,
+      "query": "HOA in Augusta GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:15.041Z"
+    },
+    {
+      "leadId": "lead_4a3baefbd3c8",
+      "category": "landscape",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Homeowner Association Management | Association Link",
+      "url": "https://www.associationlink.net/",
+      "snippet": "Association Link is proud to be the area&#x27;s leader in homeowners association management, serving one of the fastest growing regions in the southeast.",
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "full-maintenance",
+        "serviceName": "Full Grounds Maintenance",
+        "quoteKey": "full maintenance"
+      },
+      "score": 40,
+      "query": "HOA in Augusta GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:15.041Z"
+    }
+  ]
+}

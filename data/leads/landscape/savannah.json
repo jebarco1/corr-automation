@@ -1,0 +1,107 @@
+{
+  "category": "landscape",
+  "city": "Savannah",
+  "state": "GA",
+  "market": "Savannah, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T01:58:16.387Z",
+  "queries": [
+    "HOA in Savannah GA",
+    "HOA Savannah GA contact"
+  ],
+  "count": 4,
+  "leads": [
+    {
+      "leadId": "lead_4c61d9660c0e",
+      "category": "landscape",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "HOA Management Companies in Savannah, Georgia | HOA Directory",
+      "url": "https://www.hoamanagement.com/city/savannah/",
+      "snippet": "HOA Management is the leading directory for HOA Mangement companies and HOA vendors. We offer a catalog of listings for your HOA in Savannah, GA.",
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "full-maintenance",
+        "serviceName": "Full Grounds Maintenance",
+        "quoteKey": "full maintenance"
+      },
+      "score": 85,
+      "query": "HOA in Savannah GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:16.387Z"
+    },
+    {
+      "leadId": "lead_0829abbea6bc",
+      "category": "landscape",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "HOA Management In Savannah, GA | CMG",
+      "url": "https://www.cedarmanagementgroup.com/hoa-management-savannah/",
+      "snippet": "Notable points of interest include Forsyth Park, Bonaventure Cemetery, the Savannah History Museum, Telfair Museums, Wormsloe Historic Site, River Street, and the Georgia State Railroad Museum. Savannah, GA HOA Management Savannah&#x27;s housing market offers affordability and charm. Home prices typically range from $20K to around $3.8M.",
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "full-maintenance",
+        "serviceName": "Full Grounds Maintenance",
+        "quoteKey": "full maintenance"
+      },
+      "score": 85,
+      "query": "HOA in Savannah GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:16.387Z"
+    },
+    {
+      "leadId": "lead_1af970265990",
+      "category": "landscape",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "HOA Communities in Savannah, Georgia - HOAs R Us",
+      "url": "https://hoasrus.com/hoa-fees/georgia/savannah",
+      "snippet": "16 HOA communities in Savannah, Georgia. Compare Community Scores, dues ranges, and litigation incidence — aggregated from public records.",
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "full-maintenance",
+        "serviceName": "Full Grounds Maintenance",
+        "quoteKey": "full maintenance"
+      },
+      "score": 85,
+      "query": "HOA in Savannah GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:16.387Z"
+    },
+    {
+      "leadId": "lead_ce6c665a376e",
+      "category": "landscape",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "The Enclave at Berwick Homeowner&#x27;s Association",
+      "url": "https://enclavehoa.co/",
+      "snippet": "Welcome to The Enclave at Berwick Homeowners Association About The Enclave Committee Opportunities About The Enclave The Enclave at Berwick is a gated community in Savannah, Georgia consisting of 340 single-family homes in a beautiful, desirable and active neighborhood.",
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "full-maintenance",
+        "serviceName": "Full Grounds Maintenance",
+        "quoteKey": "full maintenance"
+      },
+      "score": 55,
+      "query": "HOA in Savannah GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:16.387Z"
+    }
+  ]
+}

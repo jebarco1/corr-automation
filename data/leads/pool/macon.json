@@ -1,0 +1,84 @@
+{
+  "category": "pool",
+  "city": "Macon",
+  "state": "GA",
+  "market": "Macon, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T01:58:18.928Z",
+  "queries": [
+    "HOA in Macon GA",
+    "HOA Macon GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_f87350657896",
+      "category": "pool",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon HOA",
+      "url": null,
+      "snippet": "Potential pool customer target: HOA in Macon, GA. Verify contact details before outreach.",
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "weekly-service",
+        "serviceName": "Weekly Pool Service",
+        "quoteKey": "weekly service"
+      },
+      "score": 90,
+      "query": "HOA in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:18.928Z"
+    },
+    {
+      "leadId": "lead_072ae38ad728",
+      "category": "pool",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon apartment complex",
+      "url": null,
+      "snippet": "Potential pool customer target: apartment complex in Macon, GA. Verify contact details before outreach.",
+      "customerType": "apartment complex",
+      "suggestedService": {
+        "serviceId": "weekly-service",
+        "serviceName": "Weekly Pool Service",
+        "quoteKey": "weekly service"
+      },
+      "score": 90,
+      "query": "HOA in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:18.928Z"
+    },
+    {
+      "leadId": "lead_c428af81bff2",
+      "category": "pool",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon hotel",
+      "url": null,
+      "snippet": "Potential pool customer target: hotel in Macon, GA. Verify contact details before outreach.",
+      "customerType": "hotel",
+      "suggestedService": {
+        "serviceId": "weekly-service",
+        "serviceName": "Weekly Pool Service",
+        "quoteKey": "weekly service"
+      },
+      "score": 80,
+      "query": "HOA in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:18.928Z"
+    }
+  ]
+}

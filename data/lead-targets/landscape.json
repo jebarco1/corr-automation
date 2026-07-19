@@ -1,0 +1,34 @@
+{
+  "category": "landscape",
+  "version": 1,
+  "updatedAt": "2026-07-19T01:57:32.000Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "usePilotCities": true,
+  "customerTypes": [
+    "HOA",
+    "apartment complex",
+    "property management company",
+    "office park",
+    "commercial property manager"
+  ],
+  "intentPhrases": [
+    "grounds maintenance",
+    "lawn care contract",
+    "landscape maintenance RFP"
+  ],
+  "excludeKeywords": [
+    "lawn care company",
+    "landscaping contractor near me",
+    "we offer mowing"
+  ],
+  "suggestedServiceIds": [
+    "full-maintenance",
+    "mowing",
+    "mulch"
+  ],
+  "queryTemplates": [
+    "{customerType} in {city} {state}",
+    "{customerType} {city} {state} contact",
+    "{intentPhrase} {city} {state}"
+  ]
+}
