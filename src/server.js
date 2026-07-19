@@ -15,11 +15,13 @@ import salesExpansionRouter from "./routes/salesExpansion.js";
 import costQuoteRouter from "./routes/costQuote.js";
 import vendorRouter from "./routes/vendor.js";
 import publicBookingRouter from "./routes/publicBooking.js";
+import businessesRouter from "./routes/businesses.js";
 import { requireClientApiKey } from "./middleware/clientApiKey.js";
 import { apiVersionHeaders } from "./middleware/apiVersionHeaders.js";
 import { currentApiVersion, getVersionPayload } from "./config/apiVersion.js";
 import { ensureAllPricingStandards } from "./services/pricingStandards.js";
 import { ensureDemoVendor } from "./services/vendors.js";
+import { ensureSeedBusinesses } from "./services/businesses.js";
 import { getStore } from "./db/store.js";
 
 const app = express();
@@ -62,6 +64,8 @@ const demoVendor = ensureDemoVendor();
 if (demoVendor.created && demoVendor.apiKey) {
   console.log(`Demo vendor ready: slug=${demoVendor.vendor.slug} apiKey=${demoVendor.apiKey}`);
 }
+const seededBusinesses = ensureSeedBusinesses();
+console.log(`Businesses ready: ${seededBusinesses.businesses} tenants (${seededBusinesses.created} newly seeded)`);
 
 app.use("/api/v1", versionRouter);
 // UI workflow uses server-side OPENAI_API_KEY; no client API key required for AI/guided quoting.
@@ -72,6 +76,7 @@ app.use("/api/v1", costQuoteRouter);
 app.use("/api/v1", salesExpansionRouter);
 app.use("/api/v1", vendorRouter);
 app.use("/api/v1", publicBookingRouter);
+app.use("/api/v1", businessesRouter);
 app.use("/api/v1", requireClientApiKey, automationRouter);
 const clientDist = join(__dirname, "../client/dist");
 app.use(express.static(clientDist));

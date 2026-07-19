@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { BookOpen, Building2, ChevronRight, FileText, Layers, MessageSquare, Play, Receipt, RotateCcw, Settings2, Sparkles, Wand2, Workflow, Bot, Store } from "lucide-react";
+import { BookOpen, Building2, ChevronRight, FileText, Layers, MessageSquare, Play, Receipt, RotateCcw, Sparkles, Wand2, Workflow, Bot, Store } from "lucide-react";
 import { categories, getCategory } from "./categoryCatalog.js";
 import { buildAutoAnswers, defaultMarketArea, formatPriceLabel, getIndustryPrices } from "./industryPrices.js";
 import WorkflowsPanel from "./WorkflowsPanel.jsx";
@@ -8,18 +8,60 @@ import AutopilotDemo from "./AutopilotDemo.jsx";
 import VendorOps from "./VendorOps.jsx";
 import BookingPage from "./BookingPage.jsx";
 import ServiceCatalogPage from "./ServiceCatalogPage.jsx";
+import BusinessesPage from "./BusinessesPage.jsx";
 import "./styles.css";
 
 const API = "/api/v1";
+const SELECTED_BUSINESS_KEY = "ha_corr_selected_business_id";
 const defaultBusiness = {
+  businessId: null,
   businessName: "HA-Corr Service Company",
   email: "billing@example.com",
   phone: "404-555-0100",
   licenseNumber: "",
   defaultCrewSize: 2,
+  crews: 0,
+  employees: 0,
+  categories: [],
+  primaryCategory: null,
   unitPrices: { hourlyRate: 95, materialCost: 0, equipmentCost: 0, disposalCost: 0 }
 };
 const defaultStart = { taxRate: 8.9, discount: 0, currency: "USD", paymentTerms: "Net 15" };
+
+function businessFromTenant(tenant) {
+  if (!tenant) return defaultBusiness;
+  return {
+    businessId: tenant.id,
+    businessName: tenant.name,
+    email: tenant.email || "",
+    phone: tenant.phone || "",
+    licenseNumber: tenant.licenseNumber || "",
+    defaultCrewSize: tenant.defaultCrewSize || 2,
+    crews: tenant.crews || 0,
+    employees: tenant.employees || 0,
+    categories: tenant.categories || [],
+    primaryCategory: tenant.primaryCategory || tenant.categories?.[0] || null,
+    unitPrices: {
+      hourlyRate: 95,
+      materialCost: 0,
+      equipmentCost: 0,
+      disposalCost: 0,
+      ...(tenant.unitPrices || {})
+    },
+    city: tenant.city,
+    state: tenant.state
+  };
+}
+
+function settingsFromTenant(tenant) {
+  const inv = tenant?.invoiceDefaults || {};
+  return {
+    taxRate: inv.taxRate ?? defaultStart.taxRate,
+    discount: inv.discount ?? defaultStart.discount,
+    currency: inv.currency || defaultStart.currency,
+    paymentTerms: inv.paymentTerms || defaultStart.paymentTerms
+  };
+}
 
 function Field({ label, value, onChange, type = "text", placeholder }) {
   return (
@@ -47,11 +89,14 @@ function readAppQuery() {
 function App() {
   const isBookingRoute = typeof window !== "undefined" && window.location.pathname.startsWith("/book");
   const initialQuery = readAppQuery();
-  const [tab, setTab] = useState(initialQuery.tab);
+  const [tab, setTab] = useState(initialQuery.tab === "settings" ? "businesses" : initialQuery.tab);
   const [focusLeadId, setFocusLeadId] = useState(initialQuery.leadId);
   const [category, setCategory] = useState("");
   const [business, setBusiness] = useState(defaultBusiness);
   const [settings, setSettings] = useState(defaultStart);
+  const [activeBusinessId, setActiveBusinessId] = useState(
+    () => (typeof window !== "undefined" ? localStorage.getItem(SELECTED_BUSINESS_KEY) : null)
+  );
   const [session, setSession] = useState(null);
   const [answer, setAnswer] = useState("");
   const [invoice, setInvoice] = useState(null);
@@ -97,7 +142,28 @@ function App() {
       .then(r => r.json())
       .then(data => setBundlePresets(data.presets || []))
       .catch(() => setBundlePresets([]));
+    fetch(`${API}/businesses`)
+      .then(r => r.json())
+      .then(data => {
+        const list = data.businesses || [];
+        if (!list.length) return;
+        const preferred = localStorage.getItem(SELECTED_BUSINESS_KEY);
+        const tenant = list.find(item => item.id === preferred) || list[0];
+        applyTenantBusiness(tenant);
+      })
+      .catch(() => {});
   }, []);
+
+  function applyTenantBusiness(tenant) {
+    if (!tenant) return;
+    setActiveBusinessId(tenant.id);
+    localStorage.setItem(SELECTED_BUSINESS_KEY, tenant.id);
+    setBusiness(businessFromTenant(tenant));
+    setSettings(settingsFromTenant(tenant));
+    if (!category && tenant.primaryCategory) {
+      setCategory(tenant.primaryCategory);
+    }
+  }
 
   function pushChat(role, text, meta = null) {
     setChatLog(prev => [...prev, { role, text, meta }]);
@@ -390,6 +456,25 @@ function App() {
     setAssistantMessage(data.assistantMessage);
     setSession(data.workflow);
     pushChat("assistant", data.assistantMessage || `Draft invoice ${data.result?.invoiceNumber} ready.`);
+    if (business.businessId && session?.sessionId) {
+      const customer = session.answers?.customer;
+      fetch(`${API}/businesses/${business.businessId}/sessions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: `bses_${session.sessionId}`,
+          kind: "guided",
+          category: session.category || category,
+          title: `${session.answers?.serviceType || session.categoryLabel || "Service"} quote`,
+          status: "invoiced",
+          customerName: typeof customer === "object" ? customer?.name : customer,
+          summary: data.result?.invoiceNumber
+            ? `Invoice ${data.result.invoiceNumber} · $${Number(data.result.total || 0).toFixed(2)}`
+            : "Guided invoice attached",
+          payload: { sessionId: session.sessionId, invoiceId: data.result?.invoiceId }
+        })
+      }).catch(() => {});
+    }
   }
 
   async function ensureVendorKey() {
@@ -523,7 +608,7 @@ function App() {
             ["workflow", MessageSquare, "AI Chat"],
             ["services", Layers, "Services"],
             ["workflows", Workflow, "Workflows"],
-            ["settings", Settings2, "Business Setup"],
+            ["businesses", Building2, "Businesses"],
             ["docs", BookOpen, "Documentation"]
           ].map(([id, Icon, label]) => (
             <button className={tab === id ? "active" : ""} onClick={() => setTab(id)} key={id}>
@@ -532,7 +617,11 @@ function App() {
             </button>
           ))}
         </nav>
-        <div className="aside-note">Autopilot can simulate or run live CRM. Vendor Ops is the real tenant CRM (JSON store). Public booking: /book/demo-landscape.</div>
+        <div className="aside-note">
+          Active business: {business.businessName}
+          {business.crews ? ` · ${business.crews} crews / ${business.employees} employees` : ""}.
+          Autopilot + Vendor Ops use the JSON CRM store.
+        </div>
       </aside>
 
       <main>
@@ -550,8 +639,8 @@ function App() {
                       ? "Service catalog"
                       : tab === "workflows"
                         ? "Pricing workflows"
-                        : tab === "settings"
-                          ? "Business pricing setup"
+                        : tab === "businesses"
+                          ? "Businesses"
                           : "API documentation"}
             </h1>
           </div>
@@ -574,10 +663,13 @@ function App() {
             <div className="card chat-panel">
               <div className="chat-toolbar">
                 <label className="field compact">
-                  <span>Category</span>
+                  <span>Category{business.businessName ? ` · ${business.businessName}` : ""}</span>
                   <select value={category} onChange={e => onCategoryChange(e.target.value)}>
                     <option value="">Select category…</option>
-                    {categories.map(item => (
+                    {(business.categories?.length
+                      ? categories.filter(item => business.categories.includes(item.category))
+                      : categories
+                    ).map(item => (
                       <option value={item.category} key={item.category}>{item.label}</option>
                     ))}
                   </select>
@@ -586,7 +678,11 @@ function App() {
                   <span className={`step ${aiStatus?.enabled ? "success" : ""}`}>
                     {aiStatus?.enabled ? `AI ON · ${aiStatus.model || "openai"}` : "AI FALLBACK"}
                   </span>
-                  <strong>{defaultMarketArea}</strong>
+                  <strong>
+                    {business.crews
+                      ? `${business.crews} crews · ${business.employees} employees`
+                      : defaultMarketArea}
+                  </strong>
                 </div>
               </div>
 
@@ -920,29 +1016,20 @@ function App() {
 
         {tab === "workflows" && <WorkflowsPanel request={request} />}
 
-        {tab === "settings" && (
-          <section className="grid two">
-            <div className="card">
-              <h2>AI configuration</h2>
-              <p className="save-note">
-                Set <code>OPENAI_API_KEY</code> in the server <code>.env</code>. The UI does not collect OpenAI or client API keys.
-              </p>
-              <h2>Business identity</h2>
-              <Field label="Business name" value={business.businessName} onChange={v => setBusiness({ ...business, businessName: v })} />
-              <Field label="Billing email" value={business.email} onChange={v => setBusiness({ ...business, email: v })} />
-              <Field label="Phone" value={business.phone} onChange={v => setBusiness({ ...business, phone: v })} />
-              <Field label="License number" value={business.licenseNumber} onChange={v => setBusiness({ ...business, licenseNumber: v })} />
-            </div>
-            <div className="card">
-              <h2>Pricing and invoice defaults</h2>
-              <Field label="Default hourly rate" type="number" value={business.unitPrices.hourlyRate} onChange={v => setBusiness({ ...business, unitPrices: { ...business.unitPrices, hourlyRate: v } })} />
-              <Field label="Default crew size" type="number" value={business.defaultCrewSize} onChange={v => setBusiness({ ...business, defaultCrewSize: v })} />
-              <Field label="Tax rate (%)" type="number" value={settings.taxRate} onChange={v => setSettings({ ...settings, taxRate: v })} />
-              <Field label="Default discount" type="number" value={settings.discount} onChange={v => setSettings({ ...settings, discount: v })} />
-              <Field label="Payment terms" value={settings.paymentTerms} onChange={v => setSettings({ ...settings, paymentTerms: v })} />
-              <p className="save-note">Auto walkthrough overrides hourly/material defaults with the selected category’s industry-standard rates.</p>
-            </div>
-          </section>
+        {tab === "businesses" && (
+          <BusinessesPage
+            selectedBusinessId={activeBusinessId}
+            onSelectBusiness={applyTenantBusiness}
+            onUseInChat={(tenant) => {
+              applyTenantBusiness(tenant);
+              if (tenant.primaryCategory) setCategory(tenant.primaryCategory);
+              setTab("workflow");
+              pushChat(
+                "assistant",
+                `Using ${tenant.name} (${tenant.crews} crews · ${tenant.employees} employees · ${(tenant.categories || []).join(", ")}). Pick a service to quote.`
+              );
+            }}
+          />
         )}
 
         {tab === "docs" && <Docs />}

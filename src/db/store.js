@@ -14,6 +14,8 @@ const TABLE_NAMES = [
   "payments",
   "jobs",
   "sessions",
+  "businesses",
+  "business_sessions",
   "webhook_endpoints",
   "webhook_deliveries",
   "notification_log"
