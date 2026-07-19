@@ -13,10 +13,14 @@ import versionRouter from "./routes/version.js";
 import pricingInsightsRouter from "./routes/pricingInsights.js";
 import salesExpansionRouter from "./routes/salesExpansion.js";
 import costQuoteRouter from "./routes/costQuote.js";
+import vendorRouter from "./routes/vendor.js";
+import publicBookingRouter from "./routes/publicBooking.js";
 import { requireClientApiKey } from "./middleware/clientApiKey.js";
 import { apiVersionHeaders } from "./middleware/apiVersionHeaders.js";
 import { currentApiVersion, getVersionPayload } from "./config/apiVersion.js";
 import { ensureAllPricingStandards } from "./services/pricingStandards.js";
+import { ensureDemoVendor } from "./services/vendors.js";
+import { getDb } from "./db/sqlite.js";
 
 const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -51,6 +55,12 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(openapi, {
 }));
 app.get("/openapi.yaml", (_req, res) => res.sendFile(join(__dirname, "../openapi.yaml")));
 ensureAllPricingStandards();
+getDb();
+const demoVendor = ensureDemoVendor();
+if (demoVendor.created && demoVendor.apiKey) {
+  console.log(`Demo vendor ready: slug=${demoVendor.vendor.slug} apiKey=${demoVendor.apiKey}`);
+}
+
 app.use("/api/v1", versionRouter);
 // UI workflow uses server-side OPENAI_API_KEY; no client API key required for AI/guided quoting.
 app.use("/api/v1", aiRouter);
@@ -58,10 +68,12 @@ app.use("/api/v1", guidedRouter);
 app.use("/api/v1", pricingInsightsRouter);
 app.use("/api/v1", costQuoteRouter);
 app.use("/api/v1", salesExpansionRouter);
+app.use("/api/v1", vendorRouter);
+app.use("/api/v1", publicBookingRouter);
 app.use("/api/v1", requireClientApiKey, automationRouter);
 const clientDist = join(__dirname, "../client/dist");
 app.use(express.static(clientDist));
-app.get(["/", "/app", "/app/*"], (_req, res, next) => {
+app.get(["/", "/app", "/app/*", "/book", "/book/*"], (_req, res, next) => {
   const indexPath = join(clientDist, "index.html");
   res.sendFile(indexPath, error => error ? next() : undefined);
 });

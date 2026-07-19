@@ -100,6 +100,35 @@ Example body:
 
 You can also omit `clients` and set `"category"` after uploading invoice logs to derive areas from `data/invoice-logs`.
 
+## Vendor website MVP (tenants, CRM, quotes, jobs, booking)
+
+SQLite-backed multi-tenant layer for vendor websites:
+
+```bash
+npm run vendor:seed   # creates demo-landscape + prints vcorr_ API key
+
+POST /api/v1/vendors
+GET  /api/v1/vendors/me                  # X-API-Key: vcorr_...
+GET  /api/v1/vendors/me/leads
+POST /api/v1/vendors/me/leads/:id/quotes
+POST /api/v1/vendors/me/quotes/:id/send
+POST /api/v1/vendors/me/quotes/:id/accept
+POST /api/v1/vendors/me/quotes/:id/checkout
+GET  /api/v1/vendors/me/jobs
+POST /api/v1/vendors/me/webhooks
+
+# Public customer flows
+GET  /api/v1/public/{slug}/booking
+POST /api/v1/public/{slug}/booking
+GET  /api/v1/public/quotes/{token}
+POST /api/v1/public/quotes/{token}/accept
+POST /api/v1/public/quotes/{token}/checkout
+```
+
+UI: **Vendor Ops** tab (CRM) and public pages at `/book/demo-landscape` and `/book/quote/{token}`.  
+Payments use Stripe when `STRIPE_SECRET_KEY` is set, otherwise mock checkout.  
+Post-MVP gap analysis: `docs/VENDOR_MVP_GAP_ANALYSIS.md`.
+
 ## API cost quotes (before proceeding)
 
 Estimate provider spend for a planned request before it runs:
