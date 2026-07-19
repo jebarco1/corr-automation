@@ -1,21 +1,25 @@
 import axios from "axios";
-import { getDb, makeId, nowIso } from "../db/sqlite.js";
+import { getStore, makeId, nowIso } from "../db/store.js";
 
 function logNotification(vendorId, channel, to, subject, body, status, provider, meta = {}) {
   const id = makeId("ntf");
-  getDb().prepare(`
-    INSERT INTO notification_log (id, vendor_id, channel, to_addr, subject, body, status, provider, meta_json, created_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `).run(
-    id, vendorId, channel, to, subject || null, body || null, status, provider || "log",
-    JSON.stringify(meta), nowIso()
-  );
+  getStore().notification_log.insert({
+    id,
+    vendor_id: vendorId,
+    channel,
+    to_addr: to,
+    subject: subject || null,
+    body: body || null,
+    status,
+    provider: provider || "log",
+    meta_json: meta,
+    created_at: nowIso()
+  });
   return { id, channel, to, subject, status, provider };
 }
 
 export async function sendEmail({ vendorId, to, subject, body, meta = {} }) {
   if (!to) return { skipped: true, reason: "no recipient" };
-  const apiKey = process.env.SENDGRID_API_KEY || process.env.RESEND_API_KEY;
   const from = process.env.NOTIFY_FROM_EMAIL || "noreply@ha-corr.local";
 
   if (process.env.SENDGRID_API_KEY) {
@@ -42,7 +46,7 @@ export async function sendEmail({ vendorId, to, subject, body, meta = {} }) {
       await axios.post("https://api.resend.com/emails", {
         from, to: [to], subject, text: body
       }, {
-        headers: { Authorization: `Bearer ${apiKey}` },
+        headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}` },
         validateStatus: () => true
       });
       return logNotification(vendorId, "email", to, subject, body, "sent", "resend", meta);
@@ -90,9 +94,19 @@ export async function sendSms({ vendorId, to, body, meta = {} }) {
 }
 
 export function listNotifications(vendorId, limit = 50) {
-  return getDb().prepare(`
-    SELECT id, channel, to_addr as "to", subject, body, status, provider, created_at as createdAt
-    FROM notification_log WHERE vendor_id = ?
-    ORDER BY created_at DESC LIMIT ?
-  `).all(vendorId, Math.min(Number(limit) || 50, 200));
+  return getStore().notification_log
+    .find({ vendor_id: vendorId }, {
+      sort: [{ key: "created_at", dir: "desc" }],
+      limit: Math.min(Number(limit) || 50, 200)
+    })
+    .map(row => ({
+      id: row.id,
+      channel: row.channel,
+      to: row.to_addr,
+      subject: row.subject,
+      body: row.body,
+      status: row.status,
+      provider: row.provider,
+      createdAt: row.created_at
+    }));
 }

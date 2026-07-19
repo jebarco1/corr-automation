@@ -1,4 +1,4 @@
-import { getDb, makeId, nowIso, parseJson } from "../db/sqlite.js";
+import { getStore, makeId, nowIso, parseJson } from "../db/store.js";
 
 function mapSession(row) {
   if (!row) return null;
@@ -16,43 +16,38 @@ function mapSession(row) {
 export function saveSession(vendorId, input = {}) {
   const id = input.id || makeId("ses");
   const now = nowIso();
-  const existing = getDb().prepare("SELECT id FROM sessions WHERE id = ? AND vendor_id = ?").get(id, vendorId);
+  const db = getStore();
+  const existing = db.sessions.findOne({ id, vendor_id: vendorId });
   if (existing) {
-    getDb().prepare(`
-      UPDATE sessions SET kind = ?, category = ?, payload_json = ?, updated_at = ?
-      WHERE id = ? AND vendor_id = ?
-    `).run(
-      input.kind || "guided",
-      input.category || null,
-      JSON.stringify(input.payload || {}),
-      now,
-      id,
-      vendorId
-    );
+    db.sessions.updateWhere({ id, vendor_id: vendorId }, {
+      kind: input.kind || "guided",
+      category: input.category || null,
+      payload_json: input.payload || {},
+      updated_at: now
+    });
   } else {
-    getDb().prepare(`
-      INSERT INTO sessions (id, vendor_id, kind, category, payload_json, created_at, updated_at)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
-    `).run(
+    db.sessions.insert({
       id,
-      vendorId,
-      input.kind || "guided",
-      input.category || null,
-      JSON.stringify(input.payload || {}),
-      now,
-      now
-    );
+      vendor_id: vendorId,
+      kind: input.kind || "guided",
+      category: input.category || null,
+      payload_json: input.payload || {},
+      created_at: now,
+      updated_at: now
+    });
   }
   return getSession(vendorId, id);
 }
 
 export function getSession(vendorId, sessionId) {
-  const row = getDb().prepare("SELECT * FROM sessions WHERE vendor_id = ? AND id = ?").get(vendorId, sessionId);
-  return mapSession(row);
+  return mapSession(getStore().sessions.findOne({ vendor_id: vendorId, id: sessionId }));
 }
 
 export function listSessions(vendorId, limit = 50) {
-  return getDb().prepare(`
-    SELECT * FROM sessions WHERE vendor_id = ? ORDER BY updated_at DESC LIMIT ?
-  `).all(vendorId, Math.min(Number(limit) || 50, 200)).map(mapSession);
+  return getStore().sessions
+    .find({ vendor_id: vendorId }, {
+      sort: [{ key: "updated_at", dir: "desc" }],
+      limit: Math.min(Number(limit) || 50, 200)
+    })
+    .map(mapSession);
 }

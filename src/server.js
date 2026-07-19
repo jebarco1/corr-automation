@@ -20,7 +20,7 @@ import { apiVersionHeaders } from "./middleware/apiVersionHeaders.js";
 import { currentApiVersion, getVersionPayload } from "./config/apiVersion.js";
 import { ensureAllPricingStandards } from "./services/pricingStandards.js";
 import { ensureDemoVendor } from "./services/vendors.js";
-import { getDb } from "./db/sqlite.js";
+import { getStore } from "./db/store.js";
 
 const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -46,6 +46,7 @@ app.get("/health", (_req, res) => res.json({
   codename: currentApiVersion.codename,
   versionName: currentApiVersion.name,
   apiPath: currentApiVersion.apiPath,
+  db: "json",
   docs: "/docs"
 }));
 app.get("/version", (_req, res) => res.json(getVersionPayload(currentApiVersion)));
@@ -55,7 +56,8 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(openapi, {
 }));
 app.get("/openapi.yaml", (_req, res) => res.sendFile(join(__dirname, "../openapi.yaml")));
 ensureAllPricingStandards();
-getDb();
+const store = getStore();
+console.log(`Vendor DB: JSON file store (${store.filePath || "data/db/ha-corr.json"}) — no SQLite / no node:sqlite`);
 const demoVendor = ensureDemoVendor();
 if (demoVendor.created && demoVendor.apiKey) {
   console.log(`Demo vendor ready: slug=${demoVendor.vendor.slug} apiKey=${demoVendor.apiKey}`);

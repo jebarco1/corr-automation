@@ -1,4 +1,4 @@
-import { getDb, makeId, nowIso } from "../db/sqlite.js";
+import { getStore, makeId, nowIso } from "../db/store.js";
 import { emitVendorEvent } from "./webhooks.js";
 import { updateLead } from "./vendorLeads.js";
 
@@ -25,21 +25,16 @@ function mapJob(row) {
 }
 
 export function getJob(vendorId, jobId) {
-  const row = getDb().prepare("SELECT * FROM jobs WHERE vendor_id = ? AND id = ?").get(vendorId, jobId);
-  return mapJob(row);
+  return mapJob(getStore().jobs.findOne({ vendor_id: vendorId, id: jobId }));
 }
 
 export function listJobs(vendorId, options = {}) {
-  const clauses = ["vendor_id = ?"];
-  const params = [vendorId];
-  if (options.status) {
-    clauses.push("status = ?");
-    params.push(options.status);
-  }
-  const rows = getDb().prepare(`
-    SELECT * FROM jobs WHERE ${clauses.join(" AND ")}
-    ORDER BY COALESCE(scheduled_start, created_at) ASC LIMIT ?
-  `).all(...params, Math.min(Number(options.limit || 100), 500));
+  const query = { vendor_id: vendorId };
+  if (options.status) query.status = options.status;
+  const rows = getStore().jobs.find(query, {
+    sort: [{ key: "scheduled_start", dir: "asc", coalesce: "created_at" }],
+    limit: Math.min(Number(options.limit || 100), 500)
+  });
   return { count: rows.length, jobs: rows.map(mapJob) };
 }
 
@@ -53,27 +48,22 @@ export function createJob(vendorId, input = {}) {
   const now = nowIso();
   const start = input.scheduledStart || new Date(Date.now() + 24 * 3600 * 1000).toISOString();
   const end = input.scheduledEnd || new Date(new Date(start).getTime() + 2 * 3600 * 1000).toISOString();
-  getDb().prepare(`
-    INSERT INTO jobs (
-      id, vendor_id, quote_id, lead_id, category, title, service_address,
-      scheduled_start, scheduled_end, assignee, status, notes, created_at, updated_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `).run(
+  getStore().jobs.insert({
     id,
-    vendorId,
-    input.quoteId || null,
-    input.leadId || null,
-    input.category || null,
-    input.title || input.serviceName,
-    input.serviceAddress || null,
-    start,
-    end,
-    input.assignee || "unassigned",
-    JOB_STATUSES.includes(input.status) ? input.status : "scheduled",
-    input.notes || null,
-    now,
-    now
-  );
+    vendor_id: vendorId,
+    quote_id: input.quoteId || null,
+    lead_id: input.leadId || null,
+    category: input.category || null,
+    title: input.title || input.serviceName,
+    service_address: input.serviceAddress || null,
+    scheduled_start: start,
+    scheduled_end: end,
+    assignee: input.assignee || "unassigned",
+    status: JOB_STATUSES.includes(input.status) ? input.status : "scheduled",
+    notes: input.notes || null,
+    created_at: now,
+    updated_at: now
+  });
   const job = getJob(vendorId, id);
   if (job.leadId) updateLead(vendorId, job.leadId, { status: "scheduled" });
   emitVendorEvent(vendorId, "job.scheduled", { job }).catch(() => {});
@@ -107,15 +97,15 @@ export function updateJob(vendorId, jobId, patch = {}) {
     throw error;
   }
   const next = { ...existing, ...patch };
-  const now = nowIso();
-  getDb().prepare(`
-    UPDATE jobs SET
-      title = ?, service_address = ?, scheduled_start = ?, scheduled_end = ?,
-      assignee = ?, status = ?, notes = ?, updated_at = ?
-    WHERE vendor_id = ? AND id = ?
-  `).run(
-    next.title, next.serviceAddress, next.scheduledStart, next.scheduledEnd,
-    next.assignee, next.status, next.notes, now, vendorId, jobId
-  );
+  getStore().jobs.updateWhere({ vendor_id: vendorId, id: jobId }, {
+    title: next.title,
+    service_address: next.serviceAddress,
+    scheduled_start: next.scheduledStart,
+    scheduled_end: next.scheduledEnd,
+    assignee: next.assignee,
+    status: next.status,
+    notes: next.notes,
+    updated_at: nowIso()
+  });
   return getJob(vendorId, jobId);
 }

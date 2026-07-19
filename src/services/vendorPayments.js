@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import axios from "axios";
-import { getDb, makeId, nowIso } from "../db/sqlite.js";
+import { getStore, makeId, nowIso } from "../db/store.js";
 import { getQuote, markQuotePaid } from "./vendorQuotes.js";
 import { emitVendorEvent } from "./webhooks.js";
 import { sendEmail } from "./notifications.js";
@@ -24,15 +24,18 @@ function mapPayment(row) {
 }
 
 export function getPayment(vendorId, paymentId) {
-  const row = getDb().prepare("SELECT * FROM payments WHERE vendor_id = ? AND id = ?").get(vendorId, paymentId);
-  return mapPayment(row);
+  return mapPayment(getStore().payments.findOne({ vendor_id: vendorId, id: paymentId }));
+}
+
+export function getPaymentById(paymentId) {
+  return mapPayment(getStore().payments.findOne({ id: paymentId }));
 }
 
 export function listPayments(vendorId, options = {}) {
-  const rows = getDb().prepare(`
-    SELECT * FROM payments WHERE vendor_id = ?
-    ORDER BY created_at DESC LIMIT ?
-  `).all(vendorId, Math.min(Number(options.limit || 100), 500));
+  const rows = getStore().payments.find(
+    { vendor_id: vendorId },
+    { sort: [{ key: "created_at", dir: "desc" }], limit: Math.min(Number(options.limit || 100), 500) }
+  );
   return { count: rows.length, payments: rows.map(mapPayment) };
 }
 
@@ -90,35 +93,39 @@ export async function createCheckoutForQuote(vendorId, quoteId, options = {}) {
     }
   }
 
-  getDb().prepare(`
-    INSERT INTO payments (
-      id, vendor_id, quote_id, provider, provider_ref, amount_cents, currency, status, checkout_url, created_at, updated_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?, ?)
-  `).run(
-    id, vendorId, quote.id, provider, providerRef, quote.amountCents, quote.currency || "USD",
-    checkoutUrl, now, now
-  );
+  getStore().payments.insert({
+    id,
+    vendor_id: vendorId,
+    quote_id: quote.id,
+    provider,
+    provider_ref: providerRef,
+    amount_cents: quote.amountCents,
+    currency: quote.currency || "USD",
+    status: "pending",
+    checkout_url: checkoutUrl,
+    created_at: now,
+    updated_at: now
+  });
 
   return getPayment(vendorId, id);
 }
 
 export async function completePayment(paymentId, options = {}) {
-  const row = getDb().prepare("SELECT * FROM payments WHERE id = ?").get(paymentId);
+  const row = getStore().payments.findOne({ id: paymentId });
   if (!row) {
     const error = new Error("Payment not found");
     error.statusCode = 404;
     throw error;
   }
-  if (row.status === "succeeded") return mapPayment(row);
+  if (row.status === "succeeded") return { payment: mapPayment(row), quote: getQuote(row.vendor_id, row.quote_id) };
 
-  const now = nowIso();
-  const providerRef = options.providerRef || row.provider_ref || null;
-  getDb().prepare(`
-    UPDATE payments SET status = 'succeeded', provider_ref = ?, updated_at = ?
-    WHERE id = ?
-  `).run(providerRef, now, paymentId);
+  getStore().payments.updateWhere({ id: paymentId }, {
+    status: "succeeded",
+    provider_ref: options.providerRef || row.provider_ref || null,
+    updated_at: nowIso()
+  });
 
-  const payment = mapPayment(getDb().prepare("SELECT * FROM payments WHERE id = ?").get(paymentId));
+  const payment = mapPayment(getStore().payments.findOne({ id: paymentId }));
   const quote = markQuotePaid(payment.vendorId, payment.quoteId);
   await emitVendorEvent(payment.vendorId, "payment.succeeded", { payment, quote });
 
@@ -134,8 +141,7 @@ export async function completePayment(paymentId, options = {}) {
   return { payment, quote };
 }
 
-export async function handleStripeWebhook(rawBody, signatureHeader) {
-  // Lightweight verification optional; full Stripe SDK not required for MVP.
+export async function handleStripeWebhook(rawBody) {
   let event;
   try {
     event = typeof rawBody === "string" ? JSON.parse(rawBody) : rawBody;
@@ -149,7 +155,7 @@ export async function handleStripeWebhook(rawBody, signatureHeader) {
     const session = event.data?.object || {};
     const paymentId = session.metadata?.paymentId || session.client_reference_id;
     if (paymentId) {
-      return completePayment(paymentId, { providerRef: session.id, signatureHeader });
+      return completePayment(paymentId, { providerRef: session.id });
     }
   }
   return { ignored: true, type: event.type };
