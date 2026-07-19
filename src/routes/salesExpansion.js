@@ -23,8 +23,18 @@ import {
   listSegmentLeads,
   LEAD_SEGMENTS
 } from "../services/leadHunt.js";
+import { evaluateCostGate } from "../services/costQuote.js";
 
 const router = Router();
+
+function costGateOrProceed(res, operation, params, body) {
+  const gate = evaluateCostGate(operation, params, body || {});
+  if (!gate.ok) {
+    res.status(gate.statusCode).json(gate.body);
+    return null;
+  }
+  return gate.approved;
+}
 
 router.post("/sales/client-density", requireClientApiKey, (req, res, next) => {
   try {
@@ -80,7 +90,11 @@ router.get("/leads", (_req, res) => {
 
 router.post("/leads/hunt", requireClientApiKey, async (req, res, next) => {
   try {
-    res.status(202).json(await huntLeadsForAllCategories(req.body || {}));
+    const body = req.body || {};
+    const approved = costGateOrProceed(res, "leads.hunt", body, body);
+    if (!approved) return;
+    const result = await huntLeadsForAllCategories(body);
+    res.status(202).json({ ...result, cost: approved });
   } catch (error) {
     next(error);
   }
@@ -102,7 +116,11 @@ router.get("/leads/b2b", (req, res, next) => {
 
 router.post("/leads/b2b/hunt", requireClientApiKey, async (req, res, next) => {
   try {
-    res.status(202).json(await huntB2bLeads(req.body || {}));
+    const body = { ...(req.body || {}), segment: "b2b" };
+    const approved = costGateOrProceed(res, "leads.hunt", body, body);
+    if (!approved) return;
+    const result = await huntB2bLeads(body);
+    res.status(202).json({ ...result, cost: approved });
   } catch (error) {
     next(error);
   }
@@ -124,7 +142,11 @@ router.get("/leads/residential", (req, res, next) => {
 
 router.post("/leads/residential/hunt", requireClientApiKey, async (req, res, next) => {
   try {
-    res.status(202).json(await huntResidentialLeads(req.body || {}));
+    const body = { ...(req.body || {}), segment: "residential" };
+    const approved = costGateOrProceed(res, "leads.hunt", body, body);
+    if (!approved) return;
+    const result = await huntResidentialLeads(body);
+    res.status(202).json({ ...result, cost: approved });
   } catch (error) {
     next(error);
   }
@@ -220,7 +242,14 @@ for (const category of supportedCategories) {
 
   router.post(`/${category}/leads/hunt`, requireClientApiKey, async (req, res, next) => {
     try {
-      res.status(202).json(await huntLeadsForCategory(category, req.body || {}));
+      const body = { ...(req.body || {}), category };
+      const approved = costGateOrProceed(res, "leads.hunt", {
+        ...body,
+        categories: body.categories || [category]
+      }, body);
+      if (!approved) return;
+      const result = await huntLeadsForCategory(category, body);
+      res.status(202).json({ ...result, cost: approved });
     } catch (error) {
       next(error);
     }
@@ -228,7 +257,14 @@ for (const category of supportedCategories) {
 
   router.post(`/${category}/leads/b2b/hunt`, requireClientApiKey, async (req, res, next) => {
     try {
-      res.status(202).json(await huntLeadsForCategory(category, { ...(req.body || {}), segment: "b2b" }));
+      const body = { ...(req.body || {}), segment: "b2b", category };
+      const approved = costGateOrProceed(res, "leads.hunt", {
+        ...body,
+        categories: body.categories || [category]
+      }, body);
+      if (!approved) return;
+      const result = await huntLeadsForCategory(category, body);
+      res.status(202).json({ ...result, cost: approved });
     } catch (error) {
       next(error);
     }
@@ -236,7 +272,14 @@ for (const category of supportedCategories) {
 
   router.post(`/${category}/leads/residential/hunt`, requireClientApiKey, async (req, res, next) => {
     try {
-      res.status(202).json(await huntLeadsForCategory(category, { ...(req.body || {}), segment: "residential" }));
+      const body = { ...(req.body || {}), segment: "residential", category };
+      const approved = costGateOrProceed(res, "leads.hunt", {
+        ...body,
+        categories: body.categories || [category]
+      }, body);
+      if (!approved) return;
+      const result = await huntLeadsForCategory(category, body);
+      res.status(202).json({ ...result, cost: approved });
     } catch (error) {
       next(error);
     }

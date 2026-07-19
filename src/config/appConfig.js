@@ -17,5 +17,12 @@ export const appConfig = Object.freeze({
     pollMs: Number(process.env.ORIGAMI_POLL_MS || 15000),
     maxWaitMs: Number(process.env.ORIGAMI_MAX_WAIT_MS || 360000),
     requestTimeoutMs: Number(process.env.ORIGAMI_REQUEST_TIMEOUT_MS || 30000)
+  },
+  cost: {
+    requireConfirmation: String(process.env.COST_REQUIRE_CONFIRMATION || "").toLowerCase() === "true",
+    quoteTtlSeconds: Number(process.env.COST_QUOTE_TTL_SECONDS || 1800),
+    defaultMaxUsd: process.env.COST_DEFAULT_MAX_USD
+      ? Number(process.env.COST_DEFAULT_MAX_USD)
+      : null
   }
 });

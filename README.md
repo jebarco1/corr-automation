@@ -100,6 +100,36 @@ Example body:
 
 You can also omit `clients` and set `"category"` after uploading invoice logs to derive areas from `data/invoice-logs`.
 
+## API cost quotes (before proceeding)
+
+Estimate provider spend for a planned request before it runs:
+
+```bash
+GET  /api/v1/cost/rates
+GET  /api/v1/cost/operations
+POST /api/v1/cost/quote
+GET  /api/v1/cost/quote/{quoteId}
+```
+
+Example:
+
+```json
+{
+  "operation": "leads.hunt",
+  "params": {
+    "provider": "origami",
+    "segment": "b2b",
+    "categories": ["landscape"],
+    "cities": ["Atlanta", "Macon"],
+    "perCityLimit": 5
+  }
+}
+```
+
+Response includes `estimatedUsd`, min/likely/max range, per-process line items (Origami agent runs, OpenAI tokens, Regrid requests), and a `quoteId`. Lead hunts also accept `quoteOnly: true` to return the quote without hunting, or `maxCostUsd` / `confirmCost` + `costQuoteId` when confirmation is required (`COST_REQUIRE_CONFIRMATION=true`).
+
+Tune unit rates in `data/provider-costs.json` or `COST_*` env vars.
+
 ## Georgia lead hunting (B2B + residential)
 
 Pilot markets live in `data/markets/georgia-cities.json`. Segment targets are in `data/lead-targets/{category}.json`. Hunted leads write under `data/leads/b2b/` and `data/leads/residential/`.
