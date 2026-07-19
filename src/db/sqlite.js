@@ -182,23 +182,24 @@ function migrate(database) {
 }
 
 /**
- * Open SQLite using better-sqlite3 (Node 18+).
- * Falls back to node:sqlite only when better-sqlite3 is unavailable AND the runtime supports it.
+ * Open SQLite:
+ * 1) node:sqlite on Node 22.5+ (including 22.17.x)
+ * 2) better-sqlite3 fallback for older Node / missing builtin
  */
 function openDatabase(dbPath) {
   try {
-    const Database = require("better-sqlite3");
-    const database = new Database(dbPath);
-    database.pragma("journal_mode = WAL");
-    database.pragma("foreign_keys = ON");
-    return database;
-  } catch (betterSqliteError) {
+    const { DatabaseSync } = require("node:sqlite");
+    return new DatabaseSync(dbPath);
+  } catch {
     try {
-      const { DatabaseSync } = require("node:sqlite");
-      return new DatabaseSync(dbPath);
-    } catch {
+      const Database = require("better-sqlite3");
+      const database = new Database(dbPath);
+      database.pragma("journal_mode = WAL");
+      database.pragma("foreign_keys = ON");
+      return database;
+    } catch (betterSqliteError) {
       const error = new Error(
-        "SQLite driver unavailable. Run `npm install` (needs better-sqlite3). " +
+        "SQLite driver unavailable. Use Node 22.5+ (for node:sqlite) or run `npm install` (better-sqlite3). " +
         `Original error: ${betterSqliteError.message}`
       );
       error.statusCode = 500;
