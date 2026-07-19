@@ -17,6 +17,106 @@ const COMMON_INPUT_KEYS = new Set([
   "estimatedHours", "hourlyRate", "materialCost", "crewSize"
 ]);
 
+/** Category-specific services the advisor can propose when the user asks for suggestions. */
+const CATEGORY_SERVICE_SUGGESTIONS = {
+  landscape: ["Seasonal Color Install", "Irrigation Start-Up", "Aeration & Overseeding", "Leaf Cleanup"],
+  hvac: ["Duct Cleaning", "UV Air Purifier Install", "Mini-Split Maintenance", "Filter Subscription"],
+  cleaning: ["Move-Out Deep Clean", "Carpet Extraction", "Post-Construction Clean", "Nightly Office Detail"],
+  "pest-control": ["Mosquito Yard Treatment", "Rodent Exclusion", "Bed Bug Heat Prep", "Wildlife Exclusion"],
+  pool: ["Pool Opening Package", "Salt Cell Replacement", "Green-to-Clean Recovery", "Weekly Chemical Route"],
+  painting: ["Cabinet Refinish", "Exterior Trim Refresh", "Deck Stain Package", "Commercial Common-Area Coat"],
+  roofing: ["Gutter Guard Install", "Storm Leak Repair", "Soft-Wash Roof Clean", "Attic Ventilation Upgrade"],
+  plumbing: ["Water Heater Flush", "Sump Pump Install", "Camera Sewer Inspection", "Fixture Refresh Package"],
+  electrical: ["EV Charger Install", "Panel Safety Inspection", "Generator Transfer Switch", "Recessed Lighting Package"],
+  "general-contract": ["Kitchen Refresh Scope", "Bathroom Remodel Package", "ADA Ramp Build", "Tenant Build-Out"],
+  surveillance: ["Doorbell Camera Kit", "Parking Lot Camera Expand", "NVR Storage Upgrade", "Remote Monitoring Setup"],
+  "trash-removal": ["Estate Cleanout", "Construction Debris Haul", "Appliance Pickup", "Yard Waste Dumpster"],
+  transportation: ["Piano Move", "Same-Day Courier Run", "Office Relocation Pod", "Appliance Delivery"],
+  healthcare: ["Wound Care Visit", "Medication Reconciliation", "Post-Op Home Check", "Chronic Care Check-In"],
+  "bakery-food": ["Wedding Cake Package", "Corporate Breakfast Box", "Allergy-Safe Cupcakes", "Holiday Cookie Platter"],
+  "law-office": ["Mediation Session", "Prenup Package", "Landlord Lease Review", "Trademark Watch Setup"]
+};
+
+export function listSuggestedServices(category, { limit = 4, excludeExisting = true } = {}) {
+  const docs = getServiceDocs(category);
+  const existing = new Set(
+    (docs.services || []).flatMap(service => [
+      slugifyServiceId(service.id),
+      slugifyServiceId(service.name),
+      slugifyServiceId(service.quoteKey || "")
+    ])
+  );
+  const pool = CATEGORY_SERVICE_SUGGESTIONS[category] || [
+    "Premium Service Package",
+    "Express Service Visit",
+    "Maintenance Agreement",
+    "Emergency Callout"
+  ];
+  const suggestions = [];
+  for (const name of pool) {
+    const id = slugifyServiceId(name);
+    if (excludeExisting && (existing.has(id) || existing.has(slugifyServiceId(name)))) continue;
+    suggestions.push({
+      id,
+      name,
+      label: name,
+      prompt: `Add service "${name}" to ${docs.label}`,
+      description: `${name} for ${docs.label.toLowerCase()} customers, scoped for guided quoting and automation.`
+    });
+    if (suggestions.length >= limit) break;
+  }
+  // If catalog already has all defaults, still return named ideas with unique suffixes skipped —
+  // fall back to first pool entries marked as existing so UI is never empty "Add".
+  if (!suggestions.length) {
+    return pool.slice(0, limit).map(name => ({
+      id: slugifyServiceId(name),
+      name,
+      label: name,
+      prompt: `Suggest improving or adding "${name}" for ${docs.label}`,
+      description: `${name} idea for ${docs.label}`,
+      alreadyExists: true
+    }));
+  }
+  return suggestions;
+}
+
+function buildAddServiceRecommendation(category, name, docs) {
+  const id = slugifyServiceId(name);
+  const categoryCalc = docs.categoryCalculation || {};
+  const description = `${name} for ${docs.label.toLowerCase()} customers, scoped for guided quoting and automation.`;
+  return makeRecommendation({
+    type: "add_service",
+    category,
+    serviceId: id,
+    title: name,
+    rationale: `Suggested ${docs.label} service: add “${name}” to the catalog.`,
+    preview: {
+      name,
+      description,
+      formula: categoryCalc.formula,
+      after: description
+    },
+    patch: {
+      service: {
+        id,
+        name,
+        description,
+        aliases: [name.toLowerCase()],
+        billingUnit: "job",
+        defaultHours: 3,
+        quoteKey: name.toLowerCase(),
+        inGuidedWorkflow: true,
+        relatedApis: docs.services[0]?.relatedApis?.slice(0, 2) || []
+      },
+      calculation: categoryCalc.formula ? {
+        formula: categoryCalc.formula,
+        summary: `${name} uses the ${docs.label} category calculation with service-specific defaults.`,
+        notes: [`Added via Services AI advisor for ${category}.`]
+      } : null
+    }
+  });
+}
+
 function badRequest(message) {
   const error = new Error(message);
   error.statusCode = 400;
@@ -189,47 +289,15 @@ function localRecommendations({ category, service, message }) {
   const wantsInputs = /\b(input|variable|fields?|required|missing)\b/.test(text) || /\bcheck\b/.test(text);
 
   if (wantsAdd || (!wantsDesc && !wantsCalc && !wantsInputs && /\bsuggest\b/.test(text))) {
-    const name = extractQuotedName(message)
-      || (category === "law-office" ? "Mediation Session"
-        : category === "landscape" ? "Seasonal Color Install"
-        : category === "hvac" ? "Duct Cleaning"
-        : category === "bakery-food" ? "Wedding Cake Package"
-        : category === "transportation" ? "Piano Move"
-        : "Premium Service Package");
-    const id = slugifyServiceId(name);
-    const exists = docs.services.some(item => item.id === id);
-    if (!exists) {
-      const categoryCalc = docs.categoryCalculation || {};
-      recs.push(makeRecommendation({
-        type: "add_service",
-        category,
-        serviceId: id,
-        title: `Add service: ${name}`,
-        rationale: `“${name}” is not in the ${docs.label} catalog yet and fits common customer demand.`,
-        preview: {
-          name,
-          description: `${name} for ${docs.label.toLowerCase()} customers, quoted with the category pricing model.`,
-          formula: categoryCalc.formula
-        },
-        patch: {
-          service: {
-            id,
-            name,
-            description: `${name} for ${docs.label.toLowerCase()} customers, scoped for guided quoting and automation.`,
-            aliases: [name.toLowerCase()],
-            billingUnit: "job",
-            defaultHours: 3,
-            quoteKey: name.toLowerCase(),
-            inGuidedWorkflow: true,
-            relatedApis: docs.services[0]?.relatedApis?.slice(0, 2) || []
-          },
-          calculation: categoryCalc.formula ? {
-            formula: categoryCalc.formula,
-            summary: `${name} uses the ${docs.label} category calculation with service-specific defaults.`,
-            notes: [`Added via Services AI advisor for ${category}.`]
-          } : null
-        }
-      }));
+    const quoted = extractQuotedName(message);
+    const namedSuggestions = quoted
+      ? [{ name: quoted }]
+      : listSuggestedServices(category, { limit: 3, excludeExisting: true });
+    for (const item of namedSuggestions) {
+      const name = item.name || item;
+      const id = slugifyServiceId(name);
+      if (docs.services.some(service => service.id === id || slugifyServiceId(service.name) === id)) continue;
+      recs.push(buildAddServiceRecommendation(category, name, docs));
     }
   }
 
@@ -415,15 +483,32 @@ Keep formulas readable and tied to documented input keys.`,
     const call = response.output?.find(item => item.type === "function_call" && item.name === "propose_service_changes");
     if (!call) return null;
     const args = JSON.parse(call.arguments || "{}");
-    const recommendations = (args.recommendations || []).map(item => makeRecommendation({
-      type: item.type,
-      category,
-      serviceId: item.serviceId || service?.id || item.patch?.service?.id || null,
-      title: item.title,
-      rationale: item.rationale,
-      preview: item.preview || item.patch || {},
-      patch: item.patch || {}
-    }));
+    const recommendations = (args.recommendations || []).map(item => {
+      const serviceName = item.patch?.service?.name
+        || item.preview?.name
+        || (item.type === "add_service" ? String(item.title || "").replace(/^add(?:\s+service)?\s*:?\s*/i, "").trim() : null)
+        || service?.name
+        || null;
+      const title = item.type === "add_service" && serviceName
+        ? serviceName
+        : (item.title || serviceName || "Catalog update");
+      const preview = {
+        ...(item.preview || item.patch || {}),
+        name: serviceName || item.preview?.name || null
+      };
+      if (serviceName && !preview.after && item.type === "add_service") {
+        preview.after = item.patch?.service?.description || preview.description || serviceName;
+      }
+      return makeRecommendation({
+        type: item.type,
+        category,
+        serviceId: item.serviceId || item.patch?.service?.id || slugifyServiceId(serviceName || "") || service?.id || null,
+        title,
+        rationale: item.rationale,
+        preview,
+        patch: item.patch || {}
+      });
+    });
     return {
       reply: args.reply || "Here are recommended catalog updates.",
       recommendations,
@@ -438,11 +523,15 @@ Keep formulas readable and tied to documented input keys.`,
 function replyFromRecommendations(category, recommendations, mode) {
   if (!recommendations.length) {
     return {
-      reply: `No concrete catalog changes suggested yet for ${category}. Try: “add a service called …”, “update the description”, “improve the formula”, or “check inputs”.`,
+      reply: `No concrete catalog changes suggested yet for ${category}. Try a suggested service chip, or ask to update a description, improve a formula, or check inputs.`,
       mode
     };
   }
-  const lines = recommendations.map((rec, index) => `${index + 1}. ${rec.title} — ${rec.rationale}`);
+  const lines = recommendations.map((rec, index) => {
+    const name = rec.preview?.name || rec.patch?.service?.name || rec.title;
+    const kind = rec.type === "add_service" ? "Add" : rec.type.replace(/_/g, " ");
+    return `${index + 1}. ${name} (${kind}) — ${rec.rationale}`;
+  });
   return {
     reply: `I have ${recommendations.length} recommendation(s) you can apply:\n\n${lines.join("\n")}\n\nClick Apply on a card (or say “apply 1”) to update the service catalog.`,
     mode

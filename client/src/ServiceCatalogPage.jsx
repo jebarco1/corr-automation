@@ -81,16 +81,38 @@ function ServiceCard({ service, open, onToggle, selected, onSelect }) {
   );
 }
 
+function recommendationName(rec) {
+  return rec?.preview?.name
+    || rec?.patch?.service?.name
+    || (rec?.type === "add_service" ? String(rec.title || "").replace(/^add(?:\s+service)?\s*:?\s*/i, "").trim() : "")
+    || rec?.title
+    || "Service update";
+}
+
 function RecommendationCard({ rec, busy, onApply, onDismiss }) {
+  const name = recommendationName(rec);
+  const actionLabel = rec.type === "add_service"
+    ? "Suggested service"
+    : rec.type.replace(/_/g, " ");
   return (
     <div className={`svc-rec ${rec.status}`}>
       <div className="svc-rec-head">
-        <strong>{rec.title}</strong>
+        <div>
+          <small className="svc-rec-kind">{actionLabel}</small>
+          <strong className="svc-rec-name">{name}</strong>
+        </div>
         <span className="svc-pill">{rec.type.replace(/_/g, " ")}</span>
       </div>
       <p>{rec.rationale}</p>
-      {rec.preview?.after && (
-        <pre className="svc-rec-preview">{typeof rec.preview.after === "string" ? rec.preview.after : JSON.stringify(rec.preview.after, null, 2)}</pre>
+      {(rec.preview?.description || rec.preview?.after) && (
+        <p className="svc-rec-desc">
+          {typeof (rec.preview.description || rec.preview.after) === "string"
+            ? (rec.preview.description || rec.preview.after)
+            : null}
+        </p>
+      )}
+      {rec.preview?.formula && (
+        <pre className="svc-rec-preview">{rec.preview.formula}</pre>
       )}
       {rec.preview?.issues?.length > 0 && (
         <ul className="svc-notes">
@@ -102,25 +124,18 @@ function RecommendationCard({ rec, busy, onApply, onDismiss }) {
       {rec.status === "pending" ? (
         <div className="svc-rec-actions">
           <button type="button" className="primary" disabled={busy} onClick={onApply}>
-            <Check size={14} /> Apply
+            <Check size={14} /> Apply {rec.type === "add_service" ? name : "update"}
           </button>
           <button type="button" className="ghost" disabled={busy} onClick={onDismiss}>
             <X size={14} /> Dismiss
           </button>
         </div>
       ) : (
-        <small className="svc-rec-status">{rec.status === "applied" ? "Applied to catalog" : "Dismissed"}</small>
+        <small className="svc-rec-status">{rec.status === "applied" ? `Applied: ${name}` : "Dismissed"}</small>
       )}
     </div>
   );
 }
-
-const SUGGESTIONS = [
-  "Suggest a new service to add",
-  "Update the description",
-  "Improve the calculation formula",
-  "Check input variables"
-];
 
 export default function ServiceCatalogPage() {
   const [docs, setDocs] = useState(null);
@@ -138,6 +153,7 @@ export default function ServiceCatalogPage() {
   const [chatBusy, setChatBusy] = useState(false);
   const [chatError, setChatError] = useState("");
   const [aiEnabled, setAiEnabled] = useState(false);
+  const [suggestedServices, setSuggestedServices] = useState([]);
   const chatEndRef = useRef(null);
 
   async function reloadDocs(preferredCategory) {
@@ -178,6 +194,19 @@ export default function ServiceCatalogPage() {
     setRecommendations([]);
     setFocusServiceId(null);
     setChatError("");
+    setSuggestedServices([]);
+
+    if (!category) return undefined;
+    let cancelled = false;
+    fetch(`${API}/service-docs/${encodeURIComponent(category)}/suggestions`)
+      .then(r => r.json())
+      .then(data => {
+        if (!cancelled) setSuggestedServices(data.suggestions || []);
+      })
+      .catch(() => {
+        if (!cancelled) setSuggestedServices([]);
+      });
+    return () => { cancelled = true; };
   }, [category]);
 
   const selected = useMemo(
@@ -445,11 +474,46 @@ export default function ServiceCatalogPage() {
           </div>
 
           <div className="svc-advisor-prompts">
-            {SUGGESTIONS.map(item => (
-              <button key={item} type="button" className="prompt-chip mini" disabled={chatBusy} onClick={() => sendChat(item)}>
-                {item}
+            <p className="svc-suggest-label">Suggested services for {selected?.label || category}</p>
+            {suggestedServices.length === 0 && (
+              <span className="svc-suggest-empty">Loading category suggestions…</span>
+            )}
+            {suggestedServices.map(item => (
+              <button
+                key={item.id || item.name}
+                type="button"
+                className="prompt-chip mini svc-suggest-chip"
+                disabled={chatBusy}
+                onClick={() => sendChat(item.prompt || `Add service "${item.name}"`)}
+                title={item.description}
+              >
+                {item.name}
               </button>
             ))}
+            <button
+              type="button"
+              className="prompt-chip mini"
+              disabled={chatBusy || !focusName}
+              onClick={() => sendChat(`Update the description for ${focusName}`)}
+            >
+              Update description
+            </button>
+            <button
+              type="button"
+              className="prompt-chip mini"
+              disabled={chatBusy || !focusName}
+              onClick={() => sendChat(`Improve the calculation formula for ${focusName}`)}
+            >
+              Improve formula
+            </button>
+            <button
+              type="button"
+              className="prompt-chip mini"
+              disabled={chatBusy || !focusName}
+              onClick={() => sendChat(`Check input variables for ${focusName}`)}
+            >
+              Check inputs
+            </button>
           </div>
 
           <div className="svc-advisor-chat">

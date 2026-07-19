@@ -253,25 +253,39 @@
 @media(max-width:980px){.svc-hero,.svc-layout{grid-template-columns:1fr}.svc-cats{position:static}.svc-cats ul{max-height:none;display:flex;overflow:auto;gap:6px}.svc-cats li{flex:0 0 auto}.svc-cats button{min-width:150px}.svc-card-head{flex-direction:column}.svc-input-row{flex-direction:column}.svc-input-meta{justify-content:flex-start}}
 
 /* Services AI advisor */
+.svc-page aside.card,
+.svc-cats,
+.svc-advisor{color:#18231d}
 .svc-layout.with-chat{grid-template-columns:220px minmax(0,1fr) 340px}
 .svc-card.selected{border-color:#6fac54;box-shadow:0 0 0 1px rgba(111,172,84,.35)}
 .svc-card-actions{display:flex;justify-content:flex-end;margin-bottom:4px}
-.svc-advisor{display:flex;flex-direction:column;gap:12px;padding:16px;position:sticky;top:16px;max-height:calc(100vh - 48px);overflow:auto}
-.svc-advisor-head h3{display:flex;align-items:center;gap:8px;margin:6px 0}
-.svc-advisor-head p{margin:0;color:#637068;font-size:13px}
+.svc-advisor{display:flex;flex-direction:column;gap:12px;padding:16px;position:sticky;top:16px;max-height:calc(100vh - 48px);overflow:auto;background:#fff}
+.svc-advisor-head h3{display:flex;align-items:center;gap:8px;margin:6px 0;color:#163d27}
+.svc-advisor-head p{margin:0;color:#405047;font-size:13px}
 .svc-advisor-prompts{display:flex;flex-wrap:wrap;gap:6px}
+.svc-suggest-label{width:100%;margin:0 0 2px;font-size:11px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:#5f7568}
+.svc-suggest-empty{font-size:12px;color:#718078}
+.svc-suggest-chip{background:#eef7ea !important;border-color:#b7d9a4 !important;color:#163d27 !important;font-weight:750}
 .svc-advisor-chat{display:flex;flex-direction:column;gap:10px;min-height:220px;max-height:280px;overflow:auto;padding:12px;border:1px solid #dfe8e2;border-radius:12px;background:linear-gradient(180deg,#fbfdfb,#f4f8f5)}
 .svc-advisor .bubble{max-width:100%}.svc-advisor .bubble p{white-space:pre-wrap}
+.svc-advisor .bubble.assistant{background:#e7f1ea;color:#163d27;border:1px solid #cfe0d4}
+.svc-advisor .bubble.user{background:#dff5c8;color:#173222}
+.svc-advisor .bubble strong{color:inherit;opacity:.8}
 .svc-rec-list{display:grid;gap:10px}.svc-rec-list h4{margin:0;font-size:12px;letter-spacing:.7px;text-transform:uppercase;color:#5f7568}
-.svc-rec{border:1px solid #d5e3da;border-radius:12px;padding:12px;background:#f7fbf8;display:grid;gap:8px}
+.svc-rec{border:1px solid #d5e3da;border-radius:12px;padding:12px;background:#f7fbf8;display:grid;gap:8px;color:#18231d}
 .svc-rec.applied{background:#eef8e8;border-color:#b7d9a4}
 .svc-rec.dismissed{opacity:.65}
 .svc-rec-head{display:flex;justify-content:space-between;gap:8px;align-items:start}
+.svc-rec-kind{display:block;font-size:10px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:#5f7568;margin-bottom:2px}
+.svc-rec-name{display:block;font-size:15px;color:#163d27}
 .svc-rec p{margin:0;color:#405047;font-size:13px;line-height:1.45}
-.svc-rec-preview{margin:0;background:#10251a;color:#dff5e5;padding:10px;border-radius:8px;font-size:11px;overflow:auto;max-height:120px;white-space:pre-wrap}
-.svc-rec-actions{display:flex;gap:8px}
-.svc-rec-status{color:#4b715a;font-weight:700}
+.svc-rec-desc{color:#30463a !important;font-weight:600}
+.svc-rec-preview{margin:0;background:#eef3ef;color:#163d27;border:1px solid #d5e3da;padding:10px;border-radius:8px;font-size:11px;overflow:auto;max-height:120px;white-space:pre-wrap}
+.svc-rec-actions{display:flex;gap:8px;flex-wrap:wrap}
+.svc-rec-status{color:#2f5b2a;font-weight:700}
 .svc-advisor-composer{display:flex;gap:8px;margin-top:auto}
-.svc-advisor-composer input{flex:1;border:1px solid #cfdad3;border-radius:10px;padding:12px;font:inherit;background:#fbfdfb}
+.svc-advisor-composer input{flex:1;border:1px solid #cfdad3;border-radius:10px;padding:12px;font:inherit;background:#fbfdfb;color:#18231d}
 .svc-advisor-composer .primary{padding:12px 14px}
+.svc-cats-head,.svc-cats button{color:#405047}
+.svc-cats button.active,.svc-cats button:hover{color:#163d27}
 @media(max-width:1200px){.svc-layout.with-chat{grid-template-columns:1fr}.svc-advisor{position:static;max-height:none}}
