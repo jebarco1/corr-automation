@@ -108,8 +108,8 @@ const flows = {
     {key:"disposalCost",question:"What disposal or tipping fee is expected?",type:"currency",ask:false, required:true,trigger:"trash-haul-estimate"}
   ]},
   transportation:{ label:"Transportation", description:"Local moves, long-haul and delivery quoting, load planning, route optimization, fleet capacity, and dispatch.", questions:[...common,
-    {key:"pickupAddress",question:"What is the pickup address?",type:"string",ask:true, required:true,trigger:"transport-property-profile"},
-    {key:"dropoffAddress",question:"What is the dropoff or destination address?",type:"string",ask:true, required:true},
+    {key:"pickupAddress",question:"What is the FROM (pickup) address?",type:"string",ask:true, required:true,trigger:"transport-property-profile", example:"100 Peachtree St, Atlanta, GA 30303"},
+    {key:"dropoffAddress",question:"What is the TO (dropoff / destination) address?",type:"string",ask:true, required:true, example:"500 Ponce De Leon Ave, Atlanta, GA 30308"},
     {key:"serviceType",question:"Which transportation service is needed?",type:"select",options:["local move","long haul","same-day delivery","scheduled delivery","light freight","materials haul"],ask:false, required:true},
     {key:"distanceMiles",question:"What is the estimated trip distance in miles?",type:"number",ask:false, required:true},
     {key:"volumeCubicFeet",question:"What is the estimated load volume in cubic feet?",type:"number",ask:false, required:true,trigger:"transport-load-plan"},
@@ -143,12 +143,20 @@ const flows = {
   ]}
 };
 
-// Transportation uses pickup/dropoff; service address is auto-copied from pickup.
+// Transportation shipping uses FROM/TO; service address is auto-copied from pickup.
 flows.transportation.questions = flows.transportation.questions.map(question => (
   question.key === "serviceAddress"
     ? { ...question, ask: false, required: false }
     : question
 ));
+
+function transportationNeedsShipping(answers = {}) {
+  if (answers.requiresShipping === true) return true;
+  if (answers.requiresShipping === false) return false;
+  const serviceType = String(answers.serviceType || answers.serviceId || "").toLowerCase();
+  if (!serviceType) return true;
+  return !/packing|loading only|loading-only/.test(serviceType);
+}
 
 function defaultValueForQuestion(question) {
   if (question.type === "select") return question.options?.[0];
@@ -161,8 +169,29 @@ function defaultValueForQuestion(question) {
 function applyAutomationDefaults(session, message = "") {
   const smart = buildSmartDefaults(session.category, message, session.businessSettings, session.answers);
   session.answers = refineDefaultsFromMeasurements(session.category, smart, session.businessSettings);
-  if (session.category === "transportation" && session.answers.pickupAddress && !session.answers.serviceAddress) {
-    session.answers.serviceAddress = session.answers.pickupAddress;
+  if (session.category === "transportation") {
+    const needsShipping = transportationNeedsShipping(session.answers);
+    session.answers.requiresShipping = needsShipping;
+    if (session.answers.pickupAddress && !session.answers.serviceAddress) {
+      session.answers.serviceAddress = session.answers.pickupAddress;
+    }
+    // Non-shipping jobs (packing / loading-only) don't need a dropoff.
+    for (const question of session.questions) {
+      if (question.key === "pickupAddress") {
+        question.ask = needsShipping || !session.answers.serviceAddress;
+        question.required = needsShipping;
+        question.question = needsShipping
+          ? "What is the FROM (pickup) address?"
+          : "What is the service address?";
+      }
+      if (question.key === "dropoffAddress") {
+        question.ask = needsShipping;
+        question.required = needsShipping;
+        if (!needsShipping && session.answers.dropoffAddress === undefined) {
+          session.answers.dropoffAddress = null;
+        }
+      }
+    }
   }
   for (const question of session.questions) {
     if (session.answers[question.key] !== undefined) continue;

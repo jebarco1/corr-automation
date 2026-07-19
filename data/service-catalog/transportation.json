@@ -3,7 +3,7 @@
   "label": "Transportation",
   "description": "Local moves, long-haul, deliveries, freight, and materials hauling.",
   "version": 1,
-  "updatedAt": "2026-07-19T01:51:22.000Z",
+  "updatedAt": "2026-07-19T19:16:45.768Z",
   "defaultServiceId": "local-move",
   "services": [
     {
@@ -35,7 +35,8 @@
       ],
       "active": true,
       "quoteKey": "local move",
-      "inGuidedWorkflow": true
+      "inGuidedWorkflow": true,
+      "requiresShipping": true
     },
     {
       "id": "long-haul",
@@ -63,7 +64,8 @@
       ],
       "active": true,
       "quoteKey": "long haul",
-      "inGuidedWorkflow": true
+      "inGuidedWorkflow": true,
+      "requiresShipping": true
     },
     {
       "id": "same-day-delivery",
@@ -90,7 +92,8 @@
       ],
       "active": true,
       "quoteKey": "same-day delivery",
-      "inGuidedWorkflow": true
+      "inGuidedWorkflow": true,
+      "requiresShipping": true
     },
     {
       "id": "scheduled-delivery",
@@ -117,7 +120,8 @@
       ],
       "active": true,
       "quoteKey": "scheduled delivery",
-      "inGuidedWorkflow": true
+      "inGuidedWorkflow": true,
+      "requiresShipping": true
     },
     {
       "id": "light-freight",
@@ -145,7 +149,8 @@
       ],
       "active": true,
       "quoteKey": "light freight",
-      "inGuidedWorkflow": true
+      "inGuidedWorkflow": true,
+      "requiresShipping": true
     },
     {
       "id": "materials-haul",
@@ -173,7 +178,8 @@
       ],
       "active": true,
       "quoteKey": "materials haul",
-      "inGuidedWorkflow": true
+      "inGuidedWorkflow": true,
+      "requiresShipping": true
     },
     {
       "id": "packing",
@@ -200,7 +206,8 @@
       ],
       "active": true,
       "quoteKey": "packing",
-      "inGuidedWorkflow": false
+      "inGuidedWorkflow": false,
+      "requiresShipping": false
     },
     {
       "id": "loading-only",
@@ -227,7 +234,8 @@
       ],
       "active": true,
       "quoteKey": "loading only",
-      "inGuidedWorkflow": false
+      "inGuidedWorkflow": false,
+      "requiresShipping": false
     },
     {
       "id": "piano-specialty",
@@ -254,7 +262,8 @@
       ],
       "active": true,
       "quoteKey": "piano specialty",
-      "inGuidedWorkflow": false
+      "inGuidedWorkflow": false,
+      "requiresShipping": true
     },
     {
       "id": "storage-shuttle",
@@ -280,7 +289,8 @@
       ],
       "active": true,
       "quoteKey": "storage shuttle",
-      "inGuidedWorkflow": false
+      "inGuidedWorkflow": false,
+      "requiresShipping": true
     },
     {
       "id": "office-relocation",
@@ -305,7 +315,8 @@
       ],
       "active": true,
       "quoteKey": "office relocation",
-      "inGuidedWorkflow": false
+      "inGuidedWorkflow": false,
+      "requiresShipping": true
     },
     {
       "id": "hotshot",
@@ -332,7 +343,8 @@
       ],
       "active": true,
       "quoteKey": "hotshot",
-      "inGuidedWorkflow": false
+      "inGuidedWorkflow": false,
+      "requiresShipping": true
     }
   ]
 }

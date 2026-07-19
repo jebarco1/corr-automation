@@ -301,13 +301,24 @@ export function buildSmartDefaults(category, message = "", businessSettings = {}
   }
 
   if (category === "transportation") {
-    if (!answers.pickupAddress && addresses[0]) answers.pickupAddress = addresses[0];
-    if (!answers.dropoffAddress && addresses[1]) answers.dropoffAddress = addresses[1];
-    if (!answers.serviceAddress && answers.pickupAddress) answers.serviceAddress = answers.pickupAddress;
     if (!answers.serviceType) {
-      answers.serviceType = pickOption(lower, ["long haul", "same-day delivery", "scheduled delivery", "light freight", "materials haul", "local move"], "local move");
+      answers.serviceType = pickOption(lower, ["long haul", "same-day delivery", "scheduled delivery", "light freight", "materials haul", "packing", "loading only", "local move"], "local move");
     }
-    if (answers.distanceMiles == null) answers.distanceMiles = numberFromText(text, [/([\d.]+)\s*miles?/i], 8);
+    const needsShipping = answers.requiresShipping !== false
+      && !/packing|loading only|loading-only/.test(String(answers.serviceType || ""));
+    answers.requiresShipping = needsShipping;
+    if (!answers.pickupAddress && addresses[0]) answers.pickupAddress = addresses[0];
+    if (needsShipping) {
+      if (!answers.dropoffAddress && addresses[1] && addresses[1] !== answers.pickupAddress) {
+        answers.dropoffAddress = addresses[1];
+      }
+      // Do not invent a destination — leave undefined so the interview asks for TO address.
+    } else if (answers.dropoffAddress === undefined) {
+      answers.dropoffAddress = null;
+    }
+    if (!answers.serviceAddress && answers.pickupAddress) answers.serviceAddress = answers.pickupAddress;
+    if (!answers.serviceAddress && addresses[0]) answers.serviceAddress = addresses[0];
+    if (answers.distanceMiles == null) answers.distanceMiles = numberFromText(text, [/([\d.]+)\s*miles?/i], needsShipping ? 8 : 0);
     if (answers.volumeCubicFeet == null) {
       answers.volumeCubicFeet = numberFromText(text, [/([\d.]+)\s*(?:cubic feet|cu\.?\s*ft)/i], 450);
     }

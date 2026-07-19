@@ -201,6 +201,8 @@ function invoiceReply(invoice, workflow) {
   const answers = workflow?.answers || {};
   const parcel = {
     address: answers.matchedAddress || answers.serviceAddress || answers.pickupAddress || null,
+    pickupAddress: answers.pickupAddress || null,
+    dropoffAddress: answers.dropoffAddress || null,
     squareFeet: answers.squareFeet ?? null,
     lotSquareFeet: answers.lotSquareFeet ?? null,
     buildingSquareFeet: answers.buildingSquareFeet ?? null,
@@ -212,7 +214,12 @@ function invoiceReply(invoice, workflow) {
     : null;
   const lines = ["Quote result"];
   if (service?.name) lines.push(`Service: ${service.name}${service.id ? ` (${service.id})` : ""}`);
-  if (parcel.address) lines.push(`Parcel address: ${parcel.address}`);
+  if (parcel.pickupAddress || parcel.dropoffAddress) {
+    if (parcel.pickupAddress) lines.push(`From (pickup): ${parcel.pickupAddress}`);
+    if (parcel.dropoffAddress) lines.push(`To (dropoff): ${parcel.dropoffAddress}`);
+  } else if (parcel.address) {
+    lines.push(`Parcel address: ${parcel.address}`);
+  }
   if (parcel.squareFeet != null) lines.push(`Measured area: ${Number(parcel.squareFeet).toLocaleString()} sqft`);
   if (parcel.lotSquareFeet != null && parcel.lotSquareFeet !== parcel.squareFeet) {
     lines.push(`Lot size: ${Number(parcel.lotSquareFeet).toLocaleString()} sqft${parcel.acres != null ? ` (${parcel.acres} acres)` : ""}`);

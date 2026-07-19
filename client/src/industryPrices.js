@@ -178,10 +178,15 @@ export function buildAutoAnswers(categoryDef, promptText = "", prices = {}) {
   }
 
   if (categoryDef?.category === "transportation") {
-    answers.pickupAddress = "100 Peachtree St, Atlanta, GA 30303";
-    answers.dropoffAddress = "500 Ponce De Leon Ave, Atlanta, GA 30308";
     answers.serviceType = pickOption(prompt, categoryDef.questions.find(q => q.key === "serviceType")?.options, "local move");
-    answers.distanceMiles = numberFromPrompt(prompt, [/([\d.]+)\s*miles?/i], 8);
+    answers.requiresShipping = !/packing|loading only/i.test(answers.serviceType);
+    // Auto walkthrough supplies demo FROM/TO when the prompt didn't include both.
+    answers.pickupAddress = "100 Peachtree St, Atlanta, GA 30303";
+    if (answers.requiresShipping) {
+      answers.dropoffAddress = "500 Ponce De Leon Ave, Atlanta, GA 30308";
+    }
+    answers.serviceAddress = answers.pickupAddress;
+    answers.distanceMiles = numberFromPrompt(prompt, [/([\d.]+)\s*miles?/i], answers.requiresShipping ? 8 : 0);
     answers.volumeCubicFeet = numberFromPrompt(prompt, [/([\d.]+)\s*(?:cubic feet|cu\.?\s*ft|sqft|sq\.?\s*ft)/i], 450);
     answers.crewSize = prices.defaultCrewSize || 2;
     answers.estimatedHours = prices.defaultHours || 4;

@@ -725,7 +725,14 @@ function App() {
                 </div>
                 <dl className="mini-dl">
                   <div><dt>Service</dt><dd>{selectedService?.name || session?.answers?.serviceType || "—"}{selectedService?.id ? ` (${selectedService.id})` : ""}</dd></div>
-                  <div><dt>Parcel address</dt><dd>{parcel?.address || session?.answers?.matchedAddress || session?.answers?.serviceAddress || "—"}</dd></div>
+                  {(parcel?.pickupAddress || session?.answers?.pickupAddress || parcel?.dropoffAddress || session?.answers?.dropoffAddress) ? (
+                    <>
+                      <div><dt>From (pickup)</dt><dd>{parcel?.pickupAddress || session?.answers?.pickupAddress || "—"}</dd></div>
+                      <div><dt>To (dropoff)</dt><dd>{parcel?.dropoffAddress || session?.answers?.dropoffAddress || "—"}</dd></div>
+                    </>
+                  ) : (
+                    <div><dt>Parcel address</dt><dd>{parcel?.address || session?.answers?.matchedAddress || session?.answers?.serviceAddress || "—"}</dd></div>
+                  )}
                   <div><dt>Measured area</dt><dd>{parcel?.squareFeet != null ? `${Number(parcel.squareFeet).toLocaleString()} sqft` : "—"}</dd></div>
                   <div><dt>Lot size</dt><dd>{
                     parcel?.lotSquareFeet != null
