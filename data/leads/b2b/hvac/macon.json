@@ -1,0 +1,88 @@
+{
+  "segment": "b2b",
+  "category": "hvac",
+  "city": "Macon",
+  "state": "GA",
+  "market": "Macon, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:31.999Z",
+  "queries": [
+    "apartment complex in Macon GA",
+    "apartment complex Macon GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_5c25588cc104",
+      "segment": "b2b",
+      "category": "hvac",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon apartment complex",
+      "url": null,
+      "snippet": "Potential hvac customer target: apartment complex in Macon, GA. Verify contact details before outreach.",
+      "customerType": "apartment complex",
+      "suggestedService": {
+        "serviceId": "maintenance",
+        "serviceName": "Preventive Maintenance",
+        "quoteKey": "maintenance"
+      },
+      "score": 90,
+      "query": "apartment complex in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:31.999Z"
+    },
+    {
+      "leadId": "lead_673d3961ce2b",
+      "segment": "b2b",
+      "category": "hvac",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon property management company",
+      "url": null,
+      "snippet": "Potential hvac customer target: property management company in Macon, GA. Verify contact details before outreach.",
+      "customerType": "property management company",
+      "suggestedService": {
+        "serviceId": "maintenance",
+        "serviceName": "Preventive Maintenance",
+        "quoteKey": "maintenance"
+      },
+      "score": 90,
+      "query": "apartment complex in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:31.999Z"
+    },
+    {
+      "leadId": "lead_3dc01d041e4e",
+      "segment": "b2b",
+      "category": "hvac",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon restaurant",
+      "url": null,
+      "snippet": "Potential hvac customer target: restaurant in Macon, GA. Verify contact details before outreach.",
+      "customerType": "restaurant",
+      "suggestedService": {
+        "serviceId": "maintenance",
+        "serviceName": "Preventive Maintenance",
+        "quoteKey": "maintenance"
+      },
+      "score": 80,
+      "query": "apartment complex in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:31.999Z"
+    }
+  ]
+}

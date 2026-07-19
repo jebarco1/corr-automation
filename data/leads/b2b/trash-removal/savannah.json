@@ -1,0 +1,88 @@
+{
+  "segment": "b2b",
+  "category": "trash-removal",
+  "city": "Savannah",
+  "state": "GA",
+  "market": "Savannah, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:34.431Z",
+  "queries": [
+    "construction company in Savannah GA",
+    "construction company Savannah GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_7dbe66e4d9a0",
+      "segment": "b2b",
+      "category": "trash-removal",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah property management company",
+      "url": null,
+      "snippet": "Potential trash-removal customer target: property management company in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "property management company",
+      "suggestedService": {
+        "serviceId": "dumpster-rental",
+        "serviceName": "Dumpster Rental",
+        "quoteKey": "dumpster rental"
+      },
+      "score": 90,
+      "query": "construction company in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:34.431Z"
+    },
+    {
+      "leadId": "lead_c269ffc1cc32",
+      "segment": "b2b",
+      "category": "trash-removal",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah construction company",
+      "url": null,
+      "snippet": "Potential trash-removal customer target: construction company in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "construction company",
+      "suggestedService": {
+        "serviceId": "dumpster-rental",
+        "serviceName": "Dumpster Rental",
+        "quoteKey": "dumpster rental"
+      },
+      "score": 80,
+      "query": "construction company in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:34.431Z"
+    },
+    {
+      "leadId": "lead_d3373fdd531c",
+      "segment": "b2b",
+      "category": "trash-removal",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah retail center",
+      "url": null,
+      "snippet": "Potential trash-removal customer target: retail center in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "retail center",
+      "suggestedService": {
+        "serviceId": "dumpster-rental",
+        "serviceName": "Dumpster Rental",
+        "quoteKey": "dumpster rental"
+      },
+      "score": 80,
+      "query": "construction company in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:34.431Z"
+    }
+  ]
+}

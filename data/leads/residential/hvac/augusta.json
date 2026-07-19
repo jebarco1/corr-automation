@@ -1,0 +1,88 @@
+{
+  "segment": "residential",
+  "category": "hvac",
+  "city": "Augusta",
+  "state": "GA",
+  "market": "Augusta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:40.097Z",
+  "queries": [
+    "homeowner in Augusta GA",
+    "homeowner Augusta GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_b1ae8f65c4fa",
+      "segment": "residential",
+      "category": "hvac",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta homeowner",
+      "url": null,
+      "snippet": "Potential hvac customer target: homeowner in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "homeowner",
+      "suggestedService": {
+        "serviceId": "diagnostic",
+        "serviceName": "System Diagnostic",
+        "quoteKey": "diagnostic"
+      },
+      "score": 80,
+      "query": "homeowner in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:40.097Z"
+    },
+    {
+      "leadId": "lead_d56b9e371668",
+      "segment": "residential",
+      "category": "hvac",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta residential home",
+      "url": null,
+      "snippet": "Potential hvac customer target: residential home in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "residential home",
+      "suggestedService": {
+        "serviceId": "diagnostic",
+        "serviceName": "System Diagnostic",
+        "quoteKey": "diagnostic"
+      },
+      "score": 80,
+      "query": "homeowner in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:40.097Z"
+    },
+    {
+      "leadId": "lead_1e53ba46fd76",
+      "segment": "residential",
+      "category": "hvac",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta single family residence",
+      "url": null,
+      "snippet": "Potential hvac customer target: single family residence in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "single family residence",
+      "suggestedService": {
+        "serviceId": "diagnostic",
+        "serviceName": "System Diagnostic",
+        "quoteKey": "diagnostic"
+      },
+      "score": 80,
+      "query": "homeowner in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:40.097Z"
+    }
+  ]
+}

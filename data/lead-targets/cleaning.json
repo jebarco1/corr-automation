@@ -1,9 +1,13 @@
 {
   "category": "cleaning",
-  "version": 1,
-  "updatedAt": "2026-07-19T01:57:32.000Z",
+  "version": 2,
+  "updatedAt": "2026-07-19T02:13:24.000Z",
   "marketFile": "data/markets/georgia-cities.json",
   "usePilotCities": true,
+  "segments": [
+    "b2b",
+    "residential"
+  ],
   "customerTypes": [
     "office building",
     "medical clinic",
@@ -13,8 +17,8 @@
   ],
   "intentPhrases": [
     "janitorial contract",
-    "office cleaning services needed",
-    "facility cleaning RFP"
+    "office cleaning RFP",
+    "facility cleaning services"
   ],
   "excludeKeywords": [
     "cleaning company",
@@ -30,5 +34,50 @@
     "{customerType} in {city} {state}",
     "{customerType} {city} {state} contact",
     "{intentPhrase} {city} {state}"
-  ]
+  ],
+  "b2b": {
+    "customerTypes": [
+      "office building",
+      "medical clinic",
+      "property management company",
+      "retail center",
+      "school"
+    ],
+    "intentPhrases": [
+      "janitorial contract",
+      "office cleaning RFP",
+      "facility cleaning services"
+    ],
+    "excludeKeywords": [
+      "cleaning company",
+      "maid service",
+      "we clean offices"
+    ],
+    "suggestedServiceIds": [
+      "recurring-janitorial",
+      "deep-clean",
+      "floor-care"
+    ]
+  },
+  "residential": {
+    "customerTypes": [
+      "homeowner",
+      "apartment resident",
+      "move-out tenant"
+    ],
+    "intentPhrases": [
+      "house cleaning",
+      "move out clean residential",
+      "home deep clean"
+    ],
+    "excludeKeywords": [
+      "maid service company",
+      "book a cleaner"
+    ],
+    "suggestedServiceIds": [
+      "deep-clean",
+      "move-in-out",
+      "recurring-janitorial"
+    ]
+  }
 }

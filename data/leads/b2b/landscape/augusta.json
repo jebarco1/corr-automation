@@ -1,0 +1,88 @@
+{
+  "segment": "b2b",
+  "category": "landscape",
+  "city": "Augusta",
+  "state": "GA",
+  "market": "Augusta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:29.034Z",
+  "queries": [
+    "HOA in Augusta GA",
+    "HOA Augusta GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_bd76c3a4c50b",
+      "segment": "b2b",
+      "category": "landscape",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "HOA laws and regulations in Augusta, GA - 2026 - steadily.com",
+      "url": "https://www.steadily.com/blog/hoa-laws-regulations-augusta",
+      "snippet": "HOA fees in Augusta, GA Homeowners associations (HOAs) in Augusta, GA, manage and maintain community standards and amenities, funded primarily through HOA fees paid by the property owners.",
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "full-maintenance",
+        "serviceName": "Full Grounds Maintenance",
+        "quoteKey": "full maintenance"
+      },
+      "score": 85,
+      "query": "HOA in Augusta GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T02:14:29.034Z"
+    },
+    {
+      "leadId": "lead_cd434ee18095",
+      "segment": "b2b",
+      "category": "landscape",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Montclair HOA - AUGUSTA, GA",
+      "url": "https://montclairhoa.org/",
+      "snippet": "One of Augusta, GA's most desired neighborhoods since it's development in 1964, Montclair prides itself on a long tradition of its warm family atmosphere and friendly neighbors. Located in West Richmond County, a short 3 miles west of the famous golf course, you will find well built homes on spacious lots with well-established trees & flora.",
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "full-maintenance",
+        "serviceName": "Full Grounds Maintenance",
+        "quoteKey": "full maintenance"
+      },
+      "score": 85,
+      "query": "HOA in Augusta GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T02:14:29.034Z"
+    },
+    {
+      "leadId": "lead_1d8570c04bbe",
+      "segment": "b2b",
+      "category": "landscape",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "AMP HOA Management | HOA Management Solutions",
+      "url": "https://amp-hoa.com/",
+      "snippet": "Our team of licensed Community Association Managers and Real Estate Brokers brings extensive expertise in HOA management, financial reporting, project coordination, property oversight, and systems administration. We provide practical, results-driven solutions to complex challenges and proudly serve communities throughout Georgia and South Carolina.",
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "full-maintenance",
+        "serviceName": "Full Grounds Maintenance",
+        "quoteKey": "full maintenance"
+      },
+      "score": 75,
+      "query": "HOA in Augusta GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T02:14:29.034Z"
+    }
+  ]
+}

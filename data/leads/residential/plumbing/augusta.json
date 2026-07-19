@@ -1,0 +1,88 @@
+{
+  "segment": "residential",
+  "category": "plumbing",
+  "city": "Augusta",
+  "state": "GA",
+  "market": "Augusta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:41.683Z",
+  "queries": [
+    "homeowner in Augusta GA",
+    "homeowner Augusta GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_c207df68a1db",
+      "segment": "residential",
+      "category": "plumbing",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta homeowner",
+      "url": null,
+      "snippet": "Potential plumbing customer target: homeowner in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "homeowner",
+      "suggestedService": {
+        "serviceId": "leak-repair",
+        "serviceName": "Leak Repair",
+        "quoteKey": "leak repair"
+      },
+      "score": 80,
+      "query": "homeowner in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.683Z"
+    },
+    {
+      "leadId": "lead_27dd55d76840",
+      "segment": "residential",
+      "category": "plumbing",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta residential home",
+      "url": null,
+      "snippet": "Potential plumbing customer target: residential home in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "residential home",
+      "suggestedService": {
+        "serviceId": "leak-repair",
+        "serviceName": "Leak Repair",
+        "quoteKey": "leak repair"
+      },
+      "score": 80,
+      "query": "homeowner in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.683Z"
+    },
+    {
+      "leadId": "lead_8b2454f21d6d",
+      "segment": "residential",
+      "category": "plumbing",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta townhome resident",
+      "url": null,
+      "snippet": "Potential plumbing customer target: townhome resident in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "townhome resident",
+      "suggestedService": {
+        "serviceId": "leak-repair",
+        "serviceName": "Leak Repair",
+        "quoteKey": "leak repair"
+      },
+      "score": 80,
+      "query": "homeowner in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.683Z"
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "segment": "residential",
+  "category": "general-contract",
+  "city": "Macon",
+  "state": "GA",
+  "market": "Macon, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:42.153Z",
+  "queries": [
+    "homeowner in Macon GA",
+    "homeowner Macon GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_7b3fab81bdd6",
+      "segment": "residential",
+      "category": "general-contract",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon homeowner",
+      "url": null,
+      "snippet": "Potential general-contract customer target: homeowner in Macon, GA. Verify contact details before outreach.",
+      "customerType": "homeowner",
+      "suggestedService": {
+        "serviceId": "remodel",
+        "serviceName": "Remodel",
+        "quoteKey": "remodel"
+      },
+      "score": 80,
+      "query": "homeowner in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:42.153Z"
+    },
+    {
+      "leadId": "lead_dc889993d4f9",
+      "segment": "residential",
+      "category": "general-contract",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon residential remodel",
+      "url": null,
+      "snippet": "Potential general-contract customer target: residential remodel in Macon, GA. Verify contact details before outreach.",
+      "customerType": "residential remodel",
+      "suggestedService": {
+        "serviceId": "remodel",
+        "serviceName": "Remodel",
+        "quoteKey": "remodel"
+      },
+      "score": 80,
+      "query": "homeowner in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:42.153Z"
+    },
+    {
+      "leadId": "lead_922553efb33e",
+      "segment": "residential",
+      "category": "general-contract",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon home renovation",
+      "url": null,
+      "snippet": "Potential general-contract customer target: home renovation in Macon, GA. Verify contact details before outreach.",
+      "customerType": "home renovation",
+      "suggestedService": {
+        "serviceId": "remodel",
+        "serviceName": "Remodel",
+        "quoteKey": "remodel"
+      },
+      "score": 80,
+      "query": "homeowner in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:42.153Z"
+    }
+  ]
+}

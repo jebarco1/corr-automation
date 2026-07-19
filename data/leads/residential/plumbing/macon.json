@@ -1,0 +1,88 @@
+{
+  "segment": "residential",
+  "category": "plumbing",
+  "city": "Macon",
+  "state": "GA",
+  "market": "Macon, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:41.744Z",
+  "queries": [
+    "homeowner in Macon GA",
+    "homeowner Macon GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_b9add4ca4fd5",
+      "segment": "residential",
+      "category": "plumbing",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon homeowner",
+      "url": null,
+      "snippet": "Potential plumbing customer target: homeowner in Macon, GA. Verify contact details before outreach.",
+      "customerType": "homeowner",
+      "suggestedService": {
+        "serviceId": "leak-repair",
+        "serviceName": "Leak Repair",
+        "quoteKey": "leak repair"
+      },
+      "score": 80,
+      "query": "homeowner in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.744Z"
+    },
+    {
+      "leadId": "lead_4c513f5f85ec",
+      "segment": "residential",
+      "category": "plumbing",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon residential home",
+      "url": null,
+      "snippet": "Potential plumbing customer target: residential home in Macon, GA. Verify contact details before outreach.",
+      "customerType": "residential home",
+      "suggestedService": {
+        "serviceId": "leak-repair",
+        "serviceName": "Leak Repair",
+        "quoteKey": "leak repair"
+      },
+      "score": 80,
+      "query": "homeowner in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.744Z"
+    },
+    {
+      "leadId": "lead_52fc5812a235",
+      "segment": "residential",
+      "category": "plumbing",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon townhome resident",
+      "url": null,
+      "snippet": "Potential plumbing customer target: townhome resident in Macon, GA. Verify contact details before outreach.",
+      "customerType": "townhome resident",
+      "suggestedService": {
+        "serviceId": "leak-repair",
+        "serviceName": "Leak Repair",
+        "quoteKey": "leak repair"
+      },
+      "score": 80,
+      "query": "homeowner in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.744Z"
+    }
+  ]
+}

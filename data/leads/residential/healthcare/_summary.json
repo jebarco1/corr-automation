@@ -1,0 +1,64 @@
+{
+  "segment": "residential",
+  "category": "healthcare",
+  "updatedAt": "2026-07-19T02:14:43.467Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 12,
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/residential/healthcare/atlanta.json",
+      "queries": [
+        "home patient in Atlanta GA",
+        "home patient Atlanta GA contact"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/residential/healthcare/augusta.json",
+      "queries": [
+        "home patient in Augusta GA",
+        "home patient Augusta GA contact"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/residential/healthcare/macon.json",
+      "queries": [
+        "home patient in Macon GA",
+        "home patient Macon GA contact"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/residential/healthcare/savannah.json",
+      "queries": [
+        "home patient in Savannah GA",
+        "home patient Savannah GA contact"
+      ]
+    }
+  ]
+}

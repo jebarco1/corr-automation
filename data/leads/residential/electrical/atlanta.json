@@ -1,0 +1,88 @@
+{
+  "segment": "residential",
+  "category": "electrical",
+  "city": "Atlanta",
+  "state": "GA",
+  "market": "Atlanta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:41.837Z",
+  "queries": [
+    "homeowner in Atlanta GA",
+    "homeowner Atlanta GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_02447ac9f102",
+      "segment": "residential",
+      "category": "electrical",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta homeowner",
+      "url": null,
+      "snippet": "Potential electrical customer target: homeowner in Atlanta, GA. Verify contact details before outreach.",
+      "customerType": "homeowner",
+      "suggestedService": {
+        "serviceId": "diagnostic",
+        "serviceName": "Electrical Diagnostic",
+        "quoteKey": "diagnostic"
+      },
+      "score": 80,
+      "query": "homeowner in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.837Z"
+    },
+    {
+      "leadId": "lead_2fc13e643da2",
+      "segment": "residential",
+      "category": "electrical",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta residential home",
+      "url": null,
+      "snippet": "Potential electrical customer target: residential home in Atlanta, GA. Verify contact details before outreach.",
+      "customerType": "residential home",
+      "suggestedService": {
+        "serviceId": "diagnostic",
+        "serviceName": "Electrical Diagnostic",
+        "quoteKey": "diagnostic"
+      },
+      "score": 80,
+      "query": "homeowner in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.837Z"
+    },
+    {
+      "leadId": "lead_ffb01cc204fd",
+      "segment": "residential",
+      "category": "electrical",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta single family residence",
+      "url": null,
+      "snippet": "Potential electrical customer target: single family residence in Atlanta, GA. Verify contact details before outreach.",
+      "customerType": "single family residence",
+      "suggestedService": {
+        "serviceId": "diagnostic",
+        "serviceName": "Electrical Diagnostic",
+        "quoteKey": "diagnostic"
+      },
+      "score": 80,
+      "query": "homeowner in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.837Z"
+    }
+  ]
+}

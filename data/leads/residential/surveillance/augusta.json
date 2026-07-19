@@ -1,0 +1,88 @@
+{
+  "segment": "residential",
+  "category": "surveillance",
+  "city": "Augusta",
+  "state": "GA",
+  "market": "Augusta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:42.301Z",
+  "queries": [
+    "homeowner in Augusta GA",
+    "homeowner Augusta GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_0809ef555fc4",
+      "segment": "residential",
+      "category": "surveillance",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta homeowner",
+      "url": null,
+      "snippet": "Potential surveillance customer target: homeowner in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "homeowner",
+      "suggestedService": {
+        "serviceId": "doorbell-camera",
+        "serviceName": "Doorbell / Entry Camera",
+        "quoteKey": "doorbell camera"
+      },
+      "score": 80,
+      "query": "homeowner in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:42.301Z"
+    },
+    {
+      "leadId": "lead_97c90cb57a90",
+      "segment": "residential",
+      "category": "surveillance",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta residential home",
+      "url": null,
+      "snippet": "Potential surveillance customer target: residential home in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "residential home",
+      "suggestedService": {
+        "serviceId": "doorbell-camera",
+        "serviceName": "Doorbell / Entry Camera",
+        "quoteKey": "doorbell camera"
+      },
+      "score": 80,
+      "query": "homeowner in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:42.301Z"
+    },
+    {
+      "leadId": "lead_2f889f70d0f5",
+      "segment": "residential",
+      "category": "surveillance",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta smart home security",
+      "url": null,
+      "snippet": "Potential surveillance customer target: smart home security in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "smart home security",
+      "suggestedService": {
+        "serviceId": "doorbell-camera",
+        "serviceName": "Doorbell / Entry Camera",
+        "quoteKey": "doorbell camera"
+      },
+      "score": 80,
+      "query": "homeowner in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:42.301Z"
+    }
+  ]
+}

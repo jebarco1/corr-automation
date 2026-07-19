@@ -1,0 +1,88 @@
+{
+  "segment": "residential",
+  "category": "general-contract",
+  "city": "Augusta",
+  "state": "GA",
+  "market": "Augusta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:42.092Z",
+  "queries": [
+    "homeowner in Augusta GA",
+    "homeowner Augusta GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_0fabb1a6215b",
+      "segment": "residential",
+      "category": "general-contract",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta homeowner",
+      "url": null,
+      "snippet": "Potential general-contract customer target: homeowner in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "homeowner",
+      "suggestedService": {
+        "serviceId": "remodel",
+        "serviceName": "Remodel",
+        "quoteKey": "remodel"
+      },
+      "score": 80,
+      "query": "homeowner in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:42.092Z"
+    },
+    {
+      "leadId": "lead_8eb7908db4fb",
+      "segment": "residential",
+      "category": "general-contract",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta residential remodel",
+      "url": null,
+      "snippet": "Potential general-contract customer target: residential remodel in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "residential remodel",
+      "suggestedService": {
+        "serviceId": "remodel",
+        "serviceName": "Remodel",
+        "quoteKey": "remodel"
+      },
+      "score": 80,
+      "query": "homeowner in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:42.092Z"
+    },
+    {
+      "leadId": "lead_7296d579aece",
+      "segment": "residential",
+      "category": "general-contract",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta home renovation",
+      "url": null,
+      "snippet": "Potential general-contract customer target: home renovation in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "home renovation",
+      "suggestedService": {
+        "serviceId": "remodel",
+        "serviceName": "Remodel",
+        "quoteKey": "remodel"
+      },
+      "score": 80,
+      "query": "homeowner in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:42.092Z"
+    }
+  ]
+}

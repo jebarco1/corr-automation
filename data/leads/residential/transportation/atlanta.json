@@ -1,0 +1,88 @@
+{
+  "segment": "residential",
+  "category": "transportation",
+  "city": "Atlanta",
+  "state": "GA",
+  "market": "Atlanta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:42.968Z",
+  "queries": [
+    "homeowner in Atlanta GA",
+    "homeowner Atlanta GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_dc0cfff1e816",
+      "segment": "residential",
+      "category": "transportation",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta apartment mover",
+      "url": null,
+      "snippet": "Potential transportation customer target: apartment mover in Atlanta, GA. Verify contact details before outreach.",
+      "customerType": "apartment mover",
+      "suggestedService": {
+        "serviceId": "local-move",
+        "serviceName": "Local Move",
+        "quoteKey": "local move"
+      },
+      "score": 90,
+      "query": "homeowner in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:42.968Z"
+    },
+    {
+      "leadId": "lead_6d90a1312359",
+      "segment": "residential",
+      "category": "transportation",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta homeowner",
+      "url": null,
+      "snippet": "Potential transportation customer target: homeowner in Atlanta, GA. Verify contact details before outreach.",
+      "customerType": "homeowner",
+      "suggestedService": {
+        "serviceId": "local-move",
+        "serviceName": "Local Move",
+        "quoteKey": "local move"
+      },
+      "score": 80,
+      "query": "homeowner in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:42.968Z"
+    },
+    {
+      "leadId": "lead_81d107aa1ad4",
+      "segment": "residential",
+      "category": "transportation",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta residential relocation",
+      "url": null,
+      "snippet": "Potential transportation customer target: residential relocation in Atlanta, GA. Verify contact details before outreach.",
+      "customerType": "residential relocation",
+      "suggestedService": {
+        "serviceId": "local-move",
+        "serviceName": "Local Move",
+        "quoteKey": "local move"
+      },
+      "score": 80,
+      "query": "homeowner in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:42.968Z"
+    }
+  ]
+}

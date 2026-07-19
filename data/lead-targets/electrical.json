@@ -1,19 +1,23 @@
 {
   "category": "electrical",
-  "version": 1,
-  "updatedAt": "2026-07-19T01:57:32.000Z",
+  "version": 2,
+  "updatedAt": "2026-07-19T02:13:24.000Z",
   "marketFile": "data/markets/georgia-cities.json",
   "usePilotCities": true,
+  "segments": [
+    "b2b",
+    "residential"
+  ],
   "customerTypes": [
     "warehouse",
     "retail center",
     "office building",
     "apartment complex",
-    "fleet/garage facility"
+    "auto dealership"
   ],
   "intentPhrases": [
     "commercial electrician",
-    "EV charger installation property",
+    "EV charger installation commercial",
     "panel upgrade facility"
   ],
   "excludeKeywords": [
@@ -29,5 +33,49 @@
     "{customerType} in {city} {state}",
     "{customerType} {city} {state} contact",
     "{intentPhrase} {city} {state}"
-  ]
+  ],
+  "b2b": {
+    "customerTypes": [
+      "warehouse",
+      "retail center",
+      "office building",
+      "apartment complex",
+      "auto dealership"
+    ],
+    "intentPhrases": [
+      "commercial electrician",
+      "EV charger installation commercial",
+      "panel upgrade facility"
+    ],
+    "excludeKeywords": [
+      "electrician near me",
+      "electrical contractor company"
+    ],
+    "suggestedServiceIds": [
+      "diagnostic",
+      "ev-charger",
+      "panel-upgrade"
+    ]
+  },
+  "residential": {
+    "customerTypes": [
+      "homeowner",
+      "residential home",
+      "single family residence"
+    ],
+    "intentPhrases": [
+      "home electrician",
+      "EV charger home installation",
+      "residential panel upgrade"
+    ],
+    "excludeKeywords": [
+      "electrician near me",
+      "electrical contractor company"
+    ],
+    "suggestedServiceIds": [
+      "diagnostic",
+      "ev-charger",
+      "outlet-install"
+    ]
+  }
 }

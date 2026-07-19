@@ -1,0 +1,64 @@
+{
+  "segment": "b2b",
+  "category": "general-contract",
+  "updatedAt": "2026-07-19T02:14:34.049Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 12,
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/b2b/general-contract/atlanta.json",
+      "queries": [
+        "retail landlord in Atlanta GA",
+        "retail landlord Atlanta GA contact"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/b2b/general-contract/augusta.json",
+      "queries": [
+        "retail landlord in Augusta GA",
+        "retail landlord Augusta GA contact"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/b2b/general-contract/macon.json",
+      "queries": [
+        "retail landlord in Macon GA",
+        "retail landlord Macon GA contact"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/b2b/general-contract/savannah.json",
+      "queries": [
+        "retail landlord in Savannah GA",
+        "retail landlord Savannah GA contact"
+      ]
+    }
+  ]
+}

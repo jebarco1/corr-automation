@@ -1,0 +1,88 @@
+{
+  "segment": "b2b",
+  "category": "landscape",
+  "city": "Macon",
+  "state": "GA",
+  "market": "Macon, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:29.642Z",
+  "queries": [
+    "HOA in Macon GA",
+    "HOA Macon GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_a009ea3ccf77",
+      "segment": "b2b",
+      "category": "landscape",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "HOA Management Companies in Macon GA",
+      "url": "https://hoamanagementcompanies.net/georgia/hoa-management-companies-in-macon-ga",
+      "snippet": "List of HOA Management Companies in Macon, GA Access an updated, detailed directory of HOA property management companies in Macon, Georgia.",
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "full-maintenance",
+        "serviceName": "Full Grounds Maintenance",
+        "quoteKey": "full maintenance"
+      },
+      "score": 85,
+      "query": "HOA in Macon GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T02:14:29.642Z"
+    },
+    {
+      "leadId": "lead_1e04b1f05178",
+      "segment": "b2b",
+      "category": "landscape",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "HOA Management Companies in Macon, Georgia | HOA Directory",
+      "url": "https://www.hoamanagement.com/city/macon/",
+      "snippet": "HOA Management is the leading directory for HOA Mangement companies and HOA vendors. We offer a catalog of listings for your HOA in Macon, GA.",
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "full-maintenance",
+        "serviceName": "Full Grounds Maintenance",
+        "quoteKey": "full maintenance"
+      },
+      "score": 85,
+      "query": "HOA in Macon GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T02:14:29.642Z"
+    },
+    {
+      "leadId": "lead_232159fb190a",
+      "segment": "b2b",
+      "category": "landscape",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "HOA Management In Macon, GA | CMG",
+      "url": "https://www.cedarmanagementgroup.com/hoa-management-macon/",
+      "snippet": "Macon, GA HOA Management Macon is a smart choice for those looking to invest in property. Home prices start around $25K and can exceed $2.5M, with the median listing price at $219K. The median home value stands at approximately $145K. Most residents in Macon own their homes, while about 44% rent. The median rent in the area is roughly $950.",
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "full-maintenance",
+        "serviceName": "Full Grounds Maintenance",
+        "quoteKey": "full maintenance"
+      },
+      "score": 85,
+      "query": "HOA in Macon GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T02:14:29.642Z"
+    }
+  ]
+}

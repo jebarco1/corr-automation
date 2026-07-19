@@ -1,0 +1,88 @@
+{
+  "segment": "residential",
+  "category": "roofing",
+  "city": "Macon",
+  "state": "GA",
+  "market": "Macon, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:41.491Z",
+  "queries": [
+    "homeowner in Macon GA",
+    "homeowner Macon GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_14b2ee84fa6d",
+      "segment": "residential",
+      "category": "roofing",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon homeowner",
+      "url": null,
+      "snippet": "Potential roofing customer target: homeowner in Macon, GA. Verify contact details before outreach.",
+      "customerType": "homeowner",
+      "suggestedService": {
+        "serviceId": "inspection",
+        "serviceName": "Roof Inspection",
+        "quoteKey": "inspection"
+      },
+      "score": 80,
+      "query": "homeowner in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.491Z"
+    },
+    {
+      "leadId": "lead_f4253d4afc3c",
+      "segment": "residential",
+      "category": "roofing",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon residential roof",
+      "url": null,
+      "snippet": "Potential roofing customer target: residential roof in Macon, GA. Verify contact details before outreach.",
+      "customerType": "residential roof",
+      "suggestedService": {
+        "serviceId": "inspection",
+        "serviceName": "Roof Inspection",
+        "quoteKey": "inspection"
+      },
+      "score": 80,
+      "query": "homeowner in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.491Z"
+    },
+    {
+      "leadId": "lead_b3a4a384b2ee",
+      "segment": "residential",
+      "category": "roofing",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon single family home",
+      "url": null,
+      "snippet": "Potential roofing customer target: single family home in Macon, GA. Verify contact details before outreach.",
+      "customerType": "single family home",
+      "suggestedService": {
+        "serviceId": "inspection",
+        "serviceName": "Roof Inspection",
+        "quoteKey": "inspection"
+      },
+      "score": 80,
+      "query": "homeowner in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.491Z"
+    }
+  ]
+}

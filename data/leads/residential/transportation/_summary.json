@@ -1,0 +1,64 @@
+{
+  "segment": "residential",
+  "category": "transportation",
+  "updatedAt": "2026-07-19T02:14:43.184Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 12,
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/residential/transportation/atlanta.json",
+      "queries": [
+        "homeowner in Atlanta GA",
+        "homeowner Atlanta GA contact"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/residential/transportation/augusta.json",
+      "queries": [
+        "homeowner in Augusta GA",
+        "homeowner Augusta GA contact"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/residential/transportation/macon.json",
+      "queries": [
+        "homeowner in Macon GA",
+        "homeowner Macon GA contact"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/residential/transportation/savannah.json",
+      "queries": [
+        "homeowner in Savannah GA",
+        "homeowner Savannah GA contact"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "segment": "residential",
+  "category": "cleaning",
+  "city": "Augusta",
+  "state": "GA",
+  "market": "Augusta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:40.413Z",
+  "queries": [
+    "homeowner in Augusta GA",
+    "homeowner Augusta GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_3bcd474e6413",
+      "segment": "residential",
+      "category": "cleaning",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta apartment resident",
+      "url": null,
+      "snippet": "Potential cleaning customer target: apartment resident in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "apartment resident",
+      "suggestedService": {
+        "serviceId": "deep-clean",
+        "serviceName": "Deep Clean",
+        "quoteKey": "deep clean"
+      },
+      "score": 90,
+      "query": "homeowner in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:40.413Z"
+    },
+    {
+      "leadId": "lead_945fccec09ef",
+      "segment": "residential",
+      "category": "cleaning",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta homeowner",
+      "url": null,
+      "snippet": "Potential cleaning customer target: homeowner in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "homeowner",
+      "suggestedService": {
+        "serviceId": "deep-clean",
+        "serviceName": "Deep Clean",
+        "quoteKey": "deep clean"
+      },
+      "score": 80,
+      "query": "homeowner in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:40.413Z"
+    },
+    {
+      "leadId": "lead_d04ef7a17c8c",
+      "segment": "residential",
+      "category": "cleaning",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta move-out tenant",
+      "url": null,
+      "snippet": "Potential cleaning customer target: move-out tenant in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "move-out tenant",
+      "suggestedService": {
+        "serviceId": "deep-clean",
+        "serviceName": "Deep Clean",
+        "quoteKey": "deep clean"
+      },
+      "score": 80,
+      "query": "homeowner in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:40.413Z"
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "segment": "residential",
+  "category": "pool",
+  "city": "Savannah",
+  "state": "GA",
+  "market": "Savannah, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:41.141Z",
+  "queries": [
+    "homeowner in Savannah GA",
+    "homeowner Savannah GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_3f16042ddebc",
+      "segment": "residential",
+      "category": "pool",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah homeowner",
+      "url": null,
+      "snippet": "Potential pool customer target: homeowner in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "homeowner",
+      "suggestedService": {
+        "serviceId": "weekly-service",
+        "serviceName": "Weekly Pool Service",
+        "quoteKey": "weekly service"
+      },
+      "score": 80,
+      "query": "homeowner in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.141Z"
+    },
+    {
+      "leadId": "lead_fc72f4297cac",
+      "segment": "residential",
+      "category": "pool",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah residential pool owner",
+      "url": null,
+      "snippet": "Potential pool customer target: residential pool owner in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "residential pool owner",
+      "suggestedService": {
+        "serviceId": "weekly-service",
+        "serviceName": "Weekly Pool Service",
+        "quoteKey": "weekly service"
+      },
+      "score": 80,
+      "query": "homeowner in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.141Z"
+    },
+    {
+      "leadId": "lead_675f5cec82a2",
+      "segment": "residential",
+      "category": "pool",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah private backyard pool",
+      "url": null,
+      "snippet": "Potential pool customer target: private backyard pool in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "private backyard pool",
+      "suggestedService": {
+        "serviceId": "weekly-service",
+        "serviceName": "Weekly Pool Service",
+        "quoteKey": "weekly service"
+      },
+      "score": 80,
+      "query": "homeowner in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.141Z"
+    }
+  ]
+}

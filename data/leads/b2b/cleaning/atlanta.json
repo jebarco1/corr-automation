@@ -1,0 +1,88 @@
+{
+  "segment": "b2b",
+  "category": "cleaning",
+  "city": "Atlanta",
+  "state": "GA",
+  "market": "Atlanta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:32.154Z",
+  "queries": [
+    "office building in Atlanta GA",
+    "office building Atlanta GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_fc62dd4e64c0",
+      "segment": "b2b",
+      "category": "cleaning",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta property management company",
+      "url": null,
+      "snippet": "Potential cleaning customer target: property management company in Atlanta, GA. Verify contact details before outreach.",
+      "customerType": "property management company",
+      "suggestedService": {
+        "serviceId": "recurring-janitorial",
+        "serviceName": "Recurring Janitorial",
+        "quoteKey": "recurring janitorial"
+      },
+      "score": 90,
+      "query": "office building in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:32.154Z"
+    },
+    {
+      "leadId": "lead_025b637d233e",
+      "segment": "b2b",
+      "category": "cleaning",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta office building",
+      "url": null,
+      "snippet": "Potential cleaning customer target: office building in Atlanta, GA. Verify contact details before outreach.",
+      "customerType": "office building",
+      "suggestedService": {
+        "serviceId": "recurring-janitorial",
+        "serviceName": "Recurring Janitorial",
+        "quoteKey": "recurring janitorial"
+      },
+      "score": 80,
+      "query": "office building in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:32.154Z"
+    },
+    {
+      "leadId": "lead_93c3b1007bef",
+      "segment": "b2b",
+      "category": "cleaning",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta medical clinic",
+      "url": null,
+      "snippet": "Potential cleaning customer target: medical clinic in Atlanta, GA. Verify contact details before outreach.",
+      "customerType": "medical clinic",
+      "suggestedService": {
+        "serviceId": "recurring-janitorial",
+        "serviceName": "Recurring Janitorial",
+        "quoteKey": "recurring janitorial"
+      },
+      "score": 80,
+      "query": "office building in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:32.154Z"
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "segment": "residential",
+  "category": "painting",
+  "city": "Atlanta",
+  "state": "GA",
+  "market": "Atlanta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:41.174Z",
+  "queries": [
+    "homeowner in Atlanta GA",
+    "homeowner Atlanta GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_52619aed52f7",
+      "segment": "residential",
+      "category": "painting",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta homeowner",
+      "url": null,
+      "snippet": "Potential painting customer target: homeowner in Atlanta, GA. Verify contact details before outreach.",
+      "customerType": "homeowner",
+      "suggestedService": {
+        "serviceId": "interior",
+        "serviceName": "Interior Painting",
+        "quoteKey": "interior"
+      },
+      "score": 80,
+      "query": "homeowner in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.174Z"
+    },
+    {
+      "leadId": "lead_2baa5fc52e99",
+      "segment": "residential",
+      "category": "painting",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta residential interior",
+      "url": null,
+      "snippet": "Potential painting customer target: residential interior in Atlanta, GA. Verify contact details before outreach.",
+      "customerType": "residential interior",
+      "suggestedService": {
+        "serviceId": "interior",
+        "serviceName": "Interior Painting",
+        "quoteKey": "interior"
+      },
+      "score": 80,
+      "query": "homeowner in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.174Z"
+    },
+    {
+      "leadId": "lead_2eb29cca592d",
+      "segment": "residential",
+      "category": "painting",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta residential exterior",
+      "url": null,
+      "snippet": "Potential painting customer target: residential exterior in Atlanta, GA. Verify contact details before outreach.",
+      "customerType": "residential interior",
+      "suggestedService": {
+        "serviceId": "interior",
+        "serviceName": "Interior Painting",
+        "quoteKey": "interior"
+      },
+      "score": 80,
+      "query": "homeowner in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.174Z"
+    }
+  ]
+}

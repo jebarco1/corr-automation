@@ -1,0 +1,88 @@
+{
+  "segment": "b2b",
+  "category": "pool",
+  "city": "Augusta",
+  "state": "GA",
+  "market": "Augusta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:32.853Z",
+  "queries": [
+    "HOA in Augusta GA",
+    "HOA Augusta GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_4020a71b0a73",
+      "segment": "b2b",
+      "category": "pool",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta HOA",
+      "url": null,
+      "snippet": "Potential pool customer target: HOA in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "weekly-service",
+        "serviceName": "Weekly Pool Service",
+        "quoteKey": "weekly service"
+      },
+      "score": 90,
+      "query": "HOA in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:32.853Z"
+    },
+    {
+      "leadId": "lead_15d9fbb5b4bf",
+      "segment": "b2b",
+      "category": "pool",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta apartment complex",
+      "url": null,
+      "snippet": "Potential pool customer target: apartment complex in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "apartment complex",
+      "suggestedService": {
+        "serviceId": "weekly-service",
+        "serviceName": "Weekly Pool Service",
+        "quoteKey": "weekly service"
+      },
+      "score": 90,
+      "query": "HOA in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:32.853Z"
+    },
+    {
+      "leadId": "lead_3512e6fd1e9b",
+      "segment": "b2b",
+      "category": "pool",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta hotel",
+      "url": null,
+      "snippet": "Potential pool customer target: hotel in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "hotel",
+      "suggestedService": {
+        "serviceId": "weekly-service",
+        "serviceName": "Weekly Pool Service",
+        "quoteKey": "weekly service"
+      },
+      "score": 80,
+      "query": "HOA in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:32.853Z"
+    }
+  ]
+}

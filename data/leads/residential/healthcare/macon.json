@@ -1,0 +1,88 @@
+{
+  "segment": "residential",
+  "category": "healthcare",
+  "city": "Macon",
+  "state": "GA",
+  "market": "Macon, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:43.398Z",
+  "queries": [
+    "home patient in Macon GA",
+    "home patient Macon GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_7d6a9d183be1",
+      "segment": "residential",
+      "category": "healthcare",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon home patient",
+      "url": null,
+      "snippet": "Potential healthcare customer target: home patient in Macon, GA. Verify contact details before outreach.",
+      "customerType": "home patient",
+      "suggestedService": {
+        "serviceId": "nursing-visit",
+        "serviceName": "Nursing Visit",
+        "quoteKey": "nursing visit"
+      },
+      "score": 80,
+      "query": "home patient in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:43.398Z"
+    },
+    {
+      "leadId": "lead_ea9b8dc88b91",
+      "segment": "residential",
+      "category": "healthcare",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon private duty family",
+      "url": null,
+      "snippet": "Potential healthcare customer target: private duty family in Macon, GA. Verify contact details before outreach.",
+      "customerType": "private duty family",
+      "suggestedService": {
+        "serviceId": "nursing-visit",
+        "serviceName": "Nursing Visit",
+        "quoteKey": "nursing visit"
+      },
+      "score": 80,
+      "query": "home patient in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:43.398Z"
+    },
+    {
+      "leadId": "lead_049613c4c686",
+      "segment": "residential",
+      "category": "healthcare",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon senior at home",
+      "url": null,
+      "snippet": "Potential healthcare customer target: senior at home in Macon, GA. Verify contact details before outreach.",
+      "customerType": "home patient",
+      "suggestedService": {
+        "serviceId": "nursing-visit",
+        "serviceName": "Nursing Visit",
+        "quoteKey": "nursing visit"
+      },
+      "score": 80,
+      "query": "home patient in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:43.398Z"
+    }
+  ]
+}

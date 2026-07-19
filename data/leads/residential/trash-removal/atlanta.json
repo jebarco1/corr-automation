@@ -1,0 +1,88 @@
+{
+  "segment": "residential",
+  "category": "trash-removal",
+  "city": "Atlanta",
+  "state": "GA",
+  "market": "Atlanta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:42.589Z",
+  "queries": [
+    "homeowner in Atlanta GA",
+    "homeowner Atlanta GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_c4ccd07e7e9a",
+      "segment": "residential",
+      "category": "trash-removal",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta homeowner",
+      "url": null,
+      "snippet": "Potential trash-removal customer target: homeowner in Atlanta, GA. Verify contact details before outreach.",
+      "customerType": "homeowner",
+      "suggestedService": {
+        "serviceId": "single-haul",
+        "serviceName": "Single Haul",
+        "quoteKey": "single haul"
+      },
+      "score": 80,
+      "query": "homeowner in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:42.589Z"
+    },
+    {
+      "leadId": "lead_59180270c17a",
+      "segment": "residential",
+      "category": "trash-removal",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta residential cleanout",
+      "url": null,
+      "snippet": "Potential trash-removal customer target: residential cleanout in Atlanta, GA. Verify contact details before outreach.",
+      "customerType": "residential cleanout",
+      "suggestedService": {
+        "serviceId": "single-haul",
+        "serviceName": "Single Haul",
+        "quoteKey": "single haul"
+      },
+      "score": 80,
+      "query": "homeowner in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:42.589Z"
+    },
+    {
+      "leadId": "lead_328ab58b055e",
+      "segment": "residential",
+      "category": "trash-removal",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta garage cleanout",
+      "url": null,
+      "snippet": "Potential trash-removal customer target: garage cleanout in Atlanta, GA. Verify contact details before outreach.",
+      "customerType": "garage cleanout",
+      "suggestedService": {
+        "serviceId": "single-haul",
+        "serviceName": "Single Haul",
+        "quoteKey": "single haul"
+      },
+      "score": 80,
+      "query": "homeowner in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:42.589Z"
+    }
+  ]
+}

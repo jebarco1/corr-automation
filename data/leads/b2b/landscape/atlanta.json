@@ -1,0 +1,88 @@
+{
+  "segment": "b2b",
+  "category": "landscape",
+  "city": "Atlanta",
+  "state": "GA",
+  "market": "Atlanta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:28.371Z",
+  "queries": [
+    "HOA in Atlanta GA",
+    "HOA Atlanta GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_b5d9fe46044a",
+      "segment": "b2b",
+      "category": "landscape",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Home | Evolve Association Management",
+      "url": "https://www.evolveam.com/",
+      "snippet": "Looking for change in your association's management? Evolve Association Management has the team, understanding, and resources to provide Atlanta's premier association management solution. We manage Single Family HOAs, Condominium and Townhome Associations, and Commercial Associations (like office complexes) as our sole focus.",
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "full-maintenance",
+        "serviceName": "Full Grounds Maintenance",
+        "quoteKey": "full maintenance"
+      },
+      "score": 90,
+      "query": "HOA in Atlanta GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T02:14:28.371Z"
+    },
+    {
+      "leadId": "lead_5fccb847b88d",
+      "segment": "b2b",
+      "category": "landscape",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "First Class Community Management — Atlanta Community Services",
+      "url": "https://www.atlantacommunityservices.com/",
+      "snippet": "Trusted HOA and community association management in Atlanta and across Georgia. Request a customized management proposal today.",
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "full-maintenance",
+        "serviceName": "Full Grounds Maintenance",
+        "quoteKey": "full maintenance"
+      },
+      "score": 85,
+      "query": "HOA in Atlanta GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T02:14:28.371Z"
+    },
+    {
+      "leadId": "lead_160416be6fef",
+      "segment": "b2b",
+      "category": "landscape",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Homeowner Management Services",
+      "url": "https://hms-inc.net/",
+      "snippet": "HMS provides HOA and Condominium management in the Atlanta area with dedication and integrity. Our responsive team has the highest credentials.",
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "full-maintenance",
+        "serviceName": "Full Grounds Maintenance",
+        "quoteKey": "full maintenance"
+      },
+      "score": 85,
+      "query": "HOA in Atlanta GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T02:14:28.371Z"
+    }
+  ]
+}

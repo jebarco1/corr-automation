@@ -1,0 +1,88 @@
+{
+  "segment": "residential",
+  "category": "landscape",
+  "city": "Macon",
+  "state": "GA",
+  "market": "Macon, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:39.869Z",
+  "queries": [
+    "homeowner in Macon GA",
+    "homeowner Macon GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_f6b95e4e7411",
+      "segment": "residential",
+      "category": "landscape",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon homeowner",
+      "url": null,
+      "snippet": "Potential landscape customer target: homeowner in Macon, GA. Verify contact details before outreach.",
+      "customerType": "homeowner",
+      "suggestedService": {
+        "serviceId": "mowing",
+        "serviceName": "Lawn Mowing",
+        "quoteKey": "mowing"
+      },
+      "score": 80,
+      "query": "homeowner in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:39.869Z"
+    },
+    {
+      "leadId": "lead_c8c1515a24e5",
+      "segment": "residential",
+      "category": "landscape",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon residential neighborhood",
+      "url": null,
+      "snippet": "Potential landscape customer target: residential neighborhood in Macon, GA. Verify contact details before outreach.",
+      "customerType": "residential neighborhood",
+      "suggestedService": {
+        "serviceId": "mowing",
+        "serviceName": "Lawn Mowing",
+        "quoteKey": "mowing"
+      },
+      "score": 80,
+      "query": "homeowner in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:39.869Z"
+    },
+    {
+      "leadId": "lead_53c25099024c",
+      "segment": "residential",
+      "category": "landscape",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon single family home",
+      "url": null,
+      "snippet": "Potential landscape customer target: single family home in Macon, GA. Verify contact details before outreach.",
+      "customerType": "single family home",
+      "suggestedService": {
+        "serviceId": "mowing",
+        "serviceName": "Lawn Mowing",
+        "quoteKey": "mowing"
+      },
+      "score": 80,
+      "query": "homeowner in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:39.869Z"
+    }
+  ]
+}

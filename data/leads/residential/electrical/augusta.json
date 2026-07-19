@@ -1,0 +1,88 @@
+{
+  "segment": "residential",
+  "category": "electrical",
+  "city": "Augusta",
+  "state": "GA",
+  "market": "Augusta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:41.895Z",
+  "queries": [
+    "homeowner in Augusta GA",
+    "homeowner Augusta GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_81933db4b7a9",
+      "segment": "residential",
+      "category": "electrical",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta homeowner",
+      "url": null,
+      "snippet": "Potential electrical customer target: homeowner in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "homeowner",
+      "suggestedService": {
+        "serviceId": "diagnostic",
+        "serviceName": "Electrical Diagnostic",
+        "quoteKey": "diagnostic"
+      },
+      "score": 80,
+      "query": "homeowner in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.895Z"
+    },
+    {
+      "leadId": "lead_14e5fb362c75",
+      "segment": "residential",
+      "category": "electrical",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta residential home",
+      "url": null,
+      "snippet": "Potential electrical customer target: residential home in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "residential home",
+      "suggestedService": {
+        "serviceId": "diagnostic",
+        "serviceName": "Electrical Diagnostic",
+        "quoteKey": "diagnostic"
+      },
+      "score": 80,
+      "query": "homeowner in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.895Z"
+    },
+    {
+      "leadId": "lead_d7a483454969",
+      "segment": "residential",
+      "category": "electrical",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta single family residence",
+      "url": null,
+      "snippet": "Potential electrical customer target: single family residence in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "single family residence",
+      "suggestedService": {
+        "serviceId": "diagnostic",
+        "serviceName": "Electrical Diagnostic",
+        "quoteKey": "diagnostic"
+      },
+      "score": 80,
+      "query": "homeowner in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.895Z"
+    }
+  ]
+}

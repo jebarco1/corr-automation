@@ -1,9 +1,13 @@
 {
   "category": "general-contract",
-  "version": 1,
-  "updatedAt": "2026-07-19T01:57:32.000Z",
+  "version": 2,
+  "updatedAt": "2026-07-19T02:13:24.000Z",
   "marketFile": "data/markets/georgia-cities.json",
   "usePilotCities": true,
+  "segments": [
+    "b2b",
+    "residential"
+  ],
   "customerTypes": [
     "retail landlord",
     "property management company",
@@ -29,5 +33,49 @@
     "{customerType} in {city} {state}",
     "{customerType} {city} {state} contact",
     "{intentPhrase} {city} {state}"
-  ]
+  ],
+  "b2b": {
+    "customerTypes": [
+      "retail landlord",
+      "property management company",
+      "medical office",
+      "restaurant group",
+      "HOA"
+    ],
+    "intentPhrases": [
+      "tenant improvement",
+      "commercial remodel RFP",
+      "build-out contractor needed"
+    ],
+    "excludeKeywords": [
+      "general contractor company",
+      "GC near me"
+    ],
+    "suggestedServiceIds": [
+      "build-out",
+      "remodel",
+      "repair"
+    ]
+  },
+  "residential": {
+    "customerTypes": [
+      "homeowner",
+      "residential remodel",
+      "home renovation"
+    ],
+    "intentPhrases": [
+      "kitchen remodel homeowner",
+      "bathroom remodel house",
+      "home addition"
+    ],
+    "excludeKeywords": [
+      "general contractor company",
+      "GC near me"
+    ],
+    "suggestedServiceIds": [
+      "remodel",
+      "kitchen-remodel",
+      "bath-remodel"
+    ]
+  }
 }

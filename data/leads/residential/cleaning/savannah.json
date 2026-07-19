@@ -1,0 +1,88 @@
+{
+  "segment": "residential",
+  "category": "cleaning",
+  "city": "Savannah",
+  "state": "GA",
+  "market": "Savannah, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:40.566Z",
+  "queries": [
+    "homeowner in Savannah GA",
+    "homeowner Savannah GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_eaac163c7245",
+      "segment": "residential",
+      "category": "cleaning",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah apartment resident",
+      "url": null,
+      "snippet": "Potential cleaning customer target: apartment resident in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "apartment resident",
+      "suggestedService": {
+        "serviceId": "deep-clean",
+        "serviceName": "Deep Clean",
+        "quoteKey": "deep clean"
+      },
+      "score": 90,
+      "query": "homeowner in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:40.566Z"
+    },
+    {
+      "leadId": "lead_34ebdcf019dc",
+      "segment": "residential",
+      "category": "cleaning",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah homeowner",
+      "url": null,
+      "snippet": "Potential cleaning customer target: homeowner in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "homeowner",
+      "suggestedService": {
+        "serviceId": "deep-clean",
+        "serviceName": "Deep Clean",
+        "quoteKey": "deep clean"
+      },
+      "score": 80,
+      "query": "homeowner in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:40.566Z"
+    },
+    {
+      "leadId": "lead_b20d5b5bf83b",
+      "segment": "residential",
+      "category": "cleaning",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah move-out tenant",
+      "url": null,
+      "snippet": "Potential cleaning customer target: move-out tenant in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "move-out tenant",
+      "suggestedService": {
+        "serviceId": "deep-clean",
+        "serviceName": "Deep Clean",
+        "quoteKey": "deep clean"
+      },
+      "score": 80,
+      "query": "homeowner in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:40.566Z"
+    }
+  ]
+}

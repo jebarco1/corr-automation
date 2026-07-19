@@ -1,0 +1,64 @@
+{
+  "segment": "b2b",
+  "category": "hvac",
+  "updatedAt": "2026-07-19T02:14:32.076Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 12,
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/b2b/hvac/atlanta.json",
+      "queries": [
+        "apartment complex in Atlanta GA",
+        "apartment complex Atlanta GA contact"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/b2b/hvac/augusta.json",
+      "queries": [
+        "apartment complex in Augusta GA",
+        "apartment complex Augusta GA contact"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/b2b/hvac/macon.json",
+      "queries": [
+        "apartment complex in Macon GA",
+        "apartment complex Macon GA contact"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/b2b/hvac/savannah.json",
+      "queries": [
+        "apartment complex in Savannah GA",
+        "apartment complex Savannah GA contact"
+      ]
+    }
+  ]
+}

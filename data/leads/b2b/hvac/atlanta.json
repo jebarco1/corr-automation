@@ -1,0 +1,88 @@
+{
+  "segment": "b2b",
+  "category": "hvac",
+  "city": "Atlanta",
+  "state": "GA",
+  "market": "Atlanta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:31.845Z",
+  "queries": [
+    "apartment complex in Atlanta GA",
+    "apartment complex Atlanta GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_6a6c3f76b52f",
+      "segment": "b2b",
+      "category": "hvac",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Apartments For Rent in Atlanta GA - 10029 Rentals - Zillow",
+      "url": "https://www.zillow.com/atlanta-ga/apartments/",
+      "snippet": "Find your next apartment in Atlanta GA on Zillow. Use our detailed filters to find the perfect place, then get in touch with the property manager.",
+      "customerType": "apartment complex",
+      "suggestedService": {
+        "serviceId": "maintenance",
+        "serviceName": "Preventive Maintenance",
+        "quoteKey": "maintenance"
+      },
+      "score": 90,
+      "query": "apartment complex in Atlanta GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T02:14:31.845Z"
+    },
+    {
+      "leadId": "lead_39c680266103",
+      "segment": "b2b",
+      "category": "hvac",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Apartments For Rent in Downtown Atlanta - 371 Rentals - Zillow",
+      "url": "https://www.zillow.com/downtown-atlanta-ga/apartments/",
+      "snippet": "Find your next apartment in Downtown Atlanta on Zillow. Use our detailed filters to find the perfect place, then get in touch with the property manager.",
+      "customerType": "apartment complex",
+      "suggestedService": {
+        "serviceId": "maintenance",
+        "serviceName": "Preventive Maintenance",
+        "quoteKey": "maintenance"
+      },
+      "score": 90,
+      "query": "apartment complex in Atlanta GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T02:14:31.845Z"
+    },
+    {
+      "leadId": "lead_2cfb50ebdf9b",
+      "segment": "b2b",
+      "category": "hvac",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Apartments for Rent in Atlanta GA - 20,756 Rentals",
+      "url": "https://www.apartments.com/atlanta-ga/",
+      "snippet": "Find 20,756 apartments for rent in Atlanta, GA with new listings daily. Compare verified, detailed unit listings, explore 3D tours, and find your next rental today.",
+      "customerType": "apartment complex",
+      "suggestedService": {
+        "serviceId": "maintenance",
+        "serviceName": "Preventive Maintenance",
+        "quoteKey": "maintenance"
+      },
+      "score": 85,
+      "query": "apartment complex in Atlanta GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T02:14:31.845Z"
+    }
+  ]
+}

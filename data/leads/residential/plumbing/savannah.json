@@ -1,0 +1,88 @@
+{
+  "segment": "residential",
+  "category": "plumbing",
+  "city": "Savannah",
+  "state": "GA",
+  "market": "Savannah, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:41.779Z",
+  "queries": [
+    "homeowner in Savannah GA",
+    "homeowner Savannah GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_65f86bcc90a4",
+      "segment": "residential",
+      "category": "plumbing",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah homeowner",
+      "url": null,
+      "snippet": "Potential plumbing customer target: homeowner in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "homeowner",
+      "suggestedService": {
+        "serviceId": "leak-repair",
+        "serviceName": "Leak Repair",
+        "quoteKey": "leak repair"
+      },
+      "score": 80,
+      "query": "homeowner in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.779Z"
+    },
+    {
+      "leadId": "lead_7461a869ca37",
+      "segment": "residential",
+      "category": "plumbing",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah residential home",
+      "url": null,
+      "snippet": "Potential plumbing customer target: residential home in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "residential home",
+      "suggestedService": {
+        "serviceId": "leak-repair",
+        "serviceName": "Leak Repair",
+        "quoteKey": "leak repair"
+      },
+      "score": 80,
+      "query": "homeowner in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.779Z"
+    },
+    {
+      "leadId": "lead_6627f235e0c4",
+      "segment": "residential",
+      "category": "plumbing",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah townhome resident",
+      "url": null,
+      "snippet": "Potential plumbing customer target: townhome resident in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "townhome resident",
+      "suggestedService": {
+        "serviceId": "leak-repair",
+        "serviceName": "Leak Repair",
+        "quoteKey": "leak repair"
+      },
+      "score": 80,
+      "query": "homeowner in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.779Z"
+    }
+  ]
+}

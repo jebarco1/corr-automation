@@ -1,0 +1,88 @@
+{
+  "segment": "b2b",
+  "category": "pest-control",
+  "city": "Macon",
+  "state": "GA",
+  "market": "Macon, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:32.616Z",
+  "queries": [
+    "restaurant in Macon GA",
+    "restaurant Macon GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_7a9599e19ec3",
+      "segment": "b2b",
+      "category": "pest-control",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon apartment complex",
+      "url": null,
+      "snippet": "Potential pest-control customer target: apartment complex in Macon, GA. Verify contact details before outreach.",
+      "customerType": "apartment complex",
+      "suggestedService": {
+        "serviceId": "commercial-ipm",
+        "serviceName": "Commercial IPM Program",
+        "quoteKey": "commercial ipm"
+      },
+      "score": 90,
+      "query": "restaurant in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:32.615Z"
+    },
+    {
+      "leadId": "lead_0a4cb7ef425e",
+      "segment": "b2b",
+      "category": "pest-control",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon restaurant",
+      "url": null,
+      "snippet": "Potential pest-control customer target: restaurant in Macon, GA. Verify contact details before outreach.",
+      "customerType": "restaurant",
+      "suggestedService": {
+        "serviceId": "commercial-ipm",
+        "serviceName": "Commercial IPM Program",
+        "quoteKey": "commercial ipm"
+      },
+      "score": 80,
+      "query": "restaurant in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:32.615Z"
+    },
+    {
+      "leadId": "lead_e8527e4f8f1b",
+      "segment": "b2b",
+      "category": "pest-control",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon warehouse",
+      "url": null,
+      "snippet": "Potential pest-control customer target: warehouse in Macon, GA. Verify contact details before outreach.",
+      "customerType": "warehouse",
+      "suggestedService": {
+        "serviceId": "commercial-ipm",
+        "serviceName": "Commercial IPM Program",
+        "quoteKey": "commercial ipm"
+      },
+      "score": 80,
+      "query": "restaurant in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:32.615Z"
+    }
+  ]
+}

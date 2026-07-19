@@ -1,0 +1,64 @@
+{
+  "segment": "b2b",
+  "category": "electrical",
+  "updatedAt": "2026-07-19T02:14:33.851Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 12,
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/b2b/electrical/atlanta.json",
+      "queries": [
+        "warehouse in Atlanta GA",
+        "warehouse Atlanta GA contact"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/b2b/electrical/augusta.json",
+      "queries": [
+        "warehouse in Augusta GA",
+        "warehouse Augusta GA contact"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/b2b/electrical/macon.json",
+      "queries": [
+        "warehouse in Macon GA",
+        "warehouse Macon GA contact"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/b2b/electrical/savannah.json",
+      "queries": [
+        "warehouse in Savannah GA",
+        "warehouse Savannah GA contact"
+      ]
+    }
+  ]
+}

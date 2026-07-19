@@ -10,12 +10,17 @@ import {
 import {
   getGeorgiaMarkets,
   getLeadTargets,
+  getSegmentLeadTargets,
+  huntB2bLeads,
   huntLeadsForAllCategories,
   huntLeadsForCategory,
+  huntResidentialLeads,
   listAllLeads,
   listLeadTargetCatalog,
   listLeads,
-  listPilotCities
+  listPilotCities,
+  listSegmentLeads,
+  LEAD_SEGMENTS
 } from "../services/leadHunt.js";
 
 const router = Router();
@@ -80,6 +85,62 @@ router.post("/leads/hunt", requireClientApiKey, async (req, res, next) => {
   }
 });
 
+/** B2B leads API — commercial / multi-family / facility customers */
+router.get("/leads/b2b", (req, res, next) => {
+  try {
+    res.json(listSegmentLeads("b2b", {
+      category: req.query.category,
+      city: req.query.city,
+      limit: req.query.limit,
+      includeLeads: req.query.includeLeads !== "false"
+    }));
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/leads/b2b/hunt", requireClientApiKey, async (req, res, next) => {
+  try {
+    res.status(202).json(await huntB2bLeads(req.body || {}));
+  } catch (error) {
+    next(error);
+  }
+});
+
+/** Residential leads API — homeowners / consumer customers */
+router.get("/leads/residential", (req, res, next) => {
+  try {
+    res.json(listSegmentLeads("residential", {
+      category: req.query.category,
+      city: req.query.city,
+      limit: req.query.limit,
+      includeLeads: req.query.includeLeads !== "false"
+    }));
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/leads/residential/hunt", requireClientApiKey, async (req, res, next) => {
+  try {
+    res.status(202).json(await huntResidentialLeads(req.body || {}));
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/leads/segments", (_req, res) => {
+  res.json({
+    segments: LEAD_SEGMENTS,
+    marketFile: "data/markets/georgia-cities.json",
+    pilotCities: listPilotCities().map(city => city.label),
+    endpoints: {
+      b2b: { list: "/api/v1/leads/b2b", hunt: "/api/v1/leads/b2b/hunt" },
+      residential: { list: "/api/v1/leads/residential", hunt: "/api/v1/leads/residential/hunt" }
+    }
+  });
+});
+
 for (const category of supportedCategories) {
   router.get(`/${category}/lead-targets`, (_req, res, next) => {
     try {
@@ -89,9 +150,42 @@ for (const category of supportedCategories) {
     }
   });
 
+  router.get(`/${category}/lead-targets/:segment`, (req, res, next) => {
+    try {
+      res.json(getSegmentLeadTargets(category, req.params.segment));
+    } catch (error) {
+      next(error);
+    }
+  });
+
   router.get(`/${category}/leads`, (req, res, next) => {
     try {
       res.json(listLeads(category, {
+        segment: req.query.segment,
+        city: req.query.city,
+        limit: req.query.limit
+      }));
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.get(`/${category}/leads/b2b`, (req, res, next) => {
+    try {
+      res.json(listLeads(category, {
+        segment: "b2b",
+        city: req.query.city,
+        limit: req.query.limit
+      }));
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.get(`/${category}/leads/residential`, (req, res, next) => {
+    try {
+      res.json(listLeads(category, {
+        segment: "residential",
         city: req.query.city,
         limit: req.query.limit
       }));
@@ -103,6 +197,22 @@ for (const category of supportedCategories) {
   router.post(`/${category}/leads/hunt`, requireClientApiKey, async (req, res, next) => {
     try {
       res.status(202).json(await huntLeadsForCategory(category, req.body || {}));
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.post(`/${category}/leads/b2b/hunt`, requireClientApiKey, async (req, res, next) => {
+    try {
+      res.status(202).json(await huntLeadsForCategory(category, { ...(req.body || {}), segment: "b2b" }));
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.post(`/${category}/leads/residential/hunt`, requireClientApiKey, async (req, res, next) => {
+    try {
+      res.status(202).json(await huntLeadsForCategory(category, { ...(req.body || {}), segment: "residential" }));
     } catch (error) {
       next(error);
     }

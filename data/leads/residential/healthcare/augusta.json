@@ -1,0 +1,88 @@
+{
+  "segment": "residential",
+  "category": "healthcare",
+  "city": "Augusta",
+  "state": "GA",
+  "market": "Augusta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:43.329Z",
+  "queries": [
+    "home patient in Augusta GA",
+    "home patient Augusta GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_2060a076d57d",
+      "segment": "residential",
+      "category": "healthcare",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta home patient",
+      "url": null,
+      "snippet": "Potential healthcare customer target: home patient in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "home patient",
+      "suggestedService": {
+        "serviceId": "nursing-visit",
+        "serviceName": "Nursing Visit",
+        "quoteKey": "nursing visit"
+      },
+      "score": 80,
+      "query": "home patient in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:43.329Z"
+    },
+    {
+      "leadId": "lead_d8868308554a",
+      "segment": "residential",
+      "category": "healthcare",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta private duty family",
+      "url": null,
+      "snippet": "Potential healthcare customer target: private duty family in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "private duty family",
+      "suggestedService": {
+        "serviceId": "nursing-visit",
+        "serviceName": "Nursing Visit",
+        "quoteKey": "nursing visit"
+      },
+      "score": 80,
+      "query": "home patient in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:43.329Z"
+    },
+    {
+      "leadId": "lead_68af549e386b",
+      "segment": "residential",
+      "category": "healthcare",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta senior at home",
+      "url": null,
+      "snippet": "Potential healthcare customer target: senior at home in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "home patient",
+      "suggestedService": {
+        "serviceId": "nursing-visit",
+        "serviceName": "Nursing Visit",
+        "quoteKey": "nursing visit"
+      },
+      "score": 80,
+      "query": "home patient in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:43.329Z"
+    }
+  ]
+}

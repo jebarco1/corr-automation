@@ -1,0 +1,88 @@
+{
+  "segment": "b2b",
+  "category": "pest-control",
+  "city": "Augusta",
+  "state": "GA",
+  "market": "Augusta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:32.541Z",
+  "queries": [
+    "restaurant in Augusta GA",
+    "restaurant Augusta GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_0c1f7a9c35bb",
+      "segment": "b2b",
+      "category": "pest-control",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta apartment complex",
+      "url": null,
+      "snippet": "Potential pest-control customer target: apartment complex in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "apartment complex",
+      "suggestedService": {
+        "serviceId": "commercial-ipm",
+        "serviceName": "Commercial IPM Program",
+        "quoteKey": "commercial ipm"
+      },
+      "score": 90,
+      "query": "restaurant in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:32.541Z"
+    },
+    {
+      "leadId": "lead_97a5b59078fe",
+      "segment": "b2b",
+      "category": "pest-control",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta restaurant",
+      "url": null,
+      "snippet": "Potential pest-control customer target: restaurant in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "restaurant",
+      "suggestedService": {
+        "serviceId": "commercial-ipm",
+        "serviceName": "Commercial IPM Program",
+        "quoteKey": "commercial ipm"
+      },
+      "score": 80,
+      "query": "restaurant in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:32.541Z"
+    },
+    {
+      "leadId": "lead_6b64acd7c7d0",
+      "segment": "b2b",
+      "category": "pest-control",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta warehouse",
+      "url": null,
+      "snippet": "Potential pest-control customer target: warehouse in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "warehouse",
+      "suggestedService": {
+        "serviceId": "commercial-ipm",
+        "serviceName": "Commercial IPM Program",
+        "quoteKey": "commercial ipm"
+      },
+      "score": 80,
+      "query": "restaurant in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:32.541Z"
+    }
+  ]
+}

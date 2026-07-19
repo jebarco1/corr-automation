@@ -1,20 +1,24 @@
 {
   "category": "healthcare",
-  "version": 1,
-  "updatedAt": "2026-07-19T01:57:32.000Z",
+  "version": 2,
+  "updatedAt": "2026-07-19T02:13:24.000Z",
   "marketFile": "data/markets/georgia-cities.json",
   "usePilotCities": true,
+  "segments": [
+    "b2b",
+    "residential"
+  ],
   "customerTypes": [
     "assisted living",
     "home health agency",
     "senior living community",
     "rehabilitation center",
-    "private duty referral"
+    "clinic"
   ],
   "intentPhrases": [
-    "home health staffing",
-    "physician house calls",
-    "nursing visit coverage"
+    "clinical staffing",
+    "nursing visit coverage facility",
+    "physician rounding support"
   ],
   "excludeKeywords": [
     "home health agency hiring",
@@ -22,12 +26,56 @@
   ],
   "suggestedServiceIds": [
     "nursing-visit",
-    "physician-visit",
-    "private-duty-shift"
+    "credentialed-staffing",
+    "chronic-care-management"
   ],
   "queryTemplates": [
     "{customerType} in {city} {state}",
     "{customerType} {city} {state} contact",
     "{intentPhrase} {city} {state}"
-  ]
+  ],
+  "b2b": {
+    "customerTypes": [
+      "assisted living",
+      "home health agency",
+      "senior living community",
+      "rehabilitation center",
+      "clinic"
+    ],
+    "intentPhrases": [
+      "clinical staffing",
+      "nursing visit coverage facility",
+      "physician rounding support"
+    ],
+    "excludeKeywords": [
+      "home health agency hiring",
+      "nurse jobs"
+    ],
+    "suggestedServiceIds": [
+      "nursing-visit",
+      "credentialed-staffing",
+      "chronic-care-management"
+    ]
+  },
+  "residential": {
+    "customerTypes": [
+      "home patient",
+      "private duty family",
+      "senior at home"
+    ],
+    "intentPhrases": [
+      "home nursing visit",
+      "physician house call",
+      "private duty care at home"
+    ],
+    "excludeKeywords": [
+      "nurse jobs",
+      "hiring caregivers"
+    ],
+    "suggestedServiceIds": [
+      "nursing-visit",
+      "physician-visit",
+      "private-duty-shift"
+    ]
+  }
 }

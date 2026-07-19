@@ -1,9 +1,13 @@
 {
   "category": "painting",
-  "version": 1,
-  "updatedAt": "2026-07-19T01:57:32.000Z",
+  "version": 2,
+  "updatedAt": "2026-07-19T02:13:24.000Z",
   "marketFile": "data/markets/georgia-cities.json",
   "usePilotCities": true,
+  "segments": [
+    "b2b",
+    "residential"
+  ],
   "customerTypes": [
     "HOA",
     "apartment complex",
@@ -12,9 +16,9 @@
     "commercial facility"
   ],
   "intentPhrases": [
-    "exterior painting bid",
-    "HOA painting project",
-    "commercial painting RFP"
+    "commercial painting RFP",
+    "HOA exterior painting bid",
+    "apartment painting project"
   ],
   "excludeKeywords": [
     "painting company",
@@ -22,12 +26,56 @@
   ],
   "suggestedServiceIds": [
     "exterior",
-    "interior",
-    "commercial-coating"
+    "commercial-coating",
+    "interior"
   ],
   "queryTemplates": [
     "{customerType} in {city} {state}",
     "{customerType} {city} {state} contact",
     "{intentPhrase} {city} {state}"
-  ]
+  ],
+  "b2b": {
+    "customerTypes": [
+      "HOA",
+      "apartment complex",
+      "property management company",
+      "church",
+      "commercial facility"
+    ],
+    "intentPhrases": [
+      "commercial painting RFP",
+      "HOA exterior painting bid",
+      "apartment painting project"
+    ],
+    "excludeKeywords": [
+      "painting company",
+      "painters near me"
+    ],
+    "suggestedServiceIds": [
+      "exterior",
+      "commercial-coating",
+      "interior"
+    ]
+  },
+  "residential": {
+    "customerTypes": [
+      "homeowner",
+      "residential interior",
+      "residential exterior"
+    ],
+    "intentPhrases": [
+      "house painting",
+      "interior painting homeowner",
+      "cabinet painting home"
+    ],
+    "excludeKeywords": [
+      "painting company",
+      "painters near me"
+    ],
+    "suggestedServiceIds": [
+      "interior",
+      "exterior",
+      "cabinets"
+    ]
+  }
 }

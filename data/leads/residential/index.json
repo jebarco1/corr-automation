@@ -1,0 +1,98 @@
+{
+  "segment": "residential",
+  "updatedAt": "2026-07-19T02:14:43.468Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "categories": [
+    {
+      "category": "landscape",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/residential/landscape/_summary.json"
+    },
+    {
+      "category": "hvac",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/residential/hvac/_summary.json"
+    },
+    {
+      "category": "cleaning",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/residential/cleaning/_summary.json"
+    },
+    {
+      "category": "pest-control",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/residential/pest-control/_summary.json"
+    },
+    {
+      "category": "pool",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/residential/pool/_summary.json"
+    },
+    {
+      "category": "painting",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/residential/painting/_summary.json"
+    },
+    {
+      "category": "roofing",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/residential/roofing/_summary.json"
+    },
+    {
+      "category": "plumbing",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/residential/plumbing/_summary.json"
+    },
+    {
+      "category": "electrical",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/residential/electrical/_summary.json"
+    },
+    {
+      "category": "general-contract",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/residential/general-contract/_summary.json"
+    },
+    {
+      "category": "surveillance",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/residential/surveillance/_summary.json"
+    },
+    {
+      "category": "trash-removal",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/residential/trash-removal/_summary.json"
+    },
+    {
+      "category": "transportation",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/residential/transportation/_summary.json"
+    },
+    {
+      "category": "healthcare",
+      "leadCount": 12,
+      "cityCount": 4,
+      "summaryFile": "data/leads/residential/healthcare/_summary.json"
+    }
+  ],
+  "totalLeads": 168
+}

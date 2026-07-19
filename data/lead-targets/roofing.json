@@ -1,9 +1,13 @@
 {
   "category": "roofing",
-  "version": 1,
-  "updatedAt": "2026-07-19T01:57:32.000Z",
+  "version": 2,
+  "updatedAt": "2026-07-19T02:13:24.000Z",
   "marketFile": "data/markets/georgia-cities.json",
   "usePilotCities": true,
+  "segments": [
+    "b2b",
+    "residential"
+  ],
   "customerTypes": [
     "property management company",
     "church",
@@ -12,9 +16,9 @@
     "apartment complex"
   ],
   "intentPhrases": [
-    "roof replacement bid",
     "commercial roof inspection",
-    "storm roof repair"
+    "multi-family roof replacement bid",
+    "flat roof repair"
   ],
   "excludeKeywords": [
     "roofing company",
@@ -29,5 +33,49 @@
     "{customerType} in {city} {state}",
     "{customerType} {city} {state} contact",
     "{intentPhrase} {city} {state}"
-  ]
+  ],
+  "b2b": {
+    "customerTypes": [
+      "property management company",
+      "church",
+      "school",
+      "warehouse",
+      "apartment complex"
+    ],
+    "intentPhrases": [
+      "commercial roof inspection",
+      "multi-family roof replacement bid",
+      "flat roof repair"
+    ],
+    "excludeKeywords": [
+      "roofing company",
+      "roofers near me"
+    ],
+    "suggestedServiceIds": [
+      "inspection",
+      "repair",
+      "replacement"
+    ]
+  },
+  "residential": {
+    "customerTypes": [
+      "homeowner",
+      "residential roof",
+      "single family home"
+    ],
+    "intentPhrases": [
+      "home roof leak",
+      "residential roof replacement",
+      "storm damage roof homeowner"
+    ],
+    "excludeKeywords": [
+      "roofing company",
+      "roofers near me"
+    ],
+    "suggestedServiceIds": [
+      "inspection",
+      "repair",
+      "storm-damage"
+    ]
+  }
 }

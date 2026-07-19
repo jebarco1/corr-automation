@@ -1,0 +1,88 @@
+{
+  "segment": "residential",
+  "category": "hvac",
+  "city": "Savannah",
+  "state": "GA",
+  "market": "Savannah, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:40.258Z",
+  "queries": [
+    "homeowner in Savannah GA",
+    "homeowner Savannah GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_17bbfb103556",
+      "segment": "residential",
+      "category": "hvac",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah homeowner",
+      "url": null,
+      "snippet": "Potential hvac customer target: homeowner in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "homeowner",
+      "suggestedService": {
+        "serviceId": "diagnostic",
+        "serviceName": "System Diagnostic",
+        "quoteKey": "diagnostic"
+      },
+      "score": 80,
+      "query": "homeowner in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:40.258Z"
+    },
+    {
+      "leadId": "lead_b80127aeff4b",
+      "segment": "residential",
+      "category": "hvac",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah residential home",
+      "url": null,
+      "snippet": "Potential hvac customer target: residential home in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "residential home",
+      "suggestedService": {
+        "serviceId": "diagnostic",
+        "serviceName": "System Diagnostic",
+        "quoteKey": "diagnostic"
+      },
+      "score": 80,
+      "query": "homeowner in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:40.258Z"
+    },
+    {
+      "leadId": "lead_59b8293b06a3",
+      "segment": "residential",
+      "category": "hvac",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah single family residence",
+      "url": null,
+      "snippet": "Potential hvac customer target: single family residence in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "single family residence",
+      "suggestedService": {
+        "serviceId": "diagnostic",
+        "serviceName": "System Diagnostic",
+        "quoteKey": "diagnostic"
+      },
+      "score": 80,
+      "query": "homeowner in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:40.258Z"
+    }
+  ]
+}

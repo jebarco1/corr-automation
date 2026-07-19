@@ -1,9 +1,13 @@
 {
   "category": "hvac",
-  "version": 1,
-  "updatedAt": "2026-07-19T01:57:32.000Z",
+  "version": 2,
+  "updatedAt": "2026-07-19T02:13:24.000Z",
   "marketFile": "data/markets/georgia-cities.json",
   "usePilotCities": true,
+  "segments": [
+    "b2b",
+    "residential"
+  ],
   "customerTypes": [
     "apartment complex",
     "property management company",
@@ -12,9 +16,9 @@
     "warehouse facility"
   ],
   "intentPhrases": [
-    "HVAC service contract",
+    "commercial HVAC service contract",
     "rooftop unit maintenance",
-    "commercial HVAC"
+    "multi-family HVAC"
   ],
   "excludeKeywords": [
     "HVAC company",
@@ -30,5 +34,51 @@
     "{customerType} in {city} {state}",
     "{customerType} {city} {state} contact",
     "{intentPhrase} {city} {state}"
-  ]
+  ],
+  "b2b": {
+    "customerTypes": [
+      "apartment complex",
+      "property management company",
+      "restaurant",
+      "medical office",
+      "warehouse facility"
+    ],
+    "intentPhrases": [
+      "commercial HVAC service contract",
+      "rooftop unit maintenance",
+      "multi-family HVAC"
+    ],
+    "excludeKeywords": [
+      "HVAC company",
+      "AC repair near me",
+      "licensed HVAC contractor"
+    ],
+    "suggestedServiceIds": [
+      "maintenance",
+      "diagnostic",
+      "replacement"
+    ]
+  },
+  "residential": {
+    "customerTypes": [
+      "homeowner",
+      "residential home",
+      "single family residence"
+    ],
+    "intentPhrases": [
+      "home AC not cooling",
+      "residential HVAC maintenance",
+      "furnace repair homeowner"
+    ],
+    "excludeKeywords": [
+      "HVAC company",
+      "we repair AC",
+      "call for estimate"
+    ],
+    "suggestedServiceIds": [
+      "diagnostic",
+      "maintenance",
+      "repair"
+    ]
+  }
 }

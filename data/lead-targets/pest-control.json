@@ -1,9 +1,13 @@
 {
   "category": "pest-control",
-  "version": 1,
-  "updatedAt": "2026-07-19T01:57:32.000Z",
+  "version": 2,
+  "updatedAt": "2026-07-19T02:13:24.000Z",
   "marketFile": "data/markets/georgia-cities.json",
   "usePilotCities": true,
+  "segments": [
+    "b2b",
+    "residential"
+  ],
   "customerTypes": [
     "restaurant",
     "apartment complex",
@@ -13,8 +17,8 @@
   ],
   "intentPhrases": [
     "commercial pest control",
-    "restaurant pest management",
-    "IPM program"
+    "restaurant IPM",
+    "multi-family pest program"
   ],
   "excludeKeywords": [
     "pest control company",
@@ -29,5 +33,49 @@
     "{customerType} in {city} {state}",
     "{customerType} {city} {state} contact",
     "{intentPhrase} {city} {state}"
-  ]
+  ],
+  "b2b": {
+    "customerTypes": [
+      "restaurant",
+      "apartment complex",
+      "warehouse",
+      "hotel",
+      "grocery store"
+    ],
+    "intentPhrases": [
+      "commercial pest control",
+      "restaurant IPM",
+      "multi-family pest program"
+    ],
+    "excludeKeywords": [
+      "pest control company",
+      "exterminator near me"
+    ],
+    "suggestedServiceIds": [
+      "commercial-ipm",
+      "recurring-service",
+      "one-time-treatment"
+    ]
+  },
+  "residential": {
+    "customerTypes": [
+      "homeowner",
+      "residential property",
+      "townhome resident"
+    ],
+    "intentPhrases": [
+      "home pest control",
+      "termite inspection homeowner",
+      "residential mosquito treatment"
+    ],
+    "excludeKeywords": [
+      "pest control company",
+      "exterminator near me"
+    ],
+    "suggestedServiceIds": [
+      "one-time-treatment",
+      "inspection",
+      "mosquitoes"
+    ]
+  }
 }

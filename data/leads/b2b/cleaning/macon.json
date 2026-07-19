@@ -1,0 +1,88 @@
+{
+  "segment": "b2b",
+  "category": "cleaning",
+  "city": "Macon",
+  "state": "GA",
+  "market": "Macon, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:32.316Z",
+  "queries": [
+    "office building in Macon GA",
+    "office building Macon GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_24335b74862a",
+      "segment": "b2b",
+      "category": "cleaning",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon property management company",
+      "url": null,
+      "snippet": "Potential cleaning customer target: property management company in Macon, GA. Verify contact details before outreach.",
+      "customerType": "property management company",
+      "suggestedService": {
+        "serviceId": "recurring-janitorial",
+        "serviceName": "Recurring Janitorial",
+        "quoteKey": "recurring janitorial"
+      },
+      "score": 90,
+      "query": "office building in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:32.316Z"
+    },
+    {
+      "leadId": "lead_12aef469e2bd",
+      "segment": "b2b",
+      "category": "cleaning",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon office building",
+      "url": null,
+      "snippet": "Potential cleaning customer target: office building in Macon, GA. Verify contact details before outreach.",
+      "customerType": "office building",
+      "suggestedService": {
+        "serviceId": "recurring-janitorial",
+        "serviceName": "Recurring Janitorial",
+        "quoteKey": "recurring janitorial"
+      },
+      "score": 80,
+      "query": "office building in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:32.316Z"
+    },
+    {
+      "leadId": "lead_b6b59f95cacd",
+      "segment": "b2b",
+      "category": "cleaning",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon medical clinic",
+      "url": null,
+      "snippet": "Potential cleaning customer target: medical clinic in Macon, GA. Verify contact details before outreach.",
+      "customerType": "medical clinic",
+      "suggestedService": {
+        "serviceId": "recurring-janitorial",
+        "serviceName": "Recurring Janitorial",
+        "quoteKey": "recurring janitorial"
+      },
+      "score": 80,
+      "query": "office building in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:32.316Z"
+    }
+  ]
+}

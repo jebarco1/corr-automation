@@ -11,6 +11,8 @@ const marketsDir = path.join(__dirname, "../../data/markets");
 const leadTargetsDir = path.join(__dirname, "../../data/lead-targets");
 const leadsDir = path.join(__dirname, "../../data/leads");
 
+export const LEAD_SEGMENTS = ["b2b", "residential"];
+
 const COMPETITOR_HINTS = [
   "near me", "contractor", "company we", "our services", "call us today",
   "licensed and insured", "free estimate", "serving the", "book online"
@@ -64,16 +66,53 @@ export function getLeadTargets(category) {
   return readJson(filePath);
 }
 
+export function normalizeLeadSegment(segment) {
+  const value = String(segment || "").toLowerCase().trim();
+  if (value === "b2b" || value === "business" || value === "commercial") return "b2b";
+  if (value === "residential" || value === "resi" || value === "homeowner" || value === "consumer") return "residential";
+  const error = new Error("segment must be 'b2b' or 'residential'");
+  error.statusCode = 400;
+  throw error;
+}
+
+/** Resolve B2B or residential target block for a category. */
+export function getSegmentLeadTargets(category, segment) {
+  const normalized = normalizeLeadSegment(segment);
+  const full = getLeadTargets(category);
+  const block = full[normalized] || null;
+  if (!block) {
+    const error = new Error(`No ${normalized} lead targets for category: ${category}`);
+    error.statusCode = 404;
+    throw error;
+  }
+  return {
+    category,
+    segment: normalized,
+    marketFile: full.marketFile || "data/markets/georgia-cities.json",
+    usePilotCities: full.usePilotCities !== false,
+    queryTemplates: full.queryTemplates,
+    customerTypes: block.customerTypes || [],
+    intentPhrases: block.intentPhrases || [],
+    excludeKeywords: block.excludeKeywords || [],
+    suggestedServiceIds: block.suggestedServiceIds || []
+  };
+}
+
 export function listLeadTargetCatalog() {
   const indexPath = path.join(leadTargetsDir, "index.json");
   if (fs.existsSync(indexPath)) return readJson(indexPath);
   return {
-    version: 1,
+    version: 2,
+    segments: LEAD_SEGMENTS,
     categories: supportedCategories.map(category => ({
       category,
       file: `data/lead-targets/${category}.json`
     }))
   };
+}
+
+function segmentDir(segment) {
+  return path.join(leadsDir, normalizeLeadSegment(segment));
 }
 
 function buildQueries(category, city, targets, limit = 4) {
@@ -207,8 +246,8 @@ function suggestService(category, targets) {
   }
 }
 
-function leadId(category, city, title, url) {
-  const raw = `${category}|${city.slug}|${url || title}`;
+function leadId(segment, category, city, title, url) {
+  const raw = `${segment}|${category}|${city.slug}|${url || title}`;
   return `lead_${crypto.createHash("sha1").update(raw).digest("hex").slice(0, 12)}`;
 }
 
@@ -238,7 +277,8 @@ export async function huntLeadsForCategory(category, input = {}) {
     throw error;
   }
 
-  const targets = getLeadTargets(category);
+  const segment = input.segment ? normalizeLeadSegment(input.segment) : "b2b";
+  const targets = getSegmentLeadTargets(category, segment);
   const cities = listPilotCities({
     cities: input.cities,
     includeAll: !!input.includeAllCities
@@ -254,6 +294,7 @@ export async function huntLeadsForCategory(category, input = {}) {
   const queryLimit = Number(input.queryLimit || 3);
   const cityResults = [];
   const allLeads = [];
+  const outDir = path.join(segmentDir(segment), category);
 
   for (const city of cities) {
     const queries = buildQueries(category, city, targets, queryLimit);
@@ -272,7 +313,8 @@ export async function huntLeadsForCategory(category, input = {}) {
       ) || targets.customerTypes?.[0] || "prospect";
 
       const lead = {
-        leadId: leadId(category, city, item.title, item.url),
+        leadId: leadId(segment, category, city, item.title, item.url),
+        segment,
         category,
         city: city.city,
         state: city.state,
@@ -297,8 +339,9 @@ export async function huntLeadsForCategory(category, input = {}) {
       .sort((a, b) => b.score - a.score)
       .slice(0, perCityLimit);
 
-    const file = path.join(leadsDir, category, `${city.slug}.json`);
+    const relative = `data/leads/${segment}/${category}/${city.slug}.json`;
     const payload = {
+      segment,
       category,
       city: city.city,
       state: city.state,
@@ -309,21 +352,21 @@ export async function huntLeadsForCategory(category, input = {}) {
       count: leads.length,
       leads
     };
-    writeJson(file, payload);
+    writeJson(path.join(outDir, `${city.slug}.json`), payload);
     cityResults.push({
       city: city.city,
       state: city.state,
       label: city.label,
       pilot: !!city.pilot,
       count: leads.length,
-      file: `data/leads/${category}/${city.slug}.json`,
+      file: relative,
       queries
     });
     allLeads.push(...leads);
   }
 
-  const summaryPath = path.join(leadsDir, category, "_summary.json");
   const summary = {
+    segment,
     category,
     updatedAt: new Date().toISOString(),
     marketFile: "data/markets/georgia-cities.json",
@@ -332,29 +375,32 @@ export async function huntLeadsForCategory(category, input = {}) {
     leadCount: allLeads.length,
     cities: cityResults
   };
-  writeJson(summaryPath, summary);
+  writeJson(path.join(outDir, "_summary.json"), summary);
 
   return {
+    segment,
     category,
     marketFile: "data/markets/georgia-cities.json",
     targetFile: `data/lead-targets/${category}.json`,
     cities: cityResults,
     leadCount: allLeads.length,
     leads: allLeads.sort((a, b) => b.score - a.score),
-    summaryFile: `data/leads/${category}/_summary.json`
+    summaryFile: `data/leads/${segment}/${category}/_summary.json`
   };
 }
 
 export async function huntLeadsForAllCategories(input = {}) {
+  const segment = input.segment ? normalizeLeadSegment(input.segment) : "b2b";
   const categories = input.categories?.length
     ? input.categories.filter(category => supportedCategories.includes(category))
     : [...supportedCategories];
 
   const results = [];
   for (const category of categories) {
-    results.push(await huntLeadsForCategory(category, input));
+    results.push(await huntLeadsForCategory(category, { ...input, segment }));
   }
   const index = {
+    segment,
     updatedAt: new Date().toISOString(),
     marketFile: "data/markets/georgia-cities.json",
     pilotCities: listPilotCities().map(city => city.label),
@@ -366,32 +412,66 @@ export async function huntLeadsForAllCategories(input = {}) {
     })),
     totalLeads: results.reduce((sum, result) => sum + result.leadCount, 0)
   };
-  writeJson(path.join(leadsDir, "index.json"), index);
+  writeJson(path.join(segmentDir(segment), "index.json"), index);
+  // Keep root index pointing at both segment indexes.
+  writeJson(path.join(leadsDir, "index.json"), {
+    updatedAt: index.updatedAt,
+    marketFile: index.marketFile,
+    pilotCities: index.pilotCities,
+    segments: {
+      b2b: "data/leads/b2b/index.json",
+      residential: "data/leads/residential/index.json"
+    },
+    lastHunt: { segment, totalLeads: index.totalLeads }
+  });
   return index;
 }
 
+export async function huntB2bLeads(input = {}) {
+  return huntLeadsForAllCategories({ ...input, segment: "b2b" });
+}
+
+export async function huntResidentialLeads(input = {}) {
+  return huntLeadsForAllCategories({ ...input, segment: "residential" });
+}
+
 export function listLeads(category, options = {}) {
-  const dir = path.join(leadsDir, category);
-  if (!fs.existsSync(dir)) {
-    return { category, count: 0, leads: [], cities: [] };
-  }
-  const cityFiles = fs.readdirSync(dir).filter(name => name.endsWith(".json") && !name.startsWith("_"));
+  const segment = options.segment ? normalizeLeadSegment(options.segment) : null;
+  const dirs = segment
+    ? [path.join(segmentDir(segment), category)]
+    : [
+      path.join(segmentDir("b2b"), category),
+      path.join(segmentDir("residential"), category),
+      path.join(leadsDir, category) // legacy unsegmented
+    ];
+
   const leads = [];
   const cities = [];
-  for (const fileName of cityFiles) {
-    if (options.city && slugify(options.city) !== fileName.replace(/\.json$/, "")) continue;
-    const payload = readJson(path.join(dir, fileName));
-    cities.push({
-      city: payload.city,
-      state: payload.state,
-      market: payload.market,
-      count: payload.count,
-      file: `data/leads/${category}/${fileName}`
-    });
-    leads.push(...(payload.leads || []));
+  for (const dir of dirs) {
+    if (!fs.existsSync(dir)) continue;
+    const cityFiles = fs.readdirSync(dir).filter(name => name.endsWith(".json") && !name.startsWith("_"));
+    for (const fileName of cityFiles) {
+      if (options.city && slugify(options.city) !== fileName.replace(/\.json$/, "")) continue;
+      const payload = readJson(path.join(dir, fileName));
+      const relSegment = payload.segment || segment || "legacy";
+      cities.push({
+        segment: relSegment,
+        city: payload.city,
+        state: payload.state,
+        market: payload.market,
+        count: payload.count,
+        file: path.relative(path.join(__dirname, "../.."), path.join(dir, fileName)).replaceAll("\\", "/")
+      });
+      leads.push(...(payload.leads || []).map(lead => ({
+        segment: lead.segment || relSegment,
+        ...lead
+      })));
+    }
   }
+
   leads.sort((a, b) => (b.score || 0) - (a.score || 0));
   return {
+    segment: segment || "all",
     category,
     count: leads.length,
     cities,
@@ -399,17 +479,50 @@ export function listLeads(category, options = {}) {
   };
 }
 
-export function listAllLeads(options = {}) {
-  const categories = supportedCategories.map(category => listLeads(category, options));
+export function listSegmentLeads(segment, options = {}) {
+  const normalized = normalizeLeadSegment(segment);
+  const categories = (options.category ? [options.category] : supportedCategories)
+    .filter(category => supportedCategories.includes(category));
+
+  const categoryResults = categories.map(category => listLeads(category, { ...options, segment: normalized }));
   return {
+    segment: normalized,
     marketFile: "data/markets/georgia-cities.json",
     pilotCities: listPilotCities().map(city => city.label),
     updatedAt: new Date().toISOString(),
-    categories: categories.map(item => ({
+    endpoints: {
+      list: `/api/v1/leads/${normalized}`,
+      hunt: `/api/v1/leads/${normalized}/hunt`
+    },
+    categories: categoryResults.map(item => ({
       category: item.category,
       count: item.count,
       cities: item.cities
     })),
-    totalLeads: categories.reduce((sum, item) => sum + item.count, 0)
+    totalLeads: categoryResults.reduce((sum, item) => sum + item.count, 0),
+    leads: options.includeLeads === false
+      ? undefined
+      : categoryResults
+        .flatMap(item => item.leads)
+        .sort((a, b) => (b.score || 0) - (a.score || 0))
+        .slice(0, options.limit ? Number(options.limit) : undefined)
+  };
+}
+
+export function listAllLeads(options = {}) {
+  if (options.segment) return listSegmentLeads(options.segment, options);
+  const b2b = listSegmentLeads("b2b", { ...options, includeLeads: false });
+  const residential = listSegmentLeads("residential", { ...options, includeLeads: false });
+  return {
+    marketFile: "data/markets/georgia-cities.json",
+    pilotCities: listPilotCities().map(city => city.label),
+    updatedAt: new Date().toISOString(),
+    segments: {
+      b2b: { totalLeads: b2b.totalLeads, endpoint: "/api/v1/leads/b2b", hunt: "/api/v1/leads/b2b/hunt" },
+      residential: { totalLeads: residential.totalLeads, endpoint: "/api/v1/leads/residential", hunt: "/api/v1/leads/residential/hunt" }
+    },
+    totalLeads: b2b.totalLeads + residential.totalLeads,
+    b2b,
+    residential
   };
 }

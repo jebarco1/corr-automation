@@ -1,0 +1,88 @@
+{
+  "segment": "residential",
+  "category": "pool",
+  "city": "Macon",
+  "state": "GA",
+  "market": "Macon, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:41.084Z",
+  "queries": [
+    "homeowner in Macon GA",
+    "homeowner Macon GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_7bf91faab194",
+      "segment": "residential",
+      "category": "pool",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon homeowner",
+      "url": null,
+      "snippet": "Potential pool customer target: homeowner in Macon, GA. Verify contact details before outreach.",
+      "customerType": "homeowner",
+      "suggestedService": {
+        "serviceId": "weekly-service",
+        "serviceName": "Weekly Pool Service",
+        "quoteKey": "weekly service"
+      },
+      "score": 80,
+      "query": "homeowner in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.084Z"
+    },
+    {
+      "leadId": "lead_598293f9fd3d",
+      "segment": "residential",
+      "category": "pool",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon residential pool owner",
+      "url": null,
+      "snippet": "Potential pool customer target: residential pool owner in Macon, GA. Verify contact details before outreach.",
+      "customerType": "residential pool owner",
+      "suggestedService": {
+        "serviceId": "weekly-service",
+        "serviceName": "Weekly Pool Service",
+        "quoteKey": "weekly service"
+      },
+      "score": 80,
+      "query": "homeowner in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.084Z"
+    },
+    {
+      "leadId": "lead_4045a9efb32e",
+      "segment": "residential",
+      "category": "pool",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon private backyard pool",
+      "url": null,
+      "snippet": "Potential pool customer target: private backyard pool in Macon, GA. Verify contact details before outreach.",
+      "customerType": "private backyard pool",
+      "suggestedService": {
+        "serviceId": "weekly-service",
+        "serviceName": "Weekly Pool Service",
+        "quoteKey": "weekly service"
+      },
+      "score": 80,
+      "query": "homeowner in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:41.084Z"
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "segment": "residential",
+  "category": "pest-control",
+  "city": "Savannah",
+  "state": "GA",
+  "market": "Savannah, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:14:40.907Z",
+  "queries": [
+    "homeowner in Savannah GA",
+    "homeowner Savannah GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_b94436f00117",
+      "segment": "residential",
+      "category": "pest-control",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah homeowner",
+      "url": null,
+      "snippet": "Potential pest-control customer target: homeowner in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "homeowner",
+      "suggestedService": {
+        "serviceId": "one-time-treatment",
+        "serviceName": "One-Time Treatment",
+        "quoteKey": "one-time treatment"
+      },
+      "score": 80,
+      "query": "homeowner in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:40.907Z"
+    },
+    {
+      "leadId": "lead_f0da88fa5174",
+      "segment": "residential",
+      "category": "pest-control",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah residential property",
+      "url": null,
+      "snippet": "Potential pest-control customer target: residential property in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "residential property",
+      "suggestedService": {
+        "serviceId": "one-time-treatment",
+        "serviceName": "One-Time Treatment",
+        "quoteKey": "one-time treatment"
+      },
+      "score": 80,
+      "query": "homeowner in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:40.907Z"
+    },
+    {
+      "leadId": "lead_3ca332fde802",
+      "segment": "residential",
+      "category": "pest-control",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah townhome resident",
+      "url": null,
+      "snippet": "Potential pest-control customer target: townhome resident in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "townhome resident",
+      "suggestedService": {
+        "serviceId": "one-time-treatment",
+        "serviceName": "One-Time Treatment",
+        "quoteKey": "one-time treatment"
+      },
+      "score": 80,
+      "query": "homeowner in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:14:40.907Z"
+    }
+  ]
+}
