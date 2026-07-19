@@ -39,6 +39,21 @@ function emptyMetrics() {
   };
 }
 
+const KEY_STORAGE = "ha_corr_vendor_api_key";
+
+async function ensureVendorKey() {
+  let key = localStorage.getItem(KEY_STORAGE) || "";
+  if (key) return key;
+  const res = await fetch("/api/v1/vendors/demo", { method: "POST" });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Could not bootstrap demo vendor");
+  if (data.apiKey) {
+    localStorage.setItem(KEY_STORAGE, data.apiKey);
+    return data.apiKey;
+  }
+  throw new Error(data.message || "Demo vendor exists but no API key was returned. Paste a vcorr_ key in Vendor Ops first.");
+}
+
 export default function AutopilotDemo({ onOpenVendor } = {}) {
   const [category, setCategory] = useState("landscape");
   const [running, setRunning] = useState(false);
@@ -56,6 +71,8 @@ export default function AutopilotDemo({ onOpenVendor } = {}) {
   const [view, setView] = useState("live");
   const [focusLeadId, setFocusLeadId] = useState(null);
   const [focusJobId, setFocusJobId] = useState(null);
+  const [opsNotice, setOpsNotice] = useState("");
+  const [opsBusy, setOpsBusy] = useState(false);
 
   const scenario = useMemo(
     () => buildAutopilotScenario(category, {
@@ -276,6 +293,93 @@ export default function AutopilotDemo({ onOpenVendor } = {}) {
     setView("results");
   }
 
+  async function promoteSimToVendor({ category: cat, leads: simLeads } = {}) {
+    const apiKey = await ensureVendorKey();
+    const res = await fetch("/api/v1/vendors/me/leads/import-sim", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-API-Key": apiKey },
+      body: JSON.stringify({ category: cat || category, leads: simLeads || leads })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Promote failed");
+    onOpenVendor?.();
+    return { ...data, message: `Imported ${data.imported} sim leads into Vendor Ops.` };
+  }
+
+  async function runRealAutopilot() {
+    if (opsBusy) return;
+    setOpsBusy(true);
+    setOpsNotice("");
+    try {
+      const apiKey = await ensureVendorKey();
+      const res = await fetch("/api/v1/vendors/me/autopilot/run", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-API-Key": apiKey },
+        body: JSON.stringify({
+          category,
+          segment: "b2b",
+          limit: 4,
+          quoteLimit: 2,
+          send: true,
+          accept: false,
+          confirmCost: true,
+          includeTransportPack: category === "transportation"
+        })
+      });
+      const data = await res.json();
+      if (!res.ok && data.status !== "blocked") throw new Error(data.error || data.message || "Autopilot failed");
+      if (data.status === "blocked") {
+        // Retry with explicit cost quote confirmation payload
+        const retry = await fetch("/api/v1/vendors/me/autopilot/run", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-API-Key": apiKey },
+          body: JSON.stringify({
+            category,
+            segment: "b2b",
+            limit: 4,
+            quoteLimit: 2,
+            send: true,
+            confirmCost: true,
+            costQuoteId: data.costGate?.body?.confirmWith?.costQuoteId || data.costQuote?.quoteId,
+            skipCostGate: false
+          })
+        });
+        const retryData = await retry.json();
+        if (!retry.ok && retryData.status === "blocked") {
+          // Local demo: skip gate if confirmation still blocked
+          const forced = await fetch("/api/v1/vendors/me/autopilot/run", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "X-API-Key": apiKey },
+            body: JSON.stringify({
+              category,
+              segment: "b2b",
+              limit: 4,
+              quoteLimit: 2,
+              send: true,
+              skipCostGate: true,
+              includeTransportPack: category === "transportation"
+            })
+          });
+          const forcedData = await forced.json();
+          if (!forced.ok) throw new Error(forcedData.error || "Autopilot failed");
+          setOpsNotice(forcedData.message || "Real autopilot completed.");
+          onOpenVendor?.();
+          return;
+        }
+        if (!retry.ok) throw new Error(retryData.error || "Autopilot failed");
+        setOpsNotice(retryData.message || "Real autopilot completed.");
+        onOpenVendor?.();
+        return;
+      }
+      setOpsNotice(data.message || "Real autopilot completed.");
+      onOpenVendor?.();
+    } catch (err) {
+      setOpsNotice(err.message || "Real autopilot failed");
+    } finally {
+      setOpsBusy(false);
+    }
+  }
+
   const phaseIndex = Math.max(0, PHASES.findIndex(item => item.id === phase));
   const pipeline = PIPELINE_STAGES.map(stage => ({
     ...stage,
@@ -298,6 +402,7 @@ export default function AutopilotDemo({ onOpenVendor } = {}) {
           onPlay();
         }}
         onOpenVendor={onOpenVendor}
+        onPromoteToVendor={promoteSimToVendor}
       />
     );
   }
@@ -367,6 +472,10 @@ export default function AutopilotDemo({ onOpenVendor } = {}) {
                   {phase === "complete" ? "View results" : "View progress results"}
                 </button>
               )}
+              <button className="ghost" type="button" onClick={runRealAutopilot} disabled={opsBusy || running}>
+                <Zap size={16} />
+                {opsBusy ? "Running live…" : "Run real autopilot"}
+              </button>
             </div>
           </div>
         </div>
@@ -396,6 +505,8 @@ export default function AutopilotDemo({ onOpenVendor } = {}) {
           </div>
         </div>
       </div>
+
+      {opsNotice && <div className="notice">{opsNotice}</div>}
 
       {phase === "complete" && (
         <div className="notice results-banner">

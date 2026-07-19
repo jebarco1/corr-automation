@@ -9,6 +9,7 @@ import {
   getServiceAdvisorSession,
   listSuggestedServices
 } from "../services/serviceAdvisor.js";
+import { createBundleQuote, createTransportPack, listBundlePresets } from "../services/quoteBundles.js";
 
 const router = Router();
 const categories = ["landscape", "hvac", "cleaning", "pest-control", "pool", "painting", "roofing", "plumbing", "electrical", "general-contract", "surveillance", "trash-removal", "transportation", "healthcare", "bakery-food", "law-office"];
@@ -22,6 +23,26 @@ router.post("/guided/quote", async (req, res, next) => {
       throw error;
     }
     res.status(201).json(await createInstantQuote(category, input));
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/quotes/bundles", (_req, res) => {
+  res.json(listBundlePresets());
+});
+
+router.post("/quotes/bundle", async (req, res, next) => {
+  try {
+    res.status(201).json(await createBundleQuote(req.body || {}));
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/transportation/pack", (req, res, next) => {
+  try {
+    res.status(201).json(createTransportPack(req.body || {}));
   } catch (error) {
     next(error);
   }

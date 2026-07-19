@@ -35,9 +35,20 @@ function Field({ label, value, onChange, type = "text", placeholder }) {
   );
 }
 
+function readAppQuery() {
+  if (typeof window === "undefined") return { tab: "autopilot", leadId: null };
+  const params = new URLSearchParams(window.location.search);
+  return {
+    tab: params.get("tab") || "autopilot",
+    leadId: params.get("leadId") || null
+  };
+}
+
 function App() {
   const isBookingRoute = typeof window !== "undefined" && window.location.pathname.startsWith("/book");
-  const [tab, setTab] = useState("autopilot");
+  const initialQuery = readAppQuery();
+  const [tab, setTab] = useState(initialQuery.tab);
+  const [focusLeadId, setFocusLeadId] = useState(initialQuery.leadId);
   const [category, setCategory] = useState("");
   const [business, setBusiness] = useState(defaultBusiness);
   const [settings, setSettings] = useState(defaultStart);
@@ -60,6 +71,9 @@ function App() {
   const [selectedService, setSelectedService] = useState(null);
   const [parcel, setParcel] = useState(null);
   const [quoteStage, setQuoteStage] = useState(null);
+  const [bundlePresets, setBundlePresets] = useState([]);
+  const [bundleQuote, setBundleQuote] = useState(null);
+  const [transportPack, setTransportPack] = useState(null);
   const chatEndRef = useRef(null);
 
   const selected = useMemo(() => getCategory(category), [category]);
@@ -79,6 +93,10 @@ function App() {
       .then(r => r.json())
       .then(setAiStatus)
       .catch(() => setAiStatus({ enabled: false }));
+    fetch(`${API}/quotes/bundles`)
+      .then(r => r.json())
+      .then(data => setBundlePresets(data.presets || []))
+      .catch(() => setBundlePresets([]));
   }, []);
 
   function pushChat(role, text, meta = null) {
@@ -374,6 +392,91 @@ function App() {
     pushChat("assistant", data.assistantMessage || `Draft invoice ${data.result?.invoiceNumber} ready.`);
   }
 
+  async function ensureVendorKey() {
+    let key = localStorage.getItem("ha_corr_vendor_api_key") || "";
+    if (key) return key;
+    const res = await fetch(`${API}/vendors/demo`, { method: "POST" });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Could not bootstrap demo vendor");
+    if (data.apiKey) {
+      localStorage.setItem("ha_corr_vendor_api_key", data.apiKey);
+      return data.apiKey;
+    }
+    throw new Error(data.message || "Paste a vendor API key in Vendor Ops first.");
+  }
+
+  async function promoteGuidedToCrm() {
+    if (!session?.sessionId || !invoice) return;
+    setBusy(true);
+    setError("");
+    try {
+      const apiKey = await ensureVendorKey();
+      const res = await fetch(`${API}/vendors/me/sessions/from-guided`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-API-Key": apiKey },
+        body: JSON.stringify({ sessionId: session.sessionId, invoice })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Promote failed");
+      setFocusLeadId(data.lead?.id || null);
+      setTab("vendor");
+      pushChat("assistant", `Saved to Vendor Ops: lead ${data.lead?.name} · quote $${Number(data.quote?.amount || 0).toFixed(2)}.`);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function runBundle(bundleId) {
+    setBusy(true);
+    setError("");
+    setBundleQuote(null);
+    try {
+      const address = parcel?.address || session?.answers?.serviceAddress || "123 Main St, Atlanta, GA 30303";
+      const customer = session?.answers?.customer || { name: "Taylor Smith", email: "taylor@example.com" };
+      const data = await request(`${API}/quotes/bundle`, {
+        method: "POST",
+        body: JSON.stringify({
+          bundleId,
+          shared: { serviceAddress: address, customer, answers: { serviceAddress: address, customer } },
+          taxRate: settings.taxRate,
+          discount: settings.discount,
+          businessSettings: business
+        })
+      });
+      setBundleQuote(data);
+      pushChat("assistant", `Bundle quote ready: ${data.label} · $${Number(data.total).toFixed(2)} across ${data.trades?.length || 0} trades.`);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function runTransportPack() {
+    setBusy(true);
+    setError("");
+    try {
+      const data = await request(`${API}/transportation/pack`, {
+        method: "POST",
+        body: JSON.stringify({
+          pickupAddress: session?.answers?.pickupAddress || session?.answers?.serviceAddress || "100 Peachtree St, Atlanta, GA 30303",
+          dropoffAddress: session?.answers?.dropoffAddress || "500 Ponce De Leon Ave, Atlanta, GA 30308",
+          distanceMiles: session?.answers?.distanceMiles || 8,
+          volumeCubicFeet: session?.answers?.volumeCubicFeet || 350,
+          taxRate: settings.taxRate
+        })
+      });
+      setTransportPack(data);
+      pushChat("assistant", `Transport pack ready: load plan + route + fuel · $${Number(data.total).toFixed(2)}.`);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
   function reset() {
     setSession(null);
     setInvoice(null);
@@ -429,7 +532,7 @@ function App() {
             </button>
           ))}
         </nav>
-        <div className="aside-note">Autopilot is a live simulation. Vendor Ops is the real tenant CRM (SQLite). Public booking: /book/demo-landscape.</div>
+        <div className="aside-note">Autopilot can simulate or run live CRM. Vendor Ops is the real tenant CRM (JSON store). Public booking: /book/demo-landscape.</div>
       </aside>
 
       <main>
@@ -463,7 +566,7 @@ function App() {
         {error && <div className="error">{error}</div>}
 
         {tab === "autopilot" && <AutopilotDemo onOpenVendor={() => setTab("vendor")} />}
-        {tab === "vendor" && <VendorOps />}
+        {tab === "vendor" && <VendorOps initialLeadId={focusLeadId} />}
         {tab === "services" && <ServiceCatalogPage />}
 
         {tab === "workflow" && (
@@ -759,8 +862,57 @@ function App() {
                     </ul>
                   </>
                 )}
+                {invoice && session?.sessionId && (
+                  <div className="inline-actions wrap" style={{ marginTop: 16 }}>
+                    <button className="primary" type="button" disabled={busy} onClick={promoteGuidedToCrm}>
+                      <Store size={16} /> Save to Vendor Ops
+                    </button>
+                  </div>
+                )}
               </div>
             )}
+
+            <div className="card landing-span">
+              <div className="panel-head">
+                <h3>Multi-trade bundles</h3>
+                <span className="step">QUICK WIN</span>
+              </div>
+              <p>Combine common trades into one quote (landscape + trash, bakery + delivery, etc.).</p>
+              <div className="chips" style={{ marginBottom: 12 }}>
+                {bundlePresets.map(preset => (
+                  <button
+                    key={preset.id}
+                    type="button"
+                    className="prompt-chip mini"
+                    disabled={busy}
+                    onClick={() => runBundle(preset.id)}
+                    title={preset.description}
+                  >
+                    {preset.label}
+                  </button>
+                ))}
+              </div>
+              {category === "transportation" && (
+                <button className="ghost" type="button" disabled={busy} onClick={runTransportPack}>
+                  Transport pack: load + route + fuel
+                </button>
+              )}
+              {bundleQuote && (
+                <dl className="mini-dl">
+                  <div><dt>Bundle</dt><dd>{bundleQuote.label}</dd></div>
+                  <div><dt>Trades</dt><dd>{bundleQuote.trades?.map(t => t.category).join(" + ")}</dd></div>
+                  <div><dt>Total</dt><dd>${Number(bundleQuote.total).toFixed(2)}</dd></div>
+                </dl>
+              )}
+              {transportPack && (
+                <dl className="mini-dl">
+                  <div><dt>Pack</dt><dd>{transportPack.label}</dd></div>
+                  <div><dt>Miles</dt><dd>{transportPack.distanceMiles}</dd></div>
+                  <div><dt>Fuel</dt><dd>${Number(transportPack.fuel?.estimatedFuelCost || 0).toFixed(2)}</dd></div>
+                  <div><dt>Total</dt><dd>${Number(transportPack.total).toFixed(2)}</dd></div>
+                </dl>
+              )}
+            </div>
 
             {invoice && <Invoice invoice={invoice} />}
           </section>

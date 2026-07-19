@@ -36,6 +36,7 @@ export default function AutopilotResults({
   onBack,
   onRunAgain,
   onOpenVendor,
+  onPromoteToVendor,
   initialLeadId = null,
   initialJobId = null
 }) {
@@ -58,6 +59,7 @@ export default function AutopilotResults({
   const [selectedJobId, setSelectedJobId] = useState(initialJobId || null);
   const [notice, setNotice] = useState("");
   const [panel, setPanel] = useState("leads");
+  const [promoting, setPromoting] = useState(false);
 
   useEffect(() => {
     if (initialLeadId) setSelectedLeadId(initialLeadId);
@@ -125,6 +127,23 @@ export default function AutopilotResults({
     }
   }
 
+  async function promoteSimLeads() {
+    if (!onPromoteToVendor || promoting) return;
+    setPromoting(true);
+    setNotice("");
+    try {
+      const result = await onPromoteToVendor({
+        category: scenario?.category,
+        leads: results.leads
+      });
+      setNotice(result?.message || `Promoted ${result?.imported || results.leads.length} sim leads to Vendor Ops.`);
+    } catch (err) {
+      setNotice(err.message || "Could not promote leads");
+    } finally {
+      setPromoting(false);
+    }
+  }
+
   const { value } = results;
 
   return (
@@ -152,6 +171,12 @@ export default function AutopilotResults({
               <ExternalLink size={16} />
               Open Vendor Ops
             </button>
+            {onPromoteToVendor && (
+              <button className="primary" type="button" onClick={promoteSimLeads} disabled={promoting || !results.leads.length}>
+                <Users size={16} />
+                {promoting ? "Promoting…" : "Promote sim → Vendor Ops"}
+              </button>
+            )}
           </div>
         </div>
         <div className="results-value-grid">

@@ -4,6 +4,7 @@ import { appConfig } from "../config/appConfig.js";
 import { getServiceDocs, listServiceDocs } from "./serviceDocs.js";
 import { matchServiceFromText, patchCatalogService, slugifyServiceId, upsertCatalogService } from "./serviceCatalog.js";
 import { mergeInputOverride, setFormulaOverride } from "./serviceDocOverrides.js";
+import { getPricingStandards, savePricingStandards } from "./pricingStandards.js";
 
 const client = appConfig.ai.enabled
   ? new OpenAI({ apiKey: appConfig.ai.apiKey, baseURL: appConfig.ai.baseURL })
@@ -33,9 +34,134 @@ const CATEGORY_SERVICE_SUGGESTIONS = {
   "trash-removal": ["Estate Cleanout", "Construction Debris Haul", "Appliance Pickup", "Yard Waste Dumpster"],
   transportation: ["Piano Move", "Same-Day Courier Run", "Office Relocation Pod", "Appliance Delivery"],
   healthcare: ["Wound Care Visit", "Medication Reconciliation", "Post-Op Home Check", "Chronic Care Check-In"],
-  "bakery-food": ["Wedding Cake Package", "Corporate Breakfast Box", "Allergy-Safe Cupcakes", "Holiday Cookie Platter"],
-  "law-office": ["Mediation Session", "Prenup Package", "Landlord Lease Review", "Trademark Watch Setup"]
+  "bakery-food": ["Wedding Cake Package", "Corporate Breakfast Box", "Allergy-Safe Cupcakes", "Allergen Protocol Bake", "Holiday Cookie Platter"],
+  "law-office": ["Mediation Session", "Family Law Retainer", "Prenup Package", "Landlord Lease Review", "Trademark Watch Setup"]
 };
+
+/** Menu-builder presets: catalog + inputs + pricebook keys applied together. */
+const MENU_BUILDER_PRESETS = {
+  "bakery-food:allergy-safe-cupcakes": {
+    description: "Allergy-aware cupcake bake with dedicated utensils, labeling, and surcharge.",
+    aliases: ["allergy safe cupcakes", "allergen cupcakes", "nut-free cupcakes"],
+    defaultHours: 3,
+    relatedApis: ["bakery-order-profile", "bakery-allergen-check", "bakery-production-estimate"],
+    calculation: {
+      formula: "(productionHours × hourlyRate + ingredientCost + allergenSurcharge + deliveryFee) × 1.45",
+      summary: "Bakery production with allergen surcharge baked into the quote.",
+      notes: ["Runs bakery-allergen-check before production.", "Label packaging and confirm ingredients."]
+    },
+    inputOverride: {
+      add: [
+        {
+          key: "dietaryNotes",
+          label: "Any allergen or dietary requirements?",
+          type: "string",
+          required: true,
+          askedOfUser: true,
+          notes: "Required for allergen protocol bakes."
+        },
+        {
+          key: "allergenSurcharge",
+          label: "Allergen protocol surcharge",
+          type: "currency",
+          required: false,
+          askedOfUser: false,
+          notes: "Defaults from pricing standards."
+        }
+      ],
+      remove: [],
+      patch: { dietaryNotes: { required: true, askedOfUser: true } }
+    },
+    unitPrices: { allergenSurcharge: 18, perServing: 7.25 }
+  },
+  "bakery-food:allergen-protocol-bake": {
+    description: "Dedicated allergen-controlled bake protocol with surcharge and compliance checklist.",
+    aliases: ["allergen protocol", "allergy protocol bake"],
+    defaultHours: 4,
+    relatedApis: ["bakery-allergen-check", "bakery-production-estimate"],
+    calculation: {
+      formula: "(productionHours × hourlyRate + ingredientCost + allergenSurcharge) × 1.45 × rushMultiplier?",
+      summary: "Allergen protocol bake with compliance surcharge.",
+      notes: ["Always collect dietaryNotes.", "Verify cottage-food / health rules before sale."]
+    },
+    inputOverride: {
+      add: [{
+        key: "dietaryNotes",
+        label: "Allergen / dietary protocol notes",
+        type: "string",
+        required: true,
+        askedOfUser: true
+      }],
+      remove: [],
+      patch: {}
+    },
+    unitPrices: { allergenSurcharge: 24 }
+  },
+  "law-office:family-law-retainer": {
+    description: "Family-law retainer engagement with prepaid hours and replenishment threshold.",
+    aliases: ["family retainer", "divorce retainer", "retainer agreement"],
+    defaultHours: 10,
+    relatedApis: ["law-office-matter-profile", "law-office-retainer-estimate"],
+    calculation: {
+      formula: "max(retainerMinimum, billableHours × roleHourlyRate × 1.25)",
+      summary: "Retainer-floor family law engagement.",
+      notes: ["Practice area defaults to family.", "Replenish when trust balance hits 25%."]
+    },
+    inputOverride: {
+      add: [{
+        key: "retainerAmount",
+        label: "What retainer amount should be proposed?",
+        type: "currency",
+        required: true,
+        askedOfUser: false,
+        notes: "Defaults to retainerMinimum from pricebook."
+      }],
+      remove: [],
+      patch: {
+        practiceArea: { example: "family" },
+        retainerAmount: { required: true }
+      }
+    },
+    unitPrices: { retainerMinimum: 2500, consultationFee: 175 }
+  }
+};
+
+function menuPresetFor(category, serviceNameOrId) {
+  const id = slugifyServiceId(serviceNameOrId);
+  return MENU_BUILDER_PRESETS[`${category}:${id}`] || null;
+}
+
+function mergeUnitPricesIntoStandards(category, unitPrices = {}) {
+  if (!unitPrices || !Object.keys(unitPrices).length) return null;
+  const current = getPricingStandards(category);
+  const defaults = {
+    ...(current.defaults || {}),
+    unitPrices: {
+      ...(current.defaults?.unitPrices || {}),
+      ...unitPrices
+    }
+  };
+  const areas = { ...(current.areas || {}) };
+  for (const [areaName, area] of Object.entries(areas)) {
+    areas[areaName] = {
+      ...area,
+      unitPrices: {
+        ...(area.unitPrices || {}),
+        ...unitPrices
+      }
+    };
+  }
+  return savePricingStandards(category, {
+    ...current,
+    defaults,
+    areas,
+    meta: {
+      ...(current.meta || {}),
+      source: "service-advisor-menu-builder",
+      lastAdvisorPricingAt: new Date().toISOString()
+    }
+  }, { bumpVersion: true });
+}
 
 export function listSuggestedServices(category, { limit = 4, excludeExisting = true } = {}) {
   const docs = getServiceDocs(category);
@@ -82,37 +208,46 @@ export function listSuggestedServices(category, { limit = 4, excludeExisting = t
 
 function buildAddServiceRecommendation(category, name, docs) {
   const id = slugifyServiceId(name);
+  const preset = menuPresetFor(category, name);
   const categoryCalc = docs.categoryCalculation || {};
-  const description = `${name} for ${docs.label.toLowerCase()} customers, scoped for guided quoting and automation.`;
+  const description = preset?.description
+    || `${name} for ${docs.label.toLowerCase()} customers, scoped for guided quoting and automation.`;
+  const calculation = preset?.calculation || (categoryCalc.formula ? {
+    formula: categoryCalc.formula,
+    summary: `${name} uses the ${docs.label} category calculation with service-specific defaults.`,
+    notes: [`Added via Services AI advisor for ${category}.`]
+  } : null);
   return makeRecommendation({
     type: "add_service",
     category,
     serviceId: id,
     title: name,
-    rationale: `Suggested ${docs.label} service: add “${name}” to the catalog.`,
+    rationale: preset
+      ? `Menu-builder preset for ${docs.label}: adds “${name}” with inputs and pricebook updates.`
+      : `Suggested ${docs.label} service: add “${name}” to the catalog.`,
     preview: {
       name,
       description,
-      formula: categoryCalc.formula,
-      after: description
+      formula: calculation?.formula || categoryCalc.formula,
+      after: description,
+      unitPrices: preset?.unitPrices || null,
+      menuBuilder: Boolean(preset)
     },
     patch: {
       service: {
         id,
         name,
         description,
-        aliases: [name.toLowerCase()],
-        billingUnit: "job",
-        defaultHours: 3,
+        aliases: preset?.aliases || [name.toLowerCase()],
+        billingUnit: preset?.unitPrices?.retainerMinimum ? "retainer" : "job",
+        defaultHours: preset?.defaultHours ?? 3,
         quoteKey: name.toLowerCase(),
         inGuidedWorkflow: true,
-        relatedApis: docs.services[0]?.relatedApis?.slice(0, 2) || []
+        relatedApis: preset?.relatedApis || docs.services[0]?.relatedApis?.slice(0, 2) || []
       },
-      calculation: categoryCalc.formula ? {
-        formula: categoryCalc.formula,
-        summary: `${name} uses the ${docs.label} category calculation with service-specific defaults.`,
-        notes: [`Added via Services AI advisor for ${category}.`]
-      } : null
+      calculation,
+      inputOverride: preset?.inputOverride || null,
+      unitPrices: preset?.unitPrices || null
     }
   });
 }
@@ -630,7 +765,25 @@ export function applyServiceRecommendation(body = {}) {
     if (rec.patch?.inputOverride) {
       mergeInputOverride(category, result.service.id, rec.patch.inputOverride);
     }
+    let pricing = null;
+    if (rec.patch?.unitPrices) {
+      pricing = mergeUnitPricesIntoStandards(category, rec.patch.unitPrices);
+    }
+    result = { ...result, pricingUpdated: Boolean(pricing), unitPrices: rec.patch?.unitPrices || null };
     session.serviceId = result.service.id;
+  } else if (rec.type === "update_pricing" || rec.type === "menu_builder") {
+    const serviceId = rec.serviceId || session.serviceId;
+    if (rec.patch?.service && serviceId) {
+      result = upsertCatalogService(category, { id: serviceId, ...rec.patch.service });
+    }
+    if (rec.patch?.calculation?.formula && serviceId) {
+      setFormulaOverride(category, serviceId, rec.patch.calculation);
+    }
+    if (rec.patch?.inputOverride && serviceId) {
+      mergeInputOverride(category, serviceId, rec.patch.inputOverride);
+    }
+    const pricing = mergeUnitPricesIntoStandards(category, rec.patch?.unitPrices || {});
+    result = { category, serviceId, pricing, unitPrices: rec.patch?.unitPrices || null };
   } else if (rec.type === "update_description") {
     const serviceId = rec.serviceId || session.serviceId;
     if (!serviceId) throw badRequest("serviceId required for description update");
@@ -668,19 +821,23 @@ export function applyServiceRecommendation(body = {}) {
   rec.appliedAt = new Date().toISOString();
   rec.result = result;
   session.updatedAt = new Date().toISOString();
+  const pricingNote = result?.pricingUpdated || result?.pricing
+    ? " Pricebook (pricing-standards) was updated too."
+    : "";
   session.messages.push({
     role: "assistant",
-    text: `Applied: ${rec.title}. The ${category} service catalog is updated.`
+    text: `Applied: ${rec.title}. The ${category} service catalog is updated.${pricingNote}`
   });
   sessions.set(session.id, session);
 
   const docs = getServiceDocs(category);
   return {
     ...sessionView(session),
-    reply: `Applied: ${rec.title}`,
+    reply: `Applied: ${rec.title}.${pricingNote}`,
     applied: rec,
     docs,
-    catalog: listServiceDocs()
+    catalog: listServiceDocs(),
+    pricing: result?.pricing || null
   };
 }
 

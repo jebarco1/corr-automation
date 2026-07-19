@@ -87,11 +87,21 @@ function BookingForm({ slug }) {
           <CheckCircle2 size={28} />
           <h2>Request received</h2>
           <p>{done.message}</p>
-          {done.quote?.publicToken && (
-            <a className="primary" href={`/book/quote/${done.quote.publicToken}`}>
-              View quote
-            </a>
-          )}
+          <div className="booking-actions">
+            {done.quote?.publicToken && (
+              <a className="primary" href={`/book/quote/${done.quote.publicToken}`}>
+                View quote
+              </a>
+            )}
+            {done.lead?.id && (
+              <a
+                className="ghost"
+                href={`/?tab=vendor&leadId=${encodeURIComponent(done.lead.id)}`}
+              >
+                Open in Vendor Ops
+              </a>
+            )}
+          </div>
         </div>
       ) : (
         <form className="card booking-form" onSubmit={submit}>

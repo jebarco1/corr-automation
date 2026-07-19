@@ -18,7 +18,7 @@ async function vendorFetch(path, { apiKey, method = "GET", body } = {}) {
   return data;
 }
 
-export default function VendorOps() {
+export default function VendorOps({ initialLeadId = null } = {}) {
   const [apiKey, setApiKey] = useState(() => localStorage.getItem(KEY_STORAGE) || "");
   const [vendor, setVendor] = useState(null);
   const [leads, setLeads] = useState([]);
@@ -80,6 +80,12 @@ export default function VendorOps() {
     if (apiKey) refresh();
   }, []);
 
+  useEffect(() => {
+    if (!initialLeadId || !leads.length) return;
+    const match = leads.find(lead => lead.id === initialLeadId);
+    if (match) setSelectedLead(match);
+  }, [initialLeadId, leads]);
+
   async function importHunt() {
     setBusy(true);
     setError("");
@@ -91,6 +97,37 @@ export default function VendorOps() {
       });
       setNotice(`Imported ${data.imported} leads from hunt files`);
       await refresh();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function runRealAutopilot() {
+    setBusy(true);
+    setError("");
+    try {
+      const data = await vendorFetch("/vendors/me/autopilot/run", {
+        apiKey,
+        method: "POST",
+        body: {
+          category: vendor?.defaultCategory || "landscape",
+          segment: "b2b",
+          limit: 4,
+          quoteLimit: 2,
+          send: true,
+          skipCostGate: true,
+          includeTransportPack: vendor?.defaultCategory === "transportation"
+        }
+      });
+      setNotice(data.message || `Autopilot imported ${data.imported?.count || 0} leads and created ${data.quoted?.length || 0} quotes`);
+      await refresh();
+      if (data.imported?.leadIds?.[0]) {
+        const match = (await vendorFetch("/vendors/me/leads?limit=50", { apiKey })).leads
+          ?.find(lead => lead.id === data.imported.leadIds[0]);
+        if (match) setSelectedLead(match);
+      }
     } catch (err) {
       setError(err.message);
     } finally {
@@ -163,7 +200,7 @@ export default function VendorOps() {
         <div>
           <p className="eyebrow">VENDOR MVP</p>
           <h2>Tenant CRM · quotes · jobs</h2>
-          <p>Per-vendor API keys, SQLite persistence, lead pipeline, quote lifecycle, and jobs. Public booking at <code>/book/{vendor?.slug || "demo-landscape"}</code>.</p>
+          <p>Per-vendor API keys, JSON CRM store, lead pipeline, quote lifecycle, and jobs. Public booking at <code>/book/{vendor?.slug || "demo-landscape"}</code>.</p>
         </div>
         <div className="vendor-auth">
           <label className="field compact">
@@ -200,6 +237,9 @@ export default function VendorOps() {
           </a>
           <button className="ghost" type="button" onClick={importHunt} disabled={busy}>
             <Plus size={16} /> Import hunt leads
+          </button>
+          <button className="primary" type="button" onClick={runRealAutopilot} disabled={busy || !apiKey}>
+            <Briefcase size={16} /> Run real autopilot
           </button>
         </div>
       )}
