@@ -16,7 +16,9 @@ export const industryDefaults = {
   surveillance: { hourlyRate: 95, defaultHours: 6, materialCost: 1200, cameraInstallEach: 275, nvrBase: 450 },
   "trash-removal": { hourlyRate: 75, defaultHours: 3, disposalCost: 120, perCubicYard: 55 },
   transportation: { hourlyRate: 75, defaultCrewSize: 2, defaultHours: 4, perMile: 2.75, perCubicFoot: 1.15 },
-  healthcare: { hourlyRate: 95, defaultHours: 1, shiftHourlyRN: 95, suppliesPerVisit: 18 }
+  healthcare: { hourlyRate: 95, defaultHours: 1, shiftHourlyRN: 95, suppliesPerVisit: 18 },
+  "bakery-food": { hourlyRate: 55, defaultHours: 4, cakeBase: 85, perServing: 6.5, cateringTray: 95, deliveryFee: 25 },
+  "law-office": { hourlyRate: 275, defaultHours: 2, consultationFee: 150, retainerMinimum: 1500, appearanceFee: 450 }
 };
 
 function pickOption(text, options = [], fallback) {
@@ -131,7 +133,11 @@ export function buildSmartDefaults(category, message = "", businessSettings = {}
   if (!answers.crewSize) answers.crewSize = prices.defaultCrewSize || 2;
   if (!answers.hourlyRate) answers.hourlyRate = prices.hourlyRate || 85;
   if (answers.estimatedHours == null) answers.estimatedHours = prices.defaultHours || 2;
-  if (answers.materialCost == null) answers.materialCost = prices.materialCost || 0;
+  if (answers.materialCost == null) {
+    const serviceType = String(answers.serviceType || "").toLowerCase();
+    const lightService = /diagnostic|maintenance|repair|inspection|consult|visit/.test(serviceType);
+    answers.materialCost = lightService ? 0 : (prices.materialCost || 0);
+  }
   if (answers.disposalCost == null && prices.disposalCost != null) answers.disposalCost = prices.disposalCost;
   if (answers.equipmentCost == null) answers.equipmentCost = prices.equipmentCost || 0;
   if (answers.markupMultiplier == null) answers.markupMultiplier = prices.markupMultiplier || 1.35;
@@ -177,9 +183,22 @@ export function buildSmartDefaults(category, message = "", businessSettings = {}
       else if (/repair/.test(lower)) answers.serviceType = "repair";
       else answers.serviceType = "diagnostic";
     }
-    if (answers.serviceType === "replacement" && (existing.materialCost == null)) {
-      answers.materialCost = Math.max(Number(answers.materialCost || 0), 4500);
-      answers.estimatedHours = Math.max(Number(answers.estimatedHours || 0), 6);
+    if (answers.serviceType === "replacement" || answers.serviceType === "installation") {
+      if (existing.materialCost == null) {
+        answers.materialCost = Math.max(Number(answers.materialCost || 0), answers.serviceType === "replacement" ? 4500 : 1200);
+      }
+      if (existing.estimatedHours == null) {
+        answers.estimatedHours = Math.max(Number(answers.estimatedHours || 0), answers.serviceType === "replacement" ? 6 : 4);
+      }
+    } else {
+      // Diagnostic / repair / maintenance should not inherit replacement material defaults.
+      if (existing.materialCost == null) answers.materialCost = 0;
+      if (answers.serviceType === "diagnostic") {
+        if (existing.estimatedHours == null) answers.estimatedHours = 1;
+        if (answers.diagnosticFee == null) answers.diagnosticFee = prices.diagnosticFee || 89;
+      } else if (answers.serviceType === "maintenance" && existing.estimatedHours == null) {
+        answers.estimatedHours = 1.5;
+      }
     }
   }
 
@@ -306,6 +325,38 @@ export function buildSmartDefaults(category, message = "", businessSettings = {}
     if (answers.visitMinutes == null) answers.visitMinutes = numberFromText(text, [/(\d+)\s*minutes?/i], 60);
     answers.estimatedHours = Number((Number(answers.visitMinutes) / 60).toFixed(2));
     answers.hourlyRate = answers.role === "physician" ? 225 : prices.shiftHourlyRN || prices.hourlyRate || 95;
+  }
+
+  if (category === "bakery-food") {
+    if (!answers.serviceType) {
+      answers.serviceType = pickOption(lower, ["cupcake assortment", "catering tray", "event dessert table", "wholesale bread", "wholesale pastries", "corporate breakfast", "holiday cookie boxes", "gluten-free specialty", "local delivery", "rush order", "custom cake"], "custom cake");
+    }
+    if (answers.guestCount == null) answers.guestCount = numberFromText(text, [/(\d+)\s*(?:guests?|servings?|people)/i], 24);
+    if (!answers.fulfillment) answers.fulfillment = pickOption(lower, ["delivery", "on-site event", "pickup"], /deliver/.test(lower) ? "delivery" : "pickup");
+    if (!answers.eventDate) answers.eventDate = "this weekend";
+    if (answers.estimatedHours == null) answers.estimatedHours = Math.max(2, Math.round(Number(answers.guestCount) / 18));
+    if (answers.materialCost == null) answers.materialCost = Math.round(Number(answers.guestCount) * (prices.perServing || 6.5) * 0.35);
+    answers.hourlyRate = prices.hourlyRate || 55;
+  }
+
+  if (category === "law-office") {
+    if (!answers.practiceArea) {
+      answers.practiceArea = pickOption(lower, ["contracts", "employment", "real estate", "estate planning", "family", "collections", "intellectual property", "general counsel", "business"], "business");
+    }
+    if (!answers.serviceType) {
+      answers.serviceType = pickOption(lower, ["document review", "contract drafting", "retainer block", "business formation", "employment advisory", "real estate closing", "estate planning", "court appearance", "demand letter", "compliance audit", "initial consultation"], "initial consultation");
+    }
+    if (!answers.urgency) answers.urgency = pickOption(lower, ["same-week hearing", "rush", "standard"], /rush|urgent|hearing/.test(lower) ? "rush" : "standard");
+    if (!answers.attorneyRole) {
+      answers.attorneyRole = /partner/.test(lower) ? "partner" : /paralegal/.test(lower) ? "paralegal with attorney review" : "associate";
+    }
+    if (answers.estimatedHours == null) {
+      answers.estimatedHours = /retainer/.test(String(answers.serviceType)) ? 10 : /appearance|closing|estate|formation/.test(String(answers.serviceType)) ? 5 : 2;
+    }
+    answers.hourlyRate = answers.attorneyRole === "partner" ? (prices.partnerHourly || 375) : answers.attorneyRole.includes("paralegal") ? (prices.paralegalHourly || 125) : (prices.associateHourly || prices.hourlyRate || 225);
+    if (answers.retainerAmount == null && /retainer/.test(String(answers.serviceType))) {
+      answers.retainerAmount = prices.retainerMinimum || 1500;
+    }
   }
 
   return answers;

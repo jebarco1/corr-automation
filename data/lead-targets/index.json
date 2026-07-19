@@ -118,6 +118,22 @@
       "residentialEndpoint": "/api/v1/leads/residential?category=healthcare",
       "huntB2b": "/api/v1/leads/b2b/hunt",
       "huntResidential": "/api/v1/leads/residential/hunt"
+    },
+    {
+      "category": "bakery-food",
+      "file": "data/lead-targets/bakery-food.json",
+      "b2bEndpoint": "/api/v1/leads/b2b?category=bakery-food",
+      "residentialEndpoint": "/api/v1/leads/residential?category=bakery-food",
+      "huntB2b": "/api/v1/leads/b2b/hunt",
+      "huntResidential": "/api/v1/leads/residential/hunt"
+    },
+    {
+      "category": "law-office",
+      "file": "data/lead-targets/law-office.json",
+      "b2bEndpoint": "/api/v1/leads/b2b?category=law-office",
+      "residentialEndpoint": "/api/v1/leads/residential?category=law-office",
+      "huntB2b": "/api/v1/leads/b2b/hunt",
+      "huntResidential": "/api/v1/leads/residential/hunt"
     }
   ]
 }

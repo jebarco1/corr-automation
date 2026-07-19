@@ -249,6 +249,51 @@ export const categories = [
       { key: "visitMinutes", question: "How many minutes should the visit or shift block cover?", type: "number", required: true },
       { key: "estimatedHours", question: "How many billable clinical hours are expected?", type: "number", required: true, api: "healthcare-nursing-visit-estimate" }
     ]
+  },
+  {
+    category: "bakery-food",
+    label: "Bakery & Food Services",
+    description: "Custom cakes, catering trays, wholesale bakery programs, delivery, and event dessert production.",
+    apis: ["bakery-order-profile", "bakery-production-estimate", "bakery-catering-estimate", "bakery-delivery-estimate", "bakery-wholesale-pricing"],
+    prompts: [
+      "Wedding cake for 120 guests with delivery",
+      "Corporate breakfast pastry trays for 40 people",
+      "Weekly wholesale bread for a Midtown cafe"
+    ],
+    questions: [
+      { key: "customer", question: "Who is the customer?", type: "object", required: true, example: { name: "Taylor Smith", email: "taylor@example.com" } },
+      { key: "serviceAddress", question: "What is the pickup or event address?", type: "string", required: true },
+      { key: "propertyType", question: "What type of property is this?", type: "select", options: ["residential", "commercial", "hoa", "multi-family", "industrial"], required: true },
+      { key: "serviceType", question: "Which bakery or food service is needed?", type: "select", options: ["custom cake", "cupcake assortment", "catering tray", "event dessert table", "wholesale bread", "wholesale pastries", "corporate breakfast", "holiday cookie boxes", "gluten-free specialty", "local delivery", "rush order"], required: true, api: "bakery-order-profile" },
+      { key: "guestCount", question: "How many guests or servings are expected?", type: "number", required: true },
+      { key: "fulfillment", question: "Is this pickup or delivery?", type: "select", options: ["pickup", "delivery", "on-site event"], required: true },
+      { key: "eventDate", question: "What is the needed-by or event date?", type: "string", required: true },
+      { key: "dietaryNotes", question: "Any allergen or dietary requirements?", type: "string", required: false },
+      { key: "estimatedHours", question: "How many production labor hours are expected?", type: "number", required: true, api: "bakery-production-estimate" },
+      { key: "materialCost", question: "What ingredient and packaging cost is expected?", type: "currency", required: true, api: "bakery-catering-estimate" }
+    ]
+  },
+  {
+    category: "law-office",
+    label: "Law Office",
+    description: "Consultations, document review/drafting, retainers, court appearances, and small-business legal packages.",
+    apis: ["law-office-matter-profile", "law-office-consultation-estimate", "law-office-document-estimate", "law-office-retainer-estimate", "law-office-appearance-estimate"],
+    prompts: [
+      "Contract review for a vendor agreement",
+      "Business formation package for a new LLC",
+      "Estate planning consult and basic will package"
+    ],
+    questions: [
+      { key: "customer", question: "Who is the client?", type: "object", required: true, example: { name: "Taylor Smith", email: "taylor@example.com" } },
+      { key: "serviceAddress", question: "What is the primary client or matter address?", type: "string", required: true },
+      { key: "propertyType", question: "What type of property/context is this?", type: "select", options: ["residential", "commercial", "hoa", "multi-family", "industrial"], required: true },
+      { key: "practiceArea", question: "What practice area applies?", type: "select", options: ["business", "contracts", "employment", "real estate", "estate planning", "family", "collections", "intellectual property", "general counsel"], required: true, api: "law-office-matter-profile" },
+      { key: "serviceType", question: "Which legal service is needed?", type: "select", options: ["initial consultation", "document review", "contract drafting", "retainer block", "business formation", "employment advisory", "real estate closing", "estate planning", "court appearance", "demand letter", "compliance audit"], required: true },
+      { key: "urgency", question: "How urgent is the matter?", type: "select", options: ["standard", "rush", "same-week hearing"], required: true },
+      { key: "attorneyRole", question: "Which role should primarily staff the matter?", type: "select", options: ["partner", "associate", "paralegal with attorney review"], required: true },
+      { key: "estimatedHours", question: "How many billable hours are expected?", type: "number", required: true, api: "law-office-consultation-estimate" },
+      { key: "retainerAmount", question: "What retainer amount should be proposed (if any)?", type: "currency", required: false, api: "law-office-retainer-estimate" }
+    ]
   }
 ];
 

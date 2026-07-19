@@ -197,7 +197,36 @@ const healthcare = {
   "/healthcare/contracts/pricing":"healthcare-contract-pricing"
 };
 
-for (const [path,type] of Object.entries({...landscape,...hvac,...cleaning,...pestControl,...poolService,...painting,...roofing,...plumbing,...electrical,...generalContracting,...surveillance,...trashRemoval,...transportation,...healthcare})) router.post(path, execute(type));
+const bakeryFood = {
+  "/bakery-food/order/profile":"bakery-order-profile",
+  "/bakery-food/estimates/production":"bakery-production-estimate",
+  "/bakery-food/estimates/catering":"bakery-catering-estimate",
+  "/bakery-food/estimates/delivery":"bakery-delivery-estimate",
+  "/bakery-food/estimates/wholesale":"bakery-wholesale-pricing",
+  "/bakery-food/estimates/rush":"bakery-rush-pricing",
+  "/bakery-food/estimates/class":"bakery-class-estimate",
+  "/bakery-food/estimates/staffing":"bakery-staffing-estimate",
+  "/bakery-food/production/schedule":"bakery-production-schedule",
+  "/bakery-food/production/capacity":"bakery-production-capacity",
+  "/bakery-food/allergen/check":"bakery-allergen-check",
+  "/bakery-food/routing/optimize":"bakery-route-optimize",
+  "/bakery-food/contracts/pricing":"bakery-contract-pricing"
+};
+
+const lawOffice = {
+  "/law-office/matter/profile":"law-office-matter-profile",
+  "/law-office/estimates/consultation":"law-office-consultation-estimate",
+  "/law-office/estimates/document":"law-office-document-estimate",
+  "/law-office/estimates/retainer":"law-office-retainer-estimate",
+  "/law-office/estimates/appearance":"law-office-appearance-estimate",
+  "/law-office/estimates/package":"law-office-package-estimate",
+  "/law-office/estimates/closing":"law-office-closing-estimate",
+  "/law-office/scheduling/appearance":"law-office-scheduling",
+  "/law-office/compliance/review":"law-office-compliance-review",
+  "/law-office/contracts/pricing":"law-office-contract-pricing"
+};
+
+for (const [path,type] of Object.entries({...landscape,...hvac,...cleaning,...pestControl,...poolService,...painting,...roofing,...plumbing,...electrical,...generalContracting,...surveillance,...trashRemoval,...transportation,...healthcare,...bakeryFood,...lawOffice})) router.post(path, execute(type));
 
 // Shared cross-industry APIs
 const shared = {

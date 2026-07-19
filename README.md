@@ -38,6 +38,8 @@ Update `src/config/apiVersion.js` when cutting a new Class.
 - `/api/v1/trash-removal/...`
 - `/api/v1/transportation/...`
 - `/api/v1/healthcare/...` (Nursing & Doctors)
+- `/api/v1/bakery-food/...` (Bakery & Food Services)
+- `/api/v1/law-office/...` (Law Office)
 
 List every category with its description:
 
@@ -206,7 +208,7 @@ npm install
 npm run dev
 ```
 
-Open the home page at `http://localhost:3000/` — the **Autopilot** tab runs a live simulation of hunt → quote → schedule → pay for one category (no provider spend). The AI chatbot tab calls `/api/v1/ai/assistant`. Category prompts are local; OpenAI uses `OPENAI_API_KEY` from your local `.env` only.
+Open the home page at `http://localhost:3000/` — the **Autopilot** tab runs a live simulation of hunt → quote → schedule → pay for one category (no provider spend). When a cycle finishes, a **results page** lists every lead and job, shows revenue / ROI / open pipeline value, and ranks **suggested next moves** (call nurture leads, close quotes, confirm jobs, open Vendor Ops, share booking). Click any pipeline card mid-run to inspect details. The AI chatbot tab calls `/api/v1/ai/assistant`. Category prompts are local; OpenAI uses `OPENAI_API_KEY` from your local `.env` only.
 
 Open Swagger at `http://localhost:3000/docs`. Raw OpenAPI: `http://localhost:3000/openapi.yaml`.
 

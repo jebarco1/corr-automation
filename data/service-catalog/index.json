@@ -114,6 +114,22 @@
       "serviceCount": 14,
       "defaultServiceId": "nursing-visit",
       "endpoint": "/api/v1/healthcare/services"
+    },
+    {
+      "category": "bakery-food",
+      "label": "Bakery & Food Services",
+      "file": "data/service-catalog/bakery-food.json",
+      "serviceCount": 14,
+      "defaultServiceId": "custom-cake",
+      "endpoint": "/api/v1/bakery-food/services"
+    },
+    {
+      "category": "law-office",
+      "label": "Law Office",
+      "file": "data/service-catalog/law-office.json",
+      "serviceCount": 14,
+      "defaultServiceId": "initial-consultation",
+      "endpoint": "/api/v1/law-office/services"
     }
   ]
 }

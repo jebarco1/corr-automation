@@ -1,0 +1,408 @@
+{
+  "category": "bakery-food",
+  "label": "Bakery & Food Services",
+  "description": "Custom cakes, catering trays, wholesale bakery programs, delivery, and event dessert production.",
+  "version": 1,
+  "updatedAt": "2026-07-19T18:45:00.000Z",
+  "defaultServiceId": "custom-cake",
+  "services": [
+    {
+      "id": "custom-cake",
+      "name": "Custom Cake Order",
+      "description": "Celebration or wedding cake designed to guest count.",
+      "aliases": [
+        "wedding cake",
+        "birthday cake",
+        "custom cake"
+      ],
+      "billingUnit": "order",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "bakery-order-profile",
+        "bakery-production-estimate"
+      ],
+      "active": true,
+      "quoteKey": "custom cake",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "cupcake-assortment",
+      "name": "Cupcake Assortment",
+      "description": "Boxed cupcakes for parties and office events.",
+      "aliases": [
+        "cupcakes",
+        "cupcake box"
+      ],
+      "billingUnit": "dozen",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "bakery-order-profile",
+        "bakery-production-estimate"
+      ],
+      "active": true,
+      "quoteKey": "cupcake assortment",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "catering-tray",
+      "name": "Catering Tray / Platter",
+      "description": "Pastry or sandwich trays for meetings and receptions.",
+      "aliases": [
+        "catering tray",
+        "pastry platter",
+        "office catering"
+      ],
+      "billingUnit": "tray",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "bakery-catering-estimate",
+        "bakery-production-schedule"
+      ],
+      "active": true,
+      "quoteKey": "catering tray",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "event-dessert-table",
+      "name": "Event Dessert Table",
+      "description": "Full dessert station for weddings and corporate events.",
+      "aliases": [
+        "dessert table",
+        "sweet table"
+      ],
+      "billingUnit": "event",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 8,
+      "relatedApis": [
+        "bakery-catering-estimate",
+        "bakery-production-estimate"
+      ],
+      "active": true,
+      "quoteKey": "event dessert table",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "wholesale-bread",
+      "name": "Wholesale Bread Program",
+      "description": "Recurring wholesale bread for cafes and restaurants.",
+      "aliases": [
+        "wholesale bread",
+        "bread program"
+      ],
+      "billingUnit": "loaf",
+      "typicalFrequency": [
+        "daily",
+        "weekly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 6,
+      "relatedApis": [
+        "bakery-wholesale-pricing",
+        "bakery-production-capacity"
+      ],
+      "active": true,
+      "quoteKey": "wholesale bread",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "pastry-wholesale",
+      "name": "Wholesale Pastries",
+      "description": "Croissants, muffins, and morning pastries for retail partners.",
+      "aliases": [
+        "pastry wholesale",
+        "morning pastries"
+      ],
+      "billingUnit": "dozen",
+      "typicalFrequency": [
+        "daily",
+        "weekly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 5,
+      "relatedApis": [
+        "bakery-wholesale-pricing",
+        "bakery-production-schedule"
+      ],
+      "active": true,
+      "quoteKey": "wholesale pastries",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "corporate-breakfast",
+      "name": "Corporate Breakfast Spread",
+      "description": "Breakfast boxes and pastry boards for offices.",
+      "aliases": [
+        "corporate breakfast",
+        "office breakfast"
+      ],
+      "billingUnit": "order",
+      "typicalFrequency": [
+        "one-time",
+        "weekly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "bakery-catering-estimate",
+        "bakery-delivery-estimate"
+      ],
+      "active": true,
+      "quoteKey": "corporate breakfast",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "holiday-cookie-boxes",
+      "name": "Holiday Cookie Boxes",
+      "description": "Gift boxes and seasonal cookie assortments.",
+      "aliases": [
+        "cookie boxes",
+        "holiday cookies"
+      ],
+      "billingUnit": "box",
+      "typicalFrequency": [
+        "seasonal"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "bakery-order-profile",
+        "bakery-production-estimate"
+      ],
+      "active": true,
+      "quoteKey": "holiday cookie boxes",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "gluten-free-specialty",
+      "name": "Gluten-Free / Allergy Bake",
+      "description": "Specialty bake with allergen controls.",
+      "aliases": [
+        "gluten free",
+        "allergy bake",
+        "vegan bakery"
+      ],
+      "billingUnit": "order",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "bakery-order-profile",
+        "bakery-allergen-check"
+      ],
+      "active": true,
+      "quoteKey": "gluten-free specialty",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "local-delivery",
+      "name": "Local Bakery Delivery",
+      "description": "Same-day or scheduled delivery of bakery orders.",
+      "aliases": [
+        "bakery delivery",
+        "cake delivery"
+      ],
+      "billingUnit": "delivery",
+      "typicalFrequency": [
+        "one-time",
+        "daily"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1.5,
+      "relatedApis": [
+        "bakery-delivery-estimate",
+        "bakery-route-optimize"
+      ],
+      "active": true,
+      "quoteKey": "local delivery",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "pop-up-booth",
+      "name": "Pop-Up / Market Booth",
+      "description": "Staffed booth production and sell-through for markets.",
+      "aliases": [
+        "farmers market booth",
+        "pop-up bakery"
+      ],
+      "billingUnit": "day",
+      "typicalFrequency": [
+        "as-needed"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 8,
+      "relatedApis": [
+        "bakery-production-capacity",
+        "bakery-staffing-estimate"
+      ],
+      "active": true,
+      "quoteKey": "pop-up booth",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "private-baking-class",
+      "name": "Private Baking Class",
+      "description": "Hands-on class for teams or private groups.",
+      "aliases": [
+        "baking class",
+        "team baking"
+      ],
+      "billingUnit": "session",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "bakery-class-estimate"
+      ],
+      "active": true,
+      "quoteKey": "private baking class",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "cafe-daily-bake",
+      "name": "Cafe Daily Bake Plan",
+      "description": "Production plan for in-house cafe cases.",
+      "aliases": [
+        "daily bake plan",
+        "cafe bake"
+      ],
+      "billingUnit": "day",
+      "typicalFrequency": [
+        "daily"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 6,
+      "relatedApis": [
+        "bakery-production-schedule",
+        "bakery-production-capacity"
+      ],
+      "active": true,
+      "quoteKey": "cafe daily bake",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "rush-order",
+      "name": "Rush / Same-Day Order",
+      "description": "Expedited bake with rush premium.",
+      "aliases": [
+        "rush cake",
+        "same day bakery"
+      ],
+      "billingUnit": "order",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "bakery-order-profile",
+        "bakery-rush-pricing"
+      ],
+      "active": true,
+      "quoteKey": "rush order",
+      "inGuidedWorkflow": true
+    }
+  ]
+}

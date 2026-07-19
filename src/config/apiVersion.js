@@ -13,9 +13,9 @@ export const apiVersions = Object.freeze([
     apiPath: "v1",
     status: "current",
     releasedAt: "2026-07-17",
-    description: "Current HA-Corr Automation release with multi-trade starter calculations, guided workflows, AI orchestration, categories catalog, transportation, and healthcare (nursing & doctors).",
+    description: "Current HA-Corr Automation release with multi-trade starter calculations, guided workflows, AI orchestration, categories catalog, bakery/food services, and law office.",
     highlights: [
-      "14 industry namespaces including transportation and healthcare",
+      "16 industry namespaces including bakery-food and law-office",
       "Guided start-to-invoice workflows",
       "AI-first authenticated workflow",
       "GET /categories catalog with descriptions",

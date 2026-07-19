@@ -28,7 +28,9 @@ const categoryLabels = {
   surveillance: "Surveillance",
   "trash-removal": "Trash Removal",
   transportation: "Transportation",
-  healthcare: "Nursing & Doctors"
+  healthcare: "Nursing & Doctors",
+  "bakery-food": "Bakery & Food Services",
+  "law-office": "Law Office"
 };
 
 const categoryWords = {
@@ -39,7 +41,9 @@ const categoryWords = {
   "general-contract":["remodel","construction","contractor","build-out"], surveillance:["camera","surveillance","security system","nvr"],
   "trash-removal":["trash","junk","dumpster","debris","haul"],
   transportation:["transport","moving","local move","long haul","delivery","freight","pickup","dropoff","relocate","truckload","courier"," move","mover","apartment move","house move"],
-  healthcare:["nurse","nursing","rn ","lpn","doctor","physician","home health","home visit","patient","clinical","medical staffing","hospice","care plan"]
+  healthcare:["nurse","nursing","rn ","lpn","doctor","physician","home health","home visit","patient","clinical","medical staffing","hospice","care plan"],
+  "bakery-food":["bakery","cake","cupcake","pastry","catering tray","dessert table","wholesale bread","cookie box","gluten-free bake","food service catering"],
+  "law-office":["lawyer","attorney","law office","legal consult","contract review","retainer","court appearance","estate planning","trademark filing","demand letter"]
 };
 
 function inferCategoryLocally(message="") {
@@ -194,12 +198,34 @@ function automationNotes(workflow) {
 }
 
 function invoiceReply(invoice, workflow) {
-  const address = workflow?.answers?.matchedAddress || workflow?.answers?.serviceAddress || workflow?.answers?.pickupAddress || "";
-  return [
-    `Draft quote **${invoice.invoiceNumber}** is ready for **$${Number(invoice.total).toFixed(2)}** ${invoice.currency}.`,
-    address ? `Job site: ${address}.` : null,
-    "Review line items in the side panel — edit assumptions anytime and regenerate."
-  ].filter(Boolean).join(" ");
+  const answers = workflow?.answers || {};
+  const parcel = {
+    address: answers.matchedAddress || answers.serviceAddress || answers.pickupAddress || null,
+    squareFeet: answers.squareFeet ?? null,
+    lotSquareFeet: answers.lotSquareFeet ?? null,
+    buildingSquareFeet: answers.buildingSquareFeet ?? null,
+    acres: answers.acres ?? null,
+    parcelId: answers.parcelId ?? null
+  };
+  const service = answers.serviceType
+    ? { name: String(answers.serviceType).replace(/\b\w/g, c => c.toUpperCase()), id: answers.serviceId || null }
+    : null;
+  const lines = ["Quote result"];
+  if (service?.name) lines.push(`Service: ${service.name}${service.id ? ` (${service.id})` : ""}`);
+  if (parcel.address) lines.push(`Parcel address: ${parcel.address}`);
+  if (parcel.squareFeet != null) lines.push(`Measured area: ${Number(parcel.squareFeet).toLocaleString()} sqft`);
+  if (parcel.lotSquareFeet != null && parcel.lotSquareFeet !== parcel.squareFeet) {
+    lines.push(`Lot size: ${Number(parcel.lotSquareFeet).toLocaleString()} sqft${parcel.acres != null ? ` (${parcel.acres} acres)` : ""}`);
+  }
+  if (parcel.parcelId) lines.push(`Parcel ID: ${parcel.parcelId}`);
+  lines.push(`Draft quote ${invoice.invoiceNumber} is ready for $${Number(invoice.total).toFixed(2)} ${invoice.currency}.`);
+  if (Array.isArray(invoice.lineItems) && invoice.lineItems.length) {
+    lines.push("Line items:");
+    for (const item of invoice.lineItems.slice(0, 6)) {
+      lines.push(`- ${item.description}: $${Number(item.amount).toFixed(2)}`);
+    }
+  }
+  return lines.join("\n");
 }
 
 function maybeCreateInvoice(sessionId, input = {}) {

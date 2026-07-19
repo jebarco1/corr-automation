@@ -1,0 +1,84 @@
+{
+  "category": "bakery-food",
+  "version": 2,
+  "updatedAt": "2026-07-19T18:45:00.000Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "usePilotCities": true,
+  "segments": [
+    "b2b",
+    "residential"
+  ],
+  "customerTypes": [
+    "cafe",
+    "restaurant",
+    "hotel banquet",
+    "corporate office",
+    "event venue"
+  ],
+  "intentPhrases": [
+    "catering bakery",
+    "wholesale pastry supplier",
+    "office breakfast catering"
+  ],
+  "excludeKeywords": [
+    "bakery jobs",
+    "pastry chef hiring",
+    "we sell cakes online"
+  ],
+  "suggestedServiceIds": [
+    "custom-cake",
+    "catering-tray",
+    "wholesale-bread"
+  ],
+  "queryTemplates": [
+    "{customerType} in {city} {state}",
+    "{customerType} {city} {state} contact",
+    "{intentPhrase} {city} {state}"
+  ],
+  "b2b": {
+    "customerTypes": [
+      "cafe",
+      "restaurant",
+      "hotel banquet",
+      "corporate office",
+      "event venue"
+    ],
+    "intentPhrases": [
+      "catering bakery",
+      "wholesale pastry supplier",
+      "office breakfast catering"
+    ],
+    "excludeKeywords": [
+      "bakery jobs",
+      "pastry chef hiring",
+      "we sell cakes online"
+    ],
+    "suggestedServiceIds": [
+      "catering-tray",
+      "wholesale-bread",
+      "corporate-breakfast"
+    ]
+  },
+  "residential": {
+    "customerTypes": [
+      "wedding venue",
+      "HOA clubhouse",
+      "private event host"
+    ],
+    "intentPhrases": [
+      "wedding cake bakery",
+      "custom cake order",
+      "dessert table catering"
+    ],
+    "excludeKeywords": [
+      "bakery jobs",
+      "recipe blog",
+      "grocery store bakery"
+    ],
+    "suggestedServiceIds": [
+      "custom-cake",
+      "event-dessert-table",
+      "cupcake-assortment"
+    ]
+  }
+}

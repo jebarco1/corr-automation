@@ -458,7 +458,7 @@ function App() {
 
         {error && <div className="error">{error}</div>}
 
-        {tab === "autopilot" && <AutopilotDemo />}
+        {tab === "autopilot" && <AutopilotDemo onOpenVendor={() => setTab("vendor")} />}
         {tab === "vendor" && <VendorOps />}
 
         {tab === "workflow" && (
@@ -716,6 +716,46 @@ function App() {
                 </>
               )}
             </div>
+
+            {(invoice || (parcel && selectedService)) && (
+              <div className="card quote-result landing-span">
+                <div className="panel-head">
+                  <h3>Quote result</h3>
+                  <span className={`step ${invoice ? "success" : ""}`}>{invoice ? "DRAFT READY" : "IN PROGRESS"}</span>
+                </div>
+                <dl className="mini-dl">
+                  <div><dt>Service</dt><dd>{selectedService?.name || session?.answers?.serviceType || "—"}{selectedService?.id ? ` (${selectedService.id})` : ""}</dd></div>
+                  <div><dt>Parcel address</dt><dd>{parcel?.address || session?.answers?.matchedAddress || session?.answers?.serviceAddress || "—"}</dd></div>
+                  <div><dt>Measured area</dt><dd>{parcel?.squareFeet != null ? `${Number(parcel.squareFeet).toLocaleString()} sqft` : "—"}</dd></div>
+                  <div><dt>Lot size</dt><dd>{
+                    parcel?.lotSquareFeet != null
+                      ? `${Number(parcel.lotSquareFeet).toLocaleString()} sqft${parcel?.acres != null ? ` (${parcel.acres} acres)` : ""}`
+                      : "—"
+                  }</dd></div>
+                  <div><dt>Parcel ID</dt><dd>{parcel?.parcelId || "—"}</dd></div>
+                  {invoice && (
+                    <>
+                      <div><dt>Quote #</dt><dd>{invoice.invoiceNumber}</dd></div>
+                      <div><dt>Total</dt><dd>${Number(invoice.total).toFixed(2)} {invoice.currency}</dd></div>
+                    </>
+                  )}
+                </dl>
+                {invoice?.lineItems?.length > 0 && (
+                  <>
+                    <h3>Line items</h3>
+                    <ul className="simple-list">
+                      {invoice.lineItems.map((item, index) => (
+                        <li key={`${item.description}-${index}`}>
+                          <strong>{item.description}</strong>
+                          <small>{item.quantity} {item.unit} · {item.sourceApi || "estimate"}</small>
+                          <span>${Number(item.amount).toFixed(2)}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+              </div>
+            )}
 
             {invoice && <Invoice invoice={invoice} />}
           </section>

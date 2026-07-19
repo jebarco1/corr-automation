@@ -28,7 +28,9 @@ const CATEGORY_EXPANSION = {
   surveillance: ["access control", "alarm monitoring", "commercial multi-site", "retention upgrades"],
   "trash-removal": ["dumpster rental", "recurring commercial", "construction debris", "estate cleanouts"],
   transportation: ["same-day delivery", "white-glove moving", "materials haul for trades", "recurring B2B routes"],
-  healthcare: ["physician house calls", "chronic care management", "private duty shifts", "post-acute follow-up"]
+  healthcare: ["physician house calls", "chronic care management", "private duty shifts", "post-acute follow-up"],
+  "bakery-food": ["wholesale cafe program", "wedding dessert tables", "corporate breakfast routes", "allergen-friendly specialty"],
+  "law-office": ["business formation packages", "monthly GC retainer", "estate planning clinics", "real estate closing desk"]
 };
 
 function money(value) {

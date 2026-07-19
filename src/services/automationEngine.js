@@ -125,7 +125,7 @@ export function runAutomation(type, input = {}) {
   }
 
 
-  const tradePrefixes = ["pest-","termite-","pesticide-","pool-","paint-","roof-","plumbing-","water-heater-","backflow-","sewer-","electrical-","gc-","camera-","surveillance-","trash-","dumpster-","transport-","healthcare-"];
+  const tradePrefixes = ["pest-","termite-","pesticide-","pool-","paint-","roof-","plumbing-","water-heater-","backflow-","sewer-","electrical-","gc-","camera-","surveillance-","trash-","dumpster-","transport-","healthcare-","bakery-","law-office-"];
   if (tradePrefixes.some(prefix => type.startsWith(prefix))) {
     const trade = type.startsWith("pest-")||type.startsWith("termite-")||type.startsWith("pesticide-") ? "pest-control" :
       type.startsWith("pool-") ? "pool-service" : type.startsWith("paint-") ? "painting" : type.startsWith("roof-") ? "roofing" :
@@ -134,21 +134,49 @@ export function runAutomation(type, input = {}) {
       type.startsWith("camera-")||type.startsWith("surveillance-") ? "surveillance" :
       type.startsWith("trash-")||type.startsWith("dumpster-") ? "trash-removal" :
       type.startsWith("transport-") ? "transportation" :
-      type.startsWith("healthcare-") ? "healthcare" : "multi-trade";
+      type.startsWith("healthcare-") ? "healthcare" :
+      type.startsWith("bakery-") ? "bakery-food" :
+      type.startsWith("law-office-") ? "law-office" : "multi-trade";
     const area = n(input.squareFeet || input.areaSquareFeet, 2500);
-    const miles = n(input.distanceMiles || input.miles, type.includes("long-haul") ? 250 : type.includes("delivery") ? 12 : 25);
+    const miles = n(input.distanceMiles || input.miles, type.includes("long-haul") ? 250 : type.includes("delivery") || type.startsWith("bakery-") ? 12 : 25);
     const volumeCuFt = n(input.volumeCubicFeet || input.cubicFeet, n(input.volumeCubicYards, 0) * 27 || Math.max(80, area * 0.04));
     const weightLbs = n(input.weightLbs || input.weightPounds, Math.max(200, volumeCuFt * 7));
     const acuity = String(input.acuityLevel || input.acuity || "moderate").toLowerCase();
     const acuityFactor = acuity.includes("critical") || acuity.includes("high") ? 1.45 : acuity.includes("low") ? 0.85 : 1;
-    const roleRate = type.includes("physician") ? 225 : type.includes("nursing") || type.includes("shift") ? 95 : type.startsWith("healthcare-") ? 110 : type.startsWith("transport-") ? 75 : 85;
-    const hours = round(n(input.estimatedHours, type.startsWith("transport-") ? Math.max(1.5, miles / 22 + volumeCuFt / 180) : type.startsWith("healthcare-") ? Math.max(0.75, n(input.visitMinutes, 60) / 60 * acuityFactor) : Math.max(1, area / 1250)));
+    const guestCount = n(input.guestCount || input.servings, 24);
+    const attorneyRole = String(input.attorneyRole || input.role || "associate").toLowerCase();
+    const roleRate = type.includes("physician") ? 225
+      : type.includes("nursing") || type.includes("shift") ? 95
+      : type.startsWith("healthcare-") ? 110
+      : type.startsWith("transport-") ? 75
+      : type.startsWith("bakery-") ? 55
+      : type.startsWith("law-office-")
+        ? (attorneyRole.includes("partner") ? 375 : attorneyRole.includes("paralegal") ? 125 : 225)
+      : 85;
+    const hours = round(n(input.estimatedHours,
+      type.startsWith("transport-") ? Math.max(1.5, miles / 22 + volumeCuFt / 180)
+      : type.startsWith("healthcare-") ? Math.max(0.75, n(input.visitMinutes, 60) / 60 * acuityFactor)
+      : type.startsWith("bakery-") ? Math.max(1.5, guestCount / 18)
+      : type.startsWith("law-office-") ? Math.max(1, n(input.billableHours, type.includes("retainer") ? 10 : type.includes("appearance") ? 3 : 2))
+      : Math.max(1, area / 1250)));
     const labor = round(hours * n(input.hourlyRate, roleRate) * Math.max(1,n(input.crewSize, type.startsWith("transport-") ? 2 : 1)));
-    const materials = round(n(input.materialCost, type.startsWith("transport-") ? n(input.packingMaterialsCost, volumeCuFt * 0.35) : type.startsWith("healthcare-") ? n(input.supplyCost, hours * 12) : area * 0.18));
+    const materials = round(n(input.materialCost,
+      type.startsWith("transport-") ? n(input.packingMaterialsCost, volumeCuFt * 0.35)
+      : type.startsWith("healthcare-") ? n(input.supplyCost, hours * 12)
+      : type.startsWith("bakery-") ? n(input.ingredientCost, guestCount * n(input.perServing, 6.5) * 0.35)
+      : type.startsWith("law-office-") ? n(input.filingFees, type.includes("package") || type.includes("closing") ? 175 : 0)
+      : area * 0.18));
     const fuelCost = round(n(input.fuelCost, miles * n(input.fuelCostPerMile, 0.85)));
     const tolls = round(n(input.tolls, miles > 40 ? miles * 0.08 : 0));
-    const price = round((labor + materials + n(input.equipmentCost,0) + n(input.disposalCost,0) + (type.startsWith("transport-") ? fuelCost + tolls : 0)) * n(input.markupMultiplier, type.startsWith("healthcare-") ? 1.25 : 1.35));
-    const data = { module: trade, status: "starter-calculation", estimatedLaborHours: hours, estimatedCost: round(labor+materials+(type.startsWith("transport-")?fuelCost+tolls:0)), suggestedPrice: price, confidence: 0.7 };
+    const deliveryFee = type.startsWith("bakery-") && String(input.fulfillment || "").includes("delivery")
+      ? round(n(input.deliveryFee, 25 + miles * 1.5))
+      : 0;
+    const rushMultiplier = type.startsWith("bakery-") && (type.includes("rush") || String(input.urgency || "").includes("rush") || String(input.serviceType || "").includes("rush"))
+      ? n(input.rushMultiplier, 1.35)
+      : 1;
+    const markup = type.startsWith("healthcare-") || type.startsWith("law-office-") ? 1.25 : type.startsWith("bakery-") ? 1.45 : 1.35;
+    const price = round((labor + materials + n(input.equipmentCost,0) + n(input.disposalCost,0) + deliveryFee + (type.startsWith("transport-") ? fuelCost + tolls : 0)) * n(input.markupMultiplier, markup) * rushMultiplier);
+    const data = { module: trade, status: "starter-calculation", estimatedLaborHours: hours, estimatedCost: round(labor+materials+deliveryFee+(type.startsWith("transport-")?fuelCost+tolls:0)), suggestedPrice: price, confidence: 0.7 };
 
     if (type.includes("property-profile") || type==="healthcare-patient-profile") Object.assign(data,{address:input.address,pickupAddress:input.pickupAddress||input.address,dropoffAddress:input.dropoffAddress||input.destinationAddress||null,propertyType:input.propertyType||"residential",squareFeet:area,units:n(input.units,1),accessNotes:input.accessNotes||null});
     if (type.includes("estimate") || type.includes("pricing") || type.includes("calculator") || type==="healthcare-coding-suggest") Object.assign(data,{laborCost:labor,materialCost:materials,equipmentCost:n(input.equipmentCost,0),disposalCost:n(input.disposalCost,0),markupPercent:round((n(input.markupMultiplier, type.startsWith("healthcare-") ? 1.25 : 1.35)-1)*100)});
@@ -183,7 +211,20 @@ export function runAutomation(type, input = {}) {
     if (type==="healthcare-coding-suggest") Object.assign(data,{suggestedCodes:input.suggestedCodes||[{system:"CPT",code:type.includes("physician")||input.role==="physician"?"99347":"99500",description:"Home visit starter code suggestion"},{system:"ICD-10",code:input.primaryDiagnosisCode||"Z51.89",description:"Encounter for other specified aftercare"}],billingCaution:"Coding suggestions are starter placeholders and require certified coding / clinician review.",payerType:input.payerType||"private"});
     if (type==="healthcare-supplies-requirements") Object.assign(data,{items:input.items||[{name:"gloves",quantity:10},{name:"blood pressure cuff",quantity:1},{name:"wound care kit",quantity:n(input.woundCareKits,0)}],supplyCost:materials,sterileRequired:Boolean(input.sterileRequired)});
     if (type==="healthcare-symptom-triage") Object.assign(data,{triageLevel:acuity.includes("critical")?"emergency":acuity.includes("high")?"urgent":"routine",nextStep:acuity.includes("critical")?"seek emergency care now":"schedule clinician evaluation",symptoms:input.symptoms||[],disclaimer:"Not a diagnosis. For informational routing only. Escalate per clinical protocol.",clinicalReviewRequired:true});
-    if (type.includes("compliance") || type.includes("manifest") || type.includes("retention-policy") || type.includes("lead-risk") || type==="transport-bol" || type.startsWith("healthcare-")) Object.assign(data,{complianceStatus:"review_required",warning:type.startsWith("healthcare-")?"Clinical, credentialing, HIPAA/privacy, payer, and licensing requirements must be verified by qualified professionals before care delivery or billing.":"Confirm licensing, product labels, permits, privacy rules, disposal rules, carrier authority, and local code before execution."});
+    if (type==="bakery-order-profile") Object.assign(data,{serviceType:input.serviceType||"custom cake",guestCount,servings:guestCount,fulfillment:input.fulfillment||"pickup",eventDate:input.eventDate||input.requestedDate||null,dietaryNotes:input.dietaryNotes||null,flavor:input.flavor||null,address:input.address||input.serviceAddress||null});
+    if (type==="bakery-production-estimate" || type==="bakery-catering-estimate" || type==="bakery-rush-pricing") Object.assign(data,{guestCount,servings:guestCount,productionHours:hours,ingredientCost:materials,deliveryFee,rushMultiplier,laborCost:labor,suggestedPrice:price,perServing:round(price/Math.max(1,guestCount),2)});
+    if (type==="bakery-delivery-estimate") Object.assign(data,{distanceMiles:miles,deliveryFee:round(n(input.deliveryFee,25+miles*1.5)),fulfillment:"delivery",etaMinutes:Math.round(miles/n(input.averageSpeedMph,22)*60)+20,suggestedPrice:round(n(input.deliveryFee,25+miles*1.5))});
+    if (type==="bakery-wholesale-pricing") Object.assign(data,{unitType:input.unitType||"loaf",unitPrice:n(input.wholesaleLoaf||input.unitPrice,4.25),quantity:n(input.quantity,guestCount||48),weeklyVolume:n(input.weeklyVolume,n(input.quantity,48)*5),suggestedPrice:round(n(input.wholesaleLoaf||input.unitPrice,4.25)*n(input.quantity,guestCount||48))});
+    if (type==="bakery-production-schedule" || type==="bakery-production-capacity") Object.assign(data,{bakeSlots:n(input.bakeSlots,3),ovenHoursAvailable:n(input.ovenHoursAvailable,10),requiredOvenHours:hours,capacityStatus:hours<=n(input.ovenHoursAvailable,10)?"adequate":"overbooked",recommendedStart:input.productionStart||"04:00"});
+    if (type==="bakery-allergen-check") Object.assign(data,{allergens:input.allergens||["gluten","dairy","eggs","nuts"].filter(a=>String(input.dietaryNotes||"").toLowerCase().includes(a)||a==="gluten"),controls:["dedicated utensils","label packaging","confirm ingredients"],surcharge:n(input.allergenSurcharge,18),status:"review_required"});
+    if (type==="bakery-class-estimate" || type==="bakery-staffing-estimate") Object.assign(data,{attendees:n(input.attendees,guestCount||8),staffCount:Math.max(1,n(input.staffCount,Math.ceil(n(input.attendees,guestCount||8)/6))),sessionHours:hours,suggestedPrice:price});
+    if (type==="bakery-route-optimize") Object.assign(data,{stops:n(input.stops,Math.max(2,n(input.stopCount,4))),distanceMiles:miles,etaMinutes:Math.round(miles/n(input.averageSpeedMph,22)*60),routeStatus:"optimization_provider_optional"});
+    if (type==="law-office-matter-profile") Object.assign(data,{matterId:input.matterId||id("matter"),practiceArea:input.practiceArea||"business",serviceType:input.serviceType||"initial consultation",urgency:input.urgency||"standard",attorneyRole:input.attorneyRole||attorneyRole,clientName:input.customer?.name||input.clientName||null,opposingParty:input.opposingParty||null,jurisdiction:input.jurisdiction||input.state||null,summary:input.matterSummary||input.notes||null});
+    if (type==="law-office-consultation-estimate" || type==="law-office-document-estimate" || type==="law-office-appearance-estimate" || type==="law-office-package-estimate" || type==="law-office-closing-estimate") Object.assign(data,{attorneyRole:input.attorneyRole||attorneyRole,billableHours:hours,hourlyRate:n(input.hourlyRate,roleRate),filingFees:materials,appearanceFee:type.includes("appearance")?n(input.appearanceFee,450):0,suggestedPrice:price,ethicalReviewRequired:true});
+    if (type==="law-office-retainer-estimate") Object.assign(data,{retainerAmount:n(input.retainerAmount,Math.max(1500,price)),billableHours:hours,hourlyRate:n(input.hourlyRate,roleRate),replenishAt:n(input.replenishAt,0.25),suggestedPrice:n(input.retainerAmount,Math.max(1500,price)),ethicalReviewRequired:true});
+    if (type==="law-office-scheduling") Object.assign(data,{hearingDate:input.hearingDate||input.requestedDate||null,appearanceType:input.appearanceType||"hearing",attorneyRole:input.attorneyRole||attorneyRole,travelMinutes:Math.round(miles/n(input.averageSpeedMph,28)*60),status:"tentative"});
+    if (type==="law-office-compliance-review") Object.assign(data,{checklist:input.checklist||["conflicts check","engagement letter","trust accounting","deadline calendar","privilege handling"],findings:input.findings||[],overallStatus:"review_required",ethicalReviewRequired:true});
+    if (type.includes("compliance") || type.includes("manifest") || type.includes("retention-policy") || type.includes("lead-risk") || type==="transport-bol" || type.startsWith("healthcare-") || type.startsWith("law-office-") || type==="bakery-allergen-check") Object.assign(data,{complianceStatus:"review_required",warning:type.startsWith("healthcare-")?"Clinical, credentialing, HIPAA/privacy, payer, and licensing requirements must be verified by qualified professionals before care delivery or billing.":type.startsWith("law-office-")?"Legal advice, conflicts, licensing/UPL, engagement terms, and trust-account rules must be verified by a licensed attorney before client work or billing.":type.startsWith("bakery-")||type==="bakery-allergen-check"?"Food safety, allergen labeling, cottage-food/permits, and local health rules must be verified before production or sale.":"Confirm licensing, product labels, permits, privacy rules, disposal rules, carrier authority, and local code before execution."});
     return base(type,input,data,{requiresProvider:type.includes("photo")||type==="healthcare-symptom-triage"?"computer vision / clinical decision support":type.includes("route")?"mapping/routing":type==="healthcare-credentials-check"?"credentialing registry":undefined});
   }
 

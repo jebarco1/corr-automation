@@ -20,7 +20,9 @@ const defaultUnitPrices = {
   surveillance: { hourlyRate: 95, cameraInstallEach: 275, nvrBase: 450, monitoringMonthly: 35 },
   "trash-removal": { hourlyRate: 75, haulMinimum: 175, perCubicYard: 55, dumpsterDay: 45 },
   transportation: { hourlyRate: 75, localMoveMinimum: 250, perMile: 2.75, perCubicFoot: 1.15, crewOfTwoHourly: 150 },
-  healthcare: { hourlyRate: 95, nurseVisit: 165, physicianVisit: 285, shiftHourlyRN: 95, shiftHourlyLPN: 72, travelPerMile: 1.25, suppliesPerVisit: 18 }
+  healthcare: { hourlyRate: 95, nurseVisit: 165, physicianVisit: 285, shiftHourlyRN: 95, shiftHourlyLPN: 72, travelPerMile: 1.25, suppliesPerVisit: 18 },
+  "bakery-food": { hourlyRate: 55, cakeBase: 85, perServing: 6.5, cateringTray: 95, wholesaleLoaf: 4.25, deliveryFee: 25, rushMultiplier: 1.35, allergenSurcharge: 18 },
+  "law-office": { hourlyRate: 275, partnerHourly: 375, associateHourly: 225, paralegalHourly: 125, consultationFee: 150, retainerMinimum: 1500, appearanceFee: 450, documentFlat: 350 }
 };
 
 const seedAreas = [
