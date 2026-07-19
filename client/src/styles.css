@@ -146,6 +146,9 @@
 .suggestion-card header{display:grid;gap:6px}
 .suggestion-card p{margin:0;color:#637068;font-size:13px;line-height:1.45}
 .suggestion-card .primary{justify-self:start;padding:10px 14px;font-size:13px}
+.execution-log{margin-top:16px;padding-top:14px;border-top:1px solid #e1ebe4}
+.execution-log h4{margin:0 0 8px;font-size:14px}
+.pricebook-panel .mini-dl{margin:12px 0}
 .priority-pill{display:inline-block;font-size:10px;letter-spacing:.9px;text-transform:uppercase;font-weight:850;padding:4px 8px;border-radius:999px;background:#edf5ef;color:#4b715a;width:fit-content}
 .priority-pill.high{background:#163d27;color:#edf7f0}
 .priority-pill.medium{background:#dff8c1;color:#27451c}

@@ -3,6 +3,7 @@ import { huntLeadsForCategory } from "./leadHunt.js";
 import { importHuntLeads, listLeads } from "./vendorLeads.js";
 import { quoteSendJobForLead } from "./crmPromote.js";
 import { createTransportPack } from "./quoteBundles.js";
+import { suggestAmountForLead } from "./vendorPricebook.js";
 
 /**
  * Real autopilot pipeline for a vendor:
@@ -80,8 +81,16 @@ export async function runVendorAutopilot(vendorId, input = {}) {
   const quoted = [];
   for (const lead of imported.leads.slice(0, quoteLimit)) {
     const suggested = lead.payload?.suggestedService;
+    let amount = input.defaultQuoteAmount;
+    if (amount == null) {
+      try {
+        amount = suggestAmountForLead(vendorId, lead, { category }).amount;
+      } catch {
+        amount = undefined;
+      }
+    }
     const result = await quoteSendJobForLead(vendorId, lead, {
-      amount: input.defaultQuoteAmount,
+      amount,
       send: input.send !== false,
       accept: input.accept === true,
       serviceName: typeof suggested === "string"

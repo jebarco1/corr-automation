@@ -171,10 +171,21 @@ export function linkLeadQuote(vendorId, leadId, quoteId) {
 
 export function importHuntLeads(vendorId, huntLeads = [], options = {}) {
   const imported = [];
+  const existing = listLeads(vendorId, { limit: 500 }).leads;
   for (const item of huntLeads) {
-    const status = (item.phone || item.email || item.address) ? "contact-ready" : "new";
-    imported.push(createLead(vendorId, {
-      externalLeadId: item.leadId,
+    const externalLeadId = item.leadId || item.externalLeadId || null;
+    const prior = externalLeadId
+      ? existing.find(lead => lead.externalLeadId === externalLeadId)
+      : null;
+    if (prior) {
+      imported.push(prior);
+      continue;
+    }
+    const status = item.status && LEAD_STATUSES.includes(item.status)
+      ? item.status
+      : ((item.phone || item.email || item.address) ? "contact-ready" : "new");
+    const created = createLead(vendorId, {
+      externalLeadId,
       segment: item.segment || options.segment,
       category: item.category || options.category,
       name: item.name,
@@ -189,7 +200,9 @@ export function importHuntLeads(vendorId, huntLeads = [], options = {}) {
       status,
       source: item.source || "hunt-import",
       payload: item
-    }));
+    });
+    imported.push(created);
+    existing.push(created);
   }
   return { count: imported.length, leads: imported };
 }

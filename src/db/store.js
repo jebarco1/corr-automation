@@ -205,6 +205,7 @@ export function rowToVendor(row) {
     phone: row.phone,
     defaultCategory: row.default_category,
     branding: parseJson(row.branding_json, {}),
+    settings: parseJson(row.settings_json, {}),
     createdAt: row.created_at,
     updatedAt: row.updated_at
   };

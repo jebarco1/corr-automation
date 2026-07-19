@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Briefcase, KeyRound, Link2, Loader2, Plus, RefreshCw, Send, UserPlus } from "lucide-react";
+import { BookOpen, Briefcase, KeyRound, Link2, Loader2, Plus, RefreshCw, Send, UserPlus } from "lucide-react";
 
 const API = "/api/v1";
 const KEY_STORAGE = "ha_corr_vendor_api_key";
@@ -31,6 +31,8 @@ export default function VendorOps({ initialLeadId = null } = {}) {
   const [note, setNote] = useState("");
   const [assignee, setAssignee] = useState("alex");
   const [quoteAmount, setQuoteAmount] = useState(285);
+  const [pricebook, setPricebook] = useState(null);
+  const [quoteDefaults, setQuoteDefaults] = useState(null);
 
   async function bootstrapDemo() {
     setBusy(true);
@@ -60,15 +62,52 @@ export default function VendorOps({ initialLeadId = null } = {}) {
       localStorage.setItem(KEY_STORAGE, apiKey);
       const me = await vendorFetch("/vendors/me", { apiKey });
       setVendor(me.vendor);
-      const [leadData, quoteData, jobData] = await Promise.all([
+      const [leadData, quoteData, jobData, bookData] = await Promise.all([
         vendorFetch("/vendors/me/leads?limit=50", { apiKey }),
         vendorFetch("/vendors/me/quotes?limit=50", { apiKey }),
-        vendorFetch("/vendors/me/jobs?limit=50", { apiKey })
+        vendorFetch("/vendors/me/jobs?limit=50", { apiKey }),
+        vendorFetch(`/vendors/me/pricebook?category=${encodeURIComponent(me.vendor?.defaultCategory || "landscape")}`, { apiKey })
       ]);
       setLeads(leadData.leads || []);
       setQuotes(quoteData.quotes || []);
       setJobs(jobData.jobs || []);
-      setNotice(`Loaded ${leadData.count || 0} leads · ${quoteData.count || 0} quotes · ${jobData.count || 0} jobs`);
+      setPricebook(bookData.pricebook || null);
+      setQuoteDefaults(bookData.quoteDefaults || null);
+      if (bookData.quoteDefaults?.suggestedAmount) {
+        setQuoteAmount(bookData.quoteDefaults.suggestedAmount);
+      }
+      setNotice(`Loaded ${leadData.count || 0} leads · ${quoteData.count || 0} quotes · ${jobData.count || 0} jobs · pricebook v${bookData.pricebook?.version || "—"}`);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function refreshPricebook() {
+    if (!apiKey) return;
+    setBusy(true);
+    setError("");
+    try {
+      const data = await vendorFetch("/vendors/me/pricebook/refresh", {
+        apiKey,
+        method: "POST",
+        body: {
+          category: vendor?.defaultCategory || "landscape",
+          skipLlm: true,
+          seedIfEmpty: true
+        }
+      });
+      setPricebook(data.pricebook || null);
+      setQuoteDefaults(data.quoteDefaults || null);
+      if (data.quoteDefaults?.suggestedAmount) {
+        setQuoteAmount(data.quoteDefaults.suggestedAmount);
+      }
+      setNotice(
+        data.status === "refreshed"
+          ? `Pricebook refreshed from ${data.invoiceCount || 0} invoice log(s) · suggested $${data.quoteDefaults?.suggestedAmount}`
+          : (data.message || "Tenant pricebook ready")
+      );
     } catch (err) {
       setError(err.message);
     } finally {
@@ -241,6 +280,27 @@ export default function VendorOps({ initialLeadId = null } = {}) {
           <button className="primary" type="button" onClick={runRealAutopilot} disabled={busy || !apiKey}>
             <Briefcase size={16} /> Run real autopilot
           </button>
+          <button className="ghost" type="button" onClick={refreshPricebook} disabled={busy || !apiKey}>
+            <BookOpen size={16} /> Refresh pricebook
+          </button>
+        </div>
+      )}
+
+      {pricebook && (
+        <div className="card pricebook-panel">
+          <div className="panel-head">
+            <h3><BookOpen size={16} /> Live tenant pricebook</h3>
+            <small>{pricebook.category} · v{pricebook.version} · {pricebook.meta?.source || "seeded"}</small>
+          </div>
+          <dl className="mini-dl">
+            <div><dt>Suggested quote</dt><dd>${Number(quoteDefaults?.suggestedAmount || 0).toFixed(0)}</dd></div>
+            <div><dt>Hourly</dt><dd>${Number(quoteDefaults?.hourlyRate || 0).toFixed(0)}</dd></div>
+            <div><dt>Job minimum</dt><dd>{quoteDefaults?.jobMinimum != null ? `$${Number(quoteDefaults.jobMinimum).toFixed(0)}` : "—"}</dd></div>
+            <div><dt>Avg job</dt><dd>{quoteDefaults?.averageJobTotal != null ? `$${Number(quoteDefaults.averageJobTotal).toFixed(0)}` : "—"}</dd></div>
+          </dl>
+          <p className="muted">
+            Per-tenant book blends invoice intelligence into this vendor’s rates. Quote amounts prefill from these defaults.
+          </p>
         </div>
       )}
 
@@ -299,7 +359,7 @@ export default function VendorOps({ initialLeadId = null } = {}) {
               </button>
 
               <label className="field">
-                <span>Quote amount (USD)</span>
+                <span>Quote amount (USD){quoteDefaults?.suggestedAmount ? ` · pricebook $${quoteDefaults.suggestedAmount}` : ""}</span>
                 <div className="inline-actions">
                   <input type="number" value={quoteAmount} onChange={e => setQuoteAmount(e.target.value)} />
                   <button className="primary" type="button" onClick={createAndSendQuote} disabled={busy}>

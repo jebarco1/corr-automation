@@ -306,6 +306,22 @@ export default function AutopilotDemo({ onOpenVendor } = {}) {
     return { ...data, message: `Imported ${data.imported} sim leads into Vendor Ops.` };
   }
 
+  async function executeCrmSuggestion({ suggestion, category: cat, leads: simLeads } = {}) {
+    const apiKey = await ensureVendorKey();
+    const res = await fetch("/api/v1/vendors/me/autopilot/suggestions/execute", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-API-Key": apiKey },
+      body: JSON.stringify({
+        suggestion,
+        category: cat || category,
+        leads: simLeads || leads
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || data.message || "CRM action failed");
+    return data;
+  }
+
   async function runRealAutopilot() {
     if (opsBusy) return;
     setOpsBusy(true);
@@ -403,6 +419,7 @@ export default function AutopilotDemo({ onOpenVendor } = {}) {
         }}
         onOpenVendor={onOpenVendor}
         onPromoteToVendor={promoteSimToVendor}
+        onExecuteCrmAction={executeCrmSuggestion}
       />
     );
   }

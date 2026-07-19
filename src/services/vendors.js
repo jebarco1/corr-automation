@@ -34,6 +34,7 @@ export function createVendor(input = {}) {
     phone: input.phone || null,
     default_category: input.defaultCategory || input.category || "landscape",
     branding_json: input.branding || {},
+    settings_json: input.settings || {},
     created_at: now,
     updated_at: now
   });

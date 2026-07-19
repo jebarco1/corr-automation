@@ -199,9 +199,10 @@ async function maybeLlmRefineStandards(category, standards, proposed, aggregatio
   }
 }
 
-export async function refreshPricingStandards(category, input = {}) {
+/** Compute a refreshed pricebook from invoice logs without writing files. */
+export async function computePricingRefresh(category, input = {}) {
   assertCategory(category);
-  const standards = getPricingStandards(category);
+  const base = input.baseStandards || getPricingStandards(category);
   const aggregation = aggregateInvoiceLogsByArea(category, Number(input.limit) || 250);
   if (!aggregation.invoiceCount && !input.force) {
     const error = new Error(`No invoice logs available to refresh pricing standards for ${category}`);
@@ -209,31 +210,56 @@ export async function refreshPricingStandards(category, input = {}) {
     throw error;
   }
 
-  const proposed = applyAggregationToStandards(standards, aggregation, { blend: input.blend });
+  const proposed = applyAggregationToStandards(base, aggregation, { blend: input.blend });
   const refined = input.skipLlm
     ? { mode: "local-aggregation", areas: proposed.areas, rationale: "Skipped LLM by request." }
-    : await maybeLlmRefineStandards(category, standards, proposed, aggregation);
+    : await maybeLlmRefineStandards(category, base, proposed, aggregation);
 
-  const saved = savePricingStandards(category, {
-    defaults: standards.defaults,
+  const standards = {
+    ...base,
+    category,
+    currency: base.currency || "USD",
+    version: Number(base.version || 1) + 1,
+    updatedAt: new Date().toISOString(),
+    defaults: base.defaults,
     areas: refined.areas,
-    currency: standards.currency,
     meta: {
-      source: "refresh-workflow",
+      ...(base.meta || {}),
+      source: input.source || "refresh-workflow",
       lastRefreshAt: new Date().toISOString(),
       lastRefreshMode: refined.mode,
       lastRefreshRationale: refined.rationale,
       invoiceCountUsed: aggregation.invoiceCount
     }
+  };
+
+  return {
+    category,
+    mode: refined.mode,
+    rationale: refined.rationale,
+    invoiceCount: aggregation.invoiceCount,
+    changes: proposed.changes,
+    aggregation,
+    standards
+  };
+}
+
+export async function refreshPricingStandards(category, input = {}) {
+  const computed = await computePricingRefresh(category, input);
+  const saved = savePricingStandards(category, {
+    defaults: computed.standards.defaults,
+    areas: computed.standards.areas,
+    currency: computed.standards.currency,
+    meta: computed.standards.meta
   }, { bumpVersion: true });
 
   return {
     category,
     workflow: "pricing-standards-refresh",
-    mode: refined.mode,
-    rationale: refined.rationale,
-    invoiceCount: aggregation.invoiceCount,
-    changes: proposed.changes,
+    mode: computed.mode,
+    rationale: computed.rationale,
+    invoiceCount: computed.invoiceCount,
+    changes: computed.changes,
     standards: saved,
     file: `data/pricing-standards/${category}.json`
   };

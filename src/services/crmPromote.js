@@ -2,6 +2,7 @@ import { createLead, importHuntLeads } from "./vendorLeads.js";
 import { createQuote, sendQuote, acceptQuote } from "./vendorQuotes.js";
 import { getGuidedWorkflow } from "./guidedWorkflow.js";
 import { ensureDemoVendor } from "./vendors.js";
+import { suggestAmountForLead } from "./vendorPricebook.js";
 
 function customerFromAnswers(answers = {}) {
   const raw = answers.customer;
@@ -129,7 +130,14 @@ export function resolveVendorContext(input = {}) {
 
 /** Optional: create quote, send, and accept→job for a lead in one call (demo autopilot step). */
 export async function quoteSendJobForLead(vendorId, lead, options = {}) {
-  const amount = Number(options.amount || lead.payload?.quoteAmount || lead.score * 12 || 285);
+  let amount = options.amount != null ? Number(options.amount) : null;
+  if (amount == null || !Number.isFinite(amount) || amount <= 0) {
+    try {
+      amount = suggestAmountForLead(vendorId, lead, { category: lead.category }).amount;
+    } catch {
+      amount = Number(lead.payload?.quoteAmount || lead.score * 12 || 285);
+    }
+  }
   const quote = createQuote(vendorId, {
     leadId: lead.id,
     category: lead.category,
