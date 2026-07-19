@@ -1,0 +1,422 @@
+{
+  "category": "cleaning",
+  "label": "Janitorial & Cleaning",
+  "description": "Residential and commercial cleaning, specialty surfaces, and recurring janitorial programs.",
+  "version": 1,
+  "updatedAt": "2026-07-19T01:51:22.000Z",
+  "defaultServiceId": "recurring-janitorial",
+  "services": [
+    {
+      "id": "recurring-janitorial",
+      "name": "Recurring Janitorial",
+      "description": "Scheduled office/facility cleaning.",
+      "aliases": [
+        "janitorial",
+        "office cleaning",
+        "recurring cleaning"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "daily",
+        "weekly",
+        "biweekly",
+        "monthly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "cleaning-property-profile",
+        "cleaning-service-estimate"
+      ],
+      "active": true,
+      "quoteKey": "recurring janitorial",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "deep-clean",
+      "name": "Deep Clean",
+      "description": "Detailed whole-property reset clean.",
+      "aliases": [
+        "deep cleaning",
+        "spring clean"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 6,
+      "relatedApis": [
+        "cleaning-service-estimate"
+      ],
+      "active": true,
+      "quoteKey": "deep clean",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "move-in-out",
+      "name": "Move-In / Move-Out Clean",
+      "description": "Vacant unit turnover clean.",
+      "aliases": [
+        "move out clean",
+        "move in clean",
+        "turnover clean"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 5,
+      "relatedApis": [
+        "cleaning-service-estimate"
+      ],
+      "active": true,
+      "quoteKey": "move-in/out",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "post-construction",
+      "name": "Post-Construction Clean",
+      "description": "Dust, debris, and finish clean after build.",
+      "aliases": [
+        "construction clean",
+        "final clean"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 8,
+      "relatedApis": [
+        "cleaning-property-profile",
+        "cleaning-service-estimate"
+      ],
+      "active": true,
+      "quoteKey": "post construction",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "carpet",
+      "name": "Carpet Cleaning",
+      "description": "Hot-water extraction or encapsulation.",
+      "aliases": [
+        "carpet steam",
+        "rug clean"
+      ],
+      "billingUnit": "sqft",
+      "typicalFrequency": [
+        "one-time",
+        "quarterly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "cleaning-service-estimate"
+      ],
+      "active": true,
+      "quoteKey": "carpet",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "floor-care",
+      "name": "Floor Care",
+      "description": "Strip, wax, polish, or scrub hard floors.",
+      "aliases": [
+        "floor wax",
+        "strip and wax",
+        "vct"
+      ],
+      "billingUnit": "sqft",
+      "typicalFrequency": [
+        "one-time",
+        "monthly",
+        "quarterly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "cleaning-service-estimate"
+      ],
+      "active": true,
+      "quoteKey": "floor care",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "windows",
+      "name": "Window Cleaning",
+      "description": "Interior/exterior glass and tracks.",
+      "aliases": [
+        "window wash",
+        "glass cleaning"
+      ],
+      "billingUnit": "pane",
+      "typicalFrequency": [
+        "one-time",
+        "monthly",
+        "quarterly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "cleaning-service-estimate"
+      ],
+      "active": true,
+      "quoteKey": "windows",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "pressure-washing",
+      "name": "Pressure Washing",
+      "description": "Exterior concrete, siding, and hardscape wash.",
+      "aliases": [
+        "power wash",
+        "pressure wash"
+      ],
+      "billingUnit": "sqft",
+      "typicalFrequency": [
+        "one-time",
+        "seasonal"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "cleaning-service-estimate"
+      ],
+      "active": true,
+      "quoteKey": "pressure washing",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "upholstery",
+      "name": "Upholstery Cleaning",
+      "description": "Furniture and soft seating clean.",
+      "aliases": [
+        "sofa clean",
+        "furniture cleaning"
+      ],
+      "billingUnit": "each",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "upholstery",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "tile-grout",
+      "name": "Tile & Grout Cleaning",
+      "description": "Restorative tile/grout scrub and seal.",
+      "aliases": [
+        "grout clean"
+      ],
+      "billingUnit": "sqft",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "tile grout",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "kitchen-deep",
+      "name": "Commercial Kitchen Deep Clean",
+      "description": "Hood, grease, and kitchen sanitation.",
+      "aliases": [
+        "hood clean",
+        "kitchen degrease"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "monthly",
+        "quarterly"
+      ],
+      "propertyTypes": [
+        "commercial",
+        "industrial"
+      ],
+      "defaultHours": 5,
+      "relatedApis": [
+        "cleaning-service-estimate"
+      ],
+      "active": true,
+      "quoteKey": "kitchen deep",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "restroom-detail",
+      "name": "Restroom Detail",
+      "description": "High-touch restroom sanitation package.",
+      "aliases": [
+        "bathroom deep clean"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "daily",
+        "weekly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1.5,
+      "relatedApis": [
+        "cleaning-service-estimate"
+      ],
+      "active": true,
+      "quoteKey": "restroom detail",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "disinfection",
+      "name": "Disinfection Service",
+      "description": "Electrostatic or targeted disinfection.",
+      "aliases": [
+        "sanitize",
+        "disinfect",
+        "covid clean"
+      ],
+      "billingUnit": "sqft",
+      "typicalFrequency": [
+        "one-time",
+        "as-needed"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "cleaning-service-estimate"
+      ],
+      "active": true,
+      "quoteKey": "disinfection",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "airbnb-turnover",
+      "name": "Short-Term Rental Turnover",
+      "description": "Guest-ready turnover clean and reset.",
+      "aliases": [
+        "airbnb clean",
+        "str turnover"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "as-needed"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2.5,
+      "relatedApis": [
+        "cleaning-service-estimate"
+      ],
+      "active": true,
+      "quoteKey": "airbnb turnover",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "biohazard",
+      "name": "Biohazard Cleanup",
+      "description": "Specialized contamination cleanup (licensed).",
+      "aliases": [
+        "trauma clean",
+        "bio clean"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 6,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "biohazard",
+      "inGuidedWorkflow": false
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "category": "transportation",
+  "version": 1,
+  "updatedAt": "2026-07-19T01:57:32.000Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "usePilotCities": true,
+  "customerTypes": [
+    "furniture store",
+    "office headquarters",
+    "medical supply distributor",
+    "construction supplier",
+    "university"
+  ],
+  "intentPhrases": [
+    "local delivery service needed",
+    "office relocation",
+    "materials haul"
+  ],
+  "excludeKeywords": [
+    "moving company",
+    "truckers near me"
+  ],
+  "suggestedServiceIds": [
+    "local-move",
+    "same-day-delivery",
+    "materials-haul"
+  ],
+  "queryTemplates": [
+    "{customerType} in {city} {state}",
+    "{customerType} {city} {state} contact",
+    "{intentPhrase} {city} {state}"
+  ]
+}

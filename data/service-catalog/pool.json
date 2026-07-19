@@ -1,0 +1,388 @@
+{
+  "category": "pool",
+  "label": "Pool Service",
+  "description": "Pool chemistry, cleaning, equipment repair, and seasonal open/close services.",
+  "version": 1,
+  "updatedAt": "2026-07-19T01:51:22.000Z",
+  "defaultServiceId": "weekly-service",
+  "services": [
+    {
+      "id": "weekly-service",
+      "name": "Weekly Pool Service",
+      "description": "Skim, vacuum, brush, filter, and chemistry.",
+      "aliases": [
+        "pool maintenance",
+        "weekly pool"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "weekly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1.5,
+      "relatedApis": [
+        "pool-water-chemistry",
+        "pool-service-estimate"
+      ],
+      "active": true,
+      "quoteKey": "weekly service",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "biweekly-service",
+      "name": "Biweekly Pool Service",
+      "description": "Reduced-frequency full service route.",
+      "aliases": [
+        "every other week pool"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "biweekly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1.5,
+      "relatedApis": [
+        "pool-water-chemistry",
+        "pool-service-estimate"
+      ],
+      "active": true,
+      "quoteKey": "biweekly service",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "opening",
+      "name": "Pool Opening",
+      "description": "Seasonal open, startup, and first balance.",
+      "aliases": [
+        "open pool",
+        "spring opening"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "seasonal"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "pool-water-chemistry",
+        "pool-service-estimate"
+      ],
+      "active": true,
+      "quoteKey": "opening",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "closing",
+      "name": "Pool Closing",
+      "description": "Winterize, cover, and equipment shut-down.",
+      "aliases": [
+        "close pool",
+        "winterize pool"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "seasonal"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "pool-service-estimate"
+      ],
+      "active": true,
+      "quoteKey": "closing",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "cleaning",
+      "name": "Pool Cleaning",
+      "description": "One-time deep clean and debris removal.",
+      "aliases": [
+        "green pool",
+        "pool clean"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2.5,
+      "relatedApis": [
+        "pool-water-chemistry",
+        "pool-service-estimate"
+      ],
+      "active": true,
+      "quoteKey": "cleaning",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "chemical-balancing",
+      "name": "Chemical Balancing",
+      "description": "Test and correct water chemistry.",
+      "aliases": [
+        "balance chemicals",
+        "pool chemistry"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time",
+        "weekly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1,
+      "relatedApis": [
+        "pool-water-chemistry"
+      ],
+      "active": true,
+      "quoteKey": "chemical balancing",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "equipment-repair",
+      "name": "Equipment Repair",
+      "description": "Pump, filter, heater, or automation repair.",
+      "aliases": [
+        "pool pump",
+        "filter repair",
+        "heater repair"
+      ],
+      "billingUnit": "hour",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "pool-service-estimate"
+      ],
+      "active": true,
+      "quoteKey": "equipment repair",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "pump-replace",
+      "name": "Pump Replacement",
+      "description": "Remove and replace circulation pump.",
+      "aliases": [
+        "new pool pump"
+      ],
+      "billingUnit": "each",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "pool-service-estimate"
+      ],
+      "active": true,
+      "quoteKey": "pump replace",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "filter-replace",
+      "name": "Filter Replacement",
+      "description": "Sand/cartridge/DE filter media or vessel swap.",
+      "aliases": [
+        "pool filter"
+      ],
+      "billingUnit": "each",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2.5,
+      "relatedApis": [
+        "pool-service-estimate"
+      ],
+      "active": true,
+      "quoteKey": "filter replace",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "heater-service",
+      "name": "Heater Service",
+      "description": "Gas/heat-pump heater diagnosis and repair.",
+      "aliases": [
+        "pool heater"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "pool-service-estimate"
+      ],
+      "active": true,
+      "quoteKey": "heater service",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "salt-system",
+      "name": "Salt System Service",
+      "description": "Salt chlorinator cell clean/replace.",
+      "aliases": [
+        "salt cell",
+        "saltwater system"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1.5,
+      "relatedApis": [
+        "pool-water-chemistry"
+      ],
+      "active": true,
+      "quoteKey": "salt system",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "leak-detection",
+      "name": "Pool Leak Detection",
+      "description": "Locate shell, plumbing, or equipment leaks.",
+      "aliases": [
+        "pool leak"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "leak detection",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "acid-wash",
+      "name": "Acid Wash / Resurface Prep",
+      "description": "Aggressive surface clean or prep.",
+      "aliases": [
+        "acid wash"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 6,
+      "relatedApis": [
+        "pool-service-estimate"
+      ],
+      "active": true,
+      "quoteKey": "acid wash",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "spa-service",
+      "name": "Spa / Hot Tub Service",
+      "description": "Spa chemistry, filter, and equipment care.",
+      "aliases": [
+        "hot tub",
+        "spa clean"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "weekly",
+        "biweekly",
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1,
+      "relatedApis": [
+        "pool-water-chemistry"
+      ],
+      "active": true,
+      "quoteKey": "spa service",
+      "inGuidedWorkflow": false
+    }
+  ]
+}

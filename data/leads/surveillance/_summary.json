@@ -1,0 +1,63 @@
+{
+  "category": "surveillance",
+  "updatedAt": "2026-07-19T01:58:20.179Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 12,
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/surveillance/atlanta.json",
+      "queries": [
+        "warehouse in Atlanta GA",
+        "warehouse Atlanta GA contact"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/surveillance/augusta.json",
+      "queries": [
+        "warehouse in Augusta GA",
+        "warehouse Augusta GA contact"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/surveillance/macon.json",
+      "queries": [
+        "warehouse in Macon GA",
+        "warehouse Macon GA contact"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 3,
+      "file": "data/leads/surveillance/savannah.json",
+      "queries": [
+        "warehouse in Savannah GA",
+        "warehouse Savannah GA contact"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "category": "trash-removal",
+  "city": "Macon",
+  "state": "GA",
+  "market": "Macon, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T01:58:20.313Z",
+  "queries": [
+    "construction company in Macon GA",
+    "construction company Macon GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_d0485fecfd22",
+      "category": "trash-removal",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon property management company",
+      "url": null,
+      "snippet": "Potential trash-removal customer target: property management company in Macon, GA. Verify contact details before outreach.",
+      "customerType": "property management company",
+      "suggestedService": {
+        "serviceId": "dumpster-rental",
+        "serviceName": "Dumpster Rental",
+        "quoteKey": "dumpster rental"
+      },
+      "score": 90,
+      "query": "construction company in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:20.313Z"
+    },
+    {
+      "leadId": "lead_cdb13d1b2852",
+      "category": "trash-removal",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon construction company",
+      "url": null,
+      "snippet": "Potential trash-removal customer target: construction company in Macon, GA. Verify contact details before outreach.",
+      "customerType": "construction company",
+      "suggestedService": {
+        "serviceId": "dumpster-rental",
+        "serviceName": "Dumpster Rental",
+        "quoteKey": "dumpster rental"
+      },
+      "score": 80,
+      "query": "construction company in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:20.313Z"
+    },
+    {
+      "leadId": "lead_c66ee03efdab",
+      "category": "trash-removal",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon retail center",
+      "url": null,
+      "snippet": "Potential trash-removal customer target: retail center in Macon, GA. Verify contact details before outreach.",
+      "customerType": "retail center",
+      "suggestedService": {
+        "serviceId": "dumpster-rental",
+        "serviceName": "Dumpster Rental",
+        "quoteKey": "dumpster rental"
+      },
+      "score": 80,
+      "query": "construction company in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:20.313Z"
+    }
+  ]
+}

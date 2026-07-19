@@ -1,0 +1,322 @@
+{
+  "category": "surveillance",
+  "label": "Surveillance",
+  "description": "Camera systems, storage, monitoring prep, and security assessments.",
+  "version": 1,
+  "updatedAt": "2026-07-19T01:51:22.000Z",
+  "defaultServiceId": "new-installation",
+  "services": [
+    {
+      "id": "new-installation",
+      "name": "New Camera Installation",
+      "description": "Design and install new camera system.",
+      "aliases": [
+        "security cameras",
+        "cctv install",
+        "camera install"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 6,
+      "relatedApis": [
+        "camera-layout-design",
+        "surveillance-storage-calculator",
+        "surveillance-install-estimate"
+      ],
+      "active": true,
+      "quoteKey": "new installation",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "upgrade",
+      "name": "System Upgrade",
+      "description": "Add cameras, NVR, or modernize DVR.",
+      "aliases": [
+        "camera upgrade",
+        "nvr upgrade"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "surveillance-install-estimate"
+      ],
+      "active": true,
+      "quoteKey": "upgrade",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "repair",
+      "name": "Camera / NVR Repair",
+      "description": "Troubleshoot and repair failed devices.",
+      "aliases": [
+        "camera not working",
+        "nvr repair"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "surveillance-install-estimate"
+      ],
+      "active": true,
+      "quoteKey": "repair",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "site-assessment",
+      "name": "Site Security Assessment",
+      "description": "Coverage gaps, lighting, and risk walkthrough.",
+      "aliases": [
+        "security assessment",
+        "camera survey"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "camera-layout-design"
+      ],
+      "active": true,
+      "quoteKey": "site assessment",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "maintenance",
+      "name": "Surveillance Maintenance",
+      "description": "Clean lenses, firmware, and health checks.",
+      "aliases": [
+        "camera maintenance"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "quarterly",
+        "semi-annual"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "maintenance",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "nvr-setup",
+      "name": "NVR / VMS Setup",
+      "description": "Recorder configuration and remote access.",
+      "aliases": [
+        "nvr setup",
+        "vms"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "surveillance-storage-calculator"
+      ],
+      "active": true,
+      "quoteKey": "nvr setup",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "remote-monitoring-setup",
+      "name": "Remote Monitoring Setup",
+      "description": "App, alerts, and monitoring handoff.",
+      "aliases": [
+        "camera monitoring setup"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "remote monitoring setup",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "access-control",
+      "name": "Access Control Install",
+      "description": "Doors, readers, and controller install.",
+      "aliases": [
+        "door access",
+        "badge system"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 8,
+      "relatedApis": [
+        "surveillance-install-estimate"
+      ],
+      "active": true,
+      "quoteKey": "access control",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "alarm-integration",
+      "name": "Alarm Integration",
+      "description": "Integrate cameras with intrusion alarm.",
+      "aliases": [
+        "alarm cameras"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "alarm integration",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "doorbell-camera",
+      "name": "Doorbell / Entry Camera",
+      "description": "Video doorbell and entry camera install.",
+      "aliases": [
+        "ring doorbell",
+        "video doorbell"
+      ],
+      "billingUnit": "each",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1.5,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "doorbell camera",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "license-plate",
+      "name": "License Plate Camera",
+      "description": "LPR camera install and angle tuning.",
+      "aliases": [
+        "lpr",
+        "license plate recognition"
+      ],
+      "billingUnit": "each",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "commercial",
+        "industrial",
+        "hoa",
+        "multi-family"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "camera-layout-design"
+      ],
+      "active": true,
+      "quoteKey": "license plate",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "commercial-multi-site",
+      "name": "Multi-Site Rollout",
+      "description": "Standardized camera package across locations.",
+      "aliases": [
+        "multi site cameras"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "commercial",
+        "industrial"
+      ],
+      "defaultHours": 20,
+      "relatedApis": [
+        "surveillance-install-estimate"
+      ],
+      "active": true,
+      "quoteKey": "commercial multi site",
+      "inGuidedWorkflow": false
+    }
+  ]
+}

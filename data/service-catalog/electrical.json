@@ -1,0 +1,375 @@
+{
+  "category": "electrical",
+  "label": "Electrical",
+  "description": "Diagnostics, panels, EV charging, generators, lighting, and safety inspections.",
+  "version": 1,
+  "updatedAt": "2026-07-19T01:51:22.000Z",
+  "defaultServiceId": "diagnostic",
+  "services": [
+    {
+      "id": "diagnostic",
+      "name": "Electrical Diagnostic",
+      "description": "Troubleshoot outages, trips, and faults.",
+      "aliases": [
+        "electrical troubleshooting",
+        "breaker trip"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1.5,
+      "relatedApis": [
+        "electrical-circuit-diagnostic"
+      ],
+      "active": true,
+      "quoteKey": "diagnostic",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "panel-upgrade",
+      "name": "Panel Upgrade",
+      "description": "Service panel capacity upgrade.",
+      "aliases": [
+        "breaker box",
+        "electrical panel",
+        "200 amp"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 8,
+      "relatedApis": [
+        "electrical-circuit-diagnostic",
+        "electrical-service-upgrade"
+      ],
+      "active": true,
+      "quoteKey": "panel upgrade",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "ev-charger",
+      "name": "EV Charger Installation",
+      "description": "Level 2 EVSE circuit and mount.",
+      "aliases": [
+        "ev charger",
+        "tesla charger",
+        "evse"
+      ],
+      "billingUnit": "each",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "electrical-service-upgrade"
+      ],
+      "active": true,
+      "quoteKey": "EV charger",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "generator",
+      "name": "Generator Installation",
+      "description": "Standby or portable inlet/generator setup.",
+      "aliases": [
+        "whole home generator",
+        "generator transfer switch"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 12,
+      "relatedApis": [
+        "electrical-service-upgrade"
+      ],
+      "active": true,
+      "quoteKey": "generator",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "lighting",
+      "name": "Lighting Installation",
+      "description": "Fixtures, cans, landscape, or commercial lighting.",
+      "aliases": [
+        "light install",
+        "recessed lights"
+      ],
+      "billingUnit": "each",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "electrical-service-upgrade"
+      ],
+      "active": true,
+      "quoteKey": "lighting",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "rewire",
+      "name": "Rewire",
+      "description": "Partial or whole-structure rewiring.",
+      "aliases": [
+        "re-wire",
+        "knob and tube"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 40,
+      "relatedApis": [
+        "electrical-service-upgrade"
+      ],
+      "active": true,
+      "quoteKey": "rewire",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "safety-inspection",
+      "name": "Electrical Safety Inspection",
+      "description": "Safety audit and code-risk report.",
+      "aliases": [
+        "home electrical inspection"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "electrical-circuit-diagnostic"
+      ],
+      "active": true,
+      "quoteKey": "safety inspection",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "outlet-install",
+      "name": "Outlet / GFCI Install",
+      "description": "Add or replace receptacles and GFCI/AFCI.",
+      "aliases": [
+        "gfci",
+        "new outlet"
+      ],
+      "billingUnit": "each",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "outlet install",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "ceiling-fan",
+      "name": "Ceiling Fan Install",
+      "description": "Fan-rated box check and fan install.",
+      "aliases": [
+        "fan install"
+      ],
+      "billingUnit": "each",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1.5,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "ceiling fan",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "smoke-co",
+      "name": "Smoke / CO Detector Install",
+      "description": "Detector placement and interconnect.",
+      "aliases": [
+        "smoke detector",
+        "co detector"
+      ],
+      "billingUnit": "each",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "smoke co",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "surge-protection",
+      "name": "Surge Protection",
+      "description": "Whole-home or point-of-use surge devices.",
+      "aliases": [
+        "surge protector whole house"
+      ],
+      "billingUnit": "each",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "electrical-service-upgrade"
+      ],
+      "active": true,
+      "quoteKey": "surge protection",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "data-low-voltage",
+      "name": "Low-Voltage / Data Cabling",
+      "description": "Cat6, coax, and structured wiring.",
+      "aliases": [
+        "ethernet wiring",
+        "low voltage"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "data low voltage",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "commercial-lighting-retrofit",
+      "name": "Commercial Lighting Retrofit",
+      "description": "LED retrofit for facilities.",
+      "aliases": [
+        "led retrofit"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "commercial",
+        "industrial"
+      ],
+      "defaultHours": 16,
+      "relatedApis": [
+        "electrical-service-upgrade"
+      ],
+      "active": true,
+      "quoteKey": "commercial lighting retrofit",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "emergency-electrical",
+      "name": "Emergency Electrical",
+      "description": "After-hours power-loss or hazard response.",
+      "aliases": [
+        "emergency electrician"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "as-needed"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "electrical-circuit-diagnostic"
+      ],
+      "active": true,
+      "quoteKey": "emergency electrical",
+      "inGuidedWorkflow": false
+    }
+  ]
+}

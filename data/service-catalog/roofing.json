@@ -1,0 +1,380 @@
+{
+  "category": "roofing",
+  "label": "Roofing",
+  "description": "Roof inspections, repairs, replacements, storm work, and maintenance.",
+  "version": 1,
+  "updatedAt": "2026-07-19T01:51:22.000Z",
+  "defaultServiceId": "inspection",
+  "services": [
+    {
+      "id": "inspection",
+      "name": "Roof Inspection",
+      "description": "Condition report with photo documentation.",
+      "aliases": [
+        "roof check",
+        "roof inspection"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1.5,
+      "relatedApis": [
+        "roof-area-estimate"
+      ],
+      "active": true,
+      "quoteKey": "inspection",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "repair",
+      "name": "Roof Repair",
+      "description": "Leak repair, flashing, and localized fixes.",
+      "aliases": [
+        "roof leak",
+        "patch roof"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "roof-area-estimate",
+        "roof-replacement-estimate"
+      ],
+      "active": true,
+      "quoteKey": "repair",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "replacement",
+      "name": "Roof Replacement",
+      "description": "Tear-off and full re-roof.",
+      "aliases": [
+        "new roof",
+        "reroof",
+        "re-roof"
+      ],
+      "billingUnit": "square",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 24,
+      "relatedApis": [
+        "roof-area-estimate",
+        "roof-replacement-estimate"
+      ],
+      "active": true,
+      "quoteKey": "replacement",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "storm-damage",
+      "name": "Storm Damage Assessment",
+      "description": "Hail/wind damage inspection and estimate.",
+      "aliases": [
+        "hail damage",
+        "wind damage",
+        "insurance roof"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "roof-area-estimate",
+        "roof-replacement-estimate"
+      ],
+      "active": true,
+      "quoteKey": "storm damage",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "maintenance",
+      "name": "Roof Maintenance",
+      "description": "Preventive maintenance and minor upkeep.",
+      "aliases": [
+        "roof pm"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "annual",
+        "semi-annual"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "roof-area-estimate"
+      ],
+      "active": true,
+      "quoteKey": "maintenance",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "gutter-install",
+      "name": "Gutter Installation",
+      "description": "New gutters and downspouts.",
+      "aliases": [
+        "new gutters"
+      ],
+      "billingUnit": "linear_ft",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 6,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "gutter install",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "gutter-cleaning",
+      "name": "Gutter Cleaning",
+      "description": "Clear gutters and downspouts.",
+      "aliases": [
+        "clean gutters"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "seasonal",
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "gutter cleaning",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "gutter-guards",
+      "name": "Gutter Guard Install",
+      "description": "Install gutter protection system.",
+      "aliases": [
+        "gutter screens"
+      ],
+      "billingUnit": "linear_ft",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "gutter guards",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "skylight",
+      "name": "Skylight Service",
+      "description": "Skylight leak repair or replacement.",
+      "aliases": [
+        "skylight replace"
+      ],
+      "billingUnit": "each",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "roof-replacement-estimate"
+      ],
+      "active": true,
+      "quoteKey": "skylight",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "flat-roof",
+      "name": "Flat Roof Service",
+      "description": "Membrane repair or coating for low-slope roofs.",
+      "aliases": [
+        "tpo",
+        "epdm",
+        "flat membrane"
+      ],
+      "billingUnit": "square",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 12,
+      "relatedApis": [
+        "roof-area-estimate",
+        "roof-replacement-estimate"
+      ],
+      "active": true,
+      "quoteKey": "flat roof",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "metal-roof",
+      "name": "Metal Roof Service",
+      "description": "Metal panel repair, screw, or coating work.",
+      "aliases": [
+        "metal roofing"
+      ],
+      "billingUnit": "square",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 10,
+      "relatedApis": [
+        "roof-replacement-estimate"
+      ],
+      "active": true,
+      "quoteKey": "metal roof",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "chimney-flashing",
+      "name": "Chimney Flashing",
+      "description": "Step/counter flashing repair or replace.",
+      "aliases": [
+        "flashing repair"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "roof-replacement-estimate"
+      ],
+      "active": true,
+      "quoteKey": "chimney flashing",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "vent-repair",
+      "name": "Vent / Pipe Boot Repair",
+      "description": "Replace cracked boots and roof penetrations.",
+      "aliases": [
+        "pipe boot",
+        "roof vent"
+      ],
+      "billingUnit": "each",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1.5,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "vent repair",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "emergency-tarp",
+      "name": "Emergency Tarping",
+      "description": "Temporary weather protection after damage.",
+      "aliases": [
+        "tarp roof",
+        "emergency roof"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "as-needed"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "emergency tarp",
+      "inGuidedWorkflow": false
+    }
+  ]
+}

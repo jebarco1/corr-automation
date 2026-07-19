@@ -1,0 +1,84 @@
+{
+  "category": "plumbing",
+  "city": "Augusta",
+  "state": "GA",
+  "market": "Augusta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T01:58:19.537Z",
+  "queries": [
+    "apartment complex in Augusta GA",
+    "apartment complex Augusta GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_968a69434e1e",
+      "category": "plumbing",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta apartment complex",
+      "url": null,
+      "snippet": "Potential plumbing customer target: apartment complex in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "apartment complex",
+      "suggestedService": {
+        "serviceId": "leak-repair",
+        "serviceName": "Leak Repair",
+        "quoteKey": "leak repair"
+      },
+      "score": 90,
+      "query": "apartment complex in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:19.537Z"
+    },
+    {
+      "leadId": "lead_aa0fab2875f6",
+      "category": "plumbing",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta property management company",
+      "url": null,
+      "snippet": "Potential plumbing customer target: property management company in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "property management company",
+      "suggestedService": {
+        "serviceId": "leak-repair",
+        "serviceName": "Leak Repair",
+        "quoteKey": "leak repair"
+      },
+      "score": 90,
+      "query": "apartment complex in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:19.537Z"
+    },
+    {
+      "leadId": "lead_f5a8922b8dc6",
+      "category": "plumbing",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta restaurant",
+      "url": null,
+      "snippet": "Potential plumbing customer target: restaurant in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "restaurant",
+      "suggestedService": {
+        "serviceId": "leak-repair",
+        "serviceName": "Leak Repair",
+        "quoteKey": "leak repair"
+      },
+      "score": 80,
+      "query": "apartment complex in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:19.537Z"
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "category": "roofing",
+  "city": "Macon",
+  "state": "GA",
+  "market": "Macon, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T01:58:19.401Z",
+  "queries": [
+    "property management company in Macon GA",
+    "property management company Macon GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_a6bba7022a1e",
+      "category": "roofing",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon property management company",
+      "url": null,
+      "snippet": "Potential roofing customer target: property management company in Macon, GA. Verify contact details before outreach.",
+      "customerType": "property management company",
+      "suggestedService": {
+        "serviceId": "inspection",
+        "serviceName": "Roof Inspection",
+        "quoteKey": "inspection"
+      },
+      "score": 90,
+      "query": "property management company in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:19.401Z"
+    },
+    {
+      "leadId": "lead_94475e91bfcd",
+      "category": "roofing",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon church",
+      "url": null,
+      "snippet": "Potential roofing customer target: church in Macon, GA. Verify contact details before outreach.",
+      "customerType": "church",
+      "suggestedService": {
+        "serviceId": "inspection",
+        "serviceName": "Roof Inspection",
+        "quoteKey": "inspection"
+      },
+      "score": 80,
+      "query": "property management company in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:19.401Z"
+    },
+    {
+      "leadId": "lead_72fb872135f3",
+      "category": "roofing",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon school",
+      "url": null,
+      "snippet": "Potential roofing customer target: school in Macon, GA. Verify contact details before outreach.",
+      "customerType": "school",
+      "suggestedService": {
+        "serviceId": "inspection",
+        "serviceName": "Roof Inspection",
+        "quoteKey": "inspection"
+      },
+      "score": 80,
+      "query": "property management company in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:19.401Z"
+    }
+  ]
+}

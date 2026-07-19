@@ -1,0 +1,84 @@
+{
+  "category": "cleaning",
+  "city": "Augusta",
+  "state": "GA",
+  "market": "Augusta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T01:58:18.254Z",
+  "queries": [
+    "office building in Augusta GA",
+    "office building Augusta GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_1d97630e9ff6",
+      "category": "cleaning",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta property management company",
+      "url": null,
+      "snippet": "Potential cleaning customer target: property management company in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "property management company",
+      "suggestedService": {
+        "serviceId": "recurring-janitorial",
+        "serviceName": "Recurring Janitorial",
+        "quoteKey": "recurring janitorial"
+      },
+      "score": 90,
+      "query": "office building in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:18.254Z"
+    },
+    {
+      "leadId": "lead_4d22779dd7b6",
+      "category": "cleaning",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta office building",
+      "url": null,
+      "snippet": "Potential cleaning customer target: office building in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "office building",
+      "suggestedService": {
+        "serviceId": "recurring-janitorial",
+        "serviceName": "Recurring Janitorial",
+        "quoteKey": "recurring janitorial"
+      },
+      "score": 80,
+      "query": "office building in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:18.254Z"
+    },
+    {
+      "leadId": "lead_90e1af119ce2",
+      "category": "cleaning",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta medical clinic",
+      "url": null,
+      "snippet": "Potential cleaning customer target: medical clinic in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "medical clinic",
+      "suggestedService": {
+        "serviceId": "recurring-janitorial",
+        "serviceName": "Recurring Janitorial",
+        "quoteKey": "recurring janitorial"
+      },
+      "score": 80,
+      "query": "office building in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:18.254Z"
+    }
+  ]
+}

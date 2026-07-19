@@ -1,0 +1,107 @@
+{
+  "category": "hvac",
+  "city": "Atlanta",
+  "state": "GA",
+  "market": "Atlanta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T01:58:17.858Z",
+  "queries": [
+    "apartment complex in Atlanta GA",
+    "apartment complex Atlanta GA contact"
+  ],
+  "count": 4,
+  "leads": [
+    {
+      "leadId": "lead_705dc92e2e64",
+      "category": "hvac",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Apartments For Rent in Atlanta GA - 10029 Rentals - Zillow",
+      "url": "https://www.zillow.com/atlanta-ga/apartments/",
+      "snippet": "Find your next apartment in Atlanta GA on Zillow. Use our detailed filters to find the perfect place, then get in touch with the property manager.",
+      "customerType": "apartment complex",
+      "suggestedService": {
+        "serviceId": "maintenance",
+        "serviceName": "Preventive Maintenance",
+        "quoteKey": "maintenance"
+      },
+      "score": 90,
+      "query": "apartment complex in Atlanta GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:17.858Z"
+    },
+    {
+      "leadId": "lead_14030f90a19e",
+      "category": "hvac",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Apartments in Downtown Atlanta | The Mitchell",
+      "url": "https://www.themitchellatl.com/",
+      "snippet": "The Mitchell raises the bar on quality living with studio, 1, 2 & 3-bedroom high-rise apartments in Downtown Atlanta. Explore our amenities and contact us!",
+      "customerType": "apartment complex",
+      "suggestedService": {
+        "serviceId": "maintenance",
+        "serviceName": "Preventive Maintenance",
+        "quoteKey": "maintenance"
+      },
+      "score": 90,
+      "query": "apartment complex Atlanta GA contact",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:17.858Z"
+    },
+    {
+      "leadId": "lead_028891f128c7",
+      "category": "hvac",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Apartments for Rent in Atlanta GA - 20,756 Rentals",
+      "url": "https://www.apartments.com/atlanta-ga/",
+      "snippet": "Find 20,756 apartments for rent in Atlanta, GA with new listings daily. Compare verified, detailed unit listings, explore 3D tours, and find your next rental today.",
+      "customerType": "apartment complex",
+      "suggestedService": {
+        "serviceId": "maintenance",
+        "serviceName": "Preventive Maintenance",
+        "quoteKey": "maintenance"
+      },
+      "score": 85,
+      "query": "apartment complex in Atlanta GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:17.858Z"
+    },
+    {
+      "leadId": "lead_19cac6b61e93",
+      "category": "hvac",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Newly Constructed Apartments for Rent in Atlanta GA | Apartments.com",
+      "url": "https://www.apartments.com/atlanta-ga/recent-build/",
+      "snippet": "Browse 1,974 newly constructed apartments in Atlanta, GA with modern amenities and designs. Enjoy the benefits of living in a brand-new community.",
+      "customerType": "apartment complex",
+      "suggestedService": {
+        "serviceId": "maintenance",
+        "serviceName": "Preventive Maintenance",
+        "quoteKey": "maintenance"
+      },
+      "score": 85,
+      "query": "apartment complex in Atlanta GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:17.858Z"
+    }
+  ]
+}

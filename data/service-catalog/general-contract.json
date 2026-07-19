@@ -1,0 +1,402 @@
+{
+  "category": "general-contract",
+  "label": "General Contracting",
+  "description": "Remodels, additions, repairs, build-outs, and restoration project scopes.",
+  "version": 1,
+  "updatedAt": "2026-07-19T01:51:22.000Z",
+  "defaultServiceId": "remodel",
+  "services": [
+    {
+      "id": "remodel",
+      "name": "Remodel",
+      "description": "Interior remodel packaging and execution.",
+      "aliases": [
+        "renovation",
+        "home remodel"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 40,
+      "relatedApis": [
+        "gc-scope-generator",
+        "gc-project-estimate"
+      ],
+      "active": true,
+      "quoteKey": "remodel",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "addition",
+      "name": "Addition",
+      "description": "Room or structure addition.",
+      "aliases": [
+        "home addition",
+        "room addition"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 120,
+      "relatedApis": [
+        "gc-scope-generator",
+        "gc-project-estimate"
+      ],
+      "active": true,
+      "quoteKey": "addition",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "repair",
+      "name": "General Repair",
+      "description": "Multi-trade repair package.",
+      "aliases": [
+        "handyman package",
+        "property repair"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 8,
+      "relatedApis": [
+        "gc-project-estimate"
+      ],
+      "active": true,
+      "quoteKey": "repair",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "build-out",
+      "name": "Commercial Build-Out",
+      "description": "Tenant improvement / suite build-out.",
+      "aliases": [
+        "ti",
+        "tenant improvement"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "commercial",
+        "industrial"
+      ],
+      "defaultHours": 160,
+      "relatedApis": [
+        "gc-scope-generator",
+        "gc-project-estimate"
+      ],
+      "active": true,
+      "quoteKey": "build-out",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "new-construction",
+      "name": "New Construction",
+      "description": "New structure or ADU build.",
+      "aliases": [
+        "new build",
+        "adu"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 400,
+      "relatedApis": [
+        "gc-scope-generator",
+        "gc-project-estimate"
+      ],
+      "active": true,
+      "quoteKey": "new construction",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "restoration",
+      "name": "Restoration",
+      "description": "Water, fire, or storm restoration GC package.",
+      "aliases": [
+        "water restoration",
+        "fire restoration"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 60,
+      "relatedApis": [
+        "gc-project-estimate"
+      ],
+      "active": true,
+      "quoteKey": "restoration",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "kitchen-remodel",
+      "name": "Kitchen Remodel",
+      "description": "Cabinets, counters, layout, and finishes.",
+      "aliases": [
+        "kitchen renovation"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 80,
+      "relatedApis": [
+        "gc-project-estimate"
+      ],
+      "active": true,
+      "quoteKey": "kitchen remodel",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "bath-remodel",
+      "name": "Bathroom Remodel",
+      "description": "Bath gut or refresh remodel.",
+      "aliases": [
+        "bathroom renovation"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 50,
+      "relatedApis": [
+        "gc-project-estimate"
+      ],
+      "active": true,
+      "quoteKey": "bath remodel",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "basement-finish",
+      "name": "Basement Finish",
+      "description": "Finish basement living space.",
+      "aliases": [
+        "finish basement"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 100,
+      "relatedApis": [
+        "gc-project-estimate"
+      ],
+      "active": true,
+      "quoteKey": "basement finish",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "deck-build",
+      "name": "Deck Build",
+      "description": "New deck framing and finish.",
+      "aliases": [
+        "build deck"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 40,
+      "relatedApis": [
+        "gc-project-estimate"
+      ],
+      "active": true,
+      "quoteKey": "deck build",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "fence-install",
+      "name": "Fence Installation",
+      "description": "Privacy or perimeter fence install.",
+      "aliases": [
+        "new fence"
+      ],
+      "billingUnit": "linear_ft",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 16,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "fence install",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "flooring",
+      "name": "Flooring Install",
+      "description": "LVP, hardwood, tile, or carpet install.",
+      "aliases": [
+        "floor install"
+      ],
+      "billingUnit": "sqft",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 20,
+      "relatedApis": [
+        "gc-project-estimate"
+      ],
+      "active": true,
+      "quoteKey": "flooring",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "drywall",
+      "name": "Drywall Install / Finish",
+      "description": "Hang, tape, texture drywall.",
+      "aliases": [
+        "sheetrock"
+      ],
+      "billingUnit": "sqft",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 16,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "drywall",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "demo",
+      "name": "Selective Demolition",
+      "description": "Interior demo and debris staging.",
+      "aliases": [
+        "demolition"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 12,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "demo",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "punch-list",
+      "name": "Punch List Closeout",
+      "description": "Final deficiency correction package.",
+      "aliases": [
+        "punchlist",
+        "closeout"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 8,
+      "relatedApis": [
+        "gc-project-estimate"
+      ],
+      "active": true,
+      "quoteKey": "punch list",
+      "inGuidedWorkflow": false
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "category": "healthcare",
+  "city": "Savannah",
+  "state": "GA",
+  "market": "Savannah, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T01:58:25.855Z",
+  "queries": [
+    "assisted living in Savannah GA",
+    "assisted living Savannah GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_464266f585f2",
+      "category": "healthcare",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah assisted living",
+      "url": null,
+      "snippet": "Potential healthcare customer target: assisted living in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "assisted living",
+      "suggestedService": {
+        "serviceId": "nursing-visit",
+        "serviceName": "Nursing Visit",
+        "quoteKey": "nursing visit"
+      },
+      "score": 80,
+      "query": "assisted living in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:25.855Z"
+    },
+    {
+      "leadId": "lead_630562351cd4",
+      "category": "healthcare",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah home health agency",
+      "url": null,
+      "snippet": "Potential healthcare customer target: home health agency in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "home health agency",
+      "suggestedService": {
+        "serviceId": "nursing-visit",
+        "serviceName": "Nursing Visit",
+        "quoteKey": "nursing visit"
+      },
+      "score": 80,
+      "query": "assisted living in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:25.855Z"
+    },
+    {
+      "leadId": "lead_c1f6b98580ff",
+      "category": "healthcare",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah senior living community",
+      "url": null,
+      "snippet": "Potential healthcare customer target: senior living community in Savannah, GA. Verify contact details before outreach.",
+      "customerType": "senior living community",
+      "suggestedService": {
+        "serviceId": "nursing-visit",
+        "serviceName": "Nursing Visit",
+        "quoteKey": "nursing visit"
+      },
+      "score": 80,
+      "query": "assisted living in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:25.855Z"
+    }
+  ]
+}

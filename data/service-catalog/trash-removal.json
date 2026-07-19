@@ -1,0 +1,337 @@
+{
+  "category": "trash-removal",
+  "label": "Trash Removal",
+  "description": "Junk hauling, dumpsters, cleanouts, and disposal services.",
+  "version": 1,
+  "updatedAt": "2026-07-19T01:51:22.000Z",
+  "defaultServiceId": "single-haul",
+  "services": [
+    {
+      "id": "single-haul",
+      "name": "Single Haul",
+      "description": "One-time junk load and dispose.",
+      "aliases": [
+        "junk removal",
+        "trash haul",
+        "haul away"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "trash-volume-estimate",
+        "trash-material-classification",
+        "trash-haul-estimate"
+      ],
+      "active": true,
+      "quoteKey": "single haul",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "dumpster-rental",
+      "name": "Dumpster Rental",
+      "description": "Temporary dumpster drop/pickup.",
+      "aliases": [
+        "roll off",
+        "dumpster"
+      ],
+      "billingUnit": "day",
+      "typicalFrequency": [
+        "one-time",
+        "weekly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1,
+      "relatedApis": [
+        "trash-volume-estimate",
+        "trash-haul-estimate"
+      ],
+      "active": true,
+      "quoteKey": "dumpster rental",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "recurring-pickup",
+      "name": "Recurring Pickup",
+      "description": "Scheduled debris pickup route.",
+      "aliases": [
+        "weekly trash pickup"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "weekly",
+        "biweekly",
+        "monthly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "trash-haul-estimate"
+      ],
+      "active": true,
+      "quoteKey": "recurring pickup",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "property-cleanout",
+      "name": "Property Cleanout",
+      "description": "Full unit/home/garage cleanout.",
+      "aliases": [
+        "estate cleanout",
+        "house cleanout",
+        "garage cleanout"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 8,
+      "relatedApis": [
+        "trash-volume-estimate",
+        "trash-haul-estimate"
+      ],
+      "active": true,
+      "quoteKey": "property cleanout",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "construction-debris",
+      "name": "Construction Debris Haul",
+      "description": "Jobsite debris removal.",
+      "aliases": [
+        "c&d haul",
+        "demo debris"
+      ],
+      "billingUnit": "cubic_yard",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "trash-material-classification",
+        "trash-haul-estimate"
+      ],
+      "active": true,
+      "quoteKey": "construction debris",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "yard-waste",
+      "name": "Yard Waste Haul",
+      "description": "Brush, limbs, and green waste haul.",
+      "aliases": [
+        "brush removal",
+        "green waste"
+      ],
+      "billingUnit": "cubic_yard",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "trash-haul-estimate"
+      ],
+      "active": true,
+      "quoteKey": "yard waste",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "appliance-pickup",
+      "name": "Appliance Pickup",
+      "description": "Haul refrigerators, washers, and large appliances.",
+      "aliases": [
+        "appliance removal"
+      ],
+      "billingUnit": "each",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1.5,
+      "relatedApis": [
+        "trash-material-classification",
+        "trash-haul-estimate"
+      ],
+      "active": true,
+      "quoteKey": "appliance pickup",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "furniture-removal",
+      "name": "Furniture Removal",
+      "description": "Sofas, mattresses, and bulky furniture haul.",
+      "aliases": [
+        "sofa removal",
+        "mattress disposal"
+      ],
+      "billingUnit": "each",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1.5,
+      "relatedApis": [
+        "trash-haul-estimate"
+      ],
+      "active": true,
+      "quoteKey": "furniture removal",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "hotspot-cleanup",
+      "name": "Illegal Dump / Hotspot Cleanup",
+      "description": "Remove dumped debris from lots/alleys.",
+      "aliases": [
+        "illegal dump cleanup"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "commercial",
+        "hoa",
+        "municipal",
+        "industrial"
+      ],
+      "defaultHours": 5,
+      "relatedApis": [
+        "trash-haul-estimate"
+      ],
+      "active": true,
+      "quoteKey": "hotspot cleanup",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "recycling-sort",
+      "name": "Recycling Sort & Haul",
+      "description": "Separating recyclables from mixed loads.",
+      "aliases": [
+        "recycle haul"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "trash-material-classification"
+      ],
+      "active": true,
+      "quoteKey": "recycling sort",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "e-waste",
+      "name": "E-Waste Disposal",
+      "description": "Electronics collection and compliant disposal.",
+      "aliases": [
+        "electronics disposal"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "trash-material-classification"
+      ],
+      "active": true,
+      "quoteKey": "e waste",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "bin-service",
+      "name": "Trash Bin Service",
+      "description": "Bin delivery, swap, or wash.",
+      "aliases": [
+        "can wash",
+        "bin delivery"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "weekly",
+        "monthly",
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "bin service",
+      "inGuidedWorkflow": false
+    }
+  ]
+}

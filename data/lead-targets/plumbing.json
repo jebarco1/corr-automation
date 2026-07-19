@@ -1,0 +1,33 @@
+{
+  "category": "plumbing",
+  "version": 1,
+  "updatedAt": "2026-07-19T01:57:32.000Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "usePilotCities": true,
+  "customerTypes": [
+    "apartment complex",
+    "property management company",
+    "restaurant",
+    "hotel",
+    "medical office"
+  ],
+  "intentPhrases": [
+    "commercial plumbing service",
+    "multi-family plumbing contract",
+    "backflow testing"
+  ],
+  "excludeKeywords": [
+    "plumber near me",
+    "plumbing company"
+  ],
+  "suggestedServiceIds": [
+    "leak-repair",
+    "drain-clearing",
+    "backflow"
+  ],
+  "queryTemplates": [
+    "{customerType} in {city} {state}",
+    "{customerType} {city} {state} contact",
+    "{intentPhrase} {city} {state}"
+  ]
+}

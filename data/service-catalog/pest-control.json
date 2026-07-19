@@ -1,0 +1,403 @@
+{
+  "category": "pest-control",
+  "label": "Pest Control",
+  "description": "Inspections, treatments, exclusion, and ongoing pest management programs.",
+  "version": 1,
+  "updatedAt": "2026-07-19T01:51:22.000Z",
+  "defaultServiceId": "one-time-treatment",
+  "services": [
+    {
+      "id": "inspection",
+      "name": "Pest Inspection",
+      "description": "Full property pest survey and report.",
+      "aliases": [
+        "pest inspection",
+        "termite inspection"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1,
+      "relatedApis": [
+        "pest-property-profile",
+        "pest-risk-assessment"
+      ],
+      "active": true,
+      "quoteKey": "inspection",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "one-time-treatment",
+      "name": "One-Time Treatment",
+      "description": "Targeted single-visit treatment.",
+      "aliases": [
+        "one time pest",
+        "spot treatment"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1.5,
+      "relatedApis": [
+        "pest-risk-assessment",
+        "pest-treatment-estimate"
+      ],
+      "active": true,
+      "quoteKey": "one-time treatment",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "recurring-service",
+      "name": "Recurring Pest Service",
+      "description": "Scheduled preventive treatments.",
+      "aliases": [
+        "monthly pest",
+        "quarterly pest"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "monthly",
+        "biweekly",
+        "quarterly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1,
+      "relatedApis": [
+        "pest-treatment-estimate"
+      ],
+      "active": true,
+      "quoteKey": "recurring service",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "termite-bond",
+      "name": "Termite Bond",
+      "description": "Termite protection plan / bond.",
+      "aliases": [
+        "termite warranty",
+        "termite plan"
+      ],
+      "billingUnit": "year",
+      "typicalFrequency": [
+        "annual"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "pest-risk-assessment",
+        "pest-treatment-estimate"
+      ],
+      "active": true,
+      "quoteKey": "termite bond",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "termite-treatment",
+      "name": "Termite Treatment",
+      "description": "Liquid barrier, baiting, or fumigation prep.",
+      "aliases": [
+        "termite treatment",
+        "termite bait"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "pest-treatment-estimate"
+      ],
+      "active": true,
+      "quoteKey": "termite treatment",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "rodent-control",
+      "name": "Rodent Control",
+      "description": "Trapping, baiting, and monitoring.",
+      "aliases": [
+        "mice",
+        "rats",
+        "rodent"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time",
+        "monthly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "pest-risk-assessment",
+        "pest-treatment-estimate"
+      ],
+      "active": true,
+      "quoteKey": "rodent control",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "exclusion",
+      "name": "Exclusion Work",
+      "description": "Seal entry points and proofing.",
+      "aliases": [
+        "pest proofing",
+        "seal entry"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "pest-property-profile",
+        "pest-treatment-estimate"
+      ],
+      "active": true,
+      "quoteKey": "exclusion",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "bed-bugs",
+      "name": "Bed Bug Treatment",
+      "description": "Heat, chemical, or integrated bed bug service.",
+      "aliases": [
+        "bedbug",
+        "bed bugs"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "pest-treatment-estimate"
+      ],
+      "active": true,
+      "quoteKey": "bed bugs",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "mosquitoes",
+      "name": "Mosquito Treatment",
+      "description": "Yard barrier and breeding-site reduction.",
+      "aliases": [
+        "mosquito spray",
+        "mosquito yard"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "monthly",
+        "biweekly",
+        "seasonal"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1,
+      "relatedApis": [
+        "pest-treatment-estimate"
+      ],
+      "active": true,
+      "quoteKey": "mosquitoes",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "wildlife",
+      "name": "Wildlife Removal",
+      "description": "Humane trapping and removal (where licensed).",
+      "aliases": [
+        "raccoon",
+        "squirrel removal",
+        "wildlife"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "pest-risk-assessment"
+      ],
+      "active": true,
+      "quoteKey": "wildlife",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "ant-control",
+      "name": "Ant Control",
+      "description": "Interior/exterior ant program.",
+      "aliases": [
+        "ants",
+        "carpenter ants"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1,
+      "relatedApis": [
+        "pest-treatment-estimate"
+      ],
+      "active": true,
+      "quoteKey": "ant control",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "roach-control",
+      "name": "Roach Control",
+      "description": "German/American cockroach program.",
+      "aliases": [
+        "cockroach",
+        "roaches"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time",
+        "biweekly",
+        "monthly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1.5,
+      "relatedApis": [
+        "pest-treatment-estimate"
+      ],
+      "active": true,
+      "quoteKey": "roach control",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "wasp-bee",
+      "name": "Wasp / Bee Nest Removal",
+      "description": "Nest treatment and removal.",
+      "aliases": [
+        "wasp nest",
+        "hornet",
+        "bee nest"
+      ],
+      "billingUnit": "each",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1,
+      "relatedApis": [
+        "pest-treatment-estimate"
+      ],
+      "active": true,
+      "quoteKey": "wasp bee",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "commercial-ipm",
+      "name": "Commercial IPM Program",
+      "description": "Integrated pest management for facilities.",
+      "aliases": [
+        "ipm",
+        "commercial pest"
+      ],
+      "billingUnit": "month",
+      "typicalFrequency": [
+        "monthly"
+      ],
+      "propertyTypes": [
+        "commercial",
+        "industrial",
+        "multi-family",
+        "hoa"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "pest-property-profile",
+        "pest-treatment-estimate"
+      ],
+      "active": true,
+      "quoteKey": "commercial ipm",
+      "inGuidedWorkflow": false
+    }
+  ]
+}

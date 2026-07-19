@@ -1,0 +1,338 @@
+{
+  "category": "transportation",
+  "label": "Transportation",
+  "description": "Local moves, long-haul, deliveries, freight, and materials hauling.",
+  "version": 1,
+  "updatedAt": "2026-07-19T01:51:22.000Z",
+  "defaultServiceId": "local-move",
+  "services": [
+    {
+      "id": "local-move",
+      "name": "Local Move",
+      "description": "Same-metro residential or small commercial move.",
+      "aliases": [
+        "moving",
+        "local movers",
+        "apartment move",
+        "house move"
+      ],
+      "billingUnit": "hour",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "transport-property-profile",
+        "transport-load-plan",
+        "transport-local-move-estimate"
+      ],
+      "active": true,
+      "quoteKey": "local move",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "long-haul",
+      "name": "Long-Haul Move",
+      "description": "Interstate or long-distance relocation.",
+      "aliases": [
+        "long distance move",
+        "interstate move"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 16,
+      "relatedApis": [
+        "transport-load-plan",
+        "transport-delivery-estimate"
+      ],
+      "active": true,
+      "quoteKey": "long haul",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "same-day-delivery",
+      "name": "Same-Day Delivery",
+      "description": "Urgent same-day courier/delivery.",
+      "aliases": [
+        "same day courier",
+        "rush delivery"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "as-needed"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "transport-delivery-estimate"
+      ],
+      "active": true,
+      "quoteKey": "same-day delivery",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "scheduled-delivery",
+      "name": "Scheduled Delivery",
+      "description": "Planned delivery window service.",
+      "aliases": [
+        "scheduled courier",
+        "delivery appointment"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "as-needed"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "transport-delivery-estimate"
+      ],
+      "active": true,
+      "quoteKey": "scheduled delivery",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "light-freight",
+      "name": "Light Freight",
+      "description": "Palletized or light freight transport.",
+      "aliases": [
+        "ltl",
+        "freight"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "transport-load-plan",
+        "transport-delivery-estimate"
+      ],
+      "active": true,
+      "quoteKey": "light freight",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "materials-haul",
+      "name": "Materials Haul",
+      "description": "Jobsite materials transport.",
+      "aliases": [
+        "material delivery",
+        "construction haul"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "transport-load-plan",
+        "transport-delivery-estimate"
+      ],
+      "active": true,
+      "quoteKey": "materials haul",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "packing",
+      "name": "Packing Service",
+      "description": "Full or partial packing labor and materials.",
+      "aliases": [
+        "packers",
+        "packing labor"
+      ],
+      "billingUnit": "hour",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "transport-local-move-estimate"
+      ],
+      "active": true,
+      "quoteKey": "packing",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "loading-only",
+      "name": "Loading / Unloading Only",
+      "description": "Labor-only load or unload help.",
+      "aliases": [
+        "labor only move",
+        "loaders"
+      ],
+      "billingUnit": "hour",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "transport-local-move-estimate"
+      ],
+      "active": true,
+      "quoteKey": "loading only",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "piano-specialty",
+      "name": "Specialty Item Move",
+      "description": "Piano, safe, or oversized item move.",
+      "aliases": [
+        "piano move",
+        "safe move"
+      ],
+      "billingUnit": "each",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "transport-load-plan"
+      ],
+      "active": true,
+      "quoteKey": "piano specialty",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "storage-shuttle",
+      "name": "Storage Shuttle",
+      "description": "Home-to-storage or storage-to-home transfer.",
+      "aliases": [
+        "storage move"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "transport-local-move-estimate"
+      ],
+      "active": true,
+      "quoteKey": "storage shuttle",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "office-relocation",
+      "name": "Office Relocation",
+      "description": "Desk, IT, and commercial suite move.",
+      "aliases": [
+        "office move",
+        "commercial move"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "commercial",
+        "industrial"
+      ],
+      "defaultHours": 10,
+      "relatedApis": [
+        "transport-load-plan",
+        "transport-local-move-estimate"
+      ],
+      "active": true,
+      "quoteKey": "office relocation",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "hotshot",
+      "name": "Hotshot Transport",
+      "description": "Expedited dedicated vehicle transport.",
+      "aliases": [
+        "hot shot",
+        "expedite haul"
+      ],
+      "billingUnit": "mile",
+      "typicalFrequency": [
+        "as-needed"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "transport-delivery-estimate"
+      ],
+      "active": true,
+      "quoteKey": "hotshot",
+      "inGuidedWorkflow": false
+    }
+  ]
+}

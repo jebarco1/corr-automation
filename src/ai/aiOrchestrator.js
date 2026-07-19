@@ -9,6 +9,8 @@ import {
   extractAddresses,
   parseCustomerFromText
 } from "../services/quoteAutomation.js";
+import { continueInterview, getInterview, selectServiceFromMessage, startServiceOffer } from "../services/quoteInterview.js";
+import { listServices } from "../services/serviceCatalog.js";
 
 const client = appConfig.ai.enabled ? new OpenAI({ apiKey: appConfig.ai.apiKey, baseURL: appConfig.ai.baseURL }) : null;
 
@@ -334,102 +336,67 @@ export async function continueAIWorkflow(input={}) {
   };
 }
 
-async function continueQuoteChat(sessionId, message, input = {}) {
-  let workflow;
-  try {
-    workflow = getGuidedWorkflow(sessionId);
-  } catch {
-    const error = new Error("Quote session not found. Describe the job again to start a new quote.");
-    error.statusCode = 404;
-    throw error;
-  }
-
-  if (!workflow.nextQuestion) {
-    if (looksLikeGenerateCommand(message) || input.action === "invoice" || shouldAutoGenerate(input)) {
-      const invoice = createInvoiceFromSession(sessionId, input.invoice || input.start || {});
-      const fresh = getGuidedWorkflow(sessionId);
-      return assistantEnvelope({
-        mode: "quote-chat",
-        reply: invoiceReply(invoice, fresh),
-        category: fresh.category,
-        categoryLabel: fresh.categoryLabel,
-        workflow: fresh,
-        invoice,
-        result: invoice,
-        suggestedActions: ["generate-invoice"],
-        pricing: pricingSnapshot(fresh.category),
-        recommendedApis: categoryApiTools[fresh.category] || []
-      });
-    }
-    return questionResponse({
-      workflow,
-      intro: `I already have the details for your ${workflow.categoryLabel} quote${workflow.answers?.serviceAddress ? ` at ${workflow.answers.serviceAddress}` : ""}.`
-    });
-  }
-
-  let value;
-  try {
-    value = parseAnswerForQuestion(workflow.nextQuestion, message);
-  } catch (error) {
-    return questionResponse({
-      workflow,
-      intro: `${error.message}`
-    });
-  }
-
-  const askedKey = workflow.nextQuestion?.key;
-  const updated = await answerGuidedWorkflow(sessionId, { value, message });
-  const acknowledged = typeof value === "object" ? (value.name || "saved") : String(value);
-
-  let intro = `Got it — **${acknowledged}**.`;
-  intro = [intro, ...automationNotes(updated)].join(" ");
-
-  if (askedKey === "serviceAddress" || askedKey === "pickupAddress") {
-    // notes already cover regrid
-  }
-
-  return finishIfReady(sessionId, updated, intro, input);
-}
-
-async function startQuoteChat({ message, category, input = {} }) {
-  const businessSettings = input.start?.businessSettings || {};
-  const prefill = buildPrefillFromMessage(message, category, businessSettings);
-  const workflow = await startGuidedWorkflow(category, {
-    ...(input.start || {}),
-    message,
-    prefill: {
-      ...(input.start?.prefill || {}),
-      ...prefill
-    }
-  });
-
-  const label = workflow.categoryLabel || categoryLabels[category];
+function interviewEnvelope(result, input = {}) {
+  const category = result.category;
+  const workflow = result.workflow || null;
   const pricing = pricingSnapshot(category);
-  const hourly = pricing?.unitPrices?.hourlyRate;
-  const addressNote = workflow.answers?.serviceAddress || prefill.serviceAddress
-    ? ` for ${workflow.answers?.matchedAddress || workflow.answers?.serviceAddress || prefill.serviceAddress}`
-    : "";
+  // Chat continues against the interview id so stage (services → address → quote) is preserved.
+  const sessionWorkflow = workflow
+    ? { ...workflow, sessionId: result.sessionId || result.interviewId, interviewStage: result.stage }
+    : {
+      sessionId: result.sessionId || result.interviewId,
+      category,
+      categoryLabel: result.categoryLabel,
+      status: result.stage,
+      progress: {
+        answered: result.selectedService ? 1 : 0,
+        total: 3,
+        askableTotal: 3,
+        askableAnswered: [result.selectedService, result.parcel, !workflow?.nextQuestion].filter(Boolean).length
+      },
+      nextQuestion: result.nextQuestion || (result.awaitingService
+        ? { key: "serviceId", question: "Which service do you need?", type: "select", options: (result.offeredServices || []).map(s => s.name), required: true, ask: true }
+        : result.awaitingAddress
+          ? { key: "serviceAddress", question: "What is the service address?", type: "string", required: true, ask: true, example: "123 Main St, Atlanta, GA 30303" }
+          : null),
+      answers: {
+        ...(result.selectedService ? { serviceId: result.selectedService.id, serviceType: result.selectedService.quoteKey || result.selectedService.name } : {}),
+        ...(result.parcel || {})
+      },
+      autoFilled: [],
+      apiResults: [],
+      invoice: result.invoice || null
+    };
 
-  const intro = [
-    `Building your **${label}** quote${addressNote}.`,
-    hourly ? `Using Atlanta industry labor near $${hourly}/hr.` : null,
-    ...automationNotes(workflow),
-    workflow.nextQuestion
-      ? "I only need the missing detail below — everything else is automated."
-      : "No more questions — generating your draft invoice now."
-  ].filter(Boolean).join(" ");
-
-  return finishIfReady(
-    workflow.sessionId,
-    workflow,
-    intro,
-    input,
-    appConfig.ai.enabled ? "openai-quote-chat" : "quote-chat"
-  );
+  return assistantEnvelope({
+    mode: appConfig.ai.enabled ? "openai-quote-chat" : "quote-chat",
+    reply: result.reply,
+    category,
+    categoryLabel: result.categoryLabel || categoryLabels[category],
+    stage: result.stage,
+    offeredServices: result.offeredServices || [],
+    selectedService: result.selectedService || null,
+    parcel: result.parcel || null,
+    workflow: sessionWorkflow,
+    nextQuestion: sessionWorkflow.nextQuestion,
+    invoice: result.invoice || null,
+    result: result.invoice || result.result || undefined,
+    suggestedActions: result.suggestedActions || [],
+    awaitingService: !!result.awaitingService,
+    awaitingAddress: !!result.awaitingAddress,
+    awaitingCategory: !!result.awaitingCategory,
+    pricing,
+    recommendedApis: result.selectedService?.relatedApis || pricing?.recommendedApis || categoryApiTools[category] || [],
+    serviceCatalogFile: category ? `data/service-catalog/${category}.json` : null
+  });
 }
 
 /**
- * Homepage chatbot: minimize questions; auto-fill pricing/labor/materials and generate the invoice.
+ * Homepage chatbot staged flow:
+ * 1) Category (passed from UI or inferred)
+ * 2) Offer services from data/service-catalog/{category}.json
+ * 3) Pull parcel information from address (Regrid)
+ * 4) Ask remaining questions / generate quote
  */
 export async function chatWithAssistant(input = {}) {
   const message = String(input.message || "").trim();
@@ -440,18 +407,47 @@ export async function chatWithAssistant(input = {}) {
   }
 
   if (input.sessionId) {
-    return continueQuoteChat(input.sessionId, message, input);
+    if (getInterview(input.sessionId)) {
+      const continued = await continueInterview(input.sessionId, message, input);
+      return interviewEnvelope(continued, input);
+    }
+    // Legacy guided-only sessions still work.
+    try {
+      const workflow = getGuidedWorkflow(input.sessionId);
+      if (!workflow.nextQuestion && (looksLikeGenerateCommand(message) || input.action === "invoice" || shouldAutoGenerate(input))) {
+        const invoice = createInvoiceFromSession(input.sessionId, input.invoice || input.start || {});
+        const fresh = getGuidedWorkflow(input.sessionId);
+        return assistantEnvelope({
+          mode: "quote-chat",
+          reply: invoiceReply(invoice, fresh),
+          category: fresh.category,
+          categoryLabel: fresh.categoryLabel,
+          workflow: fresh,
+          invoice,
+          result: invoice,
+          suggestedActions: ["generate-invoice"],
+          pricing: pricingSnapshot(fresh.category),
+          recommendedApis: categoryApiTools[fresh.category] || []
+        });
+      }
+      const value = parseAnswerForQuestion(workflow.nextQuestion, message);
+      const updated = await answerGuidedWorkflow(input.sessionId, { value, message });
+      return finishIfReady(input.sessionId, updated, `Got it — **${typeof value === "object" ? value.name : value}**.`, input);
+    } catch {
+      const error = new Error("Quote session not found. Choose a category to start again.");
+      error.statusCode = 404;
+      throw error;
+    }
   }
 
-  // Address-only prompts: still need a trade. Prefer landscape as grounds/default when "quote" + address.
   const categoryHint = input.category && supportedCategories.includes(input.category) ? input.category : null;
   let inferred = categoryHint || matchCategoryFromMessage(message) || null;
 
-  if (!inferred && extractAddress(message) && /quote|estimate|invoice|bid|price/i.test(message)) {
-    inferred = "landscape";
-  }
+  // "start" / empty intent with category: just offer services from JSON.
+  const isStartIntent = /^(start|begin|quote|new quote|services|list services|hi|hello)\b/i.test(message)
+    || message.toLowerCase() === categoryHint;
 
-  if (!inferred && !input.skipLlm) {
+  if (!inferred && !isStartIntent && !input.skipLlm) {
     inferred = await inferCategoryWithAI(message);
   }
   if (!inferred) inferred = inferCategoryLocally(message);
@@ -463,21 +459,37 @@ export async function chatWithAssistant(input = {}) {
       mode: "quote-chat",
       reply: [
         addresses[0]
-          ? `I can quote work at ${addresses[0]}. Which service?`
-          : "I can build a quote from a short description. Which service?",
+          ? `I can quote work at ${addresses[0]}. First pick a category:`
+          : "Pick a category to load its service catalog:",
         "",
         options,
         "",
-        "Reply with the service name (for example: Landscape or Plumbing). Include the address in the same message if you have it."
+        "Or choose the category in the dropdown, then I’ll offer services from that JSON file."
       ].join("\n"),
       category: null,
       categoryLabel: null,
-      suggestedActions: ["clarify-category", "answer-question"],
+      suggestedActions: ["clarify-category"],
       awaitingCategory: true,
+      offeredServices: [],
       pricing: null,
       recommendedApis: []
     });
   }
 
-  return await startQuoteChat({ message, category: inferred, input });
+  // Ensure catalog exists (throws 404 if missing).
+  listServices(inferred);
+
+  // Pure "start"/hello with a category should only open the service list (not force a service match).
+  const offerMessage = (isStartIntent && !extractAddress(message) && !selectServiceFromMessage(inferred, message))
+    ? "start"
+    : message;
+
+  const offer = await startServiceOffer({
+    category: inferred,
+    categoryLabel: categoryLabels[inferred],
+    message: offerMessage,
+    start: input.start || {}
+  });
+
+  return interviewEnvelope(offer, input);
 }

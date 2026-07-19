@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "updatedAt": "2026-07-19T01:57:32.000Z",
+  "directory": "data/lead-targets",
+  "categories": [
+    {
+      "category": "landscape",
+      "file": "data/lead-targets/landscape.json",
+      "customerTypeCount": 5,
+      "endpoint": "/api/v1/landscape/leads/hunt"
+    },
+    {
+      "category": "hvac",
+      "file": "data/lead-targets/hvac.json",
+      "customerTypeCount": 5,
+      "endpoint": "/api/v1/hvac/leads/hunt"
+    },
+    {
+      "category": "cleaning",
+      "file": "data/lead-targets/cleaning.json",
+      "customerTypeCount": 5,
+      "endpoint": "/api/v1/cleaning/leads/hunt"
+    },
+    {
+      "category": "pest-control",
+      "file": "data/lead-targets/pest-control.json",
+      "customerTypeCount": 5,
+      "endpoint": "/api/v1/pest-control/leads/hunt"
+    },
+    {
+      "category": "pool",
+      "file": "data/lead-targets/pool.json",
+      "customerTypeCount": 5,
+      "endpoint": "/api/v1/pool/leads/hunt"
+    },
+    {
+      "category": "painting",
+      "file": "data/lead-targets/painting.json",
+      "customerTypeCount": 5,
+      "endpoint": "/api/v1/painting/leads/hunt"
+    },
+    {
+      "category": "roofing",
+      "file": "data/lead-targets/roofing.json",
+      "customerTypeCount": 5,
+      "endpoint": "/api/v1/roofing/leads/hunt"
+    },
+    {
+      "category": "plumbing",
+      "file": "data/lead-targets/plumbing.json",
+      "customerTypeCount": 5,
+      "endpoint": "/api/v1/plumbing/leads/hunt"
+    },
+    {
+      "category": "electrical",
+      "file": "data/lead-targets/electrical.json",
+      "customerTypeCount": 5,
+      "endpoint": "/api/v1/electrical/leads/hunt"
+    },
+    {
+      "category": "general-contract",
+      "file": "data/lead-targets/general-contract.json",
+      "customerTypeCount": 5,
+      "endpoint": "/api/v1/general-contract/leads/hunt"
+    },
+    {
+      "category": "surveillance",
+      "file": "data/lead-targets/surveillance.json",
+      "customerTypeCount": 5,
+      "endpoint": "/api/v1/surveillance/leads/hunt"
+    },
+    {
+      "category": "trash-removal",
+      "file": "data/lead-targets/trash-removal.json",
+      "customerTypeCount": 5,
+      "endpoint": "/api/v1/trash-removal/leads/hunt"
+    },
+    {
+      "category": "transportation",
+      "file": "data/lead-targets/transportation.json",
+      "customerTypeCount": 5,
+      "endpoint": "/api/v1/transportation/leads/hunt"
+    },
+    {
+      "category": "healthcare",
+      "file": "data/lead-targets/healthcare.json",
+      "customerTypeCount": 5,
+      "endpoint": "/api/v1/healthcare/leads/hunt"
+    }
+  ]
+}

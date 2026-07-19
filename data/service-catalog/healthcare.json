@@ -1,0 +1,399 @@
+{
+  "category": "healthcare",
+  "label": "Nursing & Doctors",
+  "description": "Home health, clinical visits, private duty, and care management staffing services.",
+  "version": 1,
+  "updatedAt": "2026-07-19T01:51:22.000Z",
+  "defaultServiceId": "nursing-visit",
+  "services": [
+    {
+      "id": "nursing-visit",
+      "name": "Nursing Visit",
+      "description": "Skilled nursing visit (RN/LPN).",
+      "aliases": [
+        "rn visit",
+        "home nursing",
+        "skilled nursing"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1,
+      "relatedApis": [
+        "healthcare-patient-profile",
+        "healthcare-risk-assessment",
+        "healthcare-nursing-visit-estimate",
+        "healthcare-care-plan"
+      ],
+      "active": true,
+      "quoteKey": "nursing visit",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "physician-visit",
+      "name": "Physician Visit",
+      "description": "Physician or NP home/clinic visit.",
+      "aliases": [
+        "doctor visit",
+        "house call",
+        "physician house call"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1,
+      "relatedApis": [
+        "healthcare-patient-profile",
+        "healthcare-physician-visit-estimate",
+        "healthcare-care-plan"
+      ],
+      "active": true,
+      "quoteKey": "physician visit",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "private-duty-shift",
+      "name": "Private Duty Shift",
+      "description": "Hourly private duty coverage block.",
+      "aliases": [
+        "private duty",
+        "shift care"
+      ],
+      "billingUnit": "hour",
+      "typicalFrequency": [
+        "daily",
+        "as-needed"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 8,
+      "relatedApis": [
+        "healthcare-nursing-visit-estimate",
+        "healthcare-care-plan"
+      ],
+      "active": true,
+      "quoteKey": "private duty shift",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "post-acute-follow-up",
+      "name": "Post-Acute Follow-Up",
+      "description": "Post-hospital follow-up visit.",
+      "aliases": [
+        "post discharge",
+        "after hospital"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1,
+      "relatedApis": [
+        "healthcare-risk-assessment",
+        "healthcare-nursing-visit-estimate"
+      ],
+      "active": true,
+      "quoteKey": "post-acute follow-up",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "chronic-care-management",
+      "name": "Chronic Care Management",
+      "description": "Ongoing chronic condition care coordination.",
+      "aliases": [
+        "ccm",
+        "chronic care"
+      ],
+      "billingUnit": "month",
+      "typicalFrequency": [
+        "monthly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "healthcare-care-plan"
+      ],
+      "active": true,
+      "quoteKey": "chronic care management",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "urgent-home-visit",
+      "name": "Urgent Home Visit",
+      "description": "Same-day urgent clinical visit.",
+      "aliases": [
+        "urgent care at home",
+        "same day nurse"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "as-needed"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1.25,
+      "relatedApis": [
+        "healthcare-risk-assessment",
+        "healthcare-nursing-visit-estimate"
+      ],
+      "active": true,
+      "quoteKey": "urgent home visit",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "medication-management",
+      "name": "Medication Management",
+      "description": "Med reconciliation and adherence support.",
+      "aliases": [
+        "med management",
+        "medication review"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "weekly",
+        "monthly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 0.75,
+      "relatedApis": [
+        "healthcare-care-plan"
+      ],
+      "active": true,
+      "quoteKey": "medication management",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "wound-care",
+      "name": "Wound Care Visit",
+      "description": "Dressing changes and wound assessment.",
+      "aliases": [
+        "wound dressing"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "as-needed",
+        "weekly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1,
+      "relatedApis": [
+        "healthcare-nursing-visit-estimate"
+      ],
+      "active": true,
+      "quoteKey": "wound care",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "infusion",
+      "name": "Home Infusion Support",
+      "description": "Infusion setup/monitoring support visit.",
+      "aliases": [
+        "iv therapy home"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "healthcare-nursing-visit-estimate"
+      ],
+      "active": true,
+      "quoteKey": "infusion",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "vitals-monitoring",
+      "name": "Remote / Vitals Monitoring",
+      "description": "Vitals check and escalation protocol.",
+      "aliases": [
+        "rpm",
+        "vitals check"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "daily",
+        "weekly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 0.5,
+      "relatedApis": [
+        "healthcare-patient-profile"
+      ],
+      "active": true,
+      "quoteKey": "vitals monitoring",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "caregiver-respite",
+      "name": "Caregiver Respite",
+      "description": "Short-term respite coverage.",
+      "aliases": [
+        "respite care"
+      ],
+      "billingUnit": "hour",
+      "typicalFrequency": [
+        "as-needed"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "healthcare-nursing-visit-estimate"
+      ],
+      "active": true,
+      "quoteKey": "caregiver respite",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "hospice-support",
+      "name": "Hospice Support Visit",
+      "description": "Comfort-focused visit support (as ordered).",
+      "aliases": [
+        "hospice visit"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "as-needed"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1,
+      "relatedApis": [
+        "healthcare-care-plan",
+        "healthcare-risk-assessment"
+      ],
+      "active": true,
+      "quoteKey": "hospice support",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "telehealth-hybrid",
+      "name": "Telehealth Hybrid Visit",
+      "description": "Virtual consult with optional in-home aide assist.",
+      "aliases": [
+        "telehealth visit"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 0.5,
+      "relatedApis": [
+        "healthcare-physician-visit-estimate"
+      ],
+      "active": true,
+      "quoteKey": "telehealth hybrid",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "credentialed-staffing",
+      "name": "Credentialed Clinical Staffing",
+      "description": "Shift staffing with credential verification.",
+      "aliases": [
+        "nurse staffing",
+        "clinical staffing"
+      ],
+      "billingUnit": "hour",
+      "typicalFrequency": [
+        "as-needed",
+        "daily"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 8,
+      "relatedApis": [
+        "healthcare-nursing-visit-estimate"
+      ],
+      "active": true,
+      "quoteKey": "credentialed staffing",
+      "inGuidedWorkflow": false
+    }
+  ]
+}

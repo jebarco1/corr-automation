@@ -1,0 +1,107 @@
+{
+  "category": "transportation",
+  "city": "Savannah",
+  "state": "GA",
+  "market": "Savannah, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T01:58:23.457Z",
+  "queries": [
+    "furniture store in Savannah GA",
+    "furniture store Savannah GA contact"
+  ],
+  "count": 4,
+  "leads": [
+    {
+      "leadId": "lead_f97816bbe90a",
+      "category": "transportation",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "THE BEST 10 Furniture Stores in SAVANNAH, GA - Yelp",
+      "url": "https://www.yelp.com/search?cflt=furniture&find_loc=Savannah%2C+GA",
+      "snippet": "What are people saying about furniture stores in Savannah, GA? This is a review for furniture stores in Savannah, GA: \"Beautiful store with unique and chic offerings. A pleasure to tour the store, can&#x27;t be beat in Savannah! Owners went above and beyond to ship my purchase, assuring it would arrive intact. A pleasure doing business with you. I love my cloche butterflies! Thank-you\" See more ...",
+      "customerType": "furniture store",
+      "suggestedService": {
+        "serviceId": "local-move",
+        "serviceName": "Local Move",
+        "quoteKey": "local move"
+      },
+      "score": 75,
+      "query": "furniture store in Savannah GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:23.457Z"
+    },
+    {
+      "leadId": "lead_2342e83cdb42",
+      "category": "transportation",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Whelan&#x27;s Home - Furniture, Mattresses, & Accessories store in Savannah",
+      "url": "https://whelanshome.com/",
+      "snippet": "Savannah Magazine 2025 Best Of Savannah Homes Winner Best Furniture Store Customer Reviews The only furniture store I shop at! Best customer service in Savannah and the surrounding area. From custom orders with designers available to help to a great showroom to buy and deliver within the same week.",
+      "customerType": "furniture store",
+      "suggestedService": {
+        "serviceId": "local-move",
+        "serviceName": "Local Move",
+        "quoteKey": "local move"
+      },
+      "score": 75,
+      "query": "furniture store in Savannah GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:23.457Z"
+    },
+    {
+      "leadId": "lead_897c56822f6a",
+      "category": "transportation",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Furniture Store in Savannah, GA | Sofas, Beds & Coastal Styles",
+      "url": "https://www.roomstogo.com/stores/georgia/savannah-furniture-store-1801",
+      "snippet": "Shop sofas, beds & dining furniture in Savannah, GA. Visit Rooms To Go showroom for stylish coastal-inspired furniture & financing options.",
+      "customerType": "furniture store",
+      "suggestedService": {
+        "serviceId": "local-move",
+        "serviceName": "Local Move",
+        "quoteKey": "local move"
+      },
+      "score": 75,
+      "query": "furniture store in Savannah GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:23.457Z"
+    },
+    {
+      "leadId": "lead_2c2ad04d5fce",
+      "category": "transportation",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah, GA Furniture Store | Ethan Allen",
+      "url": "https://www.ethanallen.com/en_US/store-details?StoreID=554",
+      "snippet": "Savannah, GA About Our Design Center Shop Ethan Allen&#x27;s furniture store today in Savannah, GA, at 5525 Abercorn St., Savannah, GA 31405 just 10 minutes from Savannah&#x27;s historic downtown. We offer a broad range of furniture and accessories, including quality living room furniture, dining room furniture, bedroom furniture and home décor.",
+      "customerType": "furniture store",
+      "suggestedService": {
+        "serviceId": "local-move",
+        "serviceName": "Local Move",
+        "quoteKey": "local move"
+      },
+      "score": 75,
+      "query": "furniture store in Savannah GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:23.457Z"
+    }
+  ]
+}

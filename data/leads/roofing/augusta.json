@@ -1,0 +1,84 @@
+{
+  "category": "roofing",
+  "city": "Augusta",
+  "state": "GA",
+  "market": "Augusta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T01:58:19.373Z",
+  "queries": [
+    "property management company in Augusta GA",
+    "property management company Augusta GA contact"
+  ],
+  "count": 3,
+  "leads": [
+    {
+      "leadId": "lead_33cb82a376cd",
+      "category": "roofing",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta property management company",
+      "url": null,
+      "snippet": "Potential roofing customer target: property management company in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "property management company",
+      "suggestedService": {
+        "serviceId": "inspection",
+        "serviceName": "Roof Inspection",
+        "quoteKey": "inspection"
+      },
+      "score": 90,
+      "query": "property management company in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:19.373Z"
+    },
+    {
+      "leadId": "lead_6c43f5f8fa04",
+      "category": "roofing",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta church",
+      "url": null,
+      "snippet": "Potential roofing customer target: church in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "church",
+      "suggestedService": {
+        "serviceId": "inspection",
+        "serviceName": "Roof Inspection",
+        "quoteKey": "inspection"
+      },
+      "score": 80,
+      "query": "property management company in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:19.373Z"
+    },
+    {
+      "leadId": "lead_f0fc99ed7163",
+      "category": "roofing",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta school",
+      "url": null,
+      "snippet": "Potential roofing customer target: school in Augusta, GA. Verify contact details before outreach.",
+      "customerType": "school",
+      "suggestedService": {
+        "serviceId": "inspection",
+        "serviceName": "Roof Inspection",
+        "quoteKey": "inspection"
+      },
+      "score": 80,
+      "query": "property management company in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T01:58:19.373Z"
+    }
+  ]
+}

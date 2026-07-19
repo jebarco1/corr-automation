@@ -1,0 +1,107 @@
+{
+  "category": "transportation",
+  "city": "Macon",
+  "state": "GA",
+  "market": "Macon, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T01:58:21.953Z",
+  "queries": [
+    "furniture store in Macon GA",
+    "furniture store Macon GA contact"
+  ],
+  "count": 4,
+  "leads": [
+    {
+      "leadId": "lead_a91085b2ce92",
+      "category": "transportation",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Contact Us - Bert Maxwell Furniture Macon, Georgia",
+      "url": "https://bertmaxwell.com/contact-us/",
+      "snippet": "Contact Us Questions? Please use this form to contact us, or call us at 478-743-4641. Our Showroom - Free Parking in Rear Lot Hours:Monday - Friday, 9:00am - 5:30pmSaturday - 9:00am to 5:00pm Office Tel: 478-743-4641",
+      "customerType": "furniture store",
+      "suggestedService": {
+        "serviceId": "local-move",
+        "serviceName": "Local Move",
+        "quoteKey": "local move"
+      },
+      "score": 80,
+      "query": "furniture store Macon GA contact",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:21.953Z"
+    },
+    {
+      "leadId": "lead_10c9424e1386",
+      "category": "transportation",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "THE BEST 10 Furniture Stores in MACON, GA - Yelp",
+      "url": "https://www.yelp.com/search?cflt=furniture&find_loc=Macon%2C+GA",
+      "snippet": "What are people saying about furniture stores in Macon, GA? This is a review for furniture stores in Macon, GA: \"Wow, the service you receive at Havertys is the best I have ever had when shopping for furniture. They let me shop but was there when I had questions. Their selection was perfect for what I have been looking for. Good prices for the quality. It&#x27;s why I will only buy from Havertys ...",
+      "customerType": "furniture store",
+      "suggestedService": {
+        "serviceId": "local-move",
+        "serviceName": "Local Move",
+        "quoteKey": "local move"
+      },
+      "score": 75,
+      "query": "furniture store in Macon GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:21.953Z"
+    },
+    {
+      "leadId": "lead_c97d3b96a536",
+      "category": "transportation",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Aj&#x27;s Home Furniture in Macon, GA",
+      "url": "https://ajshomefurniture.com/",
+      "snippet": "At AJ&#x27;s Home Furniture in Macon, GA, discover your ideal home oasis with our furniture collection. From stylish pieces to functional designs, find furniture that suits your taste and lifestyle. Visit us to explore quality and comfort for every corner of your home.",
+      "customerType": "furniture store",
+      "suggestedService": {
+        "serviceId": "local-move",
+        "serviceName": "Local Move",
+        "quoteKey": "local move"
+      },
+      "score": 75,
+      "query": "furniture store in Macon GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:21.953Z"
+    },
+    {
+      "leadId": "lead_cc39ca7ddee6",
+      "category": "transportation",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Home - Bert Maxwell Furniture Macon, Georgia",
+      "url": "https://bertmaxwell.com/",
+      "snippet": "Bert Maxwell Furniture Company in downtown Macon, Georgia has six stories with a large selection of La-Z-Boy recliners, outdoor, bedroom and living room furniture, dining room sets, grandfather clocks, bedding, recliners, and accessories for every room in the house. We service and repair La-Z-Boy products. We are a family-owned business with over 100 years of experience serving Middle Georgia ...",
+      "customerType": "furniture store",
+      "suggestedService": {
+        "serviceId": "local-move",
+        "serviceName": "Local Move",
+        "quoteKey": "local move"
+      },
+      "score": 75,
+      "query": "furniture store in Macon GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T01:58:21.953Z"
+    }
+  ]
+}

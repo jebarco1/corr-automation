@@ -1,0 +1,119 @@
+{
+  "version": 1,
+  "updatedAt": "2026-07-19T01:51:22.000Z",
+  "directory": "data/service-catalog",
+  "categories": [
+    {
+      "category": "landscape",
+      "label": "Landscape",
+      "file": "data/service-catalog/landscape.json",
+      "serviceCount": 22,
+      "defaultServiceId": "mowing",
+      "endpoint": "/api/v1/landscape/services"
+    },
+    {
+      "category": "hvac",
+      "label": "HVAC & Mechanical",
+      "file": "data/service-catalog/hvac.json",
+      "serviceCount": 17,
+      "defaultServiceId": "diagnostic",
+      "endpoint": "/api/v1/hvac/services"
+    },
+    {
+      "category": "cleaning",
+      "label": "Janitorial & Cleaning",
+      "file": "data/service-catalog/cleaning.json",
+      "serviceCount": 15,
+      "defaultServiceId": "recurring-janitorial",
+      "endpoint": "/api/v1/cleaning/services"
+    },
+    {
+      "category": "pest-control",
+      "label": "Pest Control",
+      "file": "data/service-catalog/pest-control.json",
+      "serviceCount": 14,
+      "defaultServiceId": "one-time-treatment",
+      "endpoint": "/api/v1/pest-control/services"
+    },
+    {
+      "category": "pool",
+      "label": "Pool Service",
+      "file": "data/service-catalog/pool.json",
+      "serviceCount": 14,
+      "defaultServiceId": "weekly-service",
+      "endpoint": "/api/v1/pool/services"
+    },
+    {
+      "category": "painting",
+      "label": "Painting",
+      "file": "data/service-catalog/painting.json",
+      "serviceCount": 12,
+      "defaultServiceId": "interior",
+      "endpoint": "/api/v1/painting/services"
+    },
+    {
+      "category": "roofing",
+      "label": "Roofing",
+      "file": "data/service-catalog/roofing.json",
+      "serviceCount": 14,
+      "defaultServiceId": "inspection",
+      "endpoint": "/api/v1/roofing/services"
+    },
+    {
+      "category": "plumbing",
+      "label": "Plumbing",
+      "file": "data/service-catalog/plumbing.json",
+      "serviceCount": 15,
+      "defaultServiceId": "leak-repair",
+      "endpoint": "/api/v1/plumbing/services"
+    },
+    {
+      "category": "electrical",
+      "label": "Electrical",
+      "file": "data/service-catalog/electrical.json",
+      "serviceCount": 14,
+      "defaultServiceId": "diagnostic",
+      "endpoint": "/api/v1/electrical/services"
+    },
+    {
+      "category": "general-contract",
+      "label": "General Contracting",
+      "file": "data/service-catalog/general-contract.json",
+      "serviceCount": 15,
+      "defaultServiceId": "remodel",
+      "endpoint": "/api/v1/general-contract/services"
+    },
+    {
+      "category": "surveillance",
+      "label": "Surveillance",
+      "file": "data/service-catalog/surveillance.json",
+      "serviceCount": 12,
+      "defaultServiceId": "new-installation",
+      "endpoint": "/api/v1/surveillance/services"
+    },
+    {
+      "category": "trash-removal",
+      "label": "Trash Removal",
+      "file": "data/service-catalog/trash-removal.json",
+      "serviceCount": 12,
+      "defaultServiceId": "single-haul",
+      "endpoint": "/api/v1/trash-removal/services"
+    },
+    {
+      "category": "transportation",
+      "label": "Transportation",
+      "file": "data/service-catalog/transportation.json",
+      "serviceCount": 12,
+      "defaultServiceId": "local-move",
+      "endpoint": "/api/v1/transportation/services"
+    },
+    {
+      "category": "healthcare",
+      "label": "Nursing & Doctors",
+      "file": "data/service-catalog/healthcare.json",
+      "serviceCount": 14,
+      "defaultServiceId": "nursing-visit",
+      "endpoint": "/api/v1/healthcare/services"
+    }
+  ]
+}
