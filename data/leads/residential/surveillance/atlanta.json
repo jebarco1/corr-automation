@@ -1,0 +1,99 @@
+{
+  "segment": "residential",
+  "category": "surveillance",
+  "city": "Atlanta",
+  "state": "GA",
+  "market": "Atlanta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:26:12.016Z",
+  "queries": [
+    "condo association in Atlanta GA",
+    "condo association Atlanta GA contact",
+    "condo association contact Atlanta GA"
+  ],
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "leads": [
+    {
+      "leadId": "lead_c32c20c621bf",
+      "segment": "residential",
+      "category": "surveillance",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta apartment leasing office",
+      "url": null,
+      "snippet": "Potential surveillance customer target: apartment leasing office in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment leasing office",
+      "suggestedService": {
+        "serviceId": "doorbell-camera",
+        "serviceName": "Doorbell / Entry Camera",
+        "quoteKey": "doorbell camera"
+      },
+      "score": 90,
+      "query": "condo association in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:26:12.016Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_76a62bc4d3e6",
+      "segment": "residential",
+      "category": "surveillance",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta neighborhood HOA",
+      "url": null,
+      "snippet": "Potential surveillance customer target: neighborhood HOA in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
+      "suggestedService": {
+        "serviceId": "doorbell-camera",
+        "serviceName": "Doorbell / Entry Camera",
+        "quoteKey": "doorbell camera"
+      },
+      "score": 85,
+      "query": "condo association in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:26:12.016Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    }
+  ]
+}

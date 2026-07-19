@@ -1,0 +1,99 @@
+{
+  "segment": "b2b",
+  "category": "electrical",
+  "city": "Atlanta",
+  "state": "GA",
+  "market": "Atlanta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:21:02.296Z",
+  "queries": [
+    "warehouse in Atlanta GA",
+    "warehouse Atlanta GA contact",
+    "commercial electrician Atlanta GA"
+  ],
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "leads": [
+    {
+      "leadId": "lead_91b3029fe824",
+      "segment": "b2b",
+      "category": "electrical",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta office building",
+      "url": null,
+      "snippet": "Potential electrical customer target: office building in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "office building",
+      "suggestedService": {
+        "serviceId": "diagnostic",
+        "serviceName": "Electrical Diagnostic",
+        "quoteKey": "diagnostic"
+      },
+      "score": 80,
+      "query": "warehouse in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:02.296Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_a00938b6ac3e",
+      "segment": "b2b",
+      "category": "electrical",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta warehouse",
+      "url": null,
+      "snippet": "Potential electrical customer target: warehouse in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "warehouse",
+      "suggestedService": {
+        "serviceId": "diagnostic",
+        "serviceName": "Electrical Diagnostic",
+        "quoteKey": "diagnostic"
+      },
+      "score": 75,
+      "query": "warehouse in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:02.296Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    }
+  ]
+}

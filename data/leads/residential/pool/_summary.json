@@ -1,0 +1,74 @@
+{
+  "segment": "residential",
+  "category": "pool",
+  "updatedAt": "2026-07-19T02:24:47.827Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/pool/atlanta.json",
+      "queries": [
+        "neighborhood HOA in Atlanta GA",
+        "neighborhood HOA Atlanta GA contact",
+        "community pool HOA contact Atlanta GA"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/pool/augusta.json",
+      "queries": [
+        "neighborhood HOA in Augusta GA",
+        "neighborhood HOA Augusta GA contact",
+        "community pool HOA contact Augusta GA"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/pool/macon.json",
+      "queries": [
+        "neighborhood HOA in Macon GA",
+        "neighborhood HOA Macon GA contact",
+        "community pool HOA contact Macon GA"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/pool/savannah.json",
+      "queries": [
+        "neighborhood HOA in Savannah GA",
+        "neighborhood HOA Savannah GA contact",
+        "community pool HOA contact Savannah GA"
+      ]
+    }
+  ]
+}

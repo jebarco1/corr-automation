@@ -1,91 +1,123 @@
 {
-  "version": 1,
-  "updatedAt": "2026-07-19T01:57:32.000Z",
+  "version": 2,
+  "updatedAt": "2026-07-19T02:13:24.000Z",
   "directory": "data/lead-targets",
+  "segments": [
+    "b2b",
+    "residential"
+  ],
   "categories": [
     {
       "category": "landscape",
       "file": "data/lead-targets/landscape.json",
-      "customerTypeCount": 5,
-      "endpoint": "/api/v1/landscape/leads/hunt"
+      "b2bEndpoint": "/api/v1/leads/b2b?category=landscape",
+      "residentialEndpoint": "/api/v1/leads/residential?category=landscape",
+      "huntB2b": "/api/v1/leads/b2b/hunt",
+      "huntResidential": "/api/v1/leads/residential/hunt"
     },
     {
       "category": "hvac",
       "file": "data/lead-targets/hvac.json",
-      "customerTypeCount": 5,
-      "endpoint": "/api/v1/hvac/leads/hunt"
+      "b2bEndpoint": "/api/v1/leads/b2b?category=hvac",
+      "residentialEndpoint": "/api/v1/leads/residential?category=hvac",
+      "huntB2b": "/api/v1/leads/b2b/hunt",
+      "huntResidential": "/api/v1/leads/residential/hunt"
     },
     {
       "category": "cleaning",
       "file": "data/lead-targets/cleaning.json",
-      "customerTypeCount": 5,
-      "endpoint": "/api/v1/cleaning/leads/hunt"
+      "b2bEndpoint": "/api/v1/leads/b2b?category=cleaning",
+      "residentialEndpoint": "/api/v1/leads/residential?category=cleaning",
+      "huntB2b": "/api/v1/leads/b2b/hunt",
+      "huntResidential": "/api/v1/leads/residential/hunt"
     },
     {
       "category": "pest-control",
       "file": "data/lead-targets/pest-control.json",
-      "customerTypeCount": 5,
-      "endpoint": "/api/v1/pest-control/leads/hunt"
+      "b2bEndpoint": "/api/v1/leads/b2b?category=pest-control",
+      "residentialEndpoint": "/api/v1/leads/residential?category=pest-control",
+      "huntB2b": "/api/v1/leads/b2b/hunt",
+      "huntResidential": "/api/v1/leads/residential/hunt"
     },
     {
       "category": "pool",
       "file": "data/lead-targets/pool.json",
-      "customerTypeCount": 5,
-      "endpoint": "/api/v1/pool/leads/hunt"
+      "b2bEndpoint": "/api/v1/leads/b2b?category=pool",
+      "residentialEndpoint": "/api/v1/leads/residential?category=pool",
+      "huntB2b": "/api/v1/leads/b2b/hunt",
+      "huntResidential": "/api/v1/leads/residential/hunt"
     },
     {
       "category": "painting",
       "file": "data/lead-targets/painting.json",
-      "customerTypeCount": 5,
-      "endpoint": "/api/v1/painting/leads/hunt"
+      "b2bEndpoint": "/api/v1/leads/b2b?category=painting",
+      "residentialEndpoint": "/api/v1/leads/residential?category=painting",
+      "huntB2b": "/api/v1/leads/b2b/hunt",
+      "huntResidential": "/api/v1/leads/residential/hunt"
     },
     {
       "category": "roofing",
       "file": "data/lead-targets/roofing.json",
-      "customerTypeCount": 5,
-      "endpoint": "/api/v1/roofing/leads/hunt"
+      "b2bEndpoint": "/api/v1/leads/b2b?category=roofing",
+      "residentialEndpoint": "/api/v1/leads/residential?category=roofing",
+      "huntB2b": "/api/v1/leads/b2b/hunt",
+      "huntResidential": "/api/v1/leads/residential/hunt"
     },
     {
       "category": "plumbing",
       "file": "data/lead-targets/plumbing.json",
-      "customerTypeCount": 5,
-      "endpoint": "/api/v1/plumbing/leads/hunt"
+      "b2bEndpoint": "/api/v1/leads/b2b?category=plumbing",
+      "residentialEndpoint": "/api/v1/leads/residential?category=plumbing",
+      "huntB2b": "/api/v1/leads/b2b/hunt",
+      "huntResidential": "/api/v1/leads/residential/hunt"
     },
     {
       "category": "electrical",
       "file": "data/lead-targets/electrical.json",
-      "customerTypeCount": 5,
-      "endpoint": "/api/v1/electrical/leads/hunt"
+      "b2bEndpoint": "/api/v1/leads/b2b?category=electrical",
+      "residentialEndpoint": "/api/v1/leads/residential?category=electrical",
+      "huntB2b": "/api/v1/leads/b2b/hunt",
+      "huntResidential": "/api/v1/leads/residential/hunt"
     },
     {
       "category": "general-contract",
       "file": "data/lead-targets/general-contract.json",
-      "customerTypeCount": 5,
-      "endpoint": "/api/v1/general-contract/leads/hunt"
+      "b2bEndpoint": "/api/v1/leads/b2b?category=general-contract",
+      "residentialEndpoint": "/api/v1/leads/residential?category=general-contract",
+      "huntB2b": "/api/v1/leads/b2b/hunt",
+      "huntResidential": "/api/v1/leads/residential/hunt"
     },
     {
       "category": "surveillance",
       "file": "data/lead-targets/surveillance.json",
-      "customerTypeCount": 5,
-      "endpoint": "/api/v1/surveillance/leads/hunt"
+      "b2bEndpoint": "/api/v1/leads/b2b?category=surveillance",
+      "residentialEndpoint": "/api/v1/leads/residential?category=surveillance",
+      "huntB2b": "/api/v1/leads/b2b/hunt",
+      "huntResidential": "/api/v1/leads/residential/hunt"
     },
     {
       "category": "trash-removal",
       "file": "data/lead-targets/trash-removal.json",
-      "customerTypeCount": 5,
-      "endpoint": "/api/v1/trash-removal/leads/hunt"
+      "b2bEndpoint": "/api/v1/leads/b2b?category=trash-removal",
+      "residentialEndpoint": "/api/v1/leads/residential?category=trash-removal",
+      "huntB2b": "/api/v1/leads/b2b/hunt",
+      "huntResidential": "/api/v1/leads/residential/hunt"
     },
     {
       "category": "transportation",
       "file": "data/lead-targets/transportation.json",
-      "customerTypeCount": 5,
-      "endpoint": "/api/v1/transportation/leads/hunt"
+      "b2bEndpoint": "/api/v1/leads/b2b?category=transportation",
+      "residentialEndpoint": "/api/v1/leads/residential?category=transportation",
+      "huntB2b": "/api/v1/leads/b2b/hunt",
+      "huntResidential": "/api/v1/leads/residential/hunt"
     },
     {
       "category": "healthcare",
       "file": "data/lead-targets/healthcare.json",
-      "customerTypeCount": 5,
-      "endpoint": "/api/v1/healthcare/leads/hunt"
+      "b2bEndpoint": "/api/v1/leads/b2b?category=healthcare",
+      "residentialEndpoint": "/api/v1/leads/residential?category=healthcare",
+      "huntB2b": "/api/v1/leads/b2b/hunt",
+      "huntResidential": "/api/v1/leads/residential/hunt"
     }
   ]
 }

@@ -1,0 +1,99 @@
+{
+  "segment": "residential",
+  "category": "electrical",
+  "city": "Macon",
+  "state": "GA",
+  "market": "Macon, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:25:54.399Z",
+  "queries": [
+    "apartment leasing office in Macon GA",
+    "apartment leasing office Macon GA contact",
+    "apartment community office contact Macon GA"
+  ],
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "leads": [
+    {
+      "leadId": "lead_7439033b85a5",
+      "segment": "residential",
+      "category": "electrical",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon apartment leasing office",
+      "url": null,
+      "snippet": "Potential electrical customer target: apartment leasing office in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment leasing office",
+      "suggestedService": {
+        "serviceId": "diagnostic",
+        "serviceName": "Electrical Diagnostic",
+        "quoteKey": "diagnostic"
+      },
+      "score": 90,
+      "query": "apartment leasing office in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:25:54.399Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_c1a40b96e232",
+      "segment": "residential",
+      "category": "electrical",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon neighborhood HOA",
+      "url": null,
+      "snippet": "Potential electrical customer target: neighborhood HOA in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
+      "suggestedService": {
+        "serviceId": "diagnostic",
+        "serviceName": "Electrical Diagnostic",
+        "quoteKey": "diagnostic"
+      },
+      "score": 85,
+      "query": "apartment leasing office in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:25:54.399Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    }
+  ]
+}

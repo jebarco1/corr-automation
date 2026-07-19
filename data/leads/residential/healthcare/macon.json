@@ -1,0 +1,99 @@
+{
+  "segment": "residential",
+  "category": "healthcare",
+  "city": "Macon",
+  "state": "GA",
+  "market": "Macon, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:27:08.971Z",
+  "queries": [
+    "senior living community in Macon GA",
+    "senior living community Macon GA contact",
+    "assisted living community contact Macon GA"
+  ],
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "leads": [
+    {
+      "leadId": "lead_bda5a09d4501",
+      "segment": "residential",
+      "category": "healthcare",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon home care referral office",
+      "url": null,
+      "snippet": "Potential healthcare customer target: home care referral office in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "home care referral office",
+      "suggestedService": {
+        "serviceId": "nursing-visit",
+        "serviceName": "Nursing Visit",
+        "quoteKey": "nursing visit"
+      },
+      "score": 80,
+      "query": "senior living community in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:27:08.971Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_62a0ffa2c6f4",
+      "segment": "residential",
+      "category": "healthcare",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon senior living community",
+      "url": null,
+      "snippet": "Potential healthcare customer target: senior living community in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "senior living community",
+      "suggestedService": {
+        "serviceId": "nursing-visit",
+        "serviceName": "Nursing Visit",
+        "quoteKey": "nursing visit"
+      },
+      "score": 75,
+      "query": "senior living community in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:27:08.971Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "segment": "residential",
+  "category": "surveillance",
+  "city": "Macon",
+  "state": "GA",
+  "market": "Macon, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:26:19.751Z",
+  "queries": [
+    "condo association in Macon GA",
+    "condo association Macon GA contact",
+    "condo association contact Macon GA"
+  ],
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "leads": [
+    {
+      "leadId": "lead_27217d8c177b",
+      "segment": "residential",
+      "category": "surveillance",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon apartment leasing office",
+      "url": null,
+      "snippet": "Potential surveillance customer target: apartment leasing office in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment leasing office",
+      "suggestedService": {
+        "serviceId": "doorbell-camera",
+        "serviceName": "Doorbell / Entry Camera",
+        "quoteKey": "doorbell camera"
+      },
+      "score": 90,
+      "query": "condo association in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:26:19.751Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_e2c52a3ecbfb",
+      "segment": "residential",
+      "category": "surveillance",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon neighborhood HOA",
+      "url": null,
+      "snippet": "Potential surveillance customer target: neighborhood HOA in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
+      "suggestedService": {
+        "serviceId": "doorbell-camera",
+        "serviceName": "Doorbell / Entry Camera",
+        "quoteKey": "doorbell camera"
+      },
+      "score": 85,
+      "query": "condo association in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:26:19.751Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    }
+  ]
+}

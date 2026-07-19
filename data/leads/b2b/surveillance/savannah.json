@@ -1,0 +1,99 @@
+{
+  "segment": "b2b",
+  "category": "surveillance",
+  "city": "Savannah",
+  "state": "GA",
+  "market": "Savannah, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:21:03.564Z",
+  "queries": [
+    "warehouse in Savannah GA",
+    "warehouse Savannah GA contact",
+    "commercial security cameras Savannah GA"
+  ],
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "leads": [
+    {
+      "leadId": "lead_26864c125b93",
+      "segment": "b2b",
+      "category": "surveillance",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah apartment complex",
+      "url": null,
+      "snippet": "Potential surveillance customer target: apartment complex in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment complex",
+      "suggestedService": {
+        "serviceId": "new-installation",
+        "serviceName": "New Camera Installation",
+        "quoteKey": "new installation"
+      },
+      "score": 85,
+      "query": "warehouse in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:03.564Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_5d32fac69fd6",
+      "segment": "b2b",
+      "category": "surveillance",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah warehouse",
+      "url": null,
+      "snippet": "Potential surveillance customer target: warehouse in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "warehouse",
+      "suggestedService": {
+        "serviceId": "new-installation",
+        "serviceName": "New Camera Installation",
+        "quoteKey": "new installation"
+      },
+      "score": 75,
+      "query": "warehouse in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:03.564Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    }
+  ]
+}

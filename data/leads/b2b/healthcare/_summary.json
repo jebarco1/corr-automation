@@ -1,0 +1,74 @@
+{
+  "segment": "b2b",
+  "category": "healthcare",
+  "updatedAt": "2026-07-19T02:21:04.481Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/b2b/healthcare/atlanta.json",
+      "queries": [
+        "assisted living in Atlanta GA",
+        "assisted living Atlanta GA contact",
+        "clinical staffing Atlanta GA"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/b2b/healthcare/augusta.json",
+      "queries": [
+        "assisted living in Augusta GA",
+        "assisted living Augusta GA contact",
+        "clinical staffing Augusta GA"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/b2b/healthcare/macon.json",
+      "queries": [
+        "assisted living in Macon GA",
+        "assisted living Macon GA contact",
+        "clinical staffing Macon GA"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/b2b/healthcare/savannah.json",
+      "queries": [
+        "assisted living in Savannah GA",
+        "assisted living Savannah GA contact",
+        "clinical staffing Savannah GA"
+      ]
+    }
+  ]
+}

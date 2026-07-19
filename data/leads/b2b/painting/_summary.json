@@ -1,0 +1,74 @@
+{
+  "segment": "b2b",
+  "category": "painting",
+  "updatedAt": "2026-07-19T02:21:01.570Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/b2b/painting/atlanta.json",
+      "queries": [
+        "HOA in Atlanta GA",
+        "HOA Atlanta GA contact",
+        "commercial painting RFP Atlanta GA"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/b2b/painting/augusta.json",
+      "queries": [
+        "HOA in Augusta GA",
+        "HOA Augusta GA contact",
+        "commercial painting RFP Augusta GA"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/b2b/painting/macon.json",
+      "queries": [
+        "HOA in Macon GA",
+        "HOA Macon GA contact",
+        "commercial painting RFP Macon GA"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/b2b/painting/savannah.json",
+      "queries": [
+        "HOA in Savannah GA",
+        "HOA Savannah GA contact",
+        "commercial painting RFP Savannah GA"
+      ]
+    }
+  ]
+}

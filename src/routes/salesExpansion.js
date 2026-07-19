@@ -10,15 +10,31 @@ import {
 import {
   getGeorgiaMarkets,
   getLeadTargets,
+  getOrigamiStatus,
+  getSegmentLeadTargets,
+  huntB2bLeads,
   huntLeadsForAllCategories,
   huntLeadsForCategory,
+  huntResidentialLeads,
   listAllLeads,
   listLeadTargetCatalog,
   listLeads,
-  listPilotCities
+  listPilotCities,
+  listSegmentLeads,
+  LEAD_SEGMENTS
 } from "../services/leadHunt.js";
+import { evaluateCostGate } from "../services/costQuote.js";
 
 const router = Router();
+
+function costGateOrProceed(res, operation, params, body) {
+  const gate = evaluateCostGate(operation, params, body || {});
+  if (!gate.ok) {
+    res.status(gate.statusCode).json(gate.body);
+    return null;
+  }
+  return gate.approved;
+}
 
 router.post("/sales/client-density", requireClientApiKey, (req, res, next) => {
   try {
@@ -74,10 +90,101 @@ router.get("/leads", (_req, res) => {
 
 router.post("/leads/hunt", requireClientApiKey, async (req, res, next) => {
   try {
-    res.status(202).json(await huntLeadsForAllCategories(req.body || {}));
+    const body = req.body || {};
+    const approved = costGateOrProceed(res, "leads.hunt", body, body);
+    if (!approved) return;
+    const result = await huntLeadsForAllCategories(body);
+    res.status(202).json({ ...result, cost: approved });
   } catch (error) {
     next(error);
   }
+});
+
+/** B2B leads API — commercial / multi-family / facility customers */
+router.get("/leads/b2b", (req, res, next) => {
+  try {
+    res.json(listSegmentLeads("b2b", {
+      category: req.query.category,
+      city: req.query.city,
+      limit: req.query.limit,
+      includeLeads: req.query.includeLeads !== "false"
+    }));
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/leads/b2b/hunt", requireClientApiKey, async (req, res, next) => {
+  try {
+    const body = { ...(req.body || {}), segment: "b2b" };
+    const approved = costGateOrProceed(res, "leads.hunt", body, body);
+    if (!approved) return;
+    const result = await huntB2bLeads(body);
+    res.status(202).json({ ...result, cost: approved });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/** Residential leads API — homeowners / consumer customers */
+router.get("/leads/residential", (req, res, next) => {
+  try {
+    res.json(listSegmentLeads("residential", {
+      category: req.query.category,
+      city: req.query.city,
+      limit: req.query.limit,
+      includeLeads: req.query.includeLeads !== "false"
+    }));
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/leads/residential/hunt", requireClientApiKey, async (req, res, next) => {
+  try {
+    const body = { ...(req.body || {}), segment: "residential" };
+    const approved = costGateOrProceed(res, "leads.hunt", body, body);
+    if (!approved) return;
+    const result = await huntResidentialLeads(body);
+    res.status(202).json({ ...result, cost: approved });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/leads/segments", (_req, res) => {
+  res.json({
+    segments: LEAD_SEGMENTS,
+    marketFile: "data/markets/georgia-cities.json",
+    pilotCities: listPilotCities().map(city => city.label),
+    origami: getOrigamiStatus(),
+    endpoints: {
+      b2b: { list: "/api/v1/leads/b2b", hunt: "/api/v1/leads/b2b/hunt" },
+      residential: { list: "/api/v1/leads/residential", hunt: "/api/v1/leads/residential/hunt" },
+      origamiStatus: "/api/v1/leads/origami/status"
+    }
+  });
+});
+
+router.get("/leads/origami/status", (_req, res) => {
+  res.json({
+    ...getOrigamiStatus(),
+    usage: {
+      huntBody: {
+        provider: "origami | local | auto",
+        fallbackLocal: true,
+        cities: ["Atlanta"],
+        perCityLimit: 5,
+        categories: ["landscape"]
+      },
+      endpoints: {
+        b2bHunt: "POST /api/v1/leads/b2b/hunt",
+        residentialHunt: "POST /api/v1/leads/residential/hunt",
+        categoryHunt: "POST /api/v1/{category}/leads/hunt"
+      },
+      docs: "https://docs.origami.chat/agents/quickstart"
+    }
+  });
 });
 
 for (const category of supportedCategories) {
@@ -89,9 +196,42 @@ for (const category of supportedCategories) {
     }
   });
 
+  router.get(`/${category}/lead-targets/:segment`, (req, res, next) => {
+    try {
+      res.json(getSegmentLeadTargets(category, req.params.segment));
+    } catch (error) {
+      next(error);
+    }
+  });
+
   router.get(`/${category}/leads`, (req, res, next) => {
     try {
       res.json(listLeads(category, {
+        segment: req.query.segment,
+        city: req.query.city,
+        limit: req.query.limit
+      }));
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.get(`/${category}/leads/b2b`, (req, res, next) => {
+    try {
+      res.json(listLeads(category, {
+        segment: "b2b",
+        city: req.query.city,
+        limit: req.query.limit
+      }));
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.get(`/${category}/leads/residential`, (req, res, next) => {
+    try {
+      res.json(listLeads(category, {
+        segment: "residential",
         city: req.query.city,
         limit: req.query.limit
       }));
@@ -102,7 +242,44 @@ for (const category of supportedCategories) {
 
   router.post(`/${category}/leads/hunt`, requireClientApiKey, async (req, res, next) => {
     try {
-      res.status(202).json(await huntLeadsForCategory(category, req.body || {}));
+      const body = { ...(req.body || {}), category };
+      const approved = costGateOrProceed(res, "leads.hunt", {
+        ...body,
+        categories: body.categories || [category]
+      }, body);
+      if (!approved) return;
+      const result = await huntLeadsForCategory(category, body);
+      res.status(202).json({ ...result, cost: approved });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.post(`/${category}/leads/b2b/hunt`, requireClientApiKey, async (req, res, next) => {
+    try {
+      const body = { ...(req.body || {}), segment: "b2b", category };
+      const approved = costGateOrProceed(res, "leads.hunt", {
+        ...body,
+        categories: body.categories || [category]
+      }, body);
+      if (!approved) return;
+      const result = await huntLeadsForCategory(category, body);
+      res.status(202).json({ ...result, cost: approved });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.post(`/${category}/leads/residential/hunt`, requireClientApiKey, async (req, res, next) => {
+    try {
+      const body = { ...(req.body || {}), segment: "residential", category };
+      const approved = costGateOrProceed(res, "leads.hunt", {
+        ...body,
+        categories: body.categories || [category]
+      }, body);
+      if (!approved) return;
+      const result = await huntLeadsForCategory(category, body);
+      res.status(202).json({ ...result, cost: approved });
     } catch (error) {
       next(error);
     }

@@ -1,0 +1,99 @@
+{
+  "segment": "residential",
+  "category": "surveillance",
+  "city": "Augusta",
+  "state": "GA",
+  "market": "Augusta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:26:15.917Z",
+  "queries": [
+    "condo association in Augusta GA",
+    "condo association Augusta GA contact",
+    "condo association contact Augusta GA"
+  ],
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "leads": [
+    {
+      "leadId": "lead_ecc48d9dff5c",
+      "segment": "residential",
+      "category": "surveillance",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta apartment leasing office",
+      "url": null,
+      "snippet": "Potential surveillance customer target: apartment leasing office in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment leasing office",
+      "suggestedService": {
+        "serviceId": "doorbell-camera",
+        "serviceName": "Doorbell / Entry Camera",
+        "quoteKey": "doorbell camera"
+      },
+      "score": 90,
+      "query": "condo association in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:26:15.917Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_525c8dd90685",
+      "segment": "residential",
+      "category": "surveillance",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta neighborhood HOA",
+      "url": null,
+      "snippet": "Potential surveillance customer target: neighborhood HOA in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
+      "suggestedService": {
+        "serviceId": "doorbell-camera",
+        "serviceName": "Doorbell / Entry Camera",
+        "quoteKey": "doorbell camera"
+      },
+      "score": 85,
+      "query": "condo association in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:26:15.917Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    }
+  ]
+}

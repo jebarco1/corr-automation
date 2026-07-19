@@ -1,0 +1,74 @@
+{
+  "segment": "residential",
+  "category": "transportation",
+  "updatedAt": "2026-07-19T02:26:57.528Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/transportation/atlanta.json",
+      "queries": [
+        "apartment leasing office in Atlanta GA",
+        "apartment leasing office Atlanta GA contact",
+        "apartment leasing office contact Atlanta GA"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/transportation/augusta.json",
+      "queries": [
+        "apartment leasing office in Augusta GA",
+        "apartment leasing office Augusta GA contact",
+        "apartment leasing office contact Augusta GA"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/transportation/macon.json",
+      "queries": [
+        "apartment leasing office in Macon GA",
+        "apartment leasing office Macon GA contact",
+        "apartment leasing office contact Macon GA"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/transportation/savannah.json",
+      "queries": [
+        "apartment leasing office in Savannah GA",
+        "apartment leasing office Savannah GA contact",
+        "apartment leasing office contact Savannah GA"
+      ]
+    }
+  ]
+}

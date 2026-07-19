@@ -1,0 +1,109 @@
+{
+  "segment": "b2b",
+  "category": "landscape",
+  "city": "Augusta",
+  "state": "GA",
+  "market": "Augusta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:20:53.129Z",
+  "queries": [
+    "HOA in Augusta GA",
+    "HOA Augusta GA contact",
+    "grounds maintenance contract Augusta GA"
+  ],
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 2,
+    "withPhone": 1,
+    "withEmail": 2,
+    "withAddress": 1
+  },
+  "leads": [
+    {
+      "leadId": "lead_8e56edb21f5f",
+      "segment": "b2b",
+      "category": "landscape",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "The Grounds Maintenance Contract For M.M. Scott Apartments",
+      "url": "https://starbridge.ai/rfp/the-grounds-maintenance-contract-for-m-m-scott-apartments",
+      "snippet": "The Housing Authority of The City of Augusta, Georgia is seeking proposals for a grounds maintenance contract at M.M. Scott Apartments, GA001000112. The contract involves providing labor, materials, equipment, and services for landscape maintenance, including mowing, trimming, edging, debris cleanup, and shrub pruning.",
+      "phone": null,
+      "email": "jenn@starbridge.ai",
+      "address": null,
+      "customerType": "apartment complex",
+      "suggestedService": {
+        "serviceId": "full-maintenance",
+        "serviceName": "Full Grounds Maintenance",
+        "quoteKey": "full maintenance"
+      },
+      "score": 90,
+      "query": "grounds maintenance contract Augusta GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T02:20:52.466Z",
+      "contacts": {
+        "phone": null,
+        "email": "jenn@starbridge.ai",
+        "address": null,
+        "phones": [],
+        "emails": [
+          "jenn@starbridge.ai",
+          "support@starbridge.ai"
+        ],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 1,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_1d8570c04bbe",
+      "segment": "b2b",
+      "category": "landscape",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "AMP HOA Management | HOA Management Solutions",
+      "url": "https://amp-hoa.com/",
+      "snippet": "Our team of licensed Community Association Managers and Real Estate Brokers brings extensive expertise in HOA management, financial reporting, project coordination, property oversight, and systems administration. We provide practical, results-driven solutions to complex challenges and proudly serve communities throughout Georgia and South Carolina.",
+      "phone": "(706) 250-0477",
+      "email": "hoa@amp-hoa.com",
+      "address": "248 Furys Ferry Rd, Augusta, GA, 30907",
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "full-maintenance",
+        "serviceName": "Full Grounds Maintenance",
+        "quoteKey": "full maintenance"
+      },
+      "score": 90,
+      "query": "HOA in Augusta GA",
+      "source": "duckduckgo-html",
+      "status": "contact-ready",
+      "gatheredAt": "2026-07-19T02:20:52.465Z",
+      "contacts": {
+        "phone": "(706) 250-0477",
+        "email": "hoa@amp-hoa.com",
+        "address": "248 Furys Ferry Rd, Augusta, GA, 30907",
+        "phones": [
+          "(706) 250-0477"
+        ],
+        "emails": [
+          "hoa@amp-hoa.com"
+        ],
+        "addresses": [
+          "248 Furys Ferry Rd, Augusta, GA, 30907",
+          "248 Furys Ferry Road, Augusta, Ge"
+        ],
+        "marketHint": "Augusta, GA",
+        "completeness": 3,
+        "enriched": true
+      }
+    }
+  ]
+}

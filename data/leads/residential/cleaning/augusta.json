@@ -1,0 +1,99 @@
+{
+  "segment": "residential",
+  "category": "cleaning",
+  "city": "Augusta",
+  "state": "GA",
+  "market": "Augusta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:24:06.396Z",
+  "queries": [
+    "condo association in Augusta GA",
+    "condo association Augusta GA contact",
+    "apartment leasing office contact Augusta GA"
+  ],
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "leads": [
+    {
+      "leadId": "lead_0a4c44785e59",
+      "segment": "residential",
+      "category": "cleaning",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta apartment leasing office",
+      "url": null,
+      "snippet": "Potential cleaning customer target: apartment leasing office in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment leasing office",
+      "suggestedService": {
+        "serviceId": "deep-clean",
+        "serviceName": "Deep Clean",
+        "quoteKey": "deep clean"
+      },
+      "score": 90,
+      "query": "condo association in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:24:06.396Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_7281c5cd5f46",
+      "segment": "residential",
+      "category": "cleaning",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta neighborhood HOA",
+      "url": null,
+      "snippet": "Potential cleaning customer target: neighborhood HOA in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
+      "suggestedService": {
+        "serviceId": "deep-clean",
+        "serviceName": "Deep Clean",
+        "quoteKey": "deep clean"
+      },
+      "score": 85,
+      "query": "condo association in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:24:06.396Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    }
+  ]
+}

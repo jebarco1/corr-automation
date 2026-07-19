@@ -1,0 +1,74 @@
+{
+  "segment": "b2b",
+  "category": "transportation",
+  "updatedAt": "2026-07-19T02:21:04.193Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/b2b/transportation/atlanta.json",
+      "queries": [
+        "furniture store in Atlanta GA",
+        "furniture store Atlanta GA contact",
+        "local delivery service commercial Atlanta GA"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/b2b/transportation/augusta.json",
+      "queries": [
+        "furniture store in Augusta GA",
+        "furniture store Augusta GA contact",
+        "local delivery service commercial Augusta GA"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/b2b/transportation/macon.json",
+      "queries": [
+        "furniture store in Macon GA",
+        "furniture store Macon GA contact",
+        "local delivery service commercial Macon GA"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/b2b/transportation/savannah.json",
+      "queries": [
+        "furniture store in Savannah GA",
+        "furniture store Savannah GA contact",
+        "local delivery service commercial Savannah GA"
+      ]
+    }
+  ]
+}

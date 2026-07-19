@@ -1,0 +1,74 @@
+{
+  "segment": "b2b",
+  "category": "surveillance",
+  "updatedAt": "2026-07-19T02:21:03.564Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/b2b/surveillance/atlanta.json",
+      "queries": [
+        "warehouse in Atlanta GA",
+        "warehouse Atlanta GA contact",
+        "commercial security cameras Atlanta GA"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/b2b/surveillance/augusta.json",
+      "queries": [
+        "warehouse in Augusta GA",
+        "warehouse Augusta GA contact",
+        "commercial security cameras Augusta GA"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/b2b/surveillance/macon.json",
+      "queries": [
+        "warehouse in Macon GA",
+        "warehouse Macon GA contact",
+        "commercial security cameras Macon GA"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/b2b/surveillance/savannah.json",
+      "queries": [
+        "warehouse in Savannah GA",
+        "warehouse Savannah GA contact",
+        "commercial security cameras Savannah GA"
+      ]
+    }
+  ]
+}

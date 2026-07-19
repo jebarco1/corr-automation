@@ -1,0 +1,99 @@
+{
+  "segment": "b2b",
+  "category": "trash-removal",
+  "city": "Augusta",
+  "state": "GA",
+  "market": "Augusta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:21:03.756Z",
+  "queries": [
+    "construction company in Augusta GA",
+    "construction company Augusta GA contact",
+    "commercial dumpster rental Augusta GA"
+  ],
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "leads": [
+    {
+      "leadId": "lead_998c8dcfc770",
+      "segment": "b2b",
+      "category": "trash-removal",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta property management company",
+      "url": null,
+      "snippet": "Potential trash-removal customer target: property management company in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "property management company",
+      "suggestedService": {
+        "serviceId": "dumpster-rental",
+        "serviceName": "Dumpster Rental",
+        "quoteKey": "dumpster rental"
+      },
+      "score": 85,
+      "query": "construction company in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:03.756Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_357fee648f81",
+      "segment": "b2b",
+      "category": "trash-removal",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta construction company",
+      "url": null,
+      "snippet": "Potential trash-removal customer target: construction company in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "construction company",
+      "suggestedService": {
+        "serviceId": "dumpster-rental",
+        "serviceName": "Dumpster Rental",
+        "quoteKey": "dumpster rental"
+      },
+      "score": 75,
+      "query": "construction company in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:03.756Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    }
+  ]
+}

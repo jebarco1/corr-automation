@@ -1,0 +1,74 @@
+{
+  "segment": "residential",
+  "category": "healthcare",
+  "updatedAt": "2026-07-19T02:27:12.872Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/healthcare/atlanta.json",
+      "queries": [
+        "senior living community in Atlanta GA",
+        "senior living community Atlanta GA contact",
+        "assisted living community contact Atlanta GA"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/healthcare/augusta.json",
+      "queries": [
+        "senior living community in Augusta GA",
+        "senior living community Augusta GA contact",
+        "assisted living community contact Augusta GA"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/healthcare/macon.json",
+      "queries": [
+        "senior living community in Macon GA",
+        "senior living community Macon GA contact",
+        "assisted living community contact Macon GA"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/healthcare/savannah.json",
+      "queries": [
+        "senior living community in Savannah GA",
+        "senior living community Savannah GA contact",
+        "assisted living community contact Savannah GA"
+      ]
+    }
+  ]
+}

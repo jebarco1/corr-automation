@@ -1,0 +1,99 @@
+{
+  "segment": "b2b",
+  "category": "cleaning",
+  "city": "Atlanta",
+  "state": "GA",
+  "market": "Atlanta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:21:00.112Z",
+  "queries": [
+    "office building in Atlanta GA",
+    "office building Atlanta GA contact",
+    "janitorial contract Atlanta GA"
+  ],
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "leads": [
+    {
+      "leadId": "lead_fc62dd4e64c0",
+      "segment": "b2b",
+      "category": "cleaning",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta property management company",
+      "url": null,
+      "snippet": "Potential cleaning customer target: property management company in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "property management company",
+      "suggestedService": {
+        "serviceId": "recurring-janitorial",
+        "serviceName": "Recurring Janitorial",
+        "quoteKey": "recurring janitorial"
+      },
+      "score": 85,
+      "query": "office building in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:00.112Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_025b637d233e",
+      "segment": "b2b",
+      "category": "cleaning",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta office building",
+      "url": null,
+      "snippet": "Potential cleaning customer target: office building in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "office building",
+      "suggestedService": {
+        "serviceId": "recurring-janitorial",
+        "serviceName": "Recurring Janitorial",
+        "quoteKey": "recurring janitorial"
+      },
+      "score": 80,
+      "query": "office building in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:00.112Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    }
+  ]
+}

@@ -5,11 +5,20 @@ import axios from "axios";
 import { fileURLToPath } from "url";
 import { supportedCategories } from "../ai/toolCatalog.js";
 import { listServices } from "./serviceCatalog.js";
+import {
+  getOrigamiStatus,
+  huntCityWithOrigami,
+  isOrigamiEnabled
+} from "./origamiClient.js";
+
+export { getOrigamiStatus, isOrigamiEnabled };
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const marketsDir = path.join(__dirname, "../../data/markets");
 const leadTargetsDir = path.join(__dirname, "../../data/lead-targets");
 const leadsDir = path.join(__dirname, "../../data/leads");
+
+export const LEAD_SEGMENTS = ["b2b", "residential"];
 
 const COMPETITOR_HINTS = [
   "near me", "contractor", "company we", "our services", "call us today",
@@ -64,16 +73,64 @@ export function getLeadTargets(category) {
   return readJson(filePath);
 }
 
+export function normalizeLeadSegment(segment) {
+  const value = String(segment || "").toLowerCase().trim();
+  if (value === "b2b" || value === "business" || value === "commercial") return "b2b";
+  if (value === "residential" || value === "resi" || value === "homeowner" || value === "consumer") return "residential";
+  const error = new Error("segment must be 'b2b' or 'residential'");
+  error.statusCode = 400;
+  throw error;
+}
+
+/** Resolve hunt provider: origami | local | auto (origami when key set). */
+export function resolveLeadProvider(provider) {
+  const value = String(provider || process.env.LEAD_PROVIDER || "auto").toLowerCase().trim();
+  if (value === "origami" || value === "origami-chat" || value === "origami.chat") return "origami";
+  if (value === "local" || value === "ddg" || value === "duckduckgo" || value === "web") return "local";
+  if (value === "auto" || value === "default" || !value) return isOrigamiEnabled() ? "origami" : "local";
+  const error = new Error("provider must be 'origami', 'local', or 'auto'");
+  error.statusCode = 400;
+  throw error;
+}
+
+/** Resolve B2B or residential target block for a category. */
+export function getSegmentLeadTargets(category, segment) {
+  const normalized = normalizeLeadSegment(segment);
+  const full = getLeadTargets(category);
+  const block = full[normalized] || null;
+  if (!block) {
+    const error = new Error(`No ${normalized} lead targets for category: ${category}`);
+    error.statusCode = 404;
+    throw error;
+  }
+  return {
+    category,
+    segment: normalized,
+    marketFile: full.marketFile || "data/markets/georgia-cities.json",
+    usePilotCities: full.usePilotCities !== false,
+    queryTemplates: full.queryTemplates,
+    customerTypes: block.customerTypes || [],
+    intentPhrases: block.intentPhrases || [],
+    excludeKeywords: block.excludeKeywords || [],
+    suggestedServiceIds: block.suggestedServiceIds || []
+  };
+}
+
 export function listLeadTargetCatalog() {
   const indexPath = path.join(leadTargetsDir, "index.json");
   if (fs.existsSync(indexPath)) return readJson(indexPath);
   return {
-    version: 1,
+    version: 2,
+    segments: LEAD_SEGMENTS,
     categories: supportedCategories.map(category => ({
       category,
       file: `data/lead-targets/${category}.json`
     }))
   };
+}
+
+function segmentDir(segment) {
+  return path.join(leadsDir, normalizeLeadSegment(segment));
 }
 
 function buildQueries(category, city, targets, limit = 4) {
@@ -92,21 +149,304 @@ function buildQueries(category, city, targets, limit = 4) {
           .replaceAll("{state}", city.state)
       );
     }
+    // Headhunter contact-intent queries
+    queries.push(`${customerType} ${city.city} ${city.state} phone email address`);
+    queries.push(`${customerType} ${city.city} ${city.state} "contact us"`);
   }
   for (const phrase of targets.intentPhrases || []) {
     queries.push(`${phrase} ${city.city} ${city.state}`);
   }
   // Prefer diverse unique queries
-  return [...new Set(queries)].slice(0, limit);
+  return [...new Set(queries)].slice(0, Math.max(limit, 3));
 }
 
-function isCompetitor(text = "", excludeKeywords = []) {
+function unwrapResultUrl(rawUrl = "") {
+  let url = String(rawUrl || "").trim();
+  if (!url) return null;
+  if (url.startsWith("//")) url = `https:${url}`;
+  try {
+    const parsed = new URL(url);
+    if (parsed.hostname.includes("duckduckgo.com") && parsed.searchParams.get("uddg")) {
+      return decodeURIComponent(parsed.searchParams.get("uddg"));
+    }
+  } catch {
+    return url;
+  }
+  return url;
+}
+
+const EMAIL_RE = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi;
+const PHONE_RE = /(?:\+?1[-.\s]?)?(?:\(?\d{3}\)?[-.\s]?)\d{3}[-.\s]?\d{4}\b/g;
+const ADDRESS_RE = /\d{1,6}\s+[A-Za-z0-9.'#\- ]+(?:Street|St|Avenue|Ave|Road|Rd|Boulevard|Blvd|Drive|Dr|Lane|Ln|Way|Court|Ct|Circle|Cir|Parkway|Pkwy|Place|Pl)\.?(?:,\s*[A-Za-z .'#-]+){0,2},\s*[A-Z]{2}(?:\s+\d{5}(?:-\d{4})?)?/gi;
+
+function normalizePhone(value) {
+  const digits = String(value || "").replace(/\D/g, "");
+  if (digits.length === 11 && digits.startsWith("1")) return `(${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7)}`;
+  if (digits.length === 10) return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+  return null;
+}
+
+function isUsefulAddress(address = "", city = null) {
+  const value = String(address || "").replace(/\s+/g, " ").trim();
+  if (value.length < 12 || value.length > 160) return false;
+  if (!/\d/.test(value)) return false;
+  if (/\b(PM|AM|Dr\.?,\s*PM)\b/i.test(value) && !/\bGA\b|\d{5}/.test(value)) return false;
+  if (city?.city && !new RegExp(city.city, "i").test(value) && !/\bGA\b|\d{5}/.test(value)) return false;
+  // Prefer real street-looking values.
+  return /(Street|St|Avenue|Ave|Road|Rd|Boulevard|Blvd|Drive|Dr|Lane|Ln|Way|Court|Ct|Circle|Cir|Parkway|Pkwy|Place|Pl|Highway|Hwy)\b/i.test(value)
+    || /\b[A-Z]{2}\s+\d{5}\b/.test(value);
+}
+
+function isLowQualityLead(title = "", url = "") {
+  const text = `${title} ${url}`.toLowerCase();
+  return /laws and regulations|blog\/|\/blog|wikipedia\.org|yelp\.com|facebook\.com|linkedin\.com|angi\.com|homeadvisor|thumbtack|neddle/.test(text);
+}
+
+function cleanEmail(email = "") {
+  return String(email || "")
+    .trim()
+    .replace(/^mailto:/i, "")
+    .replace(/[<>\[\]\(\)\{\}",'\s]/g, "")
+    .replace(/[.,;:]+$/g, "")
+    .toLowerCase();
+}
+
+function isUsefulEmail(email = "") {
+  const lower = cleanEmail(email);
+  if (!/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/.test(lower)) return false;
+  if (/noreply|no-reply|donotreply|example\.com|sentry\.io|wixpress|godaddy|schema\.org|png|jpg|jpeg|webp|svg/.test(lower)) return false;
+  return true;
+}
+
+function extractContactsFromText(text = "", city = null) {
+  const source = String(text || "");
+  const emails = [...new Set((source.match(EMAIL_RE) || []).map(cleanEmail).filter(isUsefulEmail))];
+  const phones = [...new Set((source.match(PHONE_RE) || []).map(normalizePhone).filter(Boolean))];
+  let addresses = [...new Set((source.match(ADDRESS_RE) || []).map(v => v.replace(/\s+/g, " ").trim()))]
+    .filter(value => isUsefulAddress(value, city));
+
+  // Softer city-scoped address capture when street suffix regex misses.
+  if (!addresses.length && city?.city) {
+    const soft = source.match(
+      new RegExp(`\\d{1,6}\\s+[A-Za-z0-9.'#\\- ]{3,60},\\s*${city.city}[,\\s]+${city.state}(?:\\s+\\d{5})?`, "i")
+    );
+    if (soft?.[0] && isUsefulAddress(soft[0], city)) addresses = [soft[0].replace(/\s+/g, " ").trim()];
+  }
+
+  return {
+    email: emails[0] || null,
+    phone: phones[0] || null,
+    address: addresses[0] || null,
+    emails,
+    phones,
+    addresses
+  };
+}
+
+function mergeContacts(...parts) {
+  const emails = [...new Set(parts.flatMap(part => part?.emails || []).filter(Boolean))];
+  const phones = [...new Set(parts.flatMap(part => part?.phones || []).filter(Boolean))];
+  const addresses = [...new Set(parts.flatMap(part => part?.addresses || []).filter(Boolean))];
+  return {
+    email: parts.find(part => part?.email)?.email || emails[0] || null,
+    phone: parts.find(part => part?.phone)?.phone || phones[0] || null,
+    address: parts.find(part => part?.address)?.address || addresses[0] || null,
+    emails,
+    phones,
+    addresses
+  };
+}
+
+function htmlToText(html = "") {
+  return decodeHtml(
+    String(html)
+      .replace(/<script[\s\S]*?<\/script>/gi, " ")
+      .replace(/<style[\s\S]*?<\/style>/gi, " ")
+      .replace(/<[^>]+>/g, " ")
+      .replace(/\s+/g, " ")
+  );
+}
+
+function extractJsonLdContacts(html = "", city = null) {
+  const blocks = [...String(html).matchAll(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)];
+  const emails = [];
+  const phones = [];
+  const addresses = [];
+
+  for (const block of blocks) {
+    try {
+      const parsed = JSON.parse(block[1]);
+      const nodes = Array.isArray(parsed) ? parsed : [parsed, ...(parsed["@graph"] || [])];
+      for (const node of nodes) {
+        if (!node || typeof node !== "object") continue;
+        if (node.email) emails.push(String(node.email));
+        if (node.telephone) phones.push(String(node.telephone));
+        const addr = node.address || node.location?.address;
+        if (typeof addr === "string" && isUsefulAddress(addr, city)) addresses.push(addr);
+        if (addr && typeof addr === "object") {
+          const line = [addr.streetAddress, addr.addressLocality || city?.city, addr.addressRegion || city?.state, addr.postalCode]
+            .filter(Boolean)
+            .join(", ");
+          if (line && isUsefulAddress(line, city)) addresses.push(line);
+        }
+      }
+    } catch {
+      // ignore invalid JSON-LD
+    }
+  }
+
+  return {
+    email: emails.map(cleanEmail).find(isUsefulEmail) || null,
+    phone: phones.map(normalizePhone).filter(Boolean)[0] || null,
+    address: addresses.map(v => v.replace(/\s+/g, " ").trim())[0] || null,
+    emails: [...new Set(emails.map(cleanEmail).filter(isUsefulEmail))],
+    phones: [...new Set(phones.map(normalizePhone).filter(Boolean))],
+    addresses: [...new Set(addresses.map(v => v.replace(/\s+/g, " ").trim()))]
+  };
+}
+
+function extractMailtoTel(html = "") {
+  const emails = [...String(html).matchAll(/mailto:([^"'?\s]+)/gi)].map(m => decodeURIComponent(m[1]));
+  const phones = [...String(html).matchAll(/tel:([^"'?\s]+)/gi)].map(m => decodeURIComponent(m[1]));
+  return {
+    email: emails.map(cleanEmail).find(isUsefulEmail) || null,
+    phone: phones.map(normalizePhone)[0] || null,
+    address: null,
+    emails: [...new Set(emails.map(cleanEmail).filter(isUsefulEmail))],
+    phones: [...new Set(phones.map(normalizePhone))],
+    addresses: []
+  };
+}
+
+async function fetchPageBundle(url, timeout = 10000) {
+  if (!url) return { text: "", html: "" };
+  try {
+    const response = await axios.get(url, {
+      timeout,
+      maxRedirects: 5,
+      headers: {
+        "User-Agent": "HA-CorrLeadHunt/0.5 (+https://github.com/jebarco1/corr-automation)",
+        Accept: "text/html,application/xhtml+xml"
+      },
+      validateStatus: status => status >= 200 && status < 400,
+      responseType: "text",
+      transformResponse: [data => data]
+    });
+    const html = String(response.data || "");
+    return { html, text: htmlToText(html).slice(0, 120000) };
+  } catch {
+    return { text: "", html: "" };
+  }
+}
+
+async function enrichFromUrl(url, city) {
+  const { html, text } = await fetchPageBundle(url);
+  if (!html && !text) return null;
+  return mergeContacts(
+    extractJsonLdContacts(html, city),
+    extractMailtoTel(html),
+    extractContactsFromText(text, city)
+  );
+}
+
+async function enrichLeadContacts(lead, city, options = {}) {
+  const existing = {
+    email: lead.email || null,
+    phone: lead.phone || null,
+    address: lead.address || null,
+    emails: lead.email ? [lead.email] : [],
+    phones: lead.phone ? [lead.phone] : [],
+    addresses: lead.address ? [lead.address] : []
+  };
+  const fromSnippet = extractContactsFromText(`${lead.name}\n${lead.snippet || ""}`, city);
+  let contacts = mergeContacts(existing, fromSnippet);
+  const enrichEnabled = options.enrichContacts !== false;
+  const pageUrl = unwrapResultUrl(lead.url);
+
+  // Already have full contact card — skip extra page fetches.
+  if (contacts.phone && contacts.email && contacts.address) {
+    return {
+      ...lead,
+      url: pageUrl || lead.url,
+      phone: contacts.phone,
+      email: contacts.email,
+      address: contacts.address,
+      contacts: {
+        phone: contacts.phone,
+        email: contacts.email,
+        address: contacts.address,
+        phones: contacts.phones,
+        emails: contacts.emails,
+        addresses: contacts.addresses,
+        marketHint: city?.label || null,
+        completeness: 3,
+        enriched: false
+      },
+      score: Math.min(99, Number(lead.score || 0) + 15),
+      status: "contact-ready"
+    };
+  }
+
+  if (enrichEnabled && pageUrl) {
+    const primary = await enrichFromUrl(pageUrl, city);
+    if (primary) contacts = mergeContacts(contacts, primary);
+
+    // If still missing key fields, try common contact paths.
+    if ((!contacts.phone || !contacts.email || !contacts.address) && pageUrl.startsWith("http")) {
+      try {
+        const base = new URL(pageUrl);
+        const paths = ["/contact", "/contact-us", "/about", "/about-us", "/locations", "/find-us"];
+        for (const suffix of paths) {
+          if (contacts.phone && contacts.email && contacts.address) break;
+          const candidate = `${base.origin}${suffix}`;
+          if (candidate === pageUrl) continue;
+          const extra = await enrichFromUrl(candidate, city);
+          if (extra) contacts = mergeContacts(contacts, extra);
+        }
+      } catch {
+        // ignore URL parse/fetch issues
+      }
+    }
+  }
+
+  if (!contacts.address && city?.label) {
+    contacts.marketHint = city.label;
+  }
+
+  const completeness = [contacts.phone, contacts.email, contacts.address].filter(Boolean).length;
+  return {
+    ...lead,
+    url: pageUrl || lead.url,
+    phone: contacts.phone,
+    email: contacts.email,
+    address: contacts.address,
+    contacts: {
+      phone: contacts.phone,
+      email: contacts.email,
+      address: contacts.address,
+      phones: contacts.phones,
+      emails: contacts.emails,
+      addresses: contacts.addresses,
+      marketHint: contacts.marketHint || city?.label || null,
+      completeness,
+      enriched: enrichEnabled
+    },
+    score: Math.min(99, Number(lead.score || 0) + completeness * 5),
+    status: completeness >= 2 ? "contact-ready" : (lead.status || "new")
+  };
+}
+
+function isCompetitor(text = "", excludeKeywords = [], segment = "b2b") {
   const lower = String(text).toLowerCase();
   if (excludeKeywords.some(keyword => lower.includes(String(keyword).toLowerCase()))) return true;
   // Keep property/customer language; drop obvious vendor ads.
   const vendorHits = COMPETITOR_HINTS.filter(hint => lower.includes(hint)).length;
-  const customerHits = ["hoa", "apartment", "property management", "school", "church", "hospital", "warehouse", "hotel", "assisted living", "university"]
-    .filter(hint => lower.includes(hint)).length;
+  const customerHits = [
+    "hoa", "association", "apartment", "leasing office", "property management",
+    "school", "church", "hospital", "warehouse", "hotel", "assisted living",
+    "senior living", "university", "condo", "neighborhood"
+  ].filter(hint => lower.includes(hint)).length;
+  if (segment === "residential" && customerHits > 0) return false;
   return vendorHits >= 2 && customerHits === 0;
 }
 
@@ -172,10 +512,13 @@ function localFallbackLeads(category, city, targets) {
   return (targets.customerTypes || []).slice(0, 3).map((customerType, index) => ({
     title: `${city.city} ${customerType}`,
     url: null,
-    snippet: `Potential ${category} customer target: ${customerType} in ${city.label}. Verify contact details before outreach.`,
+    snippet: `Potential ${category} customer target: ${customerType} in ${city.label}. Phone/email/address not found yet — verify before outreach.`,
     source: "local-fallback",
     customerType,
-    rank: index + 1
+    rank: index + 1,
+    phone: null,
+    email: null,
+    address: null
   }));
 }
 
@@ -207,9 +550,13 @@ function suggestService(category, targets) {
   }
 }
 
-function leadId(category, city, title, url) {
-  const raw = `${category}|${city.slug}|${url || title}`;
+function leadId(segment, category, city, title, url) {
+  const raw = `${segment}|${category}|${city.slug}|${url || title}`;
   return `lead_${crypto.createHash("sha1").update(raw).digest("hex").slice(0, 12)}`;
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 async function collectSearchResults(queries, options = {}) {
@@ -218,6 +565,7 @@ async function collectSearchResults(queries, options = {}) {
     try {
       const hits = await searchDuckDuckGo(query, options.perQueryLimit || 4);
       for (const hit of hits) all.push({ ...hit, query });
+      await sleep(options.delayMs ?? 350);
     } catch (error) {
       all.push({
         title: null,
@@ -231,6 +579,54 @@ async function collectSearchResults(queries, options = {}) {
   return all.filter(item => item.title);
 }
 
+function loadSiblingSegmentLeads(segment, category, city) {
+  const sibling = segment === "residential" ? "b2b" : "b2b";
+  const filePath = path.join(segmentDir(sibling), category, `${city.slug}.json`);
+  if (!fs.existsSync(filePath)) return [];
+  try {
+    const payload = readJson(filePath);
+    return (payload.leads || []).filter(lead => {
+      const text = `${lead.name} ${lead.customerType} ${lead.snippet || ""}`.toLowerCase();
+      return /hoa|association|apartment|leasing|condo|community|senior living|assisted living/.test(text)
+        && (lead.phone || lead.email || lead.address);
+    });
+  } catch {
+    return [];
+  }
+}
+
+async function collectLocalRawHits(category, city, targets, segment, queries, input = {}) {
+  let raw = await collectSearchResults(queries, { perQueryLimit: 4 });
+  // Residential often needs association/office contact queries to get public phone/email/address.
+  if (segment === "residential") {
+    const contactQueries = [
+      `HOA management ${city.city} ${city.state} phone email`,
+      `condo association ${city.city} ${city.state} contact address`,
+      `apartment leasing office ${city.city} ${city.state} phone`,
+      `community association ${city.city} ${city.state} "contact us"`
+    ];
+    raw = raw.concat(await collectSearchResults(contactQueries, { perQueryLimit: 4 }));
+  }
+  // If web search is empty/rate-limited, reuse contact-ready association leads from B2B.
+  if (!raw.length && segment === "residential") {
+    raw = loadSiblingSegmentLeads(segment, category, city).map(lead => ({
+      title: lead.name,
+      url: lead.url,
+      snippet: lead.snippet,
+      source: "b2b-contact-transfer",
+      query: "transferred from b2b contact-ready lead",
+      phone: lead.phone,
+      email: lead.email,
+      address: lead.address,
+      customerType: lead.customerType
+    }));
+  }
+  if (!raw.length) {
+    raw = localFallbackLeads(category, city, targets).map(item => ({ ...item, query: queries[0] }));
+  }
+  return raw;
+}
+
 export async function huntLeadsForCategory(category, input = {}) {
   if (!supportedCategories.includes(category)) {
     const error = new Error(`Unsupported category: ${category}`);
@@ -238,7 +634,10 @@ export async function huntLeadsForCategory(category, input = {}) {
     throw error;
   }
 
-  const targets = getLeadTargets(category);
+  const segment = input.segment ? normalizeLeadSegment(input.segment) : "b2b";
+  const provider = resolveLeadProvider(input.provider);
+  const fallbackLocal = input.fallbackLocal !== false;
+  const targets = getSegmentLeadTargets(category, segment);
   const cities = listPilotCities({
     cities: input.cities,
     includeAll: !!input.includeAllCities
@@ -254,25 +653,90 @@ export async function huntLeadsForCategory(category, input = {}) {
   const queryLimit = Number(input.queryLimit || 3);
   const cityResults = [];
   const allLeads = [];
+  const providerNotes = [];
+  const outDir = path.join(segmentDir(segment), category);
+
+  if (provider === "origami" && !isOrigamiEnabled()) {
+    if (!fallbackLocal) {
+      const error = new Error("Origami provider requested but ORIGAMI_API_KEY is not set");
+      error.statusCode = 503;
+      throw error;
+    }
+    providerNotes.push({
+      provider: "origami",
+      note: "ORIGAMI_API_KEY missing; using local hunt"
+    });
+  }
 
   for (const city of cities) {
     const queries = buildQueries(category, city, targets, queryLimit);
-    let raw = await collectSearchResults(queries, { perQueryLimit: 4 });
-    if (!raw.length) {
-      raw = localFallbackLeads(category, city, targets).map(item => ({ ...item, query: queries[0] }));
+    let raw = [];
+    let cityProvider = "local";
+    let origamiMeta = null;
+
+    const tryOrigami = provider === "origami" && isOrigamiEnabled();
+    if (tryOrigami) {
+      try {
+        const origamiResult = await huntCityWithOrigami({
+          category,
+          segment,
+          city,
+          targets,
+          limit: perCityLimit,
+          model: input.origamiModel
+        });
+        origamiMeta = {
+          agentId: origamiResult.agentId,
+          runId: origamiResult.runId,
+          tableId: origamiResult.tableId,
+          tableUrl: origamiResult.tableUrl,
+          status: origamiResult.status,
+          text: origamiResult.text
+        };
+        raw = origamiResult.hits || [];
+        cityProvider = raw.length ? "origami" : "origami-empty";
+        if (!raw.length && fallbackLocal) {
+          providerNotes.push({
+            city: city.label,
+            provider: "origami",
+            note: "No rows returned; falling back to local hunt"
+          });
+          raw = await collectLocalRawHits(category, city, targets, segment, queries, input);
+          cityProvider = "local-fallback";
+        }
+      } catch (error) {
+        providerNotes.push({
+          city: city.label,
+          provider: "origami",
+          error: error.message,
+          code: error.code || null
+        });
+        if (!fallbackLocal) throw error;
+        raw = await collectLocalRawHits(category, city, targets, segment, queries, input);
+        cityProvider = "local-fallback";
+      }
+    } else {
+      raw = await collectLocalRawHits(category, city, targets, segment, queries, input);
+      cityProvider = "local";
     }
 
     const dedupe = new Map();
     for (const item of raw) {
-      if (isCompetitor(`${item.title} ${item.snippet}`, targets.excludeKeywords || [])) continue;
+      if (item.source !== "b2b-contact-transfer" && item.source !== "origami") {
+        if (isCompetitor(`${item.title} ${item.snippet}`, targets.excludeKeywords || [], segment)) continue;
+        if (isLowQualityLead(item.title, item.url)) continue;
+      }
       const key = (item.url || item.title || "").toLowerCase();
       if (!key || dedupe.has(key)) continue;
-      const customerType = (targets.customerTypes || []).find(type =>
+      const customerType = item.customerType || (targets.customerTypes || []).find(type =>
         `${item.title} ${item.snippet}`.toLowerCase().includes(String(type).toLowerCase().split(" ")[0])
       ) || targets.customerTypes?.[0] || "prospect";
 
+      const resolvedUrl = unwrapResultUrl(item.url);
+      const snippetContacts = extractContactsFromText(`${item.title}\n${item.snippet || ""}`, city);
       const lead = {
-        leadId: leadId(category, city, item.title, item.url),
+        leadId: leadId(segment, category, city, item.title, resolvedUrl || item.url),
+        segment,
         category,
         city: city.city,
         state: city.state,
@@ -280,81 +744,124 @@ export async function huntLeadsForCategory(category, input = {}) {
         region: city.region,
         pilotMarket: !!city.pilot,
         name: item.title,
-        url: item.url,
+        url: resolvedUrl || item.url,
         snippet: item.snippet,
+        phone: item.phone || snippetContacts.phone,
+        email: item.email || snippetContacts.email,
+        address: item.address || snippetContacts.address,
         customerType,
         suggestedService: service,
-        score: scoreLead({ title: item.title, snippet: item.snippet, customerType, city }),
+        score: scoreLead({ title: item.title, snippet: item.snippet, customerType, city })
+          + (item.source === "origami" ? 8 : 0),
         query: item.query,
         source: item.source,
+        provider: item.source === "origami" ? "origami" : cityProvider,
+        origami: item.origami || undefined,
         status: item.source === "local-fallback" ? "needs-verification" : "new",
         gatheredAt: new Date().toISOString()
       };
       dedupe.set(key, lead);
     }
 
-    const leads = [...dedupe.values()]
+    const shortlist = [...dedupe.values()]
       .sort((a, b) => b.score - a.score)
       .slice(0, perCityLimit);
 
-    const file = path.join(leadsDir, category, `${city.slug}.json`);
+    const leads = [];
+    for (const lead of shortlist) {
+      // Origami rows often already include phone/email/address; still enrich missing fields.
+      leads.push(await enrichLeadContacts(lead, city, {
+        ...input,
+        enrichContacts: input.enrichContacts !== false
+      }));
+    }
+    leads.sort((a, b) => b.score - a.score);
+
+    const withContacts = leads.filter(lead => lead.phone || lead.email || lead.address).length;
+    const relative = `data/leads/${segment}/${category}/${city.slug}.json`;
     const payload = {
+      segment,
       category,
       city: city.city,
       state: city.state,
       market: city.label,
       pilot: !!city.pilot,
+      provider: cityProvider,
+      origami: origamiMeta,
       updatedAt: new Date().toISOString(),
       queries,
       count: leads.length,
+      contactCoverage: {
+        withAnyContact: withContacts,
+        withPhone: leads.filter(lead => lead.phone).length,
+        withEmail: leads.filter(lead => lead.email).length,
+        withAddress: leads.filter(lead => lead.address).length
+      },
       leads
     };
-    writeJson(file, payload);
+    writeJson(path.join(outDir, `${city.slug}.json`), payload);
     cityResults.push({
       city: city.city,
       state: city.state,
       label: city.label,
       pilot: !!city.pilot,
+      provider: cityProvider,
       count: leads.length,
-      file: `data/leads/${category}/${city.slug}.json`,
-      queries
+      file: relative,
+      queries,
+      origami: origamiMeta
     });
     allLeads.push(...leads);
   }
 
-  const summaryPath = path.join(leadsDir, category, "_summary.json");
   const summary = {
+    segment,
     category,
+    provider,
     updatedAt: new Date().toISOString(),
     marketFile: "data/markets/georgia-cities.json",
     pilotCities: cities.filter(city => city.pilot).map(city => city.label),
     cityCount: cityResults.length,
     leadCount: allLeads.length,
+    contactCoverage: {
+      withAnyContact: allLeads.filter(lead => lead.phone || lead.email || lead.address).length,
+      withPhone: allLeads.filter(lead => lead.phone).length,
+      withEmail: allLeads.filter(lead => lead.email).length,
+      withAddress: allLeads.filter(lead => lead.address).length
+    },
+    providerNotes,
     cities: cityResults
   };
-  writeJson(summaryPath, summary);
+  writeJson(path.join(outDir, "_summary.json"), summary);
 
   return {
+    segment,
     category,
+    provider,
+    origami: getOrigamiStatus(),
     marketFile: "data/markets/georgia-cities.json",
     targetFile: `data/lead-targets/${category}.json`,
     cities: cityResults,
     leadCount: allLeads.length,
+    contactCoverage: summary.contactCoverage,
+    providerNotes,
     leads: allLeads.sort((a, b) => b.score - a.score),
-    summaryFile: `data/leads/${category}/_summary.json`
+    summaryFile: `data/leads/${segment}/${category}/_summary.json`
   };
 }
 
 export async function huntLeadsForAllCategories(input = {}) {
+  const segment = input.segment ? normalizeLeadSegment(input.segment) : "b2b";
   const categories = input.categories?.length
     ? input.categories.filter(category => supportedCategories.includes(category))
     : [...supportedCategories];
 
   const results = [];
   for (const category of categories) {
-    results.push(await huntLeadsForCategory(category, input));
+    results.push(await huntLeadsForCategory(category, { ...input, segment }));
   }
   const index = {
+    segment,
     updatedAt: new Date().toISOString(),
     marketFile: "data/markets/georgia-cities.json",
     pilotCities: listPilotCities().map(city => city.label),
@@ -366,32 +873,66 @@ export async function huntLeadsForAllCategories(input = {}) {
     })),
     totalLeads: results.reduce((sum, result) => sum + result.leadCount, 0)
   };
-  writeJson(path.join(leadsDir, "index.json"), index);
+  writeJson(path.join(segmentDir(segment), "index.json"), index);
+  // Keep root index pointing at both segment indexes.
+  writeJson(path.join(leadsDir, "index.json"), {
+    updatedAt: index.updatedAt,
+    marketFile: index.marketFile,
+    pilotCities: index.pilotCities,
+    segments: {
+      b2b: "data/leads/b2b/index.json",
+      residential: "data/leads/residential/index.json"
+    },
+    lastHunt: { segment, totalLeads: index.totalLeads }
+  });
   return index;
 }
 
+export async function huntB2bLeads(input = {}) {
+  return huntLeadsForAllCategories({ ...input, segment: "b2b" });
+}
+
+export async function huntResidentialLeads(input = {}) {
+  return huntLeadsForAllCategories({ ...input, segment: "residential" });
+}
+
 export function listLeads(category, options = {}) {
-  const dir = path.join(leadsDir, category);
-  if (!fs.existsSync(dir)) {
-    return { category, count: 0, leads: [], cities: [] };
-  }
-  const cityFiles = fs.readdirSync(dir).filter(name => name.endsWith(".json") && !name.startsWith("_"));
+  const segment = options.segment ? normalizeLeadSegment(options.segment) : null;
+  const dirs = segment
+    ? [path.join(segmentDir(segment), category)]
+    : [
+      path.join(segmentDir("b2b"), category),
+      path.join(segmentDir("residential"), category),
+      path.join(leadsDir, category) // legacy unsegmented
+    ];
+
   const leads = [];
   const cities = [];
-  for (const fileName of cityFiles) {
-    if (options.city && slugify(options.city) !== fileName.replace(/\.json$/, "")) continue;
-    const payload = readJson(path.join(dir, fileName));
-    cities.push({
-      city: payload.city,
-      state: payload.state,
-      market: payload.market,
-      count: payload.count,
-      file: `data/leads/${category}/${fileName}`
-    });
-    leads.push(...(payload.leads || []));
+  for (const dir of dirs) {
+    if (!fs.existsSync(dir)) continue;
+    const cityFiles = fs.readdirSync(dir).filter(name => name.endsWith(".json") && !name.startsWith("_"));
+    for (const fileName of cityFiles) {
+      if (options.city && slugify(options.city) !== fileName.replace(/\.json$/, "")) continue;
+      const payload = readJson(path.join(dir, fileName));
+      const relSegment = payload.segment || segment || "legacy";
+      cities.push({
+        segment: relSegment,
+        city: payload.city,
+        state: payload.state,
+        market: payload.market,
+        count: payload.count,
+        file: path.relative(path.join(__dirname, "../.."), path.join(dir, fileName)).replaceAll("\\", "/")
+      });
+      leads.push(...(payload.leads || []).map(lead => ({
+        segment: lead.segment || relSegment,
+        ...lead
+      })));
+    }
   }
+
   leads.sort((a, b) => (b.score || 0) - (a.score || 0));
   return {
+    segment: segment || "all",
     category,
     count: leads.length,
     cities,
@@ -399,17 +940,50 @@ export function listLeads(category, options = {}) {
   };
 }
 
-export function listAllLeads(options = {}) {
-  const categories = supportedCategories.map(category => listLeads(category, options));
+export function listSegmentLeads(segment, options = {}) {
+  const normalized = normalizeLeadSegment(segment);
+  const categories = (options.category ? [options.category] : supportedCategories)
+    .filter(category => supportedCategories.includes(category));
+
+  const categoryResults = categories.map(category => listLeads(category, { ...options, segment: normalized }));
   return {
+    segment: normalized,
     marketFile: "data/markets/georgia-cities.json",
     pilotCities: listPilotCities().map(city => city.label),
     updatedAt: new Date().toISOString(),
-    categories: categories.map(item => ({
+    endpoints: {
+      list: `/api/v1/leads/${normalized}`,
+      hunt: `/api/v1/leads/${normalized}/hunt`
+    },
+    categories: categoryResults.map(item => ({
       category: item.category,
       count: item.count,
       cities: item.cities
     })),
-    totalLeads: categories.reduce((sum, item) => sum + item.count, 0)
+    totalLeads: categoryResults.reduce((sum, item) => sum + item.count, 0),
+    leads: options.includeLeads === false
+      ? undefined
+      : categoryResults
+        .flatMap(item => item.leads)
+        .sort((a, b) => (b.score || 0) - (a.score || 0))
+        .slice(0, options.limit ? Number(options.limit) : undefined)
+  };
+}
+
+export function listAllLeads(options = {}) {
+  if (options.segment) return listSegmentLeads(options.segment, options);
+  const b2b = listSegmentLeads("b2b", { ...options, includeLeads: false });
+  const residential = listSegmentLeads("residential", { ...options, includeLeads: false });
+  return {
+    marketFile: "data/markets/georgia-cities.json",
+    pilotCities: listPilotCities().map(city => city.label),
+    updatedAt: new Date().toISOString(),
+    segments: {
+      b2b: { totalLeads: b2b.totalLeads, endpoint: "/api/v1/leads/b2b", hunt: "/api/v1/leads/b2b/hunt" },
+      residential: { totalLeads: residential.totalLeads, endpoint: "/api/v1/leads/residential", hunt: "/api/v1/leads/residential/hunt" }
+    },
+    totalLeads: b2b.totalLeads + residential.totalLeads,
+    b2b,
+    residential
   };
 }

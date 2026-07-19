@@ -1,0 +1,99 @@
+{
+  "segment": "b2b",
+  "category": "pest-control",
+  "city": "Augusta",
+  "state": "GA",
+  "market": "Augusta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:21:00.697Z",
+  "queries": [
+    "restaurant in Augusta GA",
+    "restaurant Augusta GA contact",
+    "commercial pest control Augusta GA"
+  ],
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "leads": [
+    {
+      "leadId": "lead_0c1f7a9c35bb",
+      "segment": "b2b",
+      "category": "pest-control",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta apartment complex",
+      "url": null,
+      "snippet": "Potential pest-control customer target: apartment complex in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment complex",
+      "suggestedService": {
+        "serviceId": "commercial-ipm",
+        "serviceName": "Commercial IPM Program",
+        "quoteKey": "commercial ipm"
+      },
+      "score": 85,
+      "query": "restaurant in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:00.697Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_97a5b59078fe",
+      "segment": "b2b",
+      "category": "pest-control",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta restaurant",
+      "url": null,
+      "snippet": "Potential pest-control customer target: restaurant in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "restaurant",
+      "suggestedService": {
+        "serviceId": "commercial-ipm",
+        "serviceName": "Commercial IPM Program",
+        "quoteKey": "commercial ipm"
+      },
+      "score": 75,
+      "query": "restaurant in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:00.697Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    }
+  ]
+}

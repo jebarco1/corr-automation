@@ -1,0 +1,74 @@
+{
+  "segment": "residential",
+  "category": "trash-removal",
+  "updatedAt": "2026-07-19T02:26:42.259Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/trash-removal/atlanta.json",
+      "queries": [
+        "neighborhood HOA in Atlanta GA",
+        "neighborhood HOA Atlanta GA contact",
+        "HOA management contact Atlanta GA"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/trash-removal/augusta.json",
+      "queries": [
+        "neighborhood HOA in Augusta GA",
+        "neighborhood HOA Augusta GA contact",
+        "HOA management contact Augusta GA"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/trash-removal/macon.json",
+      "queries": [
+        "neighborhood HOA in Macon GA",
+        "neighborhood HOA Macon GA contact",
+        "HOA management contact Macon GA"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/trash-removal/savannah.json",
+      "queries": [
+        "neighborhood HOA in Savannah GA",
+        "neighborhood HOA Savannah GA contact",
+        "HOA management contact Savannah GA"
+      ]
+    }
+  ]
+}

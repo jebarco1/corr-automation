@@ -1,0 +1,110 @@
+{
+  "segment": "residential",
+  "category": "landscape",
+  "city": "Macon",
+  "state": "GA",
+  "market": "Macon, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:23:36.197Z",
+  "queries": [
+    "neighborhood HOA in Macon GA",
+    "neighborhood HOA Macon GA contact",
+    "HOA management contact Macon GA"
+  ],
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 2,
+    "withPhone": 2,
+    "withEmail": 0,
+    "withAddress": 1
+  },
+  "leads": [
+    {
+      "leadId": "lead_d9f893205f8e",
+      "segment": "residential",
+      "category": "landscape",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "HOA Management Companies in Macon, Georgia | HOA Directory",
+      "url": "https://www.hoamanagement.com/city/macon/",
+      "snippet": "HOA Management is the leading directory for HOA Mangement companies and HOA vendors. We offer a catalog of listings for your HOA in Macon, GA.",
+      "phone": "(770) 904-5270",
+      "email": null,
+      "address": "2144 Buford Highway Suite 110 Buford, GA 30518",
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "mowing",
+        "serviceName": "Lawn Mowing",
+        "quoteKey": "mowing"
+      },
+      "score": 95,
+      "query": "transferred from b2b contact-ready lead",
+      "source": "b2b-contact-transfer",
+      "status": "contact-ready",
+      "gatheredAt": "2026-07-19T02:23:31.378Z",
+      "contacts": {
+        "phone": "(770) 904-5270",
+        "email": null,
+        "address": "2144 Buford Highway Suite 110 Buford, GA 30518",
+        "phones": [
+          "(770) 904-5270",
+          "(888) 406-2221",
+          "(844) 642-7646",
+          "(602) 993-1768",
+          "(704) 746-9070",
+          "(888) 616-6873"
+        ],
+        "emails": [],
+        "addresses": [
+          "2144 Buford Highway Suite 110 Buford, GA 30518"
+        ],
+        "marketHint": "Macon, GA",
+        "completeness": 2,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_7d0ed73653d8",
+      "segment": "residential",
+      "category": "landscape",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "HOA Management Companies in Macon GA",
+      "url": "https://hoamanagementcompanies.net/georgia/hoa-management-companies-in-macon-ga",
+      "snippet": "List of HOA Management Companies in Macon, GA Access an updated, detailed directory of HOA property management companies in Macon, Georgia.",
+      "phone": "(778) 299-1918",
+      "email": null,
+      "address": null,
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "mowing",
+        "serviceName": "Lawn Mowing",
+        "quoteKey": "mowing"
+      },
+      "score": 90,
+      "query": "transferred from b2b contact-ready lead",
+      "source": "b2b-contact-transfer",
+      "status": "new",
+      "gatheredAt": "2026-07-19T02:23:31.378Z",
+      "contacts": {
+        "phone": "(778) 299-1918",
+        "email": null,
+        "address": null,
+        "phones": [
+          "(778) 299-1918"
+        ],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 1,
+        "enriched": true
+      }
+    }
+  ]
+}

@@ -1,9 +1,13 @@
 {
   "category": "landscape",
-  "version": 1,
-  "updatedAt": "2026-07-19T01:57:32.000Z",
+  "version": 2,
+  "updatedAt": "2026-07-19T02:17:43.000Z",
   "marketFile": "data/markets/georgia-cities.json",
   "usePilotCities": true,
+  "segments": [
+    "b2b",
+    "residential"
+  ],
   "customerTypes": [
     "HOA",
     "apartment complex",
@@ -12,9 +16,9 @@
     "commercial property manager"
   ],
   "intentPhrases": [
-    "grounds maintenance",
-    "lawn care contract",
-    "landscape maintenance RFP"
+    "grounds maintenance contract",
+    "commercial landscape maintenance RFP",
+    "HOA lawn care bid"
   ],
   "excludeKeywords": [
     "lawn care company",
@@ -30,5 +34,54 @@
     "{customerType} in {city} {state}",
     "{customerType} {city} {state} contact",
     "{intentPhrase} {city} {state}"
-  ]
+  ],
+  "b2b": {
+    "customerTypes": [
+      "HOA",
+      "apartment complex",
+      "property management company",
+      "office park",
+      "commercial property manager"
+    ],
+    "intentPhrases": [
+      "grounds maintenance contract",
+      "commercial landscape maintenance RFP",
+      "HOA lawn care bid"
+    ],
+    "excludeKeywords": [
+      "lawn care company",
+      "landscaping contractor near me",
+      "we offer mowing"
+    ],
+    "suggestedServiceIds": [
+      "full-maintenance",
+      "mowing",
+      "mulch"
+    ]
+  },
+  "residential": {
+    "customerTypes": [
+      "neighborhood HOA",
+      "condo association",
+      "community association",
+      "townhome association"
+    ],
+    "intentPhrases": [
+      "HOA management contact",
+      "neighborhood association phone",
+      "condo association Atlanta contact"
+    ],
+    "excludeKeywords": [
+      "lawn care company",
+      "our crew",
+      "book online",
+      "contractor near me",
+      "free estimate"
+    ],
+    "suggestedServiceIds": [
+      "mowing",
+      "cleanup",
+      "mulch"
+    ]
+  }
 }

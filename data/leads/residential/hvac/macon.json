@@ -1,0 +1,99 @@
+{
+  "segment": "residential",
+  "category": "hvac",
+  "city": "Macon",
+  "state": "GA",
+  "market": "Macon, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:23:54.927Z",
+  "queries": [
+    "condo association in Macon GA",
+    "condo association Macon GA contact",
+    "condo association contact Macon GA"
+  ],
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "leads": [
+    {
+      "leadId": "lead_f90bdecd7e4f",
+      "segment": "residential",
+      "category": "hvac",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon apartment leasing office",
+      "url": null,
+      "snippet": "Potential hvac customer target: apartment leasing office in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment leasing office",
+      "suggestedService": {
+        "serviceId": "diagnostic",
+        "serviceName": "System Diagnostic",
+        "quoteKey": "diagnostic"
+      },
+      "score": 90,
+      "query": "condo association in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:23:54.927Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_50b4c857fea6",
+      "segment": "residential",
+      "category": "hvac",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon neighborhood HOA",
+      "url": null,
+      "snippet": "Potential hvac customer target: neighborhood HOA in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
+      "suggestedService": {
+        "serviceId": "diagnostic",
+        "serviceName": "System Diagnostic",
+        "quoteKey": "diagnostic"
+      },
+      "score": 85,
+      "query": "condo association in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:23:54.927Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    }
+  ]
+}

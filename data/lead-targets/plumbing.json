@@ -1,9 +1,13 @@
 {
   "category": "plumbing",
-  "version": 1,
-  "updatedAt": "2026-07-19T01:57:32.000Z",
+  "version": 2,
+  "updatedAt": "2026-07-19T02:17:43.000Z",
   "marketFile": "data/markets/georgia-cities.json",
   "usePilotCities": true,
+  "segments": [
+    "b2b",
+    "residential"
+  ],
   "customerTypes": [
     "apartment complex",
     "property management company",
@@ -14,7 +18,7 @@
   "intentPhrases": [
     "commercial plumbing service",
     "multi-family plumbing contract",
-    "backflow testing"
+    "backflow testing commercial"
   ],
   "excludeKeywords": [
     "plumber near me",
@@ -29,5 +33,53 @@
     "{customerType} in {city} {state}",
     "{customerType} {city} {state} contact",
     "{intentPhrase} {city} {state}"
-  ]
+  ],
+  "b2b": {
+    "customerTypes": [
+      "apartment complex",
+      "property management company",
+      "restaurant",
+      "hotel",
+      "medical office"
+    ],
+    "intentPhrases": [
+      "commercial plumbing service",
+      "multi-family plumbing contract",
+      "backflow testing commercial"
+    ],
+    "excludeKeywords": [
+      "plumber near me",
+      "plumbing company"
+    ],
+    "suggestedServiceIds": [
+      "leak-repair",
+      "drain-clearing",
+      "backflow"
+    ]
+  },
+  "residential": {
+    "customerTypes": [
+      "apartment leasing office",
+      "condo association",
+      "neighborhood HOA"
+    ],
+    "intentPhrases": [
+      "apartment leasing office phone",
+      "condo association contact",
+      "HOA property manager phone"
+    ],
+    "excludeKeywords": [
+      "plumber near me",
+      "plumbing company",
+      "lawn care company",
+      "contractor near me",
+      "book online",
+      "free estimate"
+    ],
+    "suggestedServiceIds": [
+      "leak-repair",
+      "drain-clearing",
+      "water-heater"
+    ]
+  }
 }

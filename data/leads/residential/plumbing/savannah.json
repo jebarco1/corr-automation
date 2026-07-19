@@ -1,0 +1,107 @@
+{
+  "segment": "residential",
+  "category": "plumbing",
+  "city": "Savannah",
+  "state": "GA",
+  "market": "Savannah, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:25:37.870Z",
+  "queries": [
+    "apartment leasing office in Savannah GA",
+    "apartment leasing office Savannah GA contact",
+    "apartment leasing office phone Savannah GA"
+  ],
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 1,
+    "withPhone": 1,
+    "withEmail": 1,
+    "withAddress": 1
+  },
+  "leads": [
+    {
+      "leadId": "lead_ebeb88a5d7be",
+      "segment": "residential",
+      "category": "plumbing",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "savannah.lease - Home - Premier Leasing & Property Management",
+      "url": "https://www.savannah.lease/",
+      "snippet": "Whether it's a Condo or a Castle, Premier Leasing & Property Management is your Real Estate advisor and friend. Savannah is a beautiful well-preserved historic city, with forward thinking Savannhians that spend their free time the way other people vacation.",
+      "phone": "(912) 898-1682",
+      "email": "info@savannah.lease",
+      "address": "352 Commercial Drive, Savannah, Ge",
+      "customerType": "condo association",
+      "suggestedService": {
+        "serviceId": "leak-repair",
+        "serviceName": "Leak Repair",
+        "quoteKey": "leak repair"
+      },
+      "score": 99,
+      "query": "apartment leasing office Savannah GA phone",
+      "source": "duckduckgo-html",
+      "status": "contact-ready",
+      "gatheredAt": "2026-07-19T02:25:34.424Z",
+      "contacts": {
+        "phone": "(912) 898-1682",
+        "email": "info@savannah.lease",
+        "address": "352 Commercial Drive, Savannah, Ge",
+        "phones": [
+          "(912) 898-1682",
+          "(912) 421-9921",
+          "(912) 897-0519"
+        ],
+        "emails": [
+          "info@savannah.lease"
+        ],
+        "addresses": [
+          "352 Commercial Drive, Savannah, Ge"
+        ],
+        "marketHint": "Savannah, GA",
+        "completeness": 3,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_a1c07f08b847",
+      "segment": "residential",
+      "category": "plumbing",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "102 West Duffy Street Condominium Association Inc",
+      "url": "https://www.bizapedia.com/ga/102-west-duffy-street-condominium-association-inc.html",
+      "snippet": "Discover Company Info on 102 WEST DUFFY STREET CONDOMINIUM ASSOCIATION INC in Savannah, GA, such as Contacts, Addresses, Reviews, and Registered Agent.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "condo association",
+      "suggestedService": {
+        "serviceId": "leak-repair",
+        "serviceName": "Leak Repair",
+        "quoteKey": "leak repair"
+      },
+      "score": 80,
+      "query": "condo association Savannah GA contact address",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T02:25:34.424Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    }
+  ]
+}

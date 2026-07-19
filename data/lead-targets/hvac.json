@@ -1,9 +1,13 @@
 {
   "category": "hvac",
-  "version": 1,
-  "updatedAt": "2026-07-19T01:57:32.000Z",
+  "version": 2,
+  "updatedAt": "2026-07-19T02:17:43.000Z",
   "marketFile": "data/markets/georgia-cities.json",
   "usePilotCities": true,
+  "segments": [
+    "b2b",
+    "residential"
+  ],
   "customerTypes": [
     "apartment complex",
     "property management company",
@@ -12,9 +16,9 @@
     "warehouse facility"
   ],
   "intentPhrases": [
-    "HVAC service contract",
+    "commercial HVAC service contract",
     "rooftop unit maintenance",
-    "commercial HVAC"
+    "multi-family HVAC"
   ],
   "excludeKeywords": [
     "HVAC company",
@@ -30,5 +34,55 @@
     "{customerType} in {city} {state}",
     "{customerType} {city} {state} contact",
     "{intentPhrase} {city} {state}"
-  ]
+  ],
+  "b2b": {
+    "customerTypes": [
+      "apartment complex",
+      "property management company",
+      "restaurant",
+      "medical office",
+      "warehouse facility"
+    ],
+    "intentPhrases": [
+      "commercial HVAC service contract",
+      "rooftop unit maintenance",
+      "multi-family HVAC"
+    ],
+    "excludeKeywords": [
+      "HVAC company",
+      "AC repair near me",
+      "licensed HVAC contractor"
+    ],
+    "suggestedServiceIds": [
+      "maintenance",
+      "diagnostic",
+      "replacement"
+    ]
+  },
+  "residential": {
+    "customerTypes": [
+      "condo association",
+      "neighborhood HOA",
+      "apartment leasing office"
+    ],
+    "intentPhrases": [
+      "condo association contact",
+      "apartment leasing office phone",
+      "HOA property manager contact"
+    ],
+    "excludeKeywords": [
+      "HVAC company",
+      "we repair AC",
+      "call for estimate",
+      "lawn care company",
+      "contractor near me",
+      "book online",
+      "free estimate"
+    ],
+    "suggestedServiceIds": [
+      "diagnostic",
+      "maintenance",
+      "repair"
+    ]
+  }
 }

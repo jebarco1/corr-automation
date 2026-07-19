@@ -1,0 +1,74 @@
+{
+  "segment": "residential",
+  "category": "hvac",
+  "updatedAt": "2026-07-19T02:23:58.738Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/hvac/atlanta.json",
+      "queries": [
+        "condo association in Atlanta GA",
+        "condo association Atlanta GA contact",
+        "condo association contact Atlanta GA"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/hvac/augusta.json",
+      "queries": [
+        "condo association in Augusta GA",
+        "condo association Augusta GA contact",
+        "condo association contact Augusta GA"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/hvac/macon.json",
+      "queries": [
+        "condo association in Macon GA",
+        "condo association Macon GA contact",
+        "condo association contact Macon GA"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/hvac/savannah.json",
+      "queries": [
+        "condo association in Savannah GA",
+        "condo association Savannah GA contact",
+        "condo association contact Savannah GA"
+      ]
+    }
+  ]
+}

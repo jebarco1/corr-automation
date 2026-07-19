@@ -1,0 +1,436 @@
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import {
+  Activity,
+  Bot,
+  CircleDollarSign,
+  MapPin,
+  Pause,
+  Play,
+  Radio,
+  RotateCcw,
+  Sparkles,
+  Zap
+} from "lucide-react";
+import { categories } from "./categoryCatalog.js";
+import { buildAutopilotScenario, PHASES, PIPELINE_STAGES } from "./autopilotSim.js";
+
+const SPEED_OPTIONS = [
+  { id: "1x", label: "1×", factor: 1 },
+  { id: "2x", label: "2×", factor: 2 },
+  { id: "4x", label: "4×", factor: 4 }
+];
+
+function formatUsd(value) {
+  return `$${Number(value || 0).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+}
+
+function emptyMetrics() {
+  return {
+    leads: 0,
+    contactReady: 0,
+    quotes: 0,
+    won: 0,
+    paid: 0,
+    revenue: 0,
+    costUsd: 0,
+    outreach: 0
+  };
+}
+
+export default function AutopilotDemo() {
+  const [category, setCategory] = useState("landscape");
+  const [running, setRunning] = useState(false);
+  const [speed, setSpeed] = useState("2x");
+  const [phase, setPhase] = useState("idle");
+  const [feed, setFeed] = useState([]);
+  const [leads, setLeads] = useState([]);
+  const [metrics, setMetrics] = useState(emptyMetrics());
+  const [activeCities, setActiveCities] = useState([]);
+  const [latestInvoice, setLatestInvoice] = useState(null);
+  const [cycle, setCycle] = useState(0);
+  const [elapsed, setElapsed] = useState(0);
+  const [livePulse, setLivePulse] = useState(false);
+
+  const scenario = useMemo(
+    () => buildAutopilotScenario(category, {
+      label: categories.find(item => item.category === category)?.label || category,
+      seed: `cycle-${cycle}`
+    }),
+    [category, cycle]
+  );
+
+  const timersRef = useRef([]);
+  const feedEndRef = useRef(null);
+  const startedAtRef = useRef(0);
+  const tickRef = useRef(null);
+
+  const selected = categories.find(item => item.category === category);
+  const speedFactor = SPEED_OPTIONS.find(item => item.id === speed)?.factor || 1;
+
+  useEffect(() => {
+    feedEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [feed]);
+
+  useEffect(() => () => clearAllTimers(), []);
+
+  function clearAllTimers() {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+    if (tickRef.current) {
+      clearInterval(tickRef.current);
+      tickRef.current = null;
+    }
+  }
+
+  function resetBoard({ keepCategory = true } = {}) {
+    clearAllTimers();
+    setRunning(false);
+    setPhase("idle");
+    setFeed([]);
+    setLeads([]);
+    setMetrics(emptyMetrics());
+    setActiveCities([]);
+    setLatestInvoice(null);
+    setElapsed(0);
+    setLivePulse(false);
+    if (!keepCategory) setCategory("landscape");
+  }
+
+  function upsertLead(leadId, patch, fullLead) {
+    setLeads(prev => {
+      const index = prev.findIndex(item => item.id === leadId);
+      if (index === -1 && fullLead) return [{ ...fullLead, ...patch }, ...prev];
+      if (index === -1) return prev;
+      const next = [...prev];
+      next[index] = { ...next[index], ...patch };
+      return next;
+    });
+  }
+
+  function applyEvent(event) {
+    setLivePulse(true);
+    setTimeout(() => setLivePulse(false), 280);
+
+    setFeed(prev => [
+      ...prev,
+      {
+        id: `${event.at}-${event.type}-${prev.length}`,
+        type: event.type,
+        title: event.title,
+        detail: event.detail,
+        at: Date.now()
+      }
+    ].slice(-40));
+
+    if (event.phase) setPhase(event.phase);
+
+    if (event.type === "hunt-city" && event.city) {
+      setActiveCities(prev => (prev.includes(event.city) ? prev : [...prev, event.city]));
+    }
+
+    if (event.type === "lead-found" && event.lead) {
+      upsertLead(event.leadId, { stage: "new" }, event.lead);
+      setMetrics(prev => ({ ...prev, leads: prev.leads + 1 }));
+    }
+
+    if (event.leadPatch && event.leadId) {
+      upsertLead(event.leadId, event.leadPatch);
+      if (event.leadPatch.stage === "contact-ready") {
+        setMetrics(prev => ({ ...prev, contactReady: prev.contactReady + 1 }));
+      }
+      if (event.leadPatch.stage === "contacted") {
+        setMetrics(prev => ({ ...prev, outreach: prev.outreach + 1 }));
+      }
+    }
+
+    if (event.metric?.key === "costUsd") {
+      setMetrics(prev => ({ ...prev, costUsd: event.metric.value }));
+    }
+    if (event.metric?.key === "quotes") {
+      setMetrics(prev => ({ ...prev, quotes: prev.quotes + (event.metric.delta || 1) }));
+    }
+    if (event.metric?.key === "won") {
+      setMetrics(prev => ({
+        ...prev,
+        won: prev.won + (event.metric.delta || 1),
+        revenue: Math.round((prev.revenue + (event.metric.revenue || 0)) * 100) / 100
+      }));
+    }
+    if (event.metric?.key === "paid") {
+      setMetrics(prev => ({ ...prev, paid: prev.paid + (event.metric.delta || 1) }));
+    }
+
+    if (event.invoice) setLatestInvoice(event.invoice);
+  }
+
+  function startSimulation(plan = scenario) {
+    clearAllTimers();
+    setFeed([]);
+    setLeads([]);
+    setMetrics(emptyMetrics());
+    setActiveCities([]);
+    setLatestInvoice(null);
+    setPhase("idle");
+    setRunning(true);
+    setElapsed(0);
+    startedAtRef.current = Date.now();
+
+    tickRef.current = setInterval(() => {
+      setElapsed(Math.floor((Date.now() - startedAtRef.current) / 1000));
+    }, 250);
+
+    plan.events.forEach(event => {
+      const delay = event.at / speedFactor;
+      const timer = setTimeout(() => {
+        applyEvent(event);
+        if (event.phase === "complete") {
+          setRunning(false);
+          if (tickRef.current) {
+            clearInterval(tickRef.current);
+            tickRef.current = null;
+          }
+        }
+      }, delay);
+      timersRef.current.push(timer);
+    });
+  }
+
+  function onPlay() {
+    if (running) return;
+    const nextCycle = phase === "complete" || feed.length ? cycle + 1 : cycle;
+    if (nextCycle !== cycle) setCycle(nextCycle);
+    const plan = buildAutopilotScenario(category, {
+      label: categories.find(item => item.category === category)?.label || category,
+      seed: `cycle-${nextCycle}`
+    });
+    startSimulation(plan);
+  }
+
+  function onPause() {
+    clearAllTimers();
+    setRunning(false);
+  }
+
+  function onReset() {
+    resetBoard();
+    setCycle(value => value + 1);
+  }
+
+  const phaseIndex = Math.max(0, PHASES.findIndex(item => item.id === phase));
+  const pipeline = PIPELINE_STAGES.map(stage => ({
+    ...stage,
+    items: leads.filter(lead => lead.stage === stage.id)
+  }));
+
+  return (
+    <section className="autopilot">
+      <div className={`autopilot-hero card ${livePulse ? "pulse" : ""}`}>
+        <div className="autopilot-hero-copy">
+          <p className="eyebrow">LIVE SIMULATION</p>
+          <h2>
+            <span className="autopilot-mark">Autopilot</span>
+            <span className="autopilot-sub"> runs {selected?.label || "a trade"} end to end</span>
+          </h2>
+          <p>
+            Watch one category hunt leads, enrich contacts, quote jobs, schedule work, and collect payment —
+            as a live demo loop. Simulated for the vendor website (no Origami/OpenAI spend).
+          </p>
+          <div className="autopilot-controls">
+            <label className="field compact">
+              <span>Category</span>
+              <select
+                value={category}
+                disabled={running}
+                onChange={e => {
+                  resetBoard();
+                  setCategory(e.target.value);
+                  setCycle(value => value + 1);
+                }}
+              >
+                {categories.map(item => (
+                  <option key={item.category} value={item.category}>{item.label}</option>
+                ))}
+              </select>
+            </label>
+            <div className="speed-toggle" role="group" aria-label="Simulation speed">
+              {SPEED_OPTIONS.map(option => (
+                <button
+                  key={option.id}
+                  type="button"
+                  className={speed === option.id ? "active" : ""}
+                  disabled={running}
+                  onClick={() => setSpeed(option.id)}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+            <div className="autopilot-actions">
+              {!running ? (
+                <button className="primary" type="button" onClick={onPlay}>
+                  <Play size={16} />
+                  {phase === "complete" || feed.length ? "Run again" : "Start autopilot"}
+                </button>
+              ) : (
+                <button className="ghost" type="button" onClick={onPause}>
+                  <Pause size={16} />
+                  Pause
+                </button>
+              )}
+              <button className="ghost" type="button" onClick={onReset} disabled={running && !feed.length}>
+                <RotateCcw size={16} />
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="autopilot-live-badge">
+          <div className={`live-dot ${running ? "on" : ""}`}>
+            <Radio size={14} />
+            {running ? "LIVE" : phase === "complete" ? "COMPLETE" : "STANDBY"}
+          </div>
+          <strong>{elapsed}s</strong>
+          <small>cycle #{cycle + 1}</small>
+          <div className="phase-rail">
+            {PHASES.filter(item => item.id !== "idle").map((item, index) => (
+              <span
+                key={item.id}
+                className={
+                  item.id === phase
+                    ? "active"
+                    : PHASES.findIndex(p => p.id === item.id) < phaseIndex
+                      ? "done"
+                      : ""
+                }
+              >
+                {index + 1}. {item.label}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="autopilot-metrics">
+        {[
+          ["Leads", metrics.leads, Activity],
+          ["Contact-ready", metrics.contactReady, MapPin],
+          ["Quotes", metrics.quotes, Sparkles],
+          ["Won", metrics.won, Zap],
+          ["Paid", metrics.paid, CircleDollarSign],
+          ["Revenue", formatUsd(metrics.revenue), Bot]
+        ].map(([label, value, Icon]) => (
+          <div className="metric-tile card" key={label}>
+            <Icon size={16} />
+            <small>{label}</small>
+            <strong className={livePulse ? "bump" : ""}>{value}</strong>
+          </div>
+        ))}
+      </div>
+
+      <div className="autopilot-grid">
+        <div className="card autopilot-feed">
+          <div className="panel-head">
+            <h3>Event stream</h3>
+            <span className="step">{running ? "streaming" : "idle"}</span>
+          </div>
+          <ul className="event-stream">
+            {feed.length === 0 && (
+              <li className="empty">
+                Press <strong>Start autopilot</strong> to simulate a live {selected?.label || "category"} business loop.
+              </li>
+            )}
+            {feed.map(item => (
+              <li key={item.id} className={`event ${item.type}`}>
+                <span className="event-type">{item.type}</span>
+                <strong>{item.title}</strong>
+                <p>{item.detail}</p>
+              </li>
+            ))}
+            <li ref={feedEndRef} />
+          </ul>
+        </div>
+
+        <div className="card autopilot-side">
+          <div className="panel-head">
+            <h3>Markets</h3>
+            <small>Georgia pilots</small>
+          </div>
+          <div className="city-chips">
+            {scenario.cities.map(city => {
+              const name = city.split(",")[0];
+              const active = activeCities.includes(name);
+              return (
+                <span key={city} className={`city-chip ${active ? "active" : ""}`}>
+                  {city}
+                </span>
+              );
+            })}
+          </div>
+
+          <div className="panel-head tight">
+            <h3>Latest quote</h3>
+          </div>
+          {latestInvoice ? (
+            <div className="invoice-sim">
+              <strong>{latestInvoice.customer}</strong>
+              <p>{latestInvoice.service}</p>
+              <div className="invoice-sim-row">
+                <span>{latestInvoice.market}</span>
+                <b>{formatUsd(latestInvoice.amount)}</b>
+              </div>
+              <span className={`step ${latestInvoice.status === "draft" ? "" : "success"}`}>
+                {latestInvoice.status}
+              </span>
+            </div>
+          ) : (
+            <p className="muted">Quotes appear as leads convert.</p>
+          )}
+
+          <div className="panel-head tight">
+            <h3>Cycle projection</h3>
+          </div>
+          <dl className="mini-dl">
+            <div><dt>API spend (est.)</dt><dd>{formatUsd(scenario.summary.estimatedApiSpend)}</dd></div>
+            <div><dt>Leads targeted</dt><dd>{scenario.summary.leadTarget}</dd></div>
+            <div><dt>Quotes expected</dt><dd>{scenario.summary.convertTarget}</dd></div>
+            <div><dt>Revenue target</dt><dd>{formatUsd(scenario.summary.projectedRevenue)}</dd></div>
+            <div><dt>Margin vs spend</dt><dd>
+              {scenario.summary.estimatedApiSpend
+                ? `${Math.round((scenario.summary.projectedRevenue / scenario.summary.estimatedApiSpend) * 10) / 10}×`
+                : "—"}
+            </dd></div>
+          </dl>
+        </div>
+      </div>
+
+      <div className="card autopilot-pipeline">
+        <div className="panel-head">
+          <h3>Pipeline</h3>
+          <small>Leads move stages as the autopilot runs</small>
+        </div>
+        <div className="pipeline-board">
+          {pipeline.map(column => (
+            <div className="pipe-col" key={column.id}>
+              <header>
+                <span>{column.label}</span>
+                <b>{column.items.length}</b>
+              </header>
+              <div className="pipe-list">
+                {column.items.map(lead => (
+                  <article key={lead.id} className="pipe-card">
+                    <strong>{lead.name}</strong>
+                    <small>{lead.market}</small>
+                    <span>{lead.service}</span>
+                    <em>{formatUsd(lead.quoteAmount)}</em>
+                  </article>
+                ))}
+                {!column.items.length && <div className="pipe-empty">—</div>}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

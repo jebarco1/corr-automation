@@ -1,0 +1,99 @@
+{
+  "segment": "residential",
+  "category": "roofing",
+  "city": "Macon",
+  "state": "GA",
+  "market": "Macon, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:25:14.435Z",
+  "queries": [
+    "neighborhood HOA in Macon GA",
+    "neighborhood HOA Macon GA contact",
+    "HOA management contact phone Macon GA"
+  ],
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "leads": [
+    {
+      "leadId": "lead_f8f40acd7778",
+      "segment": "residential",
+      "category": "roofing",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon neighborhood HOA",
+      "url": null,
+      "snippet": "Potential roofing customer target: neighborhood HOA in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
+      "suggestedService": {
+        "serviceId": "inspection",
+        "serviceName": "Roof Inspection",
+        "quoteKey": "inspection"
+      },
+      "score": 85,
+      "query": "neighborhood HOA in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:25:14.435Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_7773ac940f2a",
+      "segment": "residential",
+      "category": "roofing",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon condo association",
+      "url": null,
+      "snippet": "Potential roofing customer target: condo association in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "condo association",
+      "suggestedService": {
+        "serviceId": "inspection",
+        "serviceName": "Roof Inspection",
+        "quoteKey": "inspection"
+      },
+      "score": 75,
+      "query": "neighborhood HOA in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:25:14.435Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    }
+  ]
+}

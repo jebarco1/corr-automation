@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "currency": "USD",
+  "updatedAt": "2026-07-19",
+  "notes": [
+    "Estimates only — tune via env overrides or edit this file.",
+    "Origami bills in credits; USD conversion is configurable.",
+    "OpenAI token rates are approximate mid-tier defaults."
+  ],
+  "providers": {
+    "origami": {
+      "creditUsd": 0.05,
+      "agentRunCredits": {
+        "origami-lite": 25,
+        "origami-max": 60,
+        "default": 40
+      },
+      "followUpRunProbability": 0.2,
+      "tableReadUsd": 0,
+      "pollUsd": 0,
+      "perLeadEnrichmentCredits": 0.5
+    },
+    "openai": {
+      "models": {
+        "gpt-5-mini": { "inputPer1kUsd": 0.00025, "outputPer1kUsd": 0.002 },
+        "gpt-4.1-mini": { "inputPer1kUsd": 0.0004, "outputPer1kUsd": 0.0016 },
+        "gpt-4o-mini": { "inputPer1kUsd": 0.00015, "outputPer1kUsd": 0.0006 },
+        "default": { "inputPer1kUsd": 0.0005, "outputPer1kUsd": 0.002 }
+      },
+      "typicalCalls": {
+        "categoryInfer": { "inputTokens": 900, "outputTokens": 250 },
+        "invoiceSuggest": { "inputTokens": 2500, "outputTokens": 800 },
+        "industryStandards": { "inputTokens": 1800, "outputTokens": 1200 },
+        "standardsRefresh": { "inputTokens": 2200, "outputTokens": 900 }
+      }
+    },
+    "regrid": {
+      "requestUsd": 0.01,
+      "acreageRequests": 1,
+      "nearbyRequests": 2
+    },
+    "local": {
+      "duckduckgoQueryUsd": 0,
+      "pageEnrichUsd": 0
+    }
+  },
+  "operations": {
+    "leads.hunt": {
+      "description": "B2B/residential lead hunt across cities (Origami and/or local)",
+      "billable": ["origami", "local"]
+    },
+    "ai.assistant": {
+      "description": "Home AI assistant / category inference",
+      "billable": ["openai", "regrid"]
+    },
+    "ai.start": {
+      "description": "Start AI guided workflow",
+      "billable": ["openai", "regrid"]
+    },
+    "pricing.industry-standards": {
+      "description": "Ask AI for industry standard rates",
+      "billable": ["openai"]
+    },
+    "pricing.refresh": {
+      "description": "Refresh pricing standards from invoices (+ optional LLM)",
+      "billable": ["openai"]
+    },
+    "pricing.suggest": {
+      "description": "Invoice log LLM suggestions",
+      "billable": ["openai"]
+    },
+    "regrid.acreage": {
+      "description": "Parcel acreage lookup by address",
+      "billable": ["regrid"]
+    },
+    "regrid.nearby": {
+      "description": "Nearby parcels lookup",
+      "billable": ["regrid"]
+    },
+    "guided.quote": {
+      "description": "Guided quote session (optional Regrid + optional OpenAI)",
+      "billable": ["openai", "regrid"]
+    }
+  }
+}

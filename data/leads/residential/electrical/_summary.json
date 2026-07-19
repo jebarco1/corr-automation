@@ -1,0 +1,74 @@
+{
+  "segment": "residential",
+  "category": "electrical",
+  "updatedAt": "2026-07-19T02:25:57.266Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 1,
+    "withPhone": 1,
+    "withEmail": 1,
+    "withAddress": 1
+  },
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/electrical/atlanta.json",
+      "queries": [
+        "apartment leasing office in Atlanta GA",
+        "apartment leasing office Atlanta GA contact",
+        "apartment community office contact Atlanta GA"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/electrical/augusta.json",
+      "queries": [
+        "apartment leasing office in Augusta GA",
+        "apartment leasing office Augusta GA contact",
+        "apartment community office contact Augusta GA"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/electrical/macon.json",
+      "queries": [
+        "apartment leasing office in Macon GA",
+        "apartment leasing office Macon GA contact",
+        "apartment community office contact Macon GA"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/electrical/savannah.json",
+      "queries": [
+        "apartment leasing office in Savannah GA",
+        "apartment leasing office Savannah GA contact",
+        "apartment community office contact Savannah GA"
+      ]
+    }
+  ]
+}

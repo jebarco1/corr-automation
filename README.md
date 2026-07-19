@@ -100,6 +100,85 @@ Example body:
 
 You can also omit `clients` and set `"category"` after uploading invoice logs to derive areas from `data/invoice-logs`.
 
+## Vendor website MVP (tenants, CRM, quotes, jobs, booking)
+
+SQLite-backed multi-tenant layer for vendor websites:
+
+```bash
+npm run vendor:seed   # creates demo-landscape + prints vcorr_ API key
+
+POST /api/v1/vendors
+GET  /api/v1/vendors/me                  # X-API-Key: vcorr_...
+GET  /api/v1/vendors/me/leads
+POST /api/v1/vendors/me/leads/:id/quotes
+POST /api/v1/vendors/me/quotes/:id/send
+POST /api/v1/vendors/me/quotes/:id/accept
+POST /api/v1/vendors/me/quotes/:id/checkout
+GET  /api/v1/vendors/me/jobs
+POST /api/v1/vendors/me/webhooks
+
+# Public customer flows
+GET  /api/v1/public/{slug}/booking
+POST /api/v1/public/{slug}/booking
+GET  /api/v1/public/quotes/{token}
+POST /api/v1/public/quotes/{token}/accept
+POST /api/v1/public/quotes/{token}/checkout
+```
+
+UI: **Vendor Ops** tab (CRM) and public pages at `/book/demo-landscape` and `/book/quote/{token}`.  
+Payments use Stripe when `STRIPE_SECRET_KEY` is set, otherwise mock checkout.  
+Post-MVP gap analysis: `docs/VENDOR_MVP_GAP_ANALYSIS.md`.
+
+## API cost quotes (before proceeding)
+
+Estimate provider spend for a planned request before it runs:
+
+```bash
+GET  /api/v1/cost/rates
+GET  /api/v1/cost/operations
+POST /api/v1/cost/quote
+GET  /api/v1/cost/quote/{quoteId}
+```
+
+Example:
+
+```json
+{
+  "operation": "leads.hunt",
+  "params": {
+    "provider": "origami",
+    "segment": "b2b",
+    "categories": ["landscape"],
+    "cities": ["Atlanta", "Macon"],
+    "perCityLimit": 5
+  }
+}
+```
+
+Response includes `estimatedUsd`, min/likely/max range, per-process line items (Origami agent runs, OpenAI tokens, Regrid requests), and a `quoteId`. Lead hunts also accept `quoteOnly: true` to return the quote without hunting, or `maxCostUsd` / `confirmCost` + `costQuoteId` when confirmation is required (`COST_REQUIRE_CONFIRMATION=true`).
+
+Tune unit rates in `data/provider-costs.json` or `COST_*` env vars.
+
+## Georgia lead hunting (B2B + residential)
+
+Pilot markets live in `data/markets/georgia-cities.json`. Segment targets are in `data/lead-targets/{category}.json`. Hunted leads write under `data/leads/b2b/` and `data/leads/residential/`.
+
+```bash
+GET  /api/v1/leads/b2b
+GET  /api/v1/leads/residential
+GET  /api/v1/leads/origami/status
+POST /api/v1/leads/b2b/hunt
+POST /api/v1/leads/residential/hunt
+```
+
+Hunt body supports `provider: "origami" | "local" | "auto"` (default `auto`). When `ORIGAMI_API_KEY` is set, hunts use the [Origami Chat agent API](https://docs.origami.chat/agents/quickstart) to build contact tables (phone, email, address), then fall back to the local DuckDuckGo headhunter if a city returns empty or errors.
+
+```bash
+# CLI
+npm run leads:hunt:b2b
+LEAD_PROVIDER=origami npm run leads:hunt:residential
+```
+
 ## Run
 
 `.env` is **not** in git (secrets stay local). After every clone/pull, create it from the example:
@@ -111,7 +190,7 @@ npm install
 npm run dev
 ```
 
-Open the home page at `http://localhost:3000/` — type a problem in the AI chatbot (calls `/api/v1/ai/assistant`). Category prompts are local; OpenAI uses `OPENAI_API_KEY` from your local `.env` only.
+Open the home page at `http://localhost:3000/` — the **Autopilot** tab runs a live simulation of hunt → quote → schedule → pay for one category (no provider spend). The AI chatbot tab calls `/api/v1/ai/assistant`. Category prompts are local; OpenAI uses `OPENAI_API_KEY` from your local `.env` only.
 
 Open Swagger at `http://localhost:3000/docs`. Raw OpenAPI: `http://localhost:3000/openapi.yaml`.
 

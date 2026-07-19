@@ -1,0 +1,99 @@
+{
+  "segment": "residential",
+  "category": "pest-control",
+  "city": "Atlanta",
+  "state": "GA",
+  "market": "Atlanta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:24:17.814Z",
+  "queries": [
+    "condo association in Atlanta GA",
+    "condo association Atlanta GA contact",
+    "apartment community office contact Atlanta GA"
+  ],
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "leads": [
+    {
+      "leadId": "lead_153f65fc4aed",
+      "segment": "residential",
+      "category": "pest-control",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta apartment leasing office",
+      "url": null,
+      "snippet": "Potential pest-control customer target: apartment leasing office in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment leasing office",
+      "suggestedService": {
+        "serviceId": "one-time-treatment",
+        "serviceName": "One-Time Treatment",
+        "quoteKey": "one-time treatment"
+      },
+      "score": 90,
+      "query": "condo association in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:24:17.814Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_74ec650b818b",
+      "segment": "residential",
+      "category": "pest-control",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta neighborhood HOA",
+      "url": null,
+      "snippet": "Potential pest-control customer target: neighborhood HOA in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
+      "suggestedService": {
+        "serviceId": "one-time-treatment",
+        "serviceName": "One-Time Treatment",
+        "quoteKey": "one-time treatment"
+      },
+      "score": 85,
+      "query": "condo association in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:24:17.814Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "segment": "residential",
+  "category": "painting",
+  "city": "Atlanta",
+  "state": "GA",
+  "market": "Atlanta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:24:51.632Z",
+  "queries": [
+    "neighborhood HOA in Atlanta GA",
+    "neighborhood HOA Atlanta GA contact",
+    "HOA board contact Atlanta GA"
+  ],
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "leads": [
+    {
+      "leadId": "lead_390498614cdd",
+      "segment": "residential",
+      "category": "painting",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta neighborhood HOA",
+      "url": null,
+      "snippet": "Potential painting customer target: neighborhood HOA in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
+      "suggestedService": {
+        "serviceId": "interior",
+        "serviceName": "Interior Painting",
+        "quoteKey": "interior"
+      },
+      "score": 85,
+      "query": "neighborhood HOA in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:24:51.632Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_003de33e24f6",
+      "segment": "residential",
+      "category": "painting",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta condo association",
+      "url": null,
+      "snippet": "Potential painting customer target: condo association in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "condo association",
+      "suggestedService": {
+        "serviceId": "interior",
+        "serviceName": "Interior Painting",
+        "quoteKey": "interior"
+      },
+      "score": 75,
+      "query": "neighborhood HOA in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:24:51.632Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    }
+  ]
+}

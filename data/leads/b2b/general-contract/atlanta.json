@@ -1,0 +1,99 @@
+{
+  "segment": "b2b",
+  "category": "general-contract",
+  "city": "Atlanta",
+  "state": "GA",
+  "market": "Atlanta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:21:02.778Z",
+  "queries": [
+    "retail landlord in Atlanta GA",
+    "retail landlord Atlanta GA contact",
+    "tenant improvement Atlanta GA"
+  ],
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "leads": [
+    {
+      "leadId": "lead_42cc74950cf8",
+      "segment": "b2b",
+      "category": "general-contract",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta property management company",
+      "url": null,
+      "snippet": "Potential general-contract customer target: property management company in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "property management company",
+      "suggestedService": {
+        "serviceId": "build-out",
+        "serviceName": "Commercial Build-Out",
+        "quoteKey": "build-out"
+      },
+      "score": 85,
+      "query": "retail landlord in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:02.778Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_e92bc93d101e",
+      "segment": "b2b",
+      "category": "general-contract",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta medical office",
+      "url": null,
+      "snippet": "Potential general-contract customer target: medical office in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "medical office",
+      "suggestedService": {
+        "serviceId": "build-out",
+        "serviceName": "Commercial Build-Out",
+        "quoteKey": "build-out"
+      },
+      "score": 80,
+      "query": "retail landlord in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:02.778Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    }
+  ]
+}

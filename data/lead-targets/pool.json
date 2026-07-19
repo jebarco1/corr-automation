@@ -1,9 +1,13 @@
 {
   "category": "pool",
-  "version": 1,
-  "updatedAt": "2026-07-19T01:57:32.000Z",
+  "version": 2,
+  "updatedAt": "2026-07-19T02:17:43.000Z",
   "marketFile": "data/markets/georgia-cities.json",
   "usePilotCities": true,
+  "segments": [
+    "b2b",
+    "residential"
+  ],
   "customerTypes": [
     "HOA",
     "apartment complex",
@@ -14,7 +18,7 @@
   "intentPhrases": [
     "commercial pool service",
     "community pool maintenance",
-    "hotel pool service"
+    "hotel pool contract"
   ],
   "excludeKeywords": [
     "pool company",
@@ -29,5 +33,53 @@
     "{customerType} in {city} {state}",
     "{customerType} {city} {state} contact",
     "{intentPhrase} {city} {state}"
-  ]
+  ],
+  "b2b": {
+    "customerTypes": [
+      "HOA",
+      "apartment complex",
+      "hotel",
+      "community center",
+      "fitness club"
+    ],
+    "intentPhrases": [
+      "commercial pool service",
+      "community pool maintenance",
+      "hotel pool contract"
+    ],
+    "excludeKeywords": [
+      "pool company",
+      "pool cleaning near me"
+    ],
+    "suggestedServiceIds": [
+      "weekly-service",
+      "equipment-repair",
+      "opening"
+    ]
+  },
+  "residential": {
+    "customerTypes": [
+      "neighborhood HOA",
+      "condo association",
+      "apartment community"
+    ],
+    "intentPhrases": [
+      "community pool HOA contact",
+      "condo association phone",
+      "apartment community office"
+    ],
+    "excludeKeywords": [
+      "pool company",
+      "we clean pools",
+      "lawn care company",
+      "contractor near me",
+      "book online",
+      "free estimate"
+    ],
+    "suggestedServiceIds": [
+      "weekly-service",
+      "cleaning",
+      "chemical-balancing"
+    ]
+  }
 }

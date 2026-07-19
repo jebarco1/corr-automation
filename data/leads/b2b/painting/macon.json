@@ -1,0 +1,99 @@
+{
+  "segment": "b2b",
+  "category": "painting",
+  "city": "Macon",
+  "state": "GA",
+  "market": "Macon, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:21:01.491Z",
+  "queries": [
+    "HOA in Macon GA",
+    "HOA Macon GA contact",
+    "commercial painting RFP Macon GA"
+  ],
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "leads": [
+    {
+      "leadId": "lead_941ad9003f33",
+      "segment": "b2b",
+      "category": "painting",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon HOA",
+      "url": null,
+      "snippet": "Potential painting customer target: HOA in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "exterior",
+        "serviceName": "Exterior Painting",
+        "quoteKey": "exterior"
+      },
+      "score": 85,
+      "query": "HOA in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:01.491Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_22daa6e68b42",
+      "segment": "b2b",
+      "category": "painting",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon apartment complex",
+      "url": null,
+      "snippet": "Potential painting customer target: apartment complex in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment complex",
+      "suggestedService": {
+        "serviceId": "exterior",
+        "serviceName": "Exterior Painting",
+        "quoteKey": "exterior"
+      },
+      "score": 85,
+      "query": "HOA in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:01.491Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "segment": "residential",
+  "category": "pest-control",
+  "updatedAt": "2026-07-19T02:24:29.228Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/pest-control/atlanta.json",
+      "queries": [
+        "condo association in Atlanta GA",
+        "condo association Atlanta GA contact",
+        "apartment community office contact Atlanta GA"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/pest-control/augusta.json",
+      "queries": [
+        "condo association in Augusta GA",
+        "condo association Augusta GA contact",
+        "apartment community office contact Augusta GA"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/pest-control/macon.json",
+      "queries": [
+        "condo association in Macon GA",
+        "condo association Macon GA contact",
+        "apartment community office contact Macon GA"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/pest-control/savannah.json",
+      "queries": [
+        "condo association in Savannah GA",
+        "condo association Savannah GA contact",
+        "apartment community office contact Savannah GA"
+      ]
+    }
+  ]
+}

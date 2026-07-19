@@ -1,0 +1,74 @@
+{
+  "segment": "residential",
+  "category": "painting",
+  "updatedAt": "2026-07-19T02:25:03.049Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "pilotCities": [
+    "Atlanta, GA",
+    "Augusta, GA",
+    "Macon, GA",
+    "Savannah, GA"
+  ],
+  "cityCount": 4,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
+  "cities": [
+    {
+      "city": "Atlanta",
+      "state": "GA",
+      "label": "Atlanta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/painting/atlanta.json",
+      "queries": [
+        "neighborhood HOA in Atlanta GA",
+        "neighborhood HOA Atlanta GA contact",
+        "HOA board contact Atlanta GA"
+      ]
+    },
+    {
+      "city": "Augusta",
+      "state": "GA",
+      "label": "Augusta, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/painting/augusta.json",
+      "queries": [
+        "neighborhood HOA in Augusta GA",
+        "neighborhood HOA Augusta GA contact",
+        "HOA board contact Augusta GA"
+      ]
+    },
+    {
+      "city": "Macon",
+      "state": "GA",
+      "label": "Macon, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/painting/macon.json",
+      "queries": [
+        "neighborhood HOA in Macon GA",
+        "neighborhood HOA Macon GA contact",
+        "HOA board contact Macon GA"
+      ]
+    },
+    {
+      "city": "Savannah",
+      "state": "GA",
+      "label": "Savannah, GA",
+      "pilot": true,
+      "count": 2,
+      "file": "data/leads/residential/painting/savannah.json",
+      "queries": [
+        "neighborhood HOA in Savannah GA",
+        "neighborhood HOA Savannah GA contact",
+        "HOA board contact Savannah GA"
+      ]
+    }
+  ]
+}

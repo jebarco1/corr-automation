@@ -1,9 +1,13 @@
 {
   "category": "surveillance",
-  "version": 1,
-  "updatedAt": "2026-07-19T01:57:32.000Z",
+  "version": 2,
+  "updatedAt": "2026-07-19T02:17:43.000Z",
   "marketFile": "data/markets/georgia-cities.json",
   "usePilotCities": true,
+  "segments": [
+    "b2b",
+    "residential"
+  ],
   "customerTypes": [
     "warehouse",
     "retail chain",
@@ -12,7 +16,7 @@
     "auto dealership"
   ],
   "intentPhrases": [
-    "security camera installation commercial",
+    "commercial security cameras",
     "surveillance system RFP",
     "access control install"
   ],
@@ -29,5 +33,53 @@
     "{customerType} in {city} {state}",
     "{customerType} {city} {state} contact",
     "{intentPhrase} {city} {state}"
-  ]
+  ],
+  "b2b": {
+    "customerTypes": [
+      "warehouse",
+      "retail chain",
+      "apartment complex",
+      "HOA",
+      "auto dealership"
+    ],
+    "intentPhrases": [
+      "commercial security cameras",
+      "surveillance system RFP",
+      "access control install"
+    ],
+    "excludeKeywords": [
+      "security camera company",
+      "CCTV installer near me"
+    ],
+    "suggestedServiceIds": [
+      "new-installation",
+      "upgrade",
+      "site-assessment"
+    ]
+  },
+  "residential": {
+    "customerTypes": [
+      "condo association",
+      "neighborhood HOA",
+      "apartment leasing office"
+    ],
+    "intentPhrases": [
+      "condo association contact",
+      "apartment community office phone",
+      "HOA management contact"
+    ],
+    "excludeKeywords": [
+      "security camera company",
+      "CCTV installer near me",
+      "lawn care company",
+      "contractor near me",
+      "book online",
+      "free estimate"
+    ],
+    "suggestedServiceIds": [
+      "doorbell-camera",
+      "new-installation",
+      "site-assessment"
+    ]
+  }
 }

@@ -1,0 +1,110 @@
+{
+  "segment": "b2b",
+  "category": "landscape",
+  "city": "Atlanta",
+  "state": "GA",
+  "market": "Atlanta, GA",
+  "pilot": true,
+  "updatedAt": "2026-07-19T02:20:51.118Z",
+  "queries": [
+    "HOA in Atlanta GA",
+    "HOA Atlanta GA contact",
+    "grounds maintenance contract Atlanta GA"
+  ],
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 2,
+    "withPhone": 2,
+    "withEmail": 1,
+    "withAddress": 1
+  },
+  "leads": [
+    {
+      "leadId": "lead_b5d9fe46044a",
+      "segment": "b2b",
+      "category": "landscape",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Home | Evolve Association Management",
+      "url": "https://www.evolveam.com/",
+      "snippet": "Looking for change in your association's management? Evolve Association Management has the team, understanding, and resources to provide Atlanta's premier association management solution. We manage Single Family HOAs, Condominium and Townhome Associations, and Commercial Associations (like office complexes) as our sole focus.",
+      "phone": "(706) 726-6982",
+      "email": "contact@evolveam.com",
+      "address": "897 North Highland Avenue Northeast, Atlanta, GA, 30306",
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "full-maintenance",
+        "serviceName": "Full Grounds Maintenance",
+        "quoteKey": "full maintenance"
+      },
+      "score": 99,
+      "query": "HOA in Atlanta GA",
+      "source": "duckduckgo-html",
+      "status": "contact-ready",
+      "gatheredAt": "2026-07-19T02:20:50.602Z",
+      "contacts": {
+        "phone": "(706) 726-6982",
+        "email": "contact@evolveam.com",
+        "address": "897 North Highland Avenue Northeast, Atlanta, GA, 30306",
+        "phones": [
+          "(706) 726-6982",
+          "(770) 430-3011",
+          "(770) 239-6370"
+        ],
+        "emails": [
+          "contact@evolveam.com"
+        ],
+        "addresses": [
+          "897 North Highland Avenue Northeast, Atlanta, GA, 30306"
+        ],
+        "marketHint": "Atlanta, GA",
+        "completeness": 3,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_5fccb847b88d",
+      "segment": "b2b",
+      "category": "landscape",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "First Class Community Management — Atlanta Community Services",
+      "url": "https://www.atlantacommunityservices.com/",
+      "snippet": "Trusted HOA and community association management in Atlanta and across Georgia. Request a customized management proposal today.",
+      "phone": "(770) 904-5270",
+      "email": null,
+      "address": null,
+      "customerType": "HOA",
+      "suggestedService": {
+        "serviceId": "full-maintenance",
+        "serviceName": "Full Grounds Maintenance",
+        "quoteKey": "full maintenance"
+      },
+      "score": 90,
+      "query": "HOA in Atlanta GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T02:20:50.602Z",
+      "contacts": {
+        "phone": "(770) 904-5270",
+        "email": null,
+        "address": null,
+        "phones": [
+          "(770) 904-5270",
+          "(770) 904-5269"
+        ],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 1,
+        "enriched": true
+      }
+    }
+  ]
+}
