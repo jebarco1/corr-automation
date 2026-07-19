@@ -1,0 +1,417 @@
+{
+  "category": "plumbing",
+  "label": "Plumbing",
+  "description": "Leak repair, drains, water heaters, fixtures, sewer, and backflow services.",
+  "version": 1,
+  "updatedAt": "2026-07-19T01:51:22.000Z",
+  "defaultServiceId": "leak-repair",
+  "services": [
+    {
+      "id": "leak-repair",
+      "name": "Leak Repair",
+      "description": "Locate and repair supply/fixture leaks.",
+      "aliases": [
+        "water leak",
+        "pipe leak"
+      ],
+      "billingUnit": "hour",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "plumbing-leak-diagnostic",
+        "plumbing-repair-estimate"
+      ],
+      "active": true,
+      "quoteKey": "leak repair",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "drain-clearing",
+      "name": "Drain Clearing",
+      "description": "Clear clogged sinks, tubs, or mains.",
+      "aliases": [
+        "clogged drain",
+        "snake drain",
+        "drain cleaning"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1.5,
+      "relatedApis": [
+        "plumbing-leak-diagnostic",
+        "plumbing-repair-estimate"
+      ],
+      "active": true,
+      "quoteKey": "drain clearing",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "water-heater",
+      "name": "Water Heater Service",
+      "description": "Repair, flush, or replace water heater.",
+      "aliases": [
+        "hot water heater",
+        "tankless",
+        "water heater install"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "plumbing-repair-estimate"
+      ],
+      "active": true,
+      "quoteKey": "water heater",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "fixture-installation",
+      "name": "Fixture Installation",
+      "description": "Install faucet, toilet, disposal, or trim.",
+      "aliases": [
+        "toilet install",
+        "faucet install"
+      ],
+      "billingUnit": "each",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "plumbing-repair-estimate"
+      ],
+      "active": true,
+      "quoteKey": "fixture installation",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "repiping",
+      "name": "Repiping",
+      "description": "Partial or whole-home repipe.",
+      "aliases": [
+        "repipe",
+        "re-pipe",
+        "pEX repipe"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 24,
+      "relatedApis": [
+        "plumbing-repair-estimate"
+      ],
+      "active": true,
+      "quoteKey": "repiping",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "sewer",
+      "name": "Sewer Service",
+      "description": "Sewer cleanout, camera, or repair.",
+      "aliases": [
+        "sewer line",
+        "sewer camera",
+        "main line"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "plumbing-leak-diagnostic",
+        "plumbing-repair-estimate"
+      ],
+      "active": true,
+      "quoteKey": "sewer",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "backflow",
+      "name": "Backflow Testing / Repair",
+      "description": "Test and certify or repair backflow devices.",
+      "aliases": [
+        "backflow preventer"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "annual",
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1,
+      "relatedApis": [
+        "plumbing-repair-estimate"
+      ],
+      "active": true,
+      "quoteKey": "backflow",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "garbage-disposal",
+      "name": "Garbage Disposal Service",
+      "description": "Repair or replace disposal.",
+      "aliases": [
+        "disposal"
+      ],
+      "billingUnit": "each",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1.5,
+      "relatedApis": [
+        "plumbing-repair-estimate"
+      ],
+      "active": true,
+      "quoteKey": "garbage disposal",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "sump-pump",
+      "name": "Sump Pump Service",
+      "description": "Install or replace sump/backup pump.",
+      "aliases": [
+        "sump"
+      ],
+      "billingUnit": "each",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "plumbing-repair-estimate"
+      ],
+      "active": true,
+      "quoteKey": "sump pump",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "water-softener",
+      "name": "Water Softener / Filtration",
+      "description": "Install or service softener/filter systems.",
+      "aliases": [
+        "water filter",
+        "softener"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "water softener",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "gas-line",
+      "name": "Gas Line Service",
+      "description": "Gas leak check and line repair (licensed).",
+      "aliases": [
+        "gas leak",
+        "gas line"
+      ],
+      "billingUnit": "hour",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "plumbing-leak-diagnostic"
+      ],
+      "active": true,
+      "quoteKey": "gas line",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "slab-leak",
+      "name": "Slab Leak Detection",
+      "description": "Electronic leak locate under slab.",
+      "aliases": [
+        "slab leak"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2.5,
+      "relatedApis": [
+        "plumbing-leak-diagnostic"
+      ],
+      "active": true,
+      "quoteKey": "slab leak",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "camera-inspection",
+      "name": "Camera Inspection",
+      "description": "Video inspection of drain/sewer lines.",
+      "aliases": [
+        "sewer camera",
+        "drain camera"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1.5,
+      "relatedApis": [
+        "plumbing-leak-diagnostic"
+      ],
+      "active": true,
+      "quoteKey": "camera inspection",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "emergency-plumbing",
+      "name": "Emergency Plumbing",
+      "description": "After-hours leak or no-water response.",
+      "aliases": [
+        "emergency plumber"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "as-needed"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "plumbing-leak-diagnostic",
+        "plumbing-repair-estimate"
+      ],
+      "active": true,
+      "quoteKey": "emergency plumbing",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "toilet-repair",
+      "name": "Toilet Repair",
+      "description": "Flapper, fill valve, wax ring, or reset.",
+      "aliases": [
+        "running toilet",
+        "toilet leak"
+      ],
+      "billingUnit": "each",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1,
+      "relatedApis": [
+        "plumbing-repair-estimate"
+      ],
+      "active": true,
+      "quoteKey": "toilet repair",
+      "inGuidedWorkflow": false
+    }
+  ]
+}

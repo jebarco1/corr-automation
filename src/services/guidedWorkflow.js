@@ -3,6 +3,7 @@ import { categoryApiTools } from "../ai/toolCatalog.js";
 import { runAutomation } from "./automationEngine.js";
 import { getParcelAcreageByAddress } from "./regrid.js";
 import { buildSmartDefaults, refineDefaultsFromMeasurements } from "./quoteAutomation.js";
+import { listServices } from "./serviceCatalog.js";
 
 const sessions = new Map();
 const now = () => new Date().toISOString();
@@ -232,6 +233,25 @@ function categorySummary(category, flow) {
       invoiceSuggest: `/api/v1/${category}/invoices/suggest`
     },
     pricingStandardsFile: `data/pricing-standards/${category}.json`,
+    serviceCatalogFile: `data/service-catalog/${category}.json`,
+    serviceCatalog: (() => {
+      try {
+        const catalog = listServices(category);
+        return {
+          count: catalog.count,
+          defaultServiceId: catalog.defaultServiceId,
+          endpoint: `/api/v1/${category}/services`,
+          services: catalog.services.map(service => ({
+            id: service.id,
+            name: service.name,
+            quoteKey: service.quoteKey,
+            inGuidedWorkflow: !!service.inGuidedWorkflow
+          }))
+        };
+      } catch {
+        return null;
+      }
+    })(),
     recommendedApis: categoryApiTools[category] || []
   };
 }

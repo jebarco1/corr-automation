@@ -1,0 +1,472 @@
+{
+  "category": "hvac",
+  "label": "HVAC & Mechanical",
+  "description": "Heating, cooling, and mechanical diagnostics, repair, maintenance, and equipment work.",
+  "version": 1,
+  "updatedAt": "2026-07-19T01:51:22.000Z",
+  "defaultServiceId": "diagnostic",
+  "services": [
+    {
+      "id": "diagnostic",
+      "name": "System Diagnostic",
+      "description": "Troubleshoot no-cool/no-heat and performance issues.",
+      "aliases": [
+        "service call",
+        "troubleshoot",
+        "ac not cooling",
+        "no heat"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1.5,
+      "relatedApis": [
+        "hvac-fault-detection",
+        "hvac-load-estimate"
+      ],
+      "active": true,
+      "quoteKey": "diagnostic",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "repair",
+      "name": "Repair",
+      "description": "Component repair after diagnosis.",
+      "aliases": [
+        "fix",
+        "fix unit"
+      ],
+      "billingUnit": "hour",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "hvac-fault-detection",
+        "hvac-replacement-estimate"
+      ],
+      "active": true,
+      "quoteKey": "repair",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "maintenance",
+      "name": "Preventive Maintenance",
+      "description": "Filter, coil, condensate, and safety checks.",
+      "aliases": [
+        "tune-up",
+        "pm",
+        "maintenance plan"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "seasonal",
+        "semi-annual",
+        "quarterly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1.5,
+      "relatedApis": [
+        "hvac-fault-detection"
+      ],
+      "active": true,
+      "quoteKey": "maintenance",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "filter-change",
+      "name": "Filter Change",
+      "description": "Standard or media filter replacement.",
+      "aliases": [
+        "air filter",
+        "filter service"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "monthly",
+        "quarterly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 0.5,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "filter change",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "coil-cleaning",
+      "name": "Coil Cleaning",
+      "description": "Evaporator/condenser deep clean.",
+      "aliases": [
+        "clean coils",
+        "ac coil clean"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time",
+        "annual"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2.5,
+      "relatedApis": [
+        "hvac-fault-detection"
+      ],
+      "active": true,
+      "quoteKey": "coil cleaning",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "duct-cleaning",
+      "name": "Duct Cleaning",
+      "description": "Supply/return duct sanitation and debris removal.",
+      "aliases": [
+        "air duct clean"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "hvac-load-estimate"
+      ],
+      "active": true,
+      "quoteKey": "duct cleaning",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "duct-sealing",
+      "name": "Duct Sealing",
+      "description": "Seal leaky trunk and branch runs.",
+      "aliases": [
+        "seal ducts",
+        "aeroseal"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 6,
+      "relatedApis": [
+        "hvac-load-estimate"
+      ],
+      "active": true,
+      "quoteKey": "duct sealing",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "refrigerant-recharge",
+      "name": "Refrigerant Service",
+      "description": "Leak check and recharge (where permitted).",
+      "aliases": [
+        "freon",
+        "recharge",
+        "refrigerant"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "hvac-fault-detection"
+      ],
+      "active": true,
+      "quoteKey": "refrigerant recharge",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "thermostat-install",
+      "name": "Thermostat Installation",
+      "description": "Smart or standard thermostat swap.",
+      "aliases": [
+        "nest install",
+        "smart thermostat"
+      ],
+      "billingUnit": "each",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "thermostat install",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "installation",
+      "name": "New System Installation",
+      "description": "Install new split, package, or RTU system.",
+      "aliases": [
+        "install ac",
+        "new furnace",
+        "new system"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 10,
+      "relatedApis": [
+        "hvac-load-estimate",
+        "hvac-replacement-estimate"
+      ],
+      "active": true,
+      "quoteKey": "installation",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "replacement",
+      "name": "System Replacement",
+      "description": "Remove and replace existing HVAC equipment.",
+      "aliases": [
+        "replace ac",
+        "changeout",
+        "system changeout"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 8,
+      "relatedApis": [
+        "hvac-load-estimate",
+        "hvac-replacement-estimate"
+      ],
+      "active": true,
+      "quoteKey": "replacement",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "mini-split",
+      "name": "Mini-Split Install",
+      "description": "Ductless heat pump indoor/outdoor install.",
+      "aliases": [
+        "ductless",
+        "mini split"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 8,
+      "relatedApis": [
+        "hvac-replacement-estimate"
+      ],
+      "active": true,
+      "quoteKey": "mini split",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "boiler-service",
+      "name": "Boiler Service",
+      "description": "Boiler inspection, flush, and repair.",
+      "aliases": [
+        "boiler repair",
+        "boiler tune"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2.5,
+      "relatedApis": [
+        "hvac-fault-detection"
+      ],
+      "active": true,
+      "quoteKey": "boiler service",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "chiller-service",
+      "name": "Chiller Service",
+      "description": "Commercial chiller inspection and repair.",
+      "aliases": [
+        "chiller repair"
+      ],
+      "billingUnit": "hour",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "commercial",
+        "industrial",
+        "multi-family"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "hvac-fault-detection"
+      ],
+      "active": true,
+      "quoteKey": "chiller service",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "rtu-service",
+      "name": "Rooftop Unit Service",
+      "description": "RTU maintenance and repair.",
+      "aliases": [
+        "rooftop unit",
+        "rtu"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "commercial",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "hvac-fault-detection",
+        "hvac-replacement-estimate"
+      ],
+      "active": true,
+      "quoteKey": "rtu service",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "iaq",
+      "name": "Indoor Air Quality",
+      "description": "UV, media, and IAQ accessory installs.",
+      "aliases": [
+        "air quality",
+        "uv light",
+        "humidifier"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "iaq",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "emergency-service",
+      "name": "Emergency HVAC Service",
+      "description": "After-hours no-cool/no-heat response.",
+      "aliases": [
+        "emergency ac",
+        "after hours hvac"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "as-needed"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "hvac-fault-detection"
+      ],
+      "active": true,
+      "quoteKey": "emergency service",
+      "inGuidedWorkflow": false
+    }
+  ]
+}

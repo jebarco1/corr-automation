@@ -1,4 +1,5 @@
 import { getPricingStandards } from "./pricingStandards.js";
+import { matchServiceFromText } from "./serviceCatalog.js";
 
 /** Local industry defaults used when pricing-standards JSON has no matching keys. */
 export const industryDefaults = {
@@ -134,6 +135,25 @@ export function buildSmartDefaults(category, message = "", businessSettings = {}
   if (answers.disposalCost == null && prices.disposalCost != null) answers.disposalCost = prices.disposalCost;
   if (answers.equipmentCost == null) answers.equipmentCost = prices.equipmentCost || 0;
   if (answers.markupMultiplier == null) answers.markupMultiplier = prices.markupMultiplier || 1.35;
+
+  // Prefer catalog match for service type / hours when the prompt names a service.
+  if (!answers.serviceType || !answers.serviceId) {
+    try {
+      const matched = matchServiceFromText(category, text);
+      if (matched) {
+        if (!answers.serviceId) answers.serviceId = matched.id;
+        if (!answers.serviceType) answers.serviceType = matched.quoteKey || matched.name;
+        if (category === "general-contract" && !answers.projectType) {
+          answers.projectType = matched.quoteKey || matched.id.replace(/-/g, " ");
+        }
+        if (matched.defaultHours != null && (existing.estimatedHours == null)) {
+          answers.estimatedHours = matched.defaultHours;
+        }
+      }
+    } catch {
+      // Catalog optional at runtime
+    }
+  }
 
   if (category === "landscape") {
     if (!answers.serviceType) {

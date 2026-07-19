@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { answerGuidedWorkflow, createInvoiceFromSession, getCategory, getGuidedWorkflow, listCategories, listGuidedCategories, runGuidedStep, startGuidedWorkflow, createInstantQuote } from "../services/guidedWorkflow.js";
+import { getServiceById, listServiceCatalogs, listServices } from "../services/serviceCatalog.js";
 
 const router = Router();
 const categories = ["landscape", "hvac", "cleaning", "pest-control", "pool", "painting", "roofing", "plumbing", "electrical", "general-contract", "surveillance", "trash-removal", "transportation", "healthcare"];
@@ -28,7 +29,35 @@ router.get("/categories/:category", (req, res, next) => {
   }
 });
 
+router.get("/services", (_req, res) => {
+  res.json(listServiceCatalogs());
+});
+
+router.get("/services/:category", (req, res, next) => {
+  try {
+    res.json(listServices(req.params.category));
+  } catch (error) {
+    next(error);
+  }
+});
+
 for (const category of categories) {
+  router.get(`/${category}/services`, (_req, res, next) => {
+    try {
+      res.json(listServices(category));
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  router.get(`/${category}/services/:serviceId`, (req, res, next) => {
+    try {
+      res.json(getServiceById(category, req.params.serviceId));
+    } catch (error) {
+      next(error);
+    }
+  });
+
   router.post(`/${category}/quote`, async (req, res, next) => {
     try {
       res.status(201).json(await createInstantQuote(category, req.body || {}));

@@ -1,0 +1,643 @@
+{
+  "category": "landscape",
+  "label": "Landscape",
+  "description": "Lawn care, grounds maintenance, planting, irrigation, and outdoor property services.",
+  "version": 1,
+  "updatedAt": "2026-07-19T01:51:22.000Z",
+  "defaultServiceId": "mowing",
+  "services": [
+    {
+      "id": "mowing",
+      "name": "Lawn Mowing",
+      "description": "Routine turf mowing and edging.",
+      "aliases": [
+        "lawn mowing",
+        "cut grass",
+        "yard mowing",
+        "grass cutting"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "weekly",
+        "biweekly",
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "mowable-area",
+        "labor",
+        "landscaping-estimate"
+      ],
+      "active": true,
+      "quoteKey": "mowing",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "edging-blowing",
+      "name": "Edging & Blowing",
+      "description": "Hard-edge trim and debris blow-off after cut.",
+      "aliases": [
+        "edge",
+        "blow",
+        "hardscape clean"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "weekly",
+        "biweekly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1,
+      "relatedApis": [
+        "labor"
+      ],
+      "active": true,
+      "quoteKey": "edging blowing",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "cleanup",
+      "name": "Seasonal Cleanup",
+      "description": "Leaf, debris, and bed cleanup.",
+      "aliases": [
+        "spring cleanup",
+        "fall cleanup",
+        "yard cleanup",
+        "leaf removal"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "one-time",
+        "seasonal"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "labor",
+        "landscaping-estimate"
+      ],
+      "active": true,
+      "quoteKey": "cleanup",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "mulch",
+      "name": "Mulch Installation",
+      "description": "Bed prep and mulch install by cubic yard.",
+      "aliases": [
+        "mulching",
+        "mulch install",
+        "bed mulch"
+      ],
+      "billingUnit": "cubic_yard",
+      "typicalFrequency": [
+        "one-time",
+        "seasonal"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "landscaping-estimate"
+      ],
+      "active": true,
+      "quoteKey": "mulch",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "fertilization",
+      "name": "Fertilization",
+      "description": "Turf and bed nutrient application.",
+      "aliases": [
+        "fertilize",
+        "lawn treatment",
+        "nutrient program"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "monthly",
+        "quarterly",
+        "seasonal"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1,
+      "relatedApis": [
+        "landscaping-estimate"
+      ],
+      "active": true,
+      "quoteKey": "fertilization",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "weed-control",
+      "name": "Weed Control",
+      "description": "Pre/post-emergent and spot weed treatment.",
+      "aliases": [
+        "weeds",
+        "herbicide",
+        "weed killer"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "monthly",
+        "seasonal"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1.5,
+      "relatedApis": [
+        "landscaping-estimate"
+      ],
+      "active": true,
+      "quoteKey": "weed control",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "aeration",
+      "name": "Core Aeration",
+      "description": "Turf aeration to reduce compaction.",
+      "aliases": [
+        "aerate",
+        "lawn aeration"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "seasonal",
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "mowable-area",
+        "labor"
+      ],
+      "active": true,
+      "quoteKey": "aeration",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "overseeding",
+      "name": "Overseeding",
+      "description": "Seed application after aeration or thin turf repair.",
+      "aliases": [
+        "seed",
+        "reseeding"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "seasonal",
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "labor"
+      ],
+      "active": true,
+      "quoteKey": "overseeding",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "sod-install",
+      "name": "Sod Installation",
+      "description": "Remove failed turf and install new sod.",
+      "aliases": [
+        "sod",
+        "new lawn",
+        "turf install"
+      ],
+      "billingUnit": "sqft",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 6,
+      "relatedApis": [
+        "mowable-area",
+        "labor",
+        "landscaping-estimate"
+      ],
+      "active": true,
+      "quoteKey": "sod install",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "bush-trimming",
+      "name": "Bush & Hedge Trimming",
+      "description": "Shape and reduce shrubs/hedges.",
+      "aliases": [
+        "hedge trimming",
+        "shrub trim",
+        "bush cut"
+      ],
+      "billingUnit": "hour",
+      "typicalFrequency": [
+        "one-time",
+        "monthly",
+        "quarterly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "labor"
+      ],
+      "active": true,
+      "quoteKey": "bush trimming",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "tree-trimming",
+      "name": "Tree Trimming",
+      "description": "Crown reduction, deadwood, and clearance cuts.",
+      "aliases": [
+        "tree prune",
+        "limb removal"
+      ],
+      "billingUnit": "hour",
+      "typicalFrequency": [
+        "one-time",
+        "seasonal"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "labor"
+      ],
+      "active": true,
+      "quoteKey": "tree trimming",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "tree-removal",
+      "name": "Tree Removal",
+      "description": "Take-down, cut-up, and haul of trees.",
+      "aliases": [
+        "cut down tree",
+        "tree take down"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 8,
+      "relatedApis": [
+        "labor",
+        "landscaping-estimate"
+      ],
+      "active": true,
+      "quoteKey": "tree removal",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "stump-grinding",
+      "name": "Stump Grinding",
+      "description": "Grind stump below grade and backfill.",
+      "aliases": [
+        "stump removal"
+      ],
+      "billingUnit": "each",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "labor"
+      ],
+      "active": true,
+      "quoteKey": "stump grinding",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "irrigation-repair",
+      "name": "Irrigation Repair",
+      "description": "Diagnose and fix sprinkler zones/heads/valves.",
+      "aliases": [
+        "sprinkler repair",
+        "irrigation fix"
+      ],
+      "billingUnit": "hour",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "labor"
+      ],
+      "active": true,
+      "quoteKey": "irrigation repair",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "irrigation-install",
+      "name": "Irrigation Installation",
+      "description": "New controller, zones, and head layout.",
+      "aliases": [
+        "sprinkler install",
+        "irrigation system"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 12,
+      "relatedApis": [
+        "landscaping-estimate"
+      ],
+      "active": true,
+      "quoteKey": "irrigation install",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "irrigation-winterize",
+      "name": "Irrigation Winterization",
+      "description": "Blow-out and seasonal shut-down.",
+      "aliases": [
+        "sprinkler blowout",
+        "winterize irrigation"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "seasonal"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1.5,
+      "relatedApis": [
+        "labor"
+      ],
+      "active": true,
+      "quoteKey": "irrigation winterize",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "irrigation-startup",
+      "name": "Irrigation Startup",
+      "description": "Spring pressurization and zone check.",
+      "aliases": [
+        "sprinkler startup"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "seasonal"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1.5,
+      "relatedApis": [
+        "labor"
+      ],
+      "active": true,
+      "quoteKey": "irrigation startup",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "hardscape",
+      "name": "Hardscape Install",
+      "description": "Pavers, borders, small retaining walls.",
+      "aliases": [
+        "pavers",
+        "patio",
+        "retaining wall"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 24,
+      "relatedApis": [
+        "landscaping-estimate"
+      ],
+      "active": true,
+      "quoteKey": "hardscape",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "drainage",
+      "name": "Drainage Correction",
+      "description": "French drains, grading, and water diversion.",
+      "aliases": [
+        "french drain",
+        "yard drainage"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 10,
+      "relatedApis": [
+        "labor",
+        "landscaping-estimate"
+      ],
+      "active": true,
+      "quoteKey": "drainage",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "planting",
+      "name": "Planting & Bed Design",
+      "description": "Shrubs, annuals, and bed redesign.",
+      "aliases": [
+        "plant install",
+        "flower beds",
+        "landscaping design"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time",
+        "seasonal"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 6,
+      "relatedApis": [
+        "landscaping-estimate"
+      ],
+      "active": true,
+      "quoteKey": "planting",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "full-maintenance",
+      "name": "Full Grounds Maintenance",
+      "description": "Bundled mowing, edging, beds, and trash pick.",
+      "aliases": [
+        "full maintenance",
+        "grounds maintenance",
+        "property maintenance"
+      ],
+      "billingUnit": "month",
+      "typicalFrequency": [
+        "weekly",
+        "biweekly",
+        "monthly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "mowable-area",
+        "labor",
+        "landscaping-estimate"
+      ],
+      "active": true,
+      "quoteKey": "full maintenance",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "snow-ice",
+      "name": "Snow & Ice Management",
+      "description": "Plowing, shoveling, and de-icing.",
+      "aliases": [
+        "snow removal",
+        "salting",
+        "deicing"
+      ],
+      "billingUnit": "visit",
+      "typicalFrequency": [
+        "as-needed",
+        "seasonal"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "labor"
+      ],
+      "active": true,
+      "quoteKey": "snow ice",
+      "inGuidedWorkflow": false
+    }
+  ]
+}

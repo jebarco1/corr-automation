@@ -1,0 +1,322 @@
+{
+  "category": "painting",
+  "label": "Painting",
+  "description": "Interior, exterior, cabinet, and specialty coating services.",
+  "version": 1,
+  "updatedAt": "2026-07-19T01:51:22.000Z",
+  "defaultServiceId": "interior",
+  "services": [
+    {
+      "id": "interior",
+      "name": "Interior Painting",
+      "description": "Walls, ceilings, and trim interior finish.",
+      "aliases": [
+        "interior paint",
+        "paint rooms"
+      ],
+      "billingUnit": "sqft",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 16,
+      "relatedApis": [
+        "paint-surface-area",
+        "paint-interior-estimate"
+      ],
+      "active": true,
+      "quoteKey": "interior",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "exterior",
+      "name": "Exterior Painting",
+      "description": "Siding, trim, and exterior surfaces.",
+      "aliases": [
+        "exterior paint",
+        "house paint"
+      ],
+      "billingUnit": "sqft",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 24,
+      "relatedApis": [
+        "paint-surface-area",
+        "paint-interior-estimate"
+      ],
+      "active": true,
+      "quoteKey": "exterior",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "cabinets",
+      "name": "Cabinet Painting",
+      "description": "Kitchen/bath cabinet spray or brush finish.",
+      "aliases": [
+        "cabinet refinish",
+        "cabinet spray"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 20,
+      "relatedApis": [
+        "paint-interior-estimate"
+      ],
+      "active": true,
+      "quoteKey": "cabinets",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "touch-up",
+      "name": "Touch-Up Painting",
+      "description": "Spot repairs and small blend work.",
+      "aliases": [
+        "paint touch up"
+      ],
+      "billingUnit": "hour",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "touch-up",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "commercial-coating",
+      "name": "Commercial Coating",
+      "description": "Facility walls, epoxy, or specialty coats.",
+      "aliases": [
+        "epoxy floor",
+        "commercial paint"
+      ],
+      "billingUnit": "sqft",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "commercial",
+        "industrial",
+        "multi-family"
+      ],
+      "defaultHours": 30,
+      "relatedApis": [
+        "paint-surface-area",
+        "paint-interior-estimate"
+      ],
+      "active": true,
+      "quoteKey": "commercial coating",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "deck-stain",
+      "name": "Deck Staining",
+      "description": "Clean, prep, and stain/seal decks.",
+      "aliases": [
+        "deck seal",
+        "stain deck"
+      ],
+      "billingUnit": "sqft",
+      "typicalFrequency": [
+        "one-time",
+        "every-2-3-years"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 8,
+      "relatedApis": [
+        "paint-surface-area"
+      ],
+      "active": true,
+      "quoteKey": "deck stain",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "fence-stain",
+      "name": "Fence Staining",
+      "description": "Fence prep and stain/seal.",
+      "aliases": [
+        "fence paint"
+      ],
+      "billingUnit": "linear_ft",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 6,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "fence stain",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "drywall-repair",
+      "name": "Drywall Repair + Paint",
+      "description": "Patch, texture match, and paint.",
+      "aliases": [
+        "patch and paint",
+        "drywall patch"
+      ],
+      "billingUnit": "job",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "paint-interior-estimate"
+      ],
+      "active": true,
+      "quoteKey": "drywall repair",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "popcorn-removal",
+      "name": "Popcorn Ceiling Removal",
+      "description": "Texture removal, skim, and paint.",
+      "aliases": [
+        "ceiling scrape"
+      ],
+      "billingUnit": "sqft",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 12,
+      "relatedApis": [
+        "paint-surface-area"
+      ],
+      "active": true,
+      "quoteKey": "popcorn removal",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "wallpaper-removal",
+      "name": "Wallpaper Removal",
+      "description": "Strip wallpaper and prep for paint.",
+      "aliases": [
+        "remove wallpaper"
+      ],
+      "billingUnit": "sqft",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 8,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "wallpaper removal",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "garage-floor",
+      "name": "Garage Floor Coating",
+      "description": "Epoxy or polyurea garage floor system.",
+      "aliases": [
+        "garage epoxy"
+      ],
+      "billingUnit": "sqft",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 8,
+      "relatedApis": [
+        "paint-interior-estimate"
+      ],
+      "active": true,
+      "quoteKey": "garage floor",
+      "inGuidedWorkflow": false
+    },
+    {
+      "id": "pressure-wash-prep",
+      "name": "Pressure Wash Prep",
+      "description": "Exterior wash before paint/stain.",
+      "aliases": [
+        "paint prep wash"
+      ],
+      "billingUnit": "sqft",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [],
+      "active": true,
+      "quoteKey": "pressure wash prep",
+      "inGuidedWorkflow": false
+    }
+  ]
+}
