@@ -202,3 +202,52 @@
 .booking-actions{display:flex;gap:10px;flex-wrap:wrap;width:100%}
 .booking-actions .primary,.booking-actions .ghost{flex:1;justify-content:center}
 @media(max-width:900px){.vendor-hero,.vendor-grid,.booking-two{grid-template-columns:1fr}}
+
+/* Service catalog reference page */
+.svc-page{display:grid;gap:18px}
+.svc-hero{display:grid;grid-template-columns:1.5fr .9fr;gap:24px;align-items:end;background:linear-gradient(145deg,#f3f8f4,#e8f1eb)}
+.svc-hero h2{margin:8px 0 10px}.svc-hero p{margin:0;max-width:60ch}
+.svc-hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.svc-hero-stats div{background:white;border:1px solid #d5e3da;border-radius:12px;padding:14px;text-align:center}
+.svc-hero-stats strong{display:block;font-size:28px;color:#163d27}.svc-hero-stats small{color:#718078;text-transform:uppercase;letter-spacing:.6px;font-size:10px;font-weight:800}
+.svc-layout{display:grid;grid-template-columns:240px 1fr;gap:16px;align-items:start}
+.svc-cats{padding:16px;position:sticky;top:16px}
+.svc-cats-head{display:flex;align-items:center;gap:8px;margin-bottom:12px;color:#405047}
+.svc-cats ul{list-style:none;padding:0;margin:0;display:grid;gap:4px;max-height:70vh;overflow:auto}
+.svc-cats button{width:100%;border:0;background:transparent;border-radius:10px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;color:#405047;font:inherit;text-align:left}
+.svc-cats button:hover,.svc-cats button.active{background:#eaf4ec;color:#163d27}
+.svc-cats button small{background:#f1f6f2;border-radius:999px;padding:2px 8px;font-weight:800;color:#5f7568}
+.svc-cats button.active small{background:#dff5c8;color:#163d27}
+.svc-main{display:grid;gap:14px}
+.svc-toolbar{display:grid;gap:16px}
+.svc-toolbar h3{margin:6px 0 8px}.svc-toolbar p{margin:0;color:#637068}
+.svc-tools{display:flex;flex-wrap:wrap;gap:12px;align-items:end}
+.svc-search{min-width:220px;flex:1}.svc-search span{display:inline-flex;align-items:center;gap:6px}
+.svc-toggle{display:inline-flex;align-items:center;gap:8px;padding:12px 14px;border:1px solid #d4dfd7;border-radius:10px;background:#fbfdfb;font-size:13px;font-weight:700;color:#405047;cursor:pointer}
+.svc-tool-actions{display:flex;gap:8px}
+.svc-category-calc{background:linear-gradient(160deg,#10251a,#1d4a30);color:#e8f3eb;border:0}
+.svc-category-calc h4{display:flex;align-items:center;gap:8px;color:#b7ef62;margin:0 0 8px}
+.svc-category-calc p{color:#c5d7cb;margin:0 0 10px}
+.svc-list{display:grid;gap:10px}
+.svc-card{background:white;border:1px solid #dfe8e2;border-radius:16px;overflow:hidden;box-shadow:0 6px 18px rgba(18,49,31,.04)}
+.svc-card.open{border-color:#9fbfa8;box-shadow:0 10px 28px rgba(18,49,31,.08)}
+.svc-card-head{width:100%;border:0;background:transparent;padding:18px 20px;display:flex;justify-content:space-between;gap:16px;align-items:start;cursor:pointer;text-align:left;font:inherit}
+.svc-card-head strong{display:block;font-size:17px;color:#163d27}.svc-card-head p{margin:6px 0 0;color:#637068;line-height:1.45}
+.svc-card-badges{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:flex-end}
+.svc-chevron{color:#5f7568;transition:transform .18s ease}.svc-card.open .svc-chevron{transform:rotate(180deg)}
+.svc-card-body{padding:0 20px 20px;display:grid;gap:18px;border-top:1px solid #edf1ee;padding-top:16px;margin:0 20px 0;animation:svc-open .18s ease}
+.svc-card-body h4{margin:0 0 10px;display:flex;align-items:center;gap:8px;font-size:13px;letter-spacing:.6px;text-transform:uppercase;color:#5f7568}
+.svc-input-list{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.svc-input-row{display:flex;justify-content:space-between;gap:12px;align-items:start;padding:10px 12px;border-radius:10px;background:#f6faf7;border:1px solid #e5eee8}
+.svc-input-row strong{display:block;color:#163d27}.svc-input-row small{display:block;color:#718078;margin-top:2px}
+.svc-input-meta{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+.svc-pill{display:inline-flex;align-items:center;font-size:10px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;padding:5px 8px;border-radius:999px;background:#edf5ef;color:#405047}
+.svc-pill.ok{background:#dff5c8;color:#163d27}.svc-pill.warn{background:#fff1ef;color:#993d31}
+.svc-pill.ask{background:#e7f0ff;color:#274a7a}.svc-pill.auto{background:#f1f1f1;color:#5a5a5a}
+.svc-calc{background:#f3f8f4;border:1px solid #d9e7dd;border-radius:12px;padding:14px}
+.svc-calc-summary{margin:0 0 10px;color:#405047}
+.svc-formula{margin:0;background:#10251a;color:#dff5e5;padding:14px 16px;border-radius:10px;overflow:auto;font-size:13px;line-height:1.5;white-space:pre-wrap}
+.svc-notes{margin:12px 0 0;padding-left:18px;color:#637068;display:grid;gap:6px}
+.svc-loading{padding:36px}
+@keyframes svc-open{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+@media(max-width:980px){.svc-hero,.svc-layout{grid-template-columns:1fr}.svc-cats{position:static}.svc-cats ul{max-height:none;display:flex;overflow:auto;gap:6px}.svc-cats li{flex:0 0 auto}.svc-cats button{min-width:150px}.svc-card-head{flex-direction:column}.svc-input-row{flex-direction:column}.svc-input-meta{justify-content:flex-start}}

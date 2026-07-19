@@ -1,12 +1,13 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { BookOpen, Building2, ChevronRight, FileText, MessageSquare, Play, Receipt, RotateCcw, Settings2, Sparkles, Wand2, Workflow, Bot, Store } from "lucide-react";
+import { BookOpen, Building2, ChevronRight, FileText, Layers, MessageSquare, Play, Receipt, RotateCcw, Settings2, Sparkles, Wand2, Workflow, Bot, Store } from "lucide-react";
 import { categories, getCategory } from "./categoryCatalog.js";
 import { buildAutoAnswers, defaultMarketArea, formatPriceLabel, getIndustryPrices } from "./industryPrices.js";
 import WorkflowsPanel from "./WorkflowsPanel.jsx";
 import AutopilotDemo from "./AutopilotDemo.jsx";
 import VendorOps from "./VendorOps.jsx";
 import BookingPage from "./BookingPage.jsx";
+import ServiceCatalogPage from "./ServiceCatalogPage.jsx";
 import "./styles.css";
 
 const API = "/api/v1";
@@ -417,6 +418,7 @@ function App() {
             ["autopilot", Bot, "Autopilot"],
             ["vendor", Store, "Vendor Ops"],
             ["workflow", MessageSquare, "AI Chat"],
+            ["services", Layers, "Services"],
             ["workflows", Workflow, "Workflows"],
             ["settings", Settings2, "Business Setup"],
             ["docs", BookOpen, "Documentation"]
@@ -441,11 +443,13 @@ function App() {
                   ? "Vendor operations"
                   : tab === "workflow"
                     ? "AI service chatbot"
-                    : tab === "workflows"
-                      ? "Pricing workflows"
-                      : tab === "settings"
-                        ? "Business pricing setup"
-                        : "API documentation"}
+                    : tab === "services"
+                      ? "Service catalog"
+                      : tab === "workflows"
+                        ? "Pricing workflows"
+                        : tab === "settings"
+                          ? "Business pricing setup"
+                          : "API documentation"}
             </h1>
           </div>
           {(session || chatLog.length > 1) && tab === "workflow" && (
@@ -460,6 +464,7 @@ function App() {
 
         {tab === "autopilot" && <AutopilotDemo onOpenVendor={() => setTab("vendor")} />}
         {tab === "vendor" && <VendorOps />}
+        {tab === "services" && <ServiceCatalogPage />}
 
         {tab === "workflow" && (
           <section className="grid landing">

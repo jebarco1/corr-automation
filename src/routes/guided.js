@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { answerGuidedWorkflow, createInvoiceFromSession, getCategory, getGuidedWorkflow, listCategories, listGuidedCategories, runGuidedStep, startGuidedWorkflow, createInstantQuote } from "../services/guidedWorkflow.js";
 import { getServiceById, listServiceCatalogs, listServices } from "../services/serviceCatalog.js";
+import { getServiceDocs, listServiceDocs } from "../services/serviceDocs.js";
 
 const router = Router();
 const categories = ["landscape", "hvac", "cleaning", "pest-control", "pool", "painting", "roofing", "plumbing", "electrical", "general-contract", "surveillance", "trash-removal", "transportation", "healthcare", "bakery-food", "law-office"];
@@ -36,6 +37,22 @@ router.get("/services", (_req, res) => {
 router.get("/services/:category", (req, res, next) => {
   try {
     res.json(listServices(req.params.category));
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/service-docs", (_req, res, next) => {
+  try {
+    res.json(listServiceDocs());
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/service-docs/:category", (req, res, next) => {
+  try {
+    res.json(getServiceDocs(req.params.category));
   } catch (error) {
     next(error);
   }
