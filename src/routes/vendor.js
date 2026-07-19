@@ -45,6 +45,14 @@ import {
 import { listNotifications } from "../services/notifications.js";
 import { listSessions, saveSession } from "../services/vendorSessions.js";
 import { listLeads as listHuntFileLeads } from "../services/leadHunt.js";
+import { promoteAutopilotSimToCrm, promoteGuidedSessionToCrm } from "../services/crmPromote.js";
+import { runVendorAutopilot } from "../services/vendorAutopilot.js";
+import {
+  getVendorPricebook,
+  refreshVendorPricebook,
+  saveVendorPricebook
+} from "../services/vendorPricebook.js";
+import { executeAutopilotSuggestion } from "../services/suggestionExecute.js";
 
 const router = Router();
 
@@ -190,6 +198,91 @@ router.post("/vendors/me/leads/import-hunt", requireVendorApiKey, (req, res, nex
       imported: imported.count,
       leads: imported.leads
     });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/** Promote Autopilot simulation leads into this vendor's CRM. */
+router.post("/vendors/me/leads/import-sim", requireVendorApiKey, (req, res, next) => {
+  try {
+    res.status(201).json(promoteAutopilotSimToCrm(req.vendor.id, req.body || {}));
+  } catch (error) {
+    next(error);
+  }
+});
+
+/** Promote a guided-session invoice into CRM lead + draft quote. */
+router.post("/vendors/me/sessions/from-guided", requireVendorApiKey, (req, res, next) => {
+  try {
+    res.status(201).json(promoteGuidedSessionToCrm(req.vendor.id, req.body || {}));
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * Real autopilot: cost-gated hunt → import CRM → quote → send → optional job.
+ * Body: { category, segment, limit, quoteLimit, confirmCost, costQuoteId, accept?, send? }
+ */
+router.post("/vendors/me/autopilot/run", requireVendorApiKey, async (req, res, next) => {
+  try {
+    const result = await runVendorAutopilot(req.vendor.id, {
+      ...(req.body || {}),
+      category: req.body?.category || req.vendor.defaultCategory || "landscape"
+    });
+    const status = result.status === "blocked" ? 402 : 201;
+    res.status(status).json(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * Execute a ranked Autopilot ROI suggestion against the live tenant CRM.
+ * Body: { suggestion, category?, leads?, assignee?, amount? }
+ */
+router.post("/vendors/me/autopilot/suggestions/execute", requireVendorApiKey, async (req, res, next) => {
+  try {
+    const result = await executeAutopilotSuggestion(req.vendor.id, {
+      ...(req.body || {}),
+      category: req.body?.category || req.vendor.defaultCategory || "landscape"
+    });
+    res.status(201).json(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// —— Live per-tenant pricebook (invoice intelligence) ——
+router.get("/vendors/me/pricebook", requireVendorApiKey, (req, res, next) => {
+  try {
+    res.json(getVendorPricebook(req.vendor.id, {
+      category: req.query.category || req.vendor.defaultCategory,
+      area: req.query.area || req.query.city,
+      reseed: req.query.reseed === "1" || req.query.reseed === "true"
+    }));
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.put("/vendors/me/pricebook", requireVendorApiKey, (req, res, next) => {
+  try {
+    const category = req.body?.category || req.vendor.defaultCategory;
+    res.json(saveVendorPricebook(req.vendor.id, category, req.body?.pricebook || req.body || {}));
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/vendors/me/pricebook/refresh", requireVendorApiKey, async (req, res, next) => {
+  try {
+    const result = await refreshVendorPricebook(req.vendor.id, {
+      ...(req.body || {}),
+      category: req.body?.category || req.vendor.defaultCategory || "landscape"
+    });
+    res.json(result);
   } catch (error) {
     next(error);
   }

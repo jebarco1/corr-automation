@@ -436,9 +436,16 @@ export function buildAutopilotSuggestions({ leads = [], jobs = [], metrics = {},
       detail: topNurture
         ? `Start with ${topNurture.name} (score ${topNurture.score}) — ${topNurture.service} · ${formatMoney(topNurture.quoteAmount)} potential.`
         : "Warm leads need a day-2 follow-up before they go cold.",
-      actionLabel: "Open top nurture lead",
-      actionType: "select-lead",
-      leadId: topNurture?.id
+      actionLabel: "Execute in CRM",
+      actionType: "execute-crm",
+      crmAction: "follow-nurture",
+      leadId: topNurture?.id,
+      leadName: topNurture?.name,
+      assignee: "alex",
+      targetStatus: "contacted",
+      note: topNurture
+        ? `Day-2 nurture follow-up for ${topNurture.name} (${topNurture.service}).`
+        : "Day-2 nurture follow-up started from Autopilot ROI."
     });
   }
 
@@ -448,11 +455,15 @@ export function buildAutopilotSuggestions({ leads = [], jobs = [], metrics = {},
       priority: "high",
       title: `Close ${quoted.length} open quote${quoted.length === 1 ? "" : "s"}`,
       detail: topQuoted
-        ? `${topQuoted.name} has a ${formatMoney(topQuoted.quoteAmount)} draft sitting unanswered — send a short “ready to book?” nudge.`
+        ? `${topQuoted.name} has a ${formatMoney(topQuoted.quoteAmount)} draft sitting unanswered — send from the live tenant pricebook.`
         : "Quoted leads convert fastest with a same-day reminder.",
-      actionLabel: "Review open quote",
-      actionType: "select-lead",
-      leadId: topQuoted?.id
+      actionLabel: "Send quote in CRM",
+      actionType: "execute-crm",
+      crmAction: "close-quotes",
+      leadId: topQuoted?.id,
+      leadName: topQuoted?.name,
+      amount: topQuoted?.quoteAmount,
+      serviceName: topQuoted?.service
     });
   }
 
@@ -461,9 +472,10 @@ export function buildAutopilotSuggestions({ leads = [], jobs = [], metrics = {},
       id: "confirm-jobs",
       priority: "medium",
       title: `Confirm ${scheduledJobs.length} scheduled job${scheduledJobs.length === 1 ? "" : "s"}`,
-      detail: `${scheduledJobs[0].customer} · ${scheduledJobs[0].title} with ${scheduledJobs[0].assignee}. Confirm window and send arrival SMS.`,
-      actionLabel: "Open job detail",
-      actionType: "select-job",
+      detail: `${scheduledJobs[0].customer} · ${scheduledJobs[0].title} with ${scheduledJobs[0].assignee}. Confirm window and log arrival note in CRM.`,
+      actionLabel: "Confirm in CRM",
+      actionType: "execute-crm",
+      crmAction: "confirm-jobs",
       jobId: scheduledJobs[0].id,
       leadId: scheduledJobs[0].leadId
     });
@@ -475,8 +487,10 @@ export function buildAutopilotSuggestions({ leads = [], jobs = [], metrics = {},
       priority: "medium",
       title: "Import paid wins into Vendor Ops CRM",
       detail: `${paidJobs.length} paid job${paidJobs.length === 1 ? "" : "s"} · ${formatMoney(value.revenue)} captured. Persist them under your tenant so crews and invoices stay real.`,
-      actionLabel: "Open Vendor Ops",
-      actionType: "open-vendor"
+      actionLabel: "Import to CRM",
+      actionType: "execute-crm",
+      crmAction: "import-crm",
+      category
     });
   }
 
@@ -486,11 +500,18 @@ export function buildAutopilotSuggestions({ leads = [], jobs = [], metrics = {},
       priority: "high",
       title: `Start outreach on ${contactReady.length} contact-ready lead${contactReady.length === 1 ? "" : "s"}`,
       detail: topReady
-        ? `${topReady.name} is enriched (${topReady.phone}) — send the ${topReady.service} intro now.`
+        ? `${topReady.name} is enriched (${topReady.phone}) — assign + note in CRM and mark contacted.`
         : "Contacts are verified; don’t leave them idle.",
-      actionLabel: "Open contact-ready lead",
-      actionType: "select-lead",
-      leadId: topReady?.id
+      actionLabel: "Start outreach in CRM",
+      actionType: "execute-crm",
+      crmAction: "start-outreach",
+      leadId: topReady?.id,
+      leadName: topReady?.name,
+      assignee: "alex",
+      targetStatus: "contacted",
+      note: topReady
+        ? `Outreach started for ${topReady.name} — ${topReady.service}.`
+        : "Outreach started from Autopilot ROI."
     });
   }
 
@@ -499,9 +520,12 @@ export function buildAutopilotSuggestions({ leads = [], jobs = [], metrics = {},
       id: "expand-cities",
       priority: "medium",
       title: `Scale ${label} hunt to more cities`,
-      detail: `This cycle returned ~${value.roiMultiple || "—"}× on ~${formatMoney(value.spend)} API spend. Add a 5th market or raise monthly hunt volume.`,
-      actionLabel: "Run again",
-      actionType: "run-again"
+      detail: `This cycle returned ~${value.roiMultiple || "—"}× on ~${formatMoney(value.spend)} API spend. Run real autopilot across more Georgia markets.`,
+      actionLabel: "Run real autopilot",
+      actionType: "execute-crm",
+      crmAction: "expand-cities",
+      category,
+      cities: ["Atlanta", "Savannah", "Augusta", "Macon"]
     });
   } else {
     suggestions.push({
@@ -525,14 +549,18 @@ export function buildAutopilotSuggestions({ leads = [], jobs = [], metrics = {},
   });
 
   if ((metrics.outreach || 0) > 0 && nurture.length + quoted.length > 0) {
+    const copyText = `Hi — we help ${label} accounts in your area with fast quotes and scheduled crews. Want an estimate this week?`;
     suggestions.push({
       id: "copy-script",
       priority: "low",
       title: "Use today’s outreach script",
       detail: `“Hi — we help ${label.toLowerCase()} accounts in your area with fast quotes and scheduled crews. Want a ${topQuoted?.service || topNurture?.service || "service"} estimate this week?”`,
-      actionLabel: "Copy script",
-      actionType: "copy-script",
-      copyText: `Hi — we help ${label} accounts in your area with fast quotes and scheduled crews. Want an estimate this week?`
+      actionLabel: "Save script to CRM",
+      actionType: "execute-crm",
+      crmAction: "copy-script",
+      leadId: topQuoted?.id || topNurture?.id,
+      leadName: topQuoted?.name || topNurture?.name,
+      copyText
     });
   }
 

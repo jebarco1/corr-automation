@@ -36,6 +36,8 @@ export default function AutopilotResults({
   onBack,
   onRunAgain,
   onOpenVendor,
+  onPromoteToVendor,
+  onExecuteCrmAction,
   initialLeadId = null,
   initialJobId = null
 }) {
@@ -58,6 +60,9 @@ export default function AutopilotResults({
   const [selectedJobId, setSelectedJobId] = useState(initialJobId || null);
   const [notice, setNotice] = useState("");
   const [panel, setPanel] = useState("leads");
+  const [promoting, setPromoting] = useState(false);
+  const [executingId, setExecutingId] = useState(null);
+  const [executionLog, setExecutionLog] = useState([]);
 
   useEffect(() => {
     if (initialLeadId) setSelectedLeadId(initialLeadId);
@@ -78,6 +83,42 @@ export default function AutopilotResults({
   async function runSuggestion(suggestion) {
     setNotice("");
     switch (suggestion.actionType) {
+      case "execute-crm":
+        if (!onExecuteCrmAction) {
+          setNotice("CRM execution is unavailable in this view.");
+          return;
+        }
+        if (executingId) return;
+        setExecutingId(suggestion.id);
+        try {
+          const result = await onExecuteCrmAction({
+            suggestion,
+            category: scenario?.category,
+            leads: results.leads
+          });
+          const message = result?.message
+            || `Executed ${suggestion.crmAction || suggestion.id} in Vendor Ops.`;
+          setNotice(message);
+          setExecutionLog(prev => [
+            {
+              id: `${suggestion.id}-${Date.now()}`,
+              title: suggestion.title,
+              crmAction: suggestion.crmAction || suggestion.id,
+              message,
+              at: new Date().toLocaleTimeString()
+            },
+            ...prev
+          ].slice(0, 8));
+          if (suggestion.leadId) {
+            setSelectedLeadId(suggestion.leadId);
+            setPanel("leads");
+          }
+        } catch (err) {
+          setNotice(err.message || "CRM action failed");
+        } finally {
+          setExecutingId(null);
+        }
+        break;
       case "select-lead":
         if (suggestion.leadId) {
           setSelectedLeadId(suggestion.leadId);
@@ -125,6 +166,23 @@ export default function AutopilotResults({
     }
   }
 
+  async function promoteSimLeads() {
+    if (!onPromoteToVendor || promoting) return;
+    setPromoting(true);
+    setNotice("");
+    try {
+      const result = await onPromoteToVendor({
+        category: scenario?.category,
+        leads: results.leads
+      });
+      setNotice(result?.message || `Promoted ${result?.imported || results.leads.length} sim leads to Vendor Ops.`);
+    } catch (err) {
+      setNotice(err.message || "Could not promote leads");
+    } finally {
+      setPromoting(false);
+    }
+  }
+
   const { value } = results;
 
   return (
@@ -137,7 +195,7 @@ export default function AutopilotResults({
             <span className="autopilot-sub"> delivered {results.label}</span>
           </h2>
           <p>
-            Review every lead and job from this cycle, see the value created, and act on ranked suggestions.
+            Review ROI from this cycle, then execute ranked suggestions as live CRM actions (assign, quote, import, expand).
           </p>
           <div className="autopilot-actions">
             <button className="ghost" type="button" onClick={onBack}>
@@ -152,6 +210,12 @@ export default function AutopilotResults({
               <ExternalLink size={16} />
               Open Vendor Ops
             </button>
+            {onPromoteToVendor && (
+              <button className="primary" type="button" onClick={promoteSimLeads} disabled={promoting || !results.leads.length}>
+                <Users size={16} />
+                {promoting ? "Promoting…" : "Promote sim → Vendor Ops"}
+              </button>
+            )}
           </div>
         </div>
         <div className="results-value-grid">
@@ -180,8 +244,8 @@ export default function AutopilotResults({
 
       <div className="card results-suggestions">
         <div className="panel-head">
-          <h3><Lightbulb size={18} /> Suggested next moves</h3>
-          <small>Ranked by impact on this cycle</small>
+          <h3><Lightbulb size={18} /> ROI next moves → CRM</h3>
+          <small>Ranked by impact · buttons execute live Vendor Ops actions</small>
         </div>
         <div className="suggestion-grid">
           {results.suggestions.map(item => (
@@ -191,9 +255,15 @@ export default function AutopilotResults({
                 <strong>{item.title}</strong>
               </header>
               <p>{item.detail}</p>
-              <button className="primary" type="button" onClick={() => runSuggestion(item)}>
+              {item.crmAction && <small className="muted">CRM · {item.crmAction}</small>}
+              <button
+                className="primary"
+                type="button"
+                disabled={executingId === item.id}
+                onClick={() => runSuggestion(item)}
+              >
                 <Sparkles size={14} />
-                {item.actionLabel}
+                {executingId === item.id ? "Executing…" : item.actionLabel}
               </button>
             </article>
           ))}
@@ -201,6 +271,20 @@ export default function AutopilotResults({
             <p className="muted">Run a cycle to generate suggestions.</p>
           )}
         </div>
+        {!!executionLog.length && (
+          <div className="execution-log">
+            <h4>CRM actions this session</h4>
+            <ul className="simple-list">
+              {executionLog.map(entry => (
+                <li key={entry.id}>
+                  <strong>{entry.crmAction}</strong>
+                  <span>{entry.message}</span>
+                  <small>{entry.at}</small>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       <div className="results-tabs" role="tablist">
