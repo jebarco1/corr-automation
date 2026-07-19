@@ -3,7 +3,7 @@ import { answerGuidedWorkflow, createInvoiceFromSession, getCategory, getGuidedW
 import { getServiceById, listServiceCatalogs, listServices } from "../services/serviceCatalog.js";
 
 const router = Router();
-const categories = ["landscape", "hvac", "cleaning", "pest-control", "pool", "painting", "roofing", "plumbing", "electrical", "general-contract", "surveillance", "trash-removal", "transportation", "healthcare"];
+const categories = ["landscape", "hvac", "cleaning", "pest-control", "pool", "painting", "roofing", "plumbing", "electrical", "general-contract", "surveillance", "trash-removal", "transportation", "healthcare", "bakery-food", "law-office"];
 
 router.post("/guided/quote", async (req, res, next) => {
   try {

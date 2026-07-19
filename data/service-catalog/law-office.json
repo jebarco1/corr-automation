@@ -1,0 +1,406 @@
+{
+  "category": "law-office",
+  "label": "Law Office",
+  "description": "Consultations, document work, retainers, court appearances, and small-business legal packages.",
+  "version": 1,
+  "updatedAt": "2026-07-19T18:45:00.000Z",
+  "defaultServiceId": "initial-consultation",
+  "services": [
+    {
+      "id": "initial-consultation",
+      "name": "Initial Consultation",
+      "description": "Intake consult to scope matter and engagement.",
+      "aliases": [
+        "legal consult",
+        "consultation",
+        "intake meeting"
+      ],
+      "billingUnit": "hour",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 1,
+      "relatedApis": [
+        "law-office-matter-profile",
+        "law-office-consultation-estimate"
+      ],
+      "active": true,
+      "quoteKey": "initial consultation",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "document-review",
+      "name": "Document Review",
+      "description": "Contract or packet review with written notes.",
+      "aliases": [
+        "contract review",
+        "document review"
+      ],
+      "billingUnit": "hour",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "law-office-document-estimate",
+        "law-office-matter-profile"
+      ],
+      "active": true,
+      "quoteKey": "document review",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "contract-drafting",
+      "name": "Contract Drafting",
+      "description": "Draft or revise commercial/consumer agreements.",
+      "aliases": [
+        "draft contract",
+        "agreement drafting"
+      ],
+      "billingUnit": "hour",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "law-office-document-estimate",
+        "law-office-retainer-estimate"
+      ],
+      "active": true,
+      "quoteKey": "contract drafting",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "retainer-block",
+      "name": "Retainer / Hour Block",
+      "description": "Prepaid counsel hours for ongoing advice.",
+      "aliases": [
+        "legal retainer",
+        "hour block"
+      ],
+      "billingUnit": "retainer",
+      "typicalFrequency": [
+        "monthly",
+        "as-needed"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 10,
+      "relatedApis": [
+        "law-office-retainer-estimate"
+      ],
+      "active": true,
+      "quoteKey": "retainer block",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "business-formation",
+      "name": "Business Formation Package",
+      "description": "Entity formation and starter governance docs.",
+      "aliases": [
+        "LLC formation",
+        "incorporate",
+        "business formation"
+      ],
+      "billingUnit": "package",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 5,
+      "relatedApis": [
+        "law-office-matter-profile",
+        "law-office-package-estimate"
+      ],
+      "active": true,
+      "quoteKey": "business formation",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "employment-advisory",
+      "name": "Employment Advisory",
+      "description": "Handbook, offer letter, or workplace policy counsel.",
+      "aliases": [
+        "employment counsel",
+        "HR legal"
+      ],
+      "billingUnit": "hour",
+      "typicalFrequency": [
+        "one-time",
+        "monthly"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "law-office-consultation-estimate",
+        "law-office-document-estimate"
+      ],
+      "active": true,
+      "quoteKey": "employment advisory",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "real-estate-closing",
+      "name": "Real Estate Closing Support",
+      "description": "Purchase/sale document and closing support.",
+      "aliases": [
+        "closing attorney",
+        "real estate closing"
+      ],
+      "billingUnit": "matter",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 6,
+      "relatedApis": [
+        "law-office-matter-profile",
+        "law-office-closing-estimate"
+      ],
+      "active": true,
+      "quoteKey": "real estate closing",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "estate-planning",
+      "name": "Estate Planning Package",
+      "description": "Wills, POA, and basic estate documents.",
+      "aliases": [
+        "will package",
+        "estate plan",
+        "trust package"
+      ],
+      "billingUnit": "package",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 6,
+      "relatedApis": [
+        "law-office-package-estimate",
+        "law-office-matter-profile"
+      ],
+      "active": true,
+      "quoteKey": "estate planning",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "family-matter",
+      "name": "Family Law Matter",
+      "description": "Scoped family-law engagement (consult + filings support).",
+      "aliases": [
+        "divorce consult",
+        "family law"
+      ],
+      "billingUnit": "matter",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 8,
+      "relatedApis": [
+        "law-office-matter-profile",
+        "law-office-retainer-estimate"
+      ],
+      "active": true,
+      "quoteKey": "family matter",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "court-appearance",
+      "name": "Court Appearance",
+      "description": "Attorney appearance for hearing or conference.",
+      "aliases": [
+        "court hearing",
+        "appearance counsel"
+      ],
+      "billingUnit": "appearance",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 3,
+      "relatedApis": [
+        "law-office-appearance-estimate",
+        "law-office-scheduling"
+      ],
+      "active": true,
+      "quoteKey": "court appearance",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "demand-letter",
+      "name": "Demand Letter",
+      "description": "Draft and send formal demand correspondence.",
+      "aliases": [
+        "demand letter",
+        "cease and desist"
+      ],
+      "billingUnit": "document",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 2,
+      "relatedApis": [
+        "law-office-document-estimate"
+      ],
+      "active": true,
+      "quoteKey": "demand letter",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "collections-matter",
+      "name": "Collections Matter",
+      "description": "Commercial collections counsel for receivables.",
+      "aliases": [
+        "collections attorney",
+        "debt collection legal"
+      ],
+      "billingUnit": "matter",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 4,
+      "relatedApis": [
+        "law-office-matter-profile",
+        "law-office-retainer-estimate"
+      ],
+      "active": true,
+      "quoteKey": "collections matter",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "ip-trademark-filing",
+      "name": "Trademark / IP Filing Support",
+      "description": "Trademark search and filing package support.",
+      "aliases": [
+        "trademark filing",
+        "ip counsel"
+      ],
+      "billingUnit": "package",
+      "typicalFrequency": [
+        "one-time"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 5,
+      "relatedApis": [
+        "law-office-package-estimate",
+        "law-office-matter-profile"
+      ],
+      "active": true,
+      "quoteKey": "trademark filing",
+      "inGuidedWorkflow": true
+    },
+    {
+      "id": "compliance-audit",
+      "name": "Compliance Audit Lite",
+      "description": "Policy and risk checklist for small businesses.",
+      "aliases": [
+        "compliance review",
+        "legal audit"
+      ],
+      "billingUnit": "engagement",
+      "typicalFrequency": [
+        "one-time",
+        "annual"
+      ],
+      "propertyTypes": [
+        "residential",
+        "commercial",
+        "hoa",
+        "multi-family",
+        "industrial"
+      ],
+      "defaultHours": 6,
+      "relatedApis": [
+        "law-office-compliance-review",
+        "law-office-consultation-estimate"
+      ],
+      "active": true,
+      "quoteKey": "compliance audit",
+      "inGuidedWorkflow": true
+    }
+  ]
+}

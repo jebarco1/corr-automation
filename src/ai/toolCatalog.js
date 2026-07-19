@@ -1,7 +1,7 @@
 export const supportedCategories = [
   "landscape", "hvac", "cleaning", "pest-control", "pool", "painting",
   "roofing", "plumbing", "electrical", "general-contract", "surveillance", "trash-removal",
-  "transportation", "healthcare"
+  "transportation", "healthcare", "bakery-food", "law-office"
 ];
 
 export const categoryApiTools = {
@@ -18,5 +18,7 @@ export const categoryApiTools = {
   surveillance: ["surveillance-install-estimate"],
   "trash-removal": ["trash-haul-estimate"],
   transportation: ["transport-property-profile", "transport-load-plan", "transport-local-move-estimate", "transport-delivery-estimate"],
-  healthcare: ["healthcare-patient-profile", "healthcare-risk-assessment", "healthcare-nursing-visit-estimate", "healthcare-physician-visit-estimate", "healthcare-care-plan"]
+  healthcare: ["healthcare-patient-profile", "healthcare-risk-assessment", "healthcare-nursing-visit-estimate", "healthcare-physician-visit-estimate", "healthcare-care-plan"],
+  "bakery-food": ["bakery-order-profile", "bakery-production-estimate", "bakery-catering-estimate", "bakery-delivery-estimate", "bakery-wholesale-pricing"],
+  "law-office": ["law-office-matter-profile", "law-office-consultation-estimate", "law-office-document-estimate", "law-office-retainer-estimate", "law-office-appearance-estimate"]
 };

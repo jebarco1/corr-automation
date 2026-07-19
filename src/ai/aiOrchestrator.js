@@ -28,7 +28,9 @@ const categoryLabels = {
   surveillance: "Surveillance",
   "trash-removal": "Trash Removal",
   transportation: "Transportation",
-  healthcare: "Nursing & Doctors"
+  healthcare: "Nursing & Doctors",
+  "bakery-food": "Bakery & Food Services",
+  "law-office": "Law Office"
 };
 
 const categoryWords = {
@@ -39,7 +41,9 @@ const categoryWords = {
   "general-contract":["remodel","construction","contractor","build-out"], surveillance:["camera","surveillance","security system","nvr"],
   "trash-removal":["trash","junk","dumpster","debris","haul"],
   transportation:["transport","moving","local move","long haul","delivery","freight","pickup","dropoff","relocate","truckload","courier"," move","mover","apartment move","house move"],
-  healthcare:["nurse","nursing","rn ","lpn","doctor","physician","home health","home visit","patient","clinical","medical staffing","hospice","care plan"]
+  healthcare:["nurse","nursing","rn ","lpn","doctor","physician","home health","home visit","patient","clinical","medical staffing","hospice","care plan"],
+  "bakery-food":["bakery","cake","cupcake","pastry","catering tray","dessert table","wholesale bread","cookie box","gluten-free bake","food service catering"],
+  "law-office":["lawyer","attorney","law office","legal consult","contract review","retainer","court appearance","estate planning","trademark filing","demand letter"]
 };
 
 function inferCategoryLocally(message="") {

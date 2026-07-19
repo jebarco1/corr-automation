@@ -1,0 +1,102 @@
+{
+  "category": "law-office",
+  "currency": "USD",
+  "version": 1,
+  "updatedAt": "2026-07-19T18:45:00.000Z",
+  "defaults": {
+    "unitPrices": {
+      "hourlyRate": 275,
+      "partnerHourly": 375,
+      "associateHourly": 225,
+      "paralegalHourly": 125,
+      "consultationFee": 150,
+      "retainerMinimum": 1500,
+      "appearanceFee": 450,
+      "documentFlat": 350
+    }
+  },
+  "areas": {
+    "Atlanta, GA": {
+      "region": "Southeast",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 275,
+        "partnerHourly": 375,
+        "associateHourly": 225,
+        "paralegalHourly": 125,
+        "consultationFee": 150,
+        "retainerMinimum": 1500,
+        "appearanceFee": 450,
+        "documentFlat": 350
+      },
+      "notes": "Starter area pricing for law-office. Review locally before production use."
+    },
+    "Dallas, TX": {
+      "region": "South Central",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 266.75,
+        "partnerHourly": 363.75,
+        "associateHourly": 218.25,
+        "paralegalHourly": 121.25,
+        "consultationFee": 145.5,
+        "retainerMinimum": 1455,
+        "appearanceFee": 436.5,
+        "documentFlat": 339.5
+      },
+      "notes": "Starter area pricing for law-office. Review locally before production use."
+    },
+    "Phoenix, AZ": {
+      "region": "Southwest",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 261.25,
+        "partnerHourly": 356.25,
+        "associateHourly": 213.75,
+        "paralegalHourly": 118.75,
+        "consultationFee": 142.5,
+        "retainerMinimum": 1425,
+        "appearanceFee": 427.5,
+        "documentFlat": 332.5
+      },
+      "notes": "Starter area pricing for law-office. Review locally before production use."
+    },
+    "Chicago, IL": {
+      "region": "Midwest",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 297,
+        "partnerHourly": 405,
+        "associateHourly": 243,
+        "paralegalHourly": 135,
+        "consultationFee": 162,
+        "retainerMinimum": 1620,
+        "appearanceFee": 486,
+        "documentFlat": 378
+      },
+      "notes": "Starter area pricing for law-office. Review locally before production use."
+    },
+    "New York, NY": {
+      "region": "Northeast",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 343.75,
+        "partnerHourly": 468.75,
+        "associateHourly": 281.25,
+        "paralegalHourly": 156.25,
+        "consultationFee": 187.5,
+        "retainerMinimum": 1875,
+        "appearanceFee": 562.5,
+        "documentFlat": 437.5
+      },
+      "notes": "Starter area pricing for law-office. Review locally before production use."
+    }
+  },
+  "meta": {
+    "source": "seed",
+    "editable": true,
+    "lastRefreshAt": null,
+    "lastRefreshMode": null,
+    "notes": "Edit this JSON or call the pricing-standards refresh workflow to update area rates from invoice logs."
+  }
+}

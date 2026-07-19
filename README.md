@@ -38,6 +38,8 @@ Update `src/config/apiVersion.js` when cutting a new Class.
 - `/api/v1/trash-removal/...`
 - `/api/v1/transportation/...`
 - `/api/v1/healthcare/...` (Nursing & Doctors)
+- `/api/v1/bakery-food/...` (Bakery & Food Services)
+- `/api/v1/law-office/...` (Law Office)
 
 List every category with its description:
 

@@ -279,7 +279,9 @@ const industryMidMarket = {
   surveillance: { hourlyRate: 99, cameraInstallEach: 295, nvrBase: 475, monitoringMonthly: 39 },
   "trash-removal": { hourlyRate: 79, haulMinimum: 195, perCubicYard: 59, dumpsterDay: 49 },
   transportation: { hourlyRate: 79, localMoveMinimum: 275, perMile: 2.95, perCubicFoot: 1.25, crewOfTwoHourly: 160 },
-  healthcare: { hourlyRate: 105, nurseVisit: 175, physicianVisit: 310, shiftHourlyRN: 105, shiftHourlyLPN: 78, travelPerMile: 1.35, suppliesPerVisit: 20 }
+  healthcare: { hourlyRate: 105, nurseVisit: 175, physicianVisit: 310, shiftHourlyRN: 105, shiftHourlyLPN: 78, travelPerMile: 1.35, suppliesPerVisit: 20 },
+  "bakery-food": { hourlyRate: 58, cakeBase: 95, perServing: 7, cateringTray: 105, wholesaleLoaf: 4.5, deliveryFee: 28, rushMultiplier: 1.35, allergenSurcharge: 20 },
+  "law-office": { hourlyRate: 295, partnerHourly: 395, associateHourly: 245, paralegalHourly: 135, consultationFee: 175, retainerMinimum: 1750, appearanceFee: 500, documentFlat: 375 }
 };
 
 const areaMarketFactors = {

@@ -1,0 +1,84 @@
+{
+  "category": "law-office",
+  "version": 2,
+  "updatedAt": "2026-07-19T18:45:00.000Z",
+  "marketFile": "data/markets/georgia-cities.json",
+  "usePilotCities": true,
+  "segments": [
+    "b2b",
+    "residential"
+  ],
+  "customerTypes": [
+    "small business",
+    "property management company",
+    "medical practice",
+    "startup",
+    "construction company"
+  ],
+  "intentPhrases": [
+    "business attorney",
+    "contract review counsel",
+    "corporate legal services"
+  ],
+  "excludeKeywords": [
+    "attorney jobs",
+    "law firm hiring",
+    "paralegal wanted"
+  ],
+  "suggestedServiceIds": [
+    "initial-consultation",
+    "document-review",
+    "retainer-block"
+  ],
+  "queryTemplates": [
+    "{customerType} in {city} {state}",
+    "{customerType} {city} {state} contact",
+    "{intentPhrase} {city} {state}"
+  ],
+  "b2b": {
+    "customerTypes": [
+      "small business",
+      "property management company",
+      "medical practice",
+      "startup",
+      "construction company"
+    ],
+    "intentPhrases": [
+      "business attorney",
+      "contract review counsel",
+      "corporate legal services"
+    ],
+    "excludeKeywords": [
+      "attorney jobs",
+      "law firm hiring",
+      "paralegal wanted"
+    ],
+    "suggestedServiceIds": [
+      "contract-drafting",
+      "business-formation",
+      "retainer-block"
+    ]
+  },
+  "residential": {
+    "customerTypes": [
+      "homeowner",
+      "estate planning client",
+      "family law prospect"
+    ],
+    "intentPhrases": [
+      "estate planning attorney",
+      "will and trust lawyer",
+      "real estate closing attorney"
+    ],
+    "excludeKeywords": [
+      "attorney jobs",
+      "law school",
+      "free legal aid clinic hours"
+    ],
+    "suggestedServiceIds": [
+      "estate-planning",
+      "initial-consultation",
+      "real-estate-closing"
+    ]
+  }
+}

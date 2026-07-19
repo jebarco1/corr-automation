@@ -32,6 +32,22 @@ const LEAD_NAMES = {
     ["Virginia-Highland Dental", "healthcare", "b2b"],
     ["Move-out: Edgewood Apt", "residential", "residential"]
   ],
+  "bakery-food": [
+    ["Peachtree Wedding Co.", "event venue", "b2b"],
+    ["Midtown Cafe Group", "cafe", "b2b"],
+    ["Buckhead Hotel Banquets", "hotel", "b2b"],
+    ["Grant Park Birthday Host", "homeowner", "residential"],
+    ["Decatur Corporate HQ", "office", "b2b"],
+    ["Inman Park Dessert Table", "homeowner", "residential"]
+  ],
+  "law-office": [
+    ["Cascade Property Mgmt", "property management", "b2b"],
+    ["Startup Studio ATL", "startup", "b2b"],
+    ["Ansley Medical Group", "medical practice", "b2b"],
+    ["East Atlanta Homeowner", "homeowner", "residential"],
+    ["West End Builders LLC", "construction", "b2b"],
+    ["Ormewood Estate Client", "homeowner", "residential"]
+  ],
   default: [
     ["North Ave Property Mgmt", "property management", "b2b"],
     ["Capitol View HOA", "hoa", "b2b"],
@@ -46,6 +62,8 @@ const SERVICES = {
   landscape: ["Lawn Mowing", "Full Maintenance", "Mulch Install", "Spring Cleanup"],
   hvac: ["Diagnostic Visit", "Maintenance Plan", "RTU Replacement", "Filter Program"],
   cleaning: ["Weekly Janitorial", "Deep Clean", "Move-out Clean", "Floor Care"],
+  "bakery-food": ["Custom Cake Order", "Catering Tray", "Corporate Breakfast", "Wholesale Bread Program"],
+  "law-office": ["Initial Consultation", "Document Review", "Retainer Block", "Business Formation Package"],
   default: ["Inspection", "Service Visit", "Maintenance Plan", "Project Estimate"]
 };
 
@@ -115,7 +133,11 @@ export function buildAutopilotScenario(category = "landscape", options = {}) {
       address: `${100 + Math.floor(rng() * 800)} ${["Peachtree", "Ponce", "Cascade", "Monroe"][index % 4]} St, ${city.city}, ${city.state}`,
       service: services[index % services.length],
       score: 62 + Math.floor(rng() * 34),
-      quoteAmount: money(rng, category === "hvac" ? 180 : 95, category === "hvac" ? 4200 : 1450),
+      quoteAmount: money(
+        rng,
+        category === "hvac" ? 180 : category === "law-office" ? 350 : category === "bakery-food" ? 65 : 95,
+        category === "hvac" ? 4200 : category === "law-office" ? 6500 : category === "bakery-food" ? 1800 : 1450
+      ),
       stage: "queued",
       completeness
     };

@@ -13,7 +13,9 @@ export const industryStandardPrices = {
   surveillance: { hourlyRate: 95, cameraInstallEach: 275, nvrBase: 450, monitoringMonthly: 35, defaultHours: 6, materialCost: 1200 },
   "trash-removal": { hourlyRate: 75, haulMinimum: 175, perCubicYard: 55, dumpsterDay: 45, defaultHours: 3, disposalCost: 120 },
   transportation: { hourlyRate: 75, localMoveMinimum: 250, perMile: 2.75, perCubicFoot: 1.15, crewOfTwoHourly: 150, defaultCrewSize: 2, defaultHours: 4 },
-  healthcare: { hourlyRate: 95, nurseVisit: 165, physicianVisit: 285, shiftHourlyRN: 95, shiftHourlyLPN: 72, travelPerMile: 1.25, suppliesPerVisit: 18, defaultHours: 1 }
+  healthcare: { hourlyRate: 95, nurseVisit: 165, physicianVisit: 285, shiftHourlyRN: 95, shiftHourlyLPN: 72, travelPerMile: 1.25, suppliesPerVisit: 18, defaultHours: 1 },
+  "bakery-food": { hourlyRate: 55, cakeBase: 85, perServing: 6.5, cateringTray: 95, wholesaleLoaf: 4.25, deliveryFee: 25, rushMultiplier: 1.35, allergenSurcharge: 18, defaultHours: 4 },
+  "law-office": { hourlyRate: 275, partnerHourly: 375, associateHourly: 225, paralegalHourly: 125, consultationFee: 150, retainerMinimum: 1500, appearanceFee: 450, documentFlat: 350, defaultHours: 2 }
 };
 
 export const defaultMarketArea = "Atlanta, GA";
@@ -185,6 +187,27 @@ export function buildAutoAnswers(categoryDef, promptText = "", prices = {}) {
     answers.visitMinutes = numberFromPrompt(prompt, [/(\d+)\s*minutes?/i], 60);
     answers.estimatedHours = Number((answers.visitMinutes / 60).toFixed(2));
     answers.hourlyRate = answers.role === "physician" ? 225 : prices.shiftHourlyRN || prices.hourlyRate || 95;
+  }
+
+  if (categoryDef?.category === "bakery-food") {
+    answers.serviceType = pickOption(prompt, categoryDef.questions.find(q => q.key === "serviceType")?.options, "custom cake");
+    answers.guestCount = numberFromPrompt(prompt, [/(\d+)\s*(?:guests?|servings?|people)/i], 24);
+    answers.fulfillment = pickOption(prompt, ["pickup", "delivery", "on-site event"], /deliver/i.test(prompt) ? "delivery" : "pickup");
+    answers.eventDate = "this weekend";
+    answers.dietaryNotes = /gluten|vegan|nut|allerg/i.test(prompt) ? "See allergen notes in prompt" : "";
+    answers.estimatedHours = Math.max(2, Math.round(answers.guestCount / 18));
+    answers.materialCost = Math.round(answers.guestCount * (prices.perServing || 6.5) * 0.35);
+    answers.hourlyRate = prices.hourlyRate || 55;
+  }
+
+  if (categoryDef?.category === "law-office") {
+    answers.practiceArea = pickOption(prompt, categoryDef.questions.find(q => q.key === "practiceArea")?.options, "business");
+    answers.serviceType = pickOption(prompt, categoryDef.questions.find(q => q.key === "serviceType")?.options, "initial consultation");
+    answers.urgency = pickOption(prompt, ["standard", "rush", "same-week hearing"], /rush|urgent|hearing/i.test(prompt) ? "rush" : "standard");
+    answers.attorneyRole = pickOption(prompt, ["partner", "associate", "paralegal with attorney review"], /partner/i.test(prompt) ? "partner" : "associate");
+    answers.estimatedHours = /retainer/i.test(answers.serviceType) ? 10 : /appearance|closing|estate|formation/i.test(answers.serviceType) ? 5 : 2;
+    answers.hourlyRate = answers.attorneyRole === "partner" ? (prices.partnerHourly || 375) : answers.attorneyRole.includes("paralegal") ? (prices.paralegalHourly || 125) : (prices.associateHourly || prices.hourlyRate || 225);
+    answers.retainerAmount = /retainer/i.test(answers.serviceType) ? (prices.retainerMinimum || 1500) : 0;
   }
 
   // Fill any remaining select/number keys from question definitions

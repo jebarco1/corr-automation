@@ -1,0 +1,102 @@
+{
+  "category": "bakery-food",
+  "currency": "USD",
+  "version": 1,
+  "updatedAt": "2026-07-19T18:45:00.000Z",
+  "defaults": {
+    "unitPrices": {
+      "hourlyRate": 55,
+      "cakeBase": 85,
+      "perServing": 6.5,
+      "cateringTray": 95,
+      "wholesaleLoaf": 4.25,
+      "deliveryFee": 25,
+      "rushMultiplier": 1.35,
+      "allergenSurcharge": 18
+    }
+  },
+  "areas": {
+    "Atlanta, GA": {
+      "region": "Southeast",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 55,
+        "cakeBase": 85,
+        "perServing": 6.5,
+        "cateringTray": 95,
+        "wholesaleLoaf": 4.25,
+        "deliveryFee": 25,
+        "rushMultiplier": 1.35,
+        "allergenSurcharge": 18
+      },
+      "notes": "Starter area pricing for bakery-food. Review locally before production use."
+    },
+    "Dallas, TX": {
+      "region": "South Central",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 53.35,
+        "cakeBase": 82.45,
+        "perServing": 6.31,
+        "cateringTray": 92.15,
+        "wholesaleLoaf": 4.12,
+        "deliveryFee": 24.25,
+        "rushMultiplier": 1.31,
+        "allergenSurcharge": 17.46
+      },
+      "notes": "Starter area pricing for bakery-food. Review locally before production use."
+    },
+    "Phoenix, AZ": {
+      "region": "Southwest",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 52.25,
+        "cakeBase": 80.75,
+        "perServing": 6.18,
+        "cateringTray": 90.25,
+        "wholesaleLoaf": 4.04,
+        "deliveryFee": 23.75,
+        "rushMultiplier": 1.28,
+        "allergenSurcharge": 17.1
+      },
+      "notes": "Starter area pricing for bakery-food. Review locally before production use."
+    },
+    "Chicago, IL": {
+      "region": "Midwest",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 59.4,
+        "cakeBase": 91.8,
+        "perServing": 7.02,
+        "cateringTray": 102.6,
+        "wholesaleLoaf": 4.59,
+        "deliveryFee": 27,
+        "rushMultiplier": 1.46,
+        "allergenSurcharge": 19.44
+      },
+      "notes": "Starter area pricing for bakery-food. Review locally before production use."
+    },
+    "New York, NY": {
+      "region": "Northeast",
+      "currency": "USD",
+      "unitPrices": {
+        "hourlyRate": 68.75,
+        "cakeBase": 106.25,
+        "perServing": 8.13,
+        "cateringTray": 118.75,
+        "wholesaleLoaf": 5.31,
+        "deliveryFee": 31.25,
+        "rushMultiplier": 1.69,
+        "allergenSurcharge": 22.5
+      },
+      "notes": "Starter area pricing for bakery-food. Review locally before production use."
+    }
+  },
+  "meta": {
+    "source": "seed",
+    "editable": true,
+    "lastRefreshAt": null,
+    "lastRefreshMode": null,
+    "notes": "Edit this JSON or call the pricing-standards refresh workflow to update area rates from invoice logs."
+  }
+}
