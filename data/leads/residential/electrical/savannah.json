@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Savannah, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:42.004Z",
+  "updatedAt": "2026-07-19T02:25:57.266Z",
   "queries": [
-    "homeowner in Savannah GA",
-    "homeowner Savannah GA contact"
+    "apartment leasing office in Savannah GA",
+    "apartment leasing office Savannah GA contact",
+    "apartment community office contact Savannah GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_d6e0a71a2da5",
+      "leadId": "lead_98a8b11685d3",
       "segment": "residential",
       "category": "electrical",
       "city": "Savannah",
@@ -21,23 +28,37 @@
       "market": "Savannah, GA",
       "region": "Coastal Georgia",
       "pilotMarket": true,
-      "name": "Savannah homeowner",
+      "name": "Savannah apartment leasing office",
       "url": null,
-      "snippet": "Potential electrical customer target: homeowner in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "homeowner",
+      "snippet": "Potential electrical customer target: apartment leasing office in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment leasing office",
       "suggestedService": {
         "serviceId": "diagnostic",
         "serviceName": "Electrical Diagnostic",
         "quoteKey": "diagnostic"
       },
-      "score": 80,
-      "query": "homeowner in Savannah GA",
+      "score": 90,
+      "query": "apartment leasing office in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:42.004Z"
+      "gatheredAt": "2026-07-19T02:25:57.266Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_1091c98f3803",
+      "leadId": "lead_9d5318b096d8",
       "segment": "residential",
       "category": "electrical",
       "city": "Savannah",
@@ -45,44 +66,34 @@
       "market": "Savannah, GA",
       "region": "Coastal Georgia",
       "pilotMarket": true,
-      "name": "Savannah residential home",
+      "name": "Savannah neighborhood HOA",
       "url": null,
-      "snippet": "Potential electrical customer target: residential home in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "residential home",
+      "snippet": "Potential electrical customer target: neighborhood HOA in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
       "suggestedService": {
         "serviceId": "diagnostic",
         "serviceName": "Electrical Diagnostic",
         "quoteKey": "diagnostic"
       },
-      "score": 80,
-      "query": "homeowner in Savannah GA",
+      "score": 85,
+      "query": "apartment leasing office in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:42.004Z"
-    },
-    {
-      "leadId": "lead_0648719fc26e",
-      "segment": "residential",
-      "category": "electrical",
-      "city": "Savannah",
-      "state": "GA",
-      "market": "Savannah, GA",
-      "region": "Coastal Georgia",
-      "pilotMarket": true,
-      "name": "Savannah single family residence",
-      "url": null,
-      "snippet": "Potential electrical customer target: single family residence in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "single family residence",
-      "suggestedService": {
-        "serviceId": "diagnostic",
-        "serviceName": "Electrical Diagnostic",
-        "quoteKey": "diagnostic"
-      },
-      "score": 80,
-      "query": "homeowner in Savannah GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:42.004Z"
+      "gatheredAt": "2026-07-19T02:25:57.266Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

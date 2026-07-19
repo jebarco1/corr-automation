@@ -5,12 +5,19 @@
   "state": "GA",
   "market": "Macon, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:33.992Z",
+  "updatedAt": "2026-07-19T02:21:02.991Z",
   "queries": [
     "retail landlord in Macon GA",
-    "retail landlord Macon GA contact"
+    "retail landlord Macon GA contact",
+    "tenant improvement Macon GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
       "leadId": "lead_f4a5345d23a4",
@@ -23,42 +30,32 @@
       "pilotMarket": true,
       "name": "Macon property management company",
       "url": null,
-      "snippet": "Potential general-contract customer target: property management company in Macon, GA. Verify contact details before outreach.",
+      "snippet": "Potential general-contract customer target: property management company in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "property management company",
       "suggestedService": {
         "serviceId": "build-out",
         "serviceName": "Commercial Build-Out",
         "quoteKey": "build-out"
       },
-      "score": 90,
+      "score": 85,
       "query": "retail landlord in Macon GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.992Z"
-    },
-    {
-      "leadId": "lead_f49d053f507d",
-      "segment": "b2b",
-      "category": "general-contract",
-      "city": "Macon",
-      "state": "GA",
-      "market": "Macon, GA",
-      "region": "Central Georgia",
-      "pilotMarket": true,
-      "name": "Macon retail landlord",
-      "url": null,
-      "snippet": "Potential general-contract customer target: retail landlord in Macon, GA. Verify contact details before outreach.",
-      "customerType": "retail landlord",
-      "suggestedService": {
-        "serviceId": "build-out",
-        "serviceName": "Commercial Build-Out",
-        "quoteKey": "build-out"
-      },
-      "score": 80,
-      "query": "retail landlord in Macon GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.992Z"
+      "gatheredAt": "2026-07-19T02:21:02.991Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
       "leadId": "lead_9a513168d0ef",
@@ -71,7 +68,10 @@
       "pilotMarket": true,
       "name": "Macon medical office",
       "url": null,
-      "snippet": "Potential general-contract customer target: medical office in Macon, GA. Verify contact details before outreach.",
+      "snippet": "Potential general-contract customer target: medical office in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "medical office",
       "suggestedService": {
         "serviceId": "build-out",
@@ -82,7 +82,18 @@
       "query": "retail landlord in Macon GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.992Z"
+      "gatheredAt": "2026-07-19T02:21:02.991Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Macon, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:43.398Z",
+  "updatedAt": "2026-07-19T02:27:08.971Z",
   "queries": [
-    "home patient in Macon GA",
-    "home patient Macon GA contact"
+    "senior living community in Macon GA",
+    "senior living community Macon GA contact",
+    "assisted living community contact Macon GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_7d6a9d183be1",
+      "leadId": "lead_bda5a09d4501",
       "segment": "residential",
       "category": "healthcare",
       "city": "Macon",
@@ -21,23 +28,37 @@
       "market": "Macon, GA",
       "region": "Central Georgia",
       "pilotMarket": true,
-      "name": "Macon home patient",
+      "name": "Macon home care referral office",
       "url": null,
-      "snippet": "Potential healthcare customer target: home patient in Macon, GA. Verify contact details before outreach.",
-      "customerType": "home patient",
+      "snippet": "Potential healthcare customer target: home care referral office in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "home care referral office",
       "suggestedService": {
         "serviceId": "nursing-visit",
         "serviceName": "Nursing Visit",
         "quoteKey": "nursing visit"
       },
       "score": 80,
-      "query": "home patient in Macon GA",
+      "query": "senior living community in Macon GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:43.398Z"
+      "gatheredAt": "2026-07-19T02:27:08.971Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_ea9b8dc88b91",
+      "leadId": "lead_62a0ffa2c6f4",
       "segment": "residential",
       "category": "healthcare",
       "city": "Macon",
@@ -45,44 +66,34 @@
       "market": "Macon, GA",
       "region": "Central Georgia",
       "pilotMarket": true,
-      "name": "Macon private duty family",
+      "name": "Macon senior living community",
       "url": null,
-      "snippet": "Potential healthcare customer target: private duty family in Macon, GA. Verify contact details before outreach.",
-      "customerType": "private duty family",
+      "snippet": "Potential healthcare customer target: senior living community in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "senior living community",
       "suggestedService": {
         "serviceId": "nursing-visit",
         "serviceName": "Nursing Visit",
         "quoteKey": "nursing visit"
       },
-      "score": 80,
-      "query": "home patient in Macon GA",
+      "score": 75,
+      "query": "senior living community in Macon GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:43.398Z"
-    },
-    {
-      "leadId": "lead_049613c4c686",
-      "segment": "residential",
-      "category": "healthcare",
-      "city": "Macon",
-      "state": "GA",
-      "market": "Macon, GA",
-      "region": "Central Georgia",
-      "pilotMarket": true,
-      "name": "Macon senior at home",
-      "url": null,
-      "snippet": "Potential healthcare customer target: senior at home in Macon, GA. Verify contact details before outreach.",
-      "customerType": "home patient",
-      "suggestedService": {
-        "serviceId": "nursing-visit",
-        "serviceName": "Nursing Visit",
-        "quoteKey": "nursing visit"
-      },
-      "score": 80,
-      "query": "home patient in Macon GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:43.398Z"
+      "gatheredAt": "2026-07-19T02:27:08.971Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

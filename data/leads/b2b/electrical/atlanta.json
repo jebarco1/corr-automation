@@ -5,61 +5,20 @@
   "state": "GA",
   "market": "Atlanta, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:33.715Z",
+  "updatedAt": "2026-07-19T02:21:02.296Z",
   "queries": [
     "warehouse in Atlanta GA",
-    "warehouse Atlanta GA contact"
+    "warehouse Atlanta GA contact",
+    "commercial electrician Atlanta GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
-    {
-      "leadId": "lead_a00938b6ac3e",
-      "segment": "b2b",
-      "category": "electrical",
-      "city": "Atlanta",
-      "state": "GA",
-      "market": "Atlanta, GA",
-      "region": "Metro Atlanta",
-      "pilotMarket": true,
-      "name": "Atlanta warehouse",
-      "url": null,
-      "snippet": "Potential electrical customer target: warehouse in Atlanta, GA. Verify contact details before outreach.",
-      "customerType": "warehouse",
-      "suggestedService": {
-        "serviceId": "diagnostic",
-        "serviceName": "Electrical Diagnostic",
-        "quoteKey": "diagnostic"
-      },
-      "score": 80,
-      "query": "warehouse in Atlanta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.715Z"
-    },
-    {
-      "leadId": "lead_6add0d6a378a",
-      "segment": "b2b",
-      "category": "electrical",
-      "city": "Atlanta",
-      "state": "GA",
-      "market": "Atlanta, GA",
-      "region": "Metro Atlanta",
-      "pilotMarket": true,
-      "name": "Atlanta retail center",
-      "url": null,
-      "snippet": "Potential electrical customer target: retail center in Atlanta, GA. Verify contact details before outreach.",
-      "customerType": "retail center",
-      "suggestedService": {
-        "serviceId": "diagnostic",
-        "serviceName": "Electrical Diagnostic",
-        "quoteKey": "diagnostic"
-      },
-      "score": 80,
-      "query": "warehouse in Atlanta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.715Z"
-    },
     {
       "leadId": "lead_91b3029fe824",
       "segment": "b2b",
@@ -71,7 +30,10 @@
       "pilotMarket": true,
       "name": "Atlanta office building",
       "url": null,
-      "snippet": "Potential electrical customer target: office building in Atlanta, GA. Verify contact details before outreach.",
+      "snippet": "Potential electrical customer target: office building in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "office building",
       "suggestedService": {
         "serviceId": "diagnostic",
@@ -82,7 +44,56 @@
       "query": "warehouse in Atlanta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.715Z"
+      "gatheredAt": "2026-07-19T02:21:02.296Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_a00938b6ac3e",
+      "segment": "b2b",
+      "category": "electrical",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta warehouse",
+      "url": null,
+      "snippet": "Potential electrical customer target: warehouse in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "warehouse",
+      "suggestedService": {
+        "serviceId": "diagnostic",
+        "serviceName": "Electrical Diagnostic",
+        "quoteKey": "diagnostic"
+      },
+      "score": 75,
+      "query": "warehouse in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:02.296Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

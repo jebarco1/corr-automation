@@ -1,7 +1,7 @@
 {
   "segment": "b2b",
   "category": "trash-removal",
-  "updatedAt": "2026-07-19T02:14:34.431Z",
+  "updatedAt": "2026-07-19T02:21:03.925Z",
   "marketFile": "data/markets/georgia-cities.json",
   "pilotCities": [
     "Atlanta, GA",
@@ -10,18 +10,25 @@
     "Savannah, GA"
   ],
   "cityCount": 4,
-  "leadCount": 12,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "cities": [
     {
       "city": "Atlanta",
       "state": "GA",
       "label": "Atlanta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/trash-removal/atlanta.json",
       "queries": [
         "construction company in Atlanta GA",
-        "construction company Atlanta GA contact"
+        "construction company Atlanta GA contact",
+        "commercial dumpster rental Atlanta GA"
       ]
     },
     {
@@ -29,11 +36,12 @@
       "state": "GA",
       "label": "Augusta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/trash-removal/augusta.json",
       "queries": [
         "construction company in Augusta GA",
-        "construction company Augusta GA contact"
+        "construction company Augusta GA contact",
+        "commercial dumpster rental Augusta GA"
       ]
     },
     {
@@ -41,11 +49,12 @@
       "state": "GA",
       "label": "Macon, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/trash-removal/macon.json",
       "queries": [
         "construction company in Macon GA",
-        "construction company Macon GA contact"
+        "construction company Macon GA contact",
+        "commercial dumpster rental Macon GA"
       ]
     },
     {
@@ -53,11 +62,12 @@
       "state": "GA",
       "label": "Savannah, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/trash-removal/savannah.json",
       "queries": [
         "construction company in Savannah GA",
-        "construction company Savannah GA contact"
+        "construction company Savannah GA contact",
+        "commercial dumpster rental Savannah GA"
       ]
     }
   ]

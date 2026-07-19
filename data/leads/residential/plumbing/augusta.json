@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Augusta, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:41.683Z",
+  "updatedAt": "2026-07-19T02:25:25.811Z",
   "queries": [
-    "homeowner in Augusta GA",
-    "homeowner Augusta GA contact"
+    "apartment leasing office in Augusta GA",
+    "apartment leasing office Augusta GA contact",
+    "apartment leasing office phone Augusta GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_c207df68a1db",
+      "leadId": "lead_ee1e15fa5866",
       "segment": "residential",
       "category": "plumbing",
       "city": "Augusta",
@@ -21,23 +28,37 @@
       "market": "Augusta, GA",
       "region": "East Georgia",
       "pilotMarket": true,
-      "name": "Augusta homeowner",
+      "name": "Augusta apartment leasing office",
       "url": null,
-      "snippet": "Potential plumbing customer target: homeowner in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "homeowner",
+      "snippet": "Potential plumbing customer target: apartment leasing office in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment leasing office",
       "suggestedService": {
         "serviceId": "leak-repair",
         "serviceName": "Leak Repair",
         "quoteKey": "leak repair"
       },
-      "score": 80,
-      "query": "homeowner in Augusta GA",
+      "score": 90,
+      "query": "apartment leasing office in Augusta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:41.683Z"
+      "gatheredAt": "2026-07-19T02:25:25.811Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_27dd55d76840",
+      "leadId": "lead_68fda1a78d7c",
       "segment": "residential",
       "category": "plumbing",
       "city": "Augusta",
@@ -45,44 +66,34 @@
       "market": "Augusta, GA",
       "region": "East Georgia",
       "pilotMarket": true,
-      "name": "Augusta residential home",
+      "name": "Augusta neighborhood HOA",
       "url": null,
-      "snippet": "Potential plumbing customer target: residential home in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "residential home",
+      "snippet": "Potential plumbing customer target: neighborhood HOA in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
       "suggestedService": {
         "serviceId": "leak-repair",
         "serviceName": "Leak Repair",
         "quoteKey": "leak repair"
       },
-      "score": 80,
-      "query": "homeowner in Augusta GA",
+      "score": 85,
+      "query": "apartment leasing office in Augusta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:41.683Z"
-    },
-    {
-      "leadId": "lead_8b2454f21d6d",
-      "segment": "residential",
-      "category": "plumbing",
-      "city": "Augusta",
-      "state": "GA",
-      "market": "Augusta, GA",
-      "region": "East Georgia",
-      "pilotMarket": true,
-      "name": "Augusta townhome resident",
-      "url": null,
-      "snippet": "Potential plumbing customer target: townhome resident in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "townhome resident",
-      "suggestedService": {
-        "serviceId": "leak-repair",
-        "serviceName": "Leak Repair",
-        "quoteKey": "leak repair"
-      },
-      "score": 80,
-      "query": "homeowner in Augusta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:41.683Z"
+      "gatheredAt": "2026-07-19T02:25:25.811Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

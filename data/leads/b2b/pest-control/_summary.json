@@ -1,7 +1,7 @@
 {
   "segment": "b2b",
   "category": "pest-control",
-  "updatedAt": "2026-07-19T02:14:32.688Z",
+  "updatedAt": "2026-07-19T02:21:00.956Z",
   "marketFile": "data/markets/georgia-cities.json",
   "pilotCities": [
     "Atlanta, GA",
@@ -10,18 +10,25 @@
     "Savannah, GA"
   ],
   "cityCount": 4,
-  "leadCount": 12,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "cities": [
     {
       "city": "Atlanta",
       "state": "GA",
       "label": "Atlanta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/pest-control/atlanta.json",
       "queries": [
         "restaurant in Atlanta GA",
-        "restaurant Atlanta GA contact"
+        "restaurant Atlanta GA contact",
+        "commercial pest control Atlanta GA"
       ]
     },
     {
@@ -29,11 +36,12 @@
       "state": "GA",
       "label": "Augusta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/pest-control/augusta.json",
       "queries": [
         "restaurant in Augusta GA",
-        "restaurant Augusta GA contact"
+        "restaurant Augusta GA contact",
+        "commercial pest control Augusta GA"
       ]
     },
     {
@@ -41,11 +49,12 @@
       "state": "GA",
       "label": "Macon, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/pest-control/macon.json",
       "queries": [
         "restaurant in Macon GA",
-        "restaurant Macon GA contact"
+        "restaurant Macon GA contact",
+        "commercial pest control Macon GA"
       ]
     },
     {
@@ -53,11 +62,12 @@
       "state": "GA",
       "label": "Savannah, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/pest-control/savannah.json",
       "queries": [
         "restaurant in Savannah GA",
-        "restaurant Savannah GA contact"
+        "restaurant Savannah GA contact",
+        "commercial pest control Savannah GA"
       ]
     }
   ]

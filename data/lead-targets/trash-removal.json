@@ -1,7 +1,7 @@
 {
   "category": "trash-removal",
   "version": 2,
-  "updatedAt": "2026-07-19T02:13:24.000Z",
+  "updatedAt": "2026-07-19T02:17:43.000Z",
   "marketFile": "data/markets/georgia-cities.json",
   "usePilotCities": true,
   "segments": [
@@ -59,18 +59,22 @@
   },
   "residential": {
     "customerTypes": [
-      "homeowner",
-      "residential cleanout",
-      "garage cleanout"
+      "neighborhood HOA",
+      "condo association",
+      "apartment leasing office"
     ],
     "intentPhrases": [
-      "junk removal homeowner",
-      "estate cleanout residential",
-      "furniture haul away home"
+      "HOA management contact",
+      "apartment leasing office phone",
+      "condo association address"
     ],
     "excludeKeywords": [
       "junk removal company",
-      "hauling company near me"
+      "hauling company near me",
+      "lawn care company",
+      "contractor near me",
+      "book online",
+      "free estimate"
     ],
     "suggestedServiceIds": [
       "single-haul",

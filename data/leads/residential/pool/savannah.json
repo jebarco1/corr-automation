@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Savannah, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:41.141Z",
+  "updatedAt": "2026-07-19T02:24:47.826Z",
   "queries": [
-    "homeowner in Savannah GA",
-    "homeowner Savannah GA contact"
+    "neighborhood HOA in Savannah GA",
+    "neighborhood HOA Savannah GA contact",
+    "community pool HOA contact Savannah GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_3f16042ddebc",
+      "leadId": "lead_cb67c4cc302b",
       "segment": "residential",
       "category": "pool",
       "city": "Savannah",
@@ -21,23 +28,37 @@
       "market": "Savannah, GA",
       "region": "Coastal Georgia",
       "pilotMarket": true,
-      "name": "Savannah homeowner",
+      "name": "Savannah neighborhood HOA",
       "url": null,
-      "snippet": "Potential pool customer target: homeowner in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "homeowner",
+      "snippet": "Potential pool customer target: neighborhood HOA in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
       "suggestedService": {
         "serviceId": "weekly-service",
         "serviceName": "Weekly Pool Service",
         "quoteKey": "weekly service"
       },
-      "score": 80,
-      "query": "homeowner in Savannah GA",
+      "score": 85,
+      "query": "neighborhood HOA in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:41.141Z"
+      "gatheredAt": "2026-07-19T02:24:47.826Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_fc72f4297cac",
+      "leadId": "lead_570ea4c12dcb",
       "segment": "residential",
       "category": "pool",
       "city": "Savannah",
@@ -45,44 +66,34 @@
       "market": "Savannah, GA",
       "region": "Coastal Georgia",
       "pilotMarket": true,
-      "name": "Savannah residential pool owner",
+      "name": "Savannah apartment community",
       "url": null,
-      "snippet": "Potential pool customer target: residential pool owner in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "residential pool owner",
+      "snippet": "Potential pool customer target: apartment community in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment community",
       "suggestedService": {
         "serviceId": "weekly-service",
         "serviceName": "Weekly Pool Service",
         "quoteKey": "weekly service"
       },
-      "score": 80,
-      "query": "homeowner in Savannah GA",
+      "score": 85,
+      "query": "neighborhood HOA in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:41.141Z"
-    },
-    {
-      "leadId": "lead_675f5cec82a2",
-      "segment": "residential",
-      "category": "pool",
-      "city": "Savannah",
-      "state": "GA",
-      "market": "Savannah, GA",
-      "region": "Coastal Georgia",
-      "pilotMarket": true,
-      "name": "Savannah private backyard pool",
-      "url": null,
-      "snippet": "Potential pool customer target: private backyard pool in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "private backyard pool",
-      "suggestedService": {
-        "serviceId": "weekly-service",
-        "serviceName": "Weekly Pool Service",
-        "quoteKey": "weekly service"
-      },
-      "score": 80,
-      "query": "homeowner in Savannah GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:41.141Z"
+      "gatheredAt": "2026-07-19T02:24:47.826Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

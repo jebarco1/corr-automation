@@ -5,12 +5,19 @@
   "state": "GA",
   "market": "Savannah, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:33.295Z",
+  "updatedAt": "2026-07-19T02:21:01.570Z",
   "queries": [
     "HOA in Savannah GA",
-    "HOA Savannah GA contact"
+    "HOA Savannah GA contact",
+    "commercial painting RFP Savannah GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
       "leadId": "lead_97e0c5f3a72f",
@@ -23,18 +30,32 @@
       "pilotMarket": true,
       "name": "Savannah HOA",
       "url": null,
-      "snippet": "Potential painting customer target: HOA in Savannah, GA. Verify contact details before outreach.",
+      "snippet": "Potential painting customer target: HOA in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "HOA",
       "suggestedService": {
         "serviceId": "exterior",
         "serviceName": "Exterior Painting",
         "quoteKey": "exterior"
       },
-      "score": 90,
+      "score": 85,
       "query": "HOA in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.295Z"
+      "gatheredAt": "2026-07-19T02:21:01.570Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
       "leadId": "lead_6e6d4d68245d",
@@ -47,42 +68,32 @@
       "pilotMarket": true,
       "name": "Savannah apartment complex",
       "url": null,
-      "snippet": "Potential painting customer target: apartment complex in Savannah, GA. Verify contact details before outreach.",
+      "snippet": "Potential painting customer target: apartment complex in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "apartment complex",
       "suggestedService": {
         "serviceId": "exterior",
         "serviceName": "Exterior Painting",
         "quoteKey": "exterior"
       },
-      "score": 90,
+      "score": 85,
       "query": "HOA in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.295Z"
-    },
-    {
-      "leadId": "lead_7d522f49cc5b",
-      "segment": "b2b",
-      "category": "painting",
-      "city": "Savannah",
-      "state": "GA",
-      "market": "Savannah, GA",
-      "region": "Coastal Georgia",
-      "pilotMarket": true,
-      "name": "Savannah property management company",
-      "url": null,
-      "snippet": "Potential painting customer target: property management company in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "property management company",
-      "suggestedService": {
-        "serviceId": "exterior",
-        "serviceName": "Exterior Painting",
-        "quoteKey": "exterior"
-      },
-      "score": 90,
-      "query": "HOA in Savannah GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.295Z"
+      "gatheredAt": "2026-07-19T02:21:01.570Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

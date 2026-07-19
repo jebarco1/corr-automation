@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Macon, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:35.985Z",
+  "updatedAt": "2026-07-19T02:21:04.125Z",
   "queries": [
     "furniture store in Macon GA",
-    "furniture store Macon GA contact"
+    "furniture store Macon GA contact",
+    "local delivery service commercial Macon GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_795030ca2863",
+      "leadId": "lead_7ca2ed22059f",
       "segment": "b2b",
       "category": "transportation",
       "city": "Macon",
@@ -21,23 +28,37 @@
       "market": "Macon, GA",
       "region": "Central Georgia",
       "pilotMarket": true,
-      "name": "Contact Us - Bert Maxwell Furniture Macon, Georgia",
-      "url": "https://bertmaxwell.com/contact-us/",
-      "snippet": "Contact Us Questions? Please use this form to contact us, or call us at 478-743-4641. Our Showroom - Free Parking in Rear Lot Hours:Monday - Friday, 9:00am - 5:30pmSaturday - 9:00am to 5:00pm Office Tel: 478-743-4641",
-      "customerType": "furniture store",
+      "name": "Macon office headquarters",
+      "url": null,
+      "snippet": "Potential transportation customer target: office headquarters in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "office headquarters",
       "suggestedService": {
         "serviceId": "local-move",
         "serviceName": "Local Move",
         "quoteKey": "local move"
       },
       "score": 80,
-      "query": "furniture store Macon GA contact",
-      "source": "duckduckgo-html",
-      "status": "new",
-      "gatheredAt": "2026-07-19T02:14:35.985Z"
+      "query": "furniture store in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:04.125Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_4d89cbd61742",
+      "leadId": "lead_525d9f53b787",
       "segment": "b2b",
       "category": "transportation",
       "city": "Macon",
@@ -45,9 +66,12 @@
       "market": "Macon, GA",
       "region": "Central Georgia",
       "pilotMarket": true,
-      "name": "THE BEST 10 Furniture Stores in MACON, GA - Yelp",
-      "url": "https://www.yelp.com/search?cflt=furniture&find_loc=Macon%2C+GA",
-      "snippet": "What are people saying about furniture stores in Macon, GA? This is a review for furniture stores in Macon, GA: \"Wow, the service you receive at Havertys is the best I have ever had when shopping for furniture. They let me shop but was there when I had questions. Their selection was perfect for what I have been looking for. Good prices for the quality. It's why I will only buy from Havertys ...",
+      "name": "Macon furniture store",
+      "url": null,
+      "snippet": "Potential transportation customer target: furniture store in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "furniture store",
       "suggestedService": {
         "serviceId": "local-move",
@@ -56,33 +80,20 @@
       },
       "score": 75,
       "query": "furniture store in Macon GA",
-      "source": "duckduckgo-html",
-      "status": "new",
-      "gatheredAt": "2026-07-19T02:14:35.985Z"
-    },
-    {
-      "leadId": "lead_d4bc6978b61f",
-      "segment": "b2b",
-      "category": "transportation",
-      "city": "Macon",
-      "state": "GA",
-      "market": "Macon, GA",
-      "region": "Central Georgia",
-      "pilotMarket": true,
-      "name": "Aj's Home Furniture in Macon, GA",
-      "url": "https://ajshomefurniture.com/",
-      "snippet": "At AJ's Home Furniture in Macon, GA, discover your ideal home oasis with our furniture collection. From stylish pieces to functional designs, find furniture that suits your taste and lifestyle. Visit us to explore quality and comfort for every corner of your home.",
-      "customerType": "furniture store",
-      "suggestedService": {
-        "serviceId": "local-move",
-        "serviceName": "Local Move",
-        "quoteKey": "local move"
-      },
-      "score": 75,
-      "query": "furniture store in Macon GA",
-      "source": "duckduckgo-html",
-      "status": "new",
-      "gatheredAt": "2026-07-19T02:14:35.985Z"
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:04.125Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Savannah, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:40.566Z",
+  "updatedAt": "2026-07-19T02:24:14.013Z",
   "queries": [
-    "homeowner in Savannah GA",
-    "homeowner Savannah GA contact"
+    "condo association in Savannah GA",
+    "condo association Savannah GA contact",
+    "apartment leasing office contact Savannah GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_eaac163c7245",
+      "leadId": "lead_8927a0dcf336",
       "segment": "residential",
       "category": "cleaning",
       "city": "Savannah",
@@ -21,23 +28,37 @@
       "market": "Savannah, GA",
       "region": "Coastal Georgia",
       "pilotMarket": true,
-      "name": "Savannah apartment resident",
+      "name": "Savannah apartment leasing office",
       "url": null,
-      "snippet": "Potential cleaning customer target: apartment resident in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "apartment resident",
+      "snippet": "Potential cleaning customer target: apartment leasing office in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment leasing office",
       "suggestedService": {
         "serviceId": "deep-clean",
         "serviceName": "Deep Clean",
         "quoteKey": "deep clean"
       },
       "score": 90,
-      "query": "homeowner in Savannah GA",
+      "query": "condo association in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:40.566Z"
+      "gatheredAt": "2026-07-19T02:24:14.013Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_34ebdcf019dc",
+      "leadId": "lead_e13bb6356d1f",
       "segment": "residential",
       "category": "cleaning",
       "city": "Savannah",
@@ -45,44 +66,34 @@
       "market": "Savannah, GA",
       "region": "Coastal Georgia",
       "pilotMarket": true,
-      "name": "Savannah homeowner",
+      "name": "Savannah neighborhood HOA",
       "url": null,
-      "snippet": "Potential cleaning customer target: homeowner in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "homeowner",
+      "snippet": "Potential cleaning customer target: neighborhood HOA in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
       "suggestedService": {
         "serviceId": "deep-clean",
         "serviceName": "Deep Clean",
         "quoteKey": "deep clean"
       },
-      "score": 80,
-      "query": "homeowner in Savannah GA",
+      "score": 85,
+      "query": "condo association in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:40.566Z"
-    },
-    {
-      "leadId": "lead_b20d5b5bf83b",
-      "segment": "residential",
-      "category": "cleaning",
-      "city": "Savannah",
-      "state": "GA",
-      "market": "Savannah, GA",
-      "region": "Coastal Georgia",
-      "pilotMarket": true,
-      "name": "Savannah move-out tenant",
-      "url": null,
-      "snippet": "Potential cleaning customer target: move-out tenant in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "move-out tenant",
-      "suggestedService": {
-        "serviceId": "deep-clean",
-        "serviceName": "Deep Clean",
-        "quoteKey": "deep clean"
-      },
-      "score": 80,
-      "query": "homeowner in Savannah GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:40.566Z"
+      "gatheredAt": "2026-07-19T02:24:14.013Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

@@ -5,61 +5,20 @@
   "state": "GA",
   "market": "Savannah, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:33.851Z",
+  "updatedAt": "2026-07-19T02:21:02.661Z",
   "queries": [
     "warehouse in Savannah GA",
-    "warehouse Savannah GA contact"
+    "warehouse Savannah GA contact",
+    "commercial electrician Savannah GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
-    {
-      "leadId": "lead_ee87c93b4f49",
-      "segment": "b2b",
-      "category": "electrical",
-      "city": "Savannah",
-      "state": "GA",
-      "market": "Savannah, GA",
-      "region": "Coastal Georgia",
-      "pilotMarket": true,
-      "name": "Savannah warehouse",
-      "url": null,
-      "snippet": "Potential electrical customer target: warehouse in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "warehouse",
-      "suggestedService": {
-        "serviceId": "diagnostic",
-        "serviceName": "Electrical Diagnostic",
-        "quoteKey": "diagnostic"
-      },
-      "score": 80,
-      "query": "warehouse in Savannah GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.851Z"
-    },
-    {
-      "leadId": "lead_6cc39379d4ab",
-      "segment": "b2b",
-      "category": "electrical",
-      "city": "Savannah",
-      "state": "GA",
-      "market": "Savannah, GA",
-      "region": "Coastal Georgia",
-      "pilotMarket": true,
-      "name": "Savannah retail center",
-      "url": null,
-      "snippet": "Potential electrical customer target: retail center in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "retail center",
-      "suggestedService": {
-        "serviceId": "diagnostic",
-        "serviceName": "Electrical Diagnostic",
-        "quoteKey": "diagnostic"
-      },
-      "score": 80,
-      "query": "warehouse in Savannah GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.851Z"
-    },
     {
       "leadId": "lead_584ab58b0a90",
       "segment": "b2b",
@@ -71,7 +30,10 @@
       "pilotMarket": true,
       "name": "Savannah office building",
       "url": null,
-      "snippet": "Potential electrical customer target: office building in Savannah, GA. Verify contact details before outreach.",
+      "snippet": "Potential electrical customer target: office building in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "office building",
       "suggestedService": {
         "serviceId": "diagnostic",
@@ -82,7 +44,56 @@
       "query": "warehouse in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.851Z"
+      "gatheredAt": "2026-07-19T02:21:02.661Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_ee87c93b4f49",
+      "segment": "b2b",
+      "category": "electrical",
+      "city": "Savannah",
+      "state": "GA",
+      "market": "Savannah, GA",
+      "region": "Coastal Georgia",
+      "pilotMarket": true,
+      "name": "Savannah warehouse",
+      "url": null,
+      "snippet": "Potential electrical customer target: warehouse in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "warehouse",
+      "suggestedService": {
+        "serviceId": "diagnostic",
+        "serviceName": "Electrical Diagnostic",
+        "quoteKey": "diagnostic"
+      },
+      "score": 75,
+      "query": "warehouse in Savannah GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:02.661Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

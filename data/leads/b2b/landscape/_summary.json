@@ -1,7 +1,7 @@
 {
   "segment": "b2b",
   "category": "landscape",
-  "updatedAt": "2026-07-19T02:14:30.210Z",
+  "updatedAt": "2026-07-19T02:20:59.497Z",
   "marketFile": "data/markets/georgia-cities.json",
   "pilotCities": [
     "Atlanta, GA",
@@ -10,18 +10,25 @@
     "Savannah, GA"
   ],
   "cityCount": 4,
-  "leadCount": 12,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 6,
+    "withPhone": 5,
+    "withEmail": 3,
+    "withAddress": 3
+  },
   "cities": [
     {
       "city": "Atlanta",
       "state": "GA",
       "label": "Atlanta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/landscape/atlanta.json",
       "queries": [
         "HOA in Atlanta GA",
-        "HOA Atlanta GA contact"
+        "HOA Atlanta GA contact",
+        "grounds maintenance contract Atlanta GA"
       ]
     },
     {
@@ -29,11 +36,12 @@
       "state": "GA",
       "label": "Augusta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/landscape/augusta.json",
       "queries": [
         "HOA in Augusta GA",
-        "HOA Augusta GA contact"
+        "HOA Augusta GA contact",
+        "grounds maintenance contract Augusta GA"
       ]
     },
     {
@@ -41,11 +49,12 @@
       "state": "GA",
       "label": "Macon, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/landscape/macon.json",
       "queries": [
         "HOA in Macon GA",
-        "HOA Macon GA contact"
+        "HOA Macon GA contact",
+        "grounds maintenance contract Macon GA"
       ]
     },
     {
@@ -53,11 +62,12 @@
       "state": "GA",
       "label": "Savannah, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/landscape/savannah.json",
       "queries": [
         "HOA in Savannah GA",
-        "HOA Savannah GA contact"
+        "HOA Savannah GA contact",
+        "grounds maintenance contract Savannah GA"
       ]
     }
   ]

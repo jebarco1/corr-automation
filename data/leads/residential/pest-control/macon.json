@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Macon, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:40.824Z",
+  "updatedAt": "2026-07-19T02:24:25.419Z",
   "queries": [
-    "homeowner in Macon GA",
-    "homeowner Macon GA contact"
+    "condo association in Macon GA",
+    "condo association Macon GA contact",
+    "apartment community office contact Macon GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_28ac6da116af",
+      "leadId": "lead_a381caeda353",
       "segment": "residential",
       "category": "pest-control",
       "city": "Macon",
@@ -21,23 +28,37 @@
       "market": "Macon, GA",
       "region": "Central Georgia",
       "pilotMarket": true,
-      "name": "Macon homeowner",
+      "name": "Macon apartment leasing office",
       "url": null,
-      "snippet": "Potential pest-control customer target: homeowner in Macon, GA. Verify contact details before outreach.",
-      "customerType": "homeowner",
+      "snippet": "Potential pest-control customer target: apartment leasing office in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment leasing office",
       "suggestedService": {
         "serviceId": "one-time-treatment",
         "serviceName": "One-Time Treatment",
         "quoteKey": "one-time treatment"
       },
-      "score": 80,
-      "query": "homeowner in Macon GA",
+      "score": 90,
+      "query": "condo association in Macon GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:40.824Z"
+      "gatheredAt": "2026-07-19T02:24:25.419Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_94917adb4aea",
+      "leadId": "lead_5ca3324c697e",
       "segment": "residential",
       "category": "pest-control",
       "city": "Macon",
@@ -45,44 +66,34 @@
       "market": "Macon, GA",
       "region": "Central Georgia",
       "pilotMarket": true,
-      "name": "Macon residential property",
+      "name": "Macon neighborhood HOA",
       "url": null,
-      "snippet": "Potential pest-control customer target: residential property in Macon, GA. Verify contact details before outreach.",
-      "customerType": "residential property",
+      "snippet": "Potential pest-control customer target: neighborhood HOA in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
       "suggestedService": {
         "serviceId": "one-time-treatment",
         "serviceName": "One-Time Treatment",
         "quoteKey": "one-time treatment"
       },
-      "score": 80,
-      "query": "homeowner in Macon GA",
+      "score": 85,
+      "query": "condo association in Macon GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:40.824Z"
-    },
-    {
-      "leadId": "lead_a9d17d089c53",
-      "segment": "residential",
-      "category": "pest-control",
-      "city": "Macon",
-      "state": "GA",
-      "market": "Macon, GA",
-      "region": "Central Georgia",
-      "pilotMarket": true,
-      "name": "Macon townhome resident",
-      "url": null,
-      "snippet": "Potential pest-control customer target: townhome resident in Macon, GA. Verify contact details before outreach.",
-      "customerType": "townhome resident",
-      "suggestedService": {
-        "serviceId": "one-time-treatment",
-        "serviceName": "One-Time Treatment",
-        "quoteKey": "one-time treatment"
-      },
-      "score": 80,
-      "query": "homeowner in Macon GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:40.824Z"
+      "gatheredAt": "2026-07-19T02:24:25.419Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

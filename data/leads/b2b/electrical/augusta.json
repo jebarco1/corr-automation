@@ -5,61 +5,20 @@
   "state": "GA",
   "market": "Augusta, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:33.767Z",
+  "updatedAt": "2026-07-19T02:21:02.438Z",
   "queries": [
     "warehouse in Augusta GA",
-    "warehouse Augusta GA contact"
+    "warehouse Augusta GA contact",
+    "commercial electrician Augusta GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
-    {
-      "leadId": "lead_8cac4eae8a12",
-      "segment": "b2b",
-      "category": "electrical",
-      "city": "Augusta",
-      "state": "GA",
-      "market": "Augusta, GA",
-      "region": "East Georgia",
-      "pilotMarket": true,
-      "name": "Augusta warehouse",
-      "url": null,
-      "snippet": "Potential electrical customer target: warehouse in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "warehouse",
-      "suggestedService": {
-        "serviceId": "diagnostic",
-        "serviceName": "Electrical Diagnostic",
-        "quoteKey": "diagnostic"
-      },
-      "score": 80,
-      "query": "warehouse in Augusta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.767Z"
-    },
-    {
-      "leadId": "lead_bff2530eda8d",
-      "segment": "b2b",
-      "category": "electrical",
-      "city": "Augusta",
-      "state": "GA",
-      "market": "Augusta, GA",
-      "region": "East Georgia",
-      "pilotMarket": true,
-      "name": "Augusta retail center",
-      "url": null,
-      "snippet": "Potential electrical customer target: retail center in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "retail center",
-      "suggestedService": {
-        "serviceId": "diagnostic",
-        "serviceName": "Electrical Diagnostic",
-        "quoteKey": "diagnostic"
-      },
-      "score": 80,
-      "query": "warehouse in Augusta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.767Z"
-    },
     {
       "leadId": "lead_2800dd85ebf3",
       "segment": "b2b",
@@ -71,7 +30,10 @@
       "pilotMarket": true,
       "name": "Augusta office building",
       "url": null,
-      "snippet": "Potential electrical customer target: office building in Augusta, GA. Verify contact details before outreach.",
+      "snippet": "Potential electrical customer target: office building in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "office building",
       "suggestedService": {
         "serviceId": "diagnostic",
@@ -82,7 +44,56 @@
       "query": "warehouse in Augusta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.767Z"
+      "gatheredAt": "2026-07-19T02:21:02.438Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_8cac4eae8a12",
+      "segment": "b2b",
+      "category": "electrical",
+      "city": "Augusta",
+      "state": "GA",
+      "market": "Augusta, GA",
+      "region": "East Georgia",
+      "pilotMarket": true,
+      "name": "Augusta warehouse",
+      "url": null,
+      "snippet": "Potential electrical customer target: warehouse in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "warehouse",
+      "suggestedService": {
+        "serviceId": "diagnostic",
+        "serviceName": "Electrical Diagnostic",
+        "quoteKey": "diagnostic"
+      },
+      "score": 75,
+      "query": "warehouse in Augusta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:02.438Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

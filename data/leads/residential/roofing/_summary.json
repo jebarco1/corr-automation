@@ -1,7 +1,7 @@
 {
   "segment": "residential",
   "category": "roofing",
-  "updatedAt": "2026-07-19T02:14:41.571Z",
+  "updatedAt": "2026-07-19T02:25:18.223Z",
   "marketFile": "data/markets/georgia-cities.json",
   "pilotCities": [
     "Atlanta, GA",
@@ -10,18 +10,25 @@
     "Savannah, GA"
   ],
   "cityCount": 4,
-  "leadCount": 12,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "cities": [
     {
       "city": "Atlanta",
       "state": "GA",
       "label": "Atlanta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/residential/roofing/atlanta.json",
       "queries": [
-        "homeowner in Atlanta GA",
-        "homeowner Atlanta GA contact"
+        "neighborhood HOA in Atlanta GA",
+        "neighborhood HOA Atlanta GA contact",
+        "HOA management contact phone Atlanta GA"
       ]
     },
     {
@@ -29,11 +36,12 @@
       "state": "GA",
       "label": "Augusta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/residential/roofing/augusta.json",
       "queries": [
-        "homeowner in Augusta GA",
-        "homeowner Augusta GA contact"
+        "neighborhood HOA in Augusta GA",
+        "neighborhood HOA Augusta GA contact",
+        "HOA management contact phone Augusta GA"
       ]
     },
     {
@@ -41,11 +49,12 @@
       "state": "GA",
       "label": "Macon, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/residential/roofing/macon.json",
       "queries": [
-        "homeowner in Macon GA",
-        "homeowner Macon GA contact"
+        "neighborhood HOA in Macon GA",
+        "neighborhood HOA Macon GA contact",
+        "HOA management contact phone Macon GA"
       ]
     },
     {
@@ -53,11 +62,12 @@
       "state": "GA",
       "label": "Savannah, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/residential/roofing/savannah.json",
       "queries": [
-        "homeowner in Savannah GA",
-        "homeowner Savannah GA contact"
+        "neighborhood HOA in Savannah GA",
+        "neighborhood HOA Savannah GA contact",
+        "HOA management contact phone Savannah GA"
       ]
     }
   ]

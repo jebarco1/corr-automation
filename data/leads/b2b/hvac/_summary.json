@@ -1,7 +1,7 @@
 {
   "segment": "b2b",
   "category": "hvac",
-  "updatedAt": "2026-07-19T02:14:32.076Z",
+  "updatedAt": "2026-07-19T02:20:59.982Z",
   "marketFile": "data/markets/georgia-cities.json",
   "pilotCities": [
     "Atlanta, GA",
@@ -10,18 +10,25 @@
     "Savannah, GA"
   ],
   "cityCount": 4,
-  "leadCount": 12,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "cities": [
     {
       "city": "Atlanta",
       "state": "GA",
       "label": "Atlanta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/hvac/atlanta.json",
       "queries": [
         "apartment complex in Atlanta GA",
-        "apartment complex Atlanta GA contact"
+        "apartment complex Atlanta GA contact",
+        "commercial HVAC service contract Atlanta GA"
       ]
     },
     {
@@ -29,11 +36,12 @@
       "state": "GA",
       "label": "Augusta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/hvac/augusta.json",
       "queries": [
         "apartment complex in Augusta GA",
-        "apartment complex Augusta GA contact"
+        "apartment complex Augusta GA contact",
+        "commercial HVAC service contract Augusta GA"
       ]
     },
     {
@@ -41,11 +49,12 @@
       "state": "GA",
       "label": "Macon, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/hvac/macon.json",
       "queries": [
         "apartment complex in Macon GA",
-        "apartment complex Macon GA contact"
+        "apartment complex Macon GA contact",
+        "commercial HVAC service contract Macon GA"
       ]
     },
     {
@@ -53,11 +62,12 @@
       "state": "GA",
       "label": "Savannah, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/hvac/savannah.json",
       "queries": [
         "apartment complex in Savannah GA",
-        "apartment complex Savannah GA contact"
+        "apartment complex Savannah GA contact",
+        "commercial HVAC service contract Savannah GA"
       ]
     }
   ]

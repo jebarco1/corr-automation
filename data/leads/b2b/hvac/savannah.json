@@ -5,12 +5,19 @@
   "state": "GA",
   "market": "Savannah, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:32.076Z",
+  "updatedAt": "2026-07-19T02:20:59.982Z",
   "queries": [
     "apartment complex in Savannah GA",
-    "apartment complex Savannah GA contact"
+    "apartment complex Savannah GA contact",
+    "commercial HVAC service contract Savannah GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
       "leadId": "lead_f9f1122cdcd4",
@@ -23,18 +30,32 @@
       "pilotMarket": true,
       "name": "Savannah apartment complex",
       "url": null,
-      "snippet": "Potential hvac customer target: apartment complex in Savannah, GA. Verify contact details before outreach.",
+      "snippet": "Potential hvac customer target: apartment complex in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "apartment complex",
       "suggestedService": {
         "serviceId": "maintenance",
         "serviceName": "Preventive Maintenance",
         "quoteKey": "maintenance"
       },
-      "score": 90,
+      "score": 85,
       "query": "apartment complex in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:32.076Z"
+      "gatheredAt": "2026-07-19T02:20:59.982Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
       "leadId": "lead_b02072857676",
@@ -47,42 +68,32 @@
       "pilotMarket": true,
       "name": "Savannah property management company",
       "url": null,
-      "snippet": "Potential hvac customer target: property management company in Savannah, GA. Verify contact details before outreach.",
+      "snippet": "Potential hvac customer target: property management company in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "property management company",
       "suggestedService": {
         "serviceId": "maintenance",
         "serviceName": "Preventive Maintenance",
         "quoteKey": "maintenance"
       },
-      "score": 90,
+      "score": 85,
       "query": "apartment complex in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:32.076Z"
-    },
-    {
-      "leadId": "lead_0024e47f1114",
-      "segment": "b2b",
-      "category": "hvac",
-      "city": "Savannah",
-      "state": "GA",
-      "market": "Savannah, GA",
-      "region": "Coastal Georgia",
-      "pilotMarket": true,
-      "name": "Savannah restaurant",
-      "url": null,
-      "snippet": "Potential hvac customer target: restaurant in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "restaurant",
-      "suggestedService": {
-        "serviceId": "maintenance",
-        "serviceName": "Preventive Maintenance",
-        "quoteKey": "maintenance"
-      },
-      "score": 80,
-      "query": "apartment complex in Savannah GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:32.076Z"
+      "gatheredAt": "2026-07-19T02:20:59.982Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

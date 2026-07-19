@@ -5,37 +5,20 @@
   "state": "GA",
   "market": "Atlanta, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:34.485Z",
+  "updatedAt": "2026-07-19T02:21:03.989Z",
   "queries": [
     "furniture store in Atlanta GA",
-    "furniture store Atlanta GA contact"
+    "furniture store Atlanta GA contact",
+    "local delivery service commercial Atlanta GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
-    {
-      "leadId": "lead_6300b8e81ff3",
-      "segment": "b2b",
-      "category": "transportation",
-      "city": "Atlanta",
-      "state": "GA",
-      "market": "Atlanta, GA",
-      "region": "Metro Atlanta",
-      "pilotMarket": true,
-      "name": "Atlanta furniture store",
-      "url": null,
-      "snippet": "Potential transportation customer target: furniture store in Atlanta, GA. Verify contact details before outreach.",
-      "customerType": "furniture store",
-      "suggestedService": {
-        "serviceId": "local-move",
-        "serviceName": "Local Move",
-        "quoteKey": "local move"
-      },
-      "score": 80,
-      "query": "furniture store in Atlanta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:34.485Z"
-    },
     {
       "leadId": "lead_2142deaf8322",
       "segment": "b2b",
@@ -47,7 +30,10 @@
       "pilotMarket": true,
       "name": "Atlanta office headquarters",
       "url": null,
-      "snippet": "Potential transportation customer target: office headquarters in Atlanta, GA. Verify contact details before outreach.",
+      "snippet": "Potential transportation customer target: office headquarters in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "office headquarters",
       "suggestedService": {
         "serviceId": "local-move",
@@ -58,10 +44,21 @@
       "query": "furniture store in Atlanta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:34.485Z"
+      "gatheredAt": "2026-07-19T02:21:03.989Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_1dfffe5894bf",
+      "leadId": "lead_6300b8e81ff3",
       "segment": "b2b",
       "category": "transportation",
       "city": "Atlanta",
@@ -69,20 +66,34 @@
       "market": "Atlanta, GA",
       "region": "Metro Atlanta",
       "pilotMarket": true,
-      "name": "Atlanta medical supply distributor",
+      "name": "Atlanta furniture store",
       "url": null,
-      "snippet": "Potential transportation customer target: medical supply distributor in Atlanta, GA. Verify contact details before outreach.",
-      "customerType": "medical supply distributor",
+      "snippet": "Potential transportation customer target: furniture store in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "furniture store",
       "suggestedService": {
         "serviceId": "local-move",
         "serviceName": "Local Move",
         "quoteKey": "local move"
       },
-      "score": 80,
+      "score": 75,
       "query": "furniture store in Atlanta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:34.485Z"
+      "gatheredAt": "2026-07-19T02:21:03.989Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Atlanta, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:38.761Z",
+  "updatedAt": "2026-07-19T02:21:04.267Z",
   "queries": [
     "assisted living in Atlanta GA",
-    "assisted living Atlanta GA contact"
+    "assisted living Atlanta GA contact",
+    "clinical staffing Atlanta GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_270584a8168c",
+      "leadId": "lead_e9ff35dee060",
       "segment": "b2b",
       "category": "healthcare",
       "city": "Atlanta",
@@ -21,9 +28,12 @@
       "market": "Atlanta, GA",
       "region": "Metro Atlanta",
       "pilotMarket": true,
-      "name": "The 20 Best Assisted Living Facilities in Atlanta, GA - Seniorly",
-      "url": "https://www.seniorly.com/assisted-living/georgia/atlanta",
-      "snippet": "Get pricing & read reviews for The 20 Best Assisted Living in Atlanta, GA. Find detailed property information, photos & talk to local Atlanta senior living advisors.",
+      "name": "Atlanta assisted living",
+      "url": null,
+      "snippet": "Potential healthcare customer target: assisted living in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "assisted living",
       "suggestedService": {
         "serviceId": "nursing-visit",
@@ -32,12 +42,23 @@
       },
       "score": 75,
       "query": "assisted living in Atlanta GA",
-      "source": "duckduckgo-html",
-      "status": "new",
-      "gatheredAt": "2026-07-19T02:14:38.761Z"
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:04.267Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_8e34dd6bbc76",
+      "leadId": "lead_00448214f19a",
       "segment": "b2b",
       "category": "healthcare",
       "city": "Atlanta",
@@ -45,10 +66,13 @@
       "market": "Atlanta, GA",
       "region": "Metro Atlanta",
       "pilotMarket": true,
-      "name": "The 20 Best Assisted Living Facilities in Atlanta The, GA",
-      "url": "https://www.seniorly.com/assisted-living/georgia/atlanta-the",
-      "snippet": "Get pricing & read reviews for The 20 Best Assisted Living in Atlanta The, GA. Find detailed property information, photos & talk to local Atlanta The senior living advisors.",
-      "customerType": "assisted living",
+      "name": "Atlanta home health agency",
+      "url": null,
+      "snippet": "Potential healthcare customer target: home health agency in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "home health agency",
       "suggestedService": {
         "serviceId": "nursing-visit",
         "serviceName": "Nursing Visit",
@@ -56,33 +80,20 @@
       },
       "score": 75,
       "query": "assisted living in Atlanta GA",
-      "source": "duckduckgo-html",
-      "status": "new",
-      "gatheredAt": "2026-07-19T02:14:38.761Z"
-    },
-    {
-      "leadId": "lead_c904b1354484",
-      "segment": "b2b",
-      "category": "healthcare",
-      "city": "Atlanta",
-      "state": "GA",
-      "market": "Atlanta, GA",
-      "region": "Metro Atlanta",
-      "pilotMarket": true,
-      "name": "36 Assisted Living Facilities in Atlanta, GA (with Reviews)",
-      "url": "https://www.seniorhomes.com/georgia/atlanta/",
-      "snippet": "Detailed profiles of 36 Assisted Living Facilities in Atlanta, GA. Average cost is 3390 per month. Reviews, ratings, costs, pictures, amenities, and more.",
-      "customerType": "assisted living",
-      "suggestedService": {
-        "serviceId": "nursing-visit",
-        "serviceName": "Nursing Visit",
-        "quoteKey": "nursing visit"
-      },
-      "score": 75,
-      "query": "assisted living in Atlanta GA",
-      "source": "duckduckgo-html",
-      "status": "new",
-      "gatheredAt": "2026-07-19T02:14:38.761Z"
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:04.267Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

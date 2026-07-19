@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Augusta, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:41.895Z",
+  "updatedAt": "2026-07-19T02:25:51.517Z",
   "queries": [
-    "homeowner in Augusta GA",
-    "homeowner Augusta GA contact"
+    "apartment leasing office in Augusta GA",
+    "apartment leasing office Augusta GA contact",
+    "apartment community office contact Augusta GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 1,
+    "withPhone": 1,
+    "withEmail": 1,
+    "withAddress": 1
+  },
   "leads": [
     {
-      "leadId": "lead_81933db4b7a9",
+      "leadId": "lead_a05d87945eb0",
       "segment": "residential",
       "category": "electrical",
       "city": "Augusta",
@@ -21,23 +28,50 @@
       "market": "Augusta, GA",
       "region": "East Georgia",
       "pilotMarket": true,
-      "name": "Augusta homeowner",
-      "url": null,
-      "snippet": "Potential electrical customer target: homeowner in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "homeowner",
+      "name": "Augusta Homes for Rent, Houses for Rent in Augusta, GA, Augusta ...",
+      "url": "https://www.augustarentalhomes.net/augusta-homes-for-rent",
+      "snippet": "We offer a wide range of high-quality rental properties across the Augusta area, including houses and apartment communities, all supported by a full-time in-house team. Browse our available homes below to find your next home, or contact our leasing team directly at 706.842.4686 for assistance with availability, showings, and applications.",
+      "phone": "(706) 842-4686",
+      "email": "office@augustarentalhomes.net",
+      "address": "2 2019 Buckhaven Way, Augusta, GA 30909",
+      "customerType": "apartment leasing office",
       "suggestedService": {
         "serviceId": "diagnostic",
         "serviceName": "Electrical Diagnostic",
         "quoteKey": "diagnostic"
       },
-      "score": 80,
-      "query": "homeowner in Augusta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:41.895Z"
+      "score": 99,
+      "query": "apartment leasing office Augusta GA contact",
+      "source": "duckduckgo-html",
+      "status": "contact-ready",
+      "gatheredAt": "2026-07-19T02:25:51.018Z",
+      "contacts": {
+        "phone": "(706) 842-4686",
+        "email": "office@augustarentalhomes.net",
+        "address": "2 2019 Buckhaven Way, Augusta, GA 30909",
+        "phones": [
+          "(706) 842-4686"
+        ],
+        "emails": [
+          "office@augustarentalhomes.net"
+        ],
+        "addresses": [
+          "2 2019 Buckhaven Way, Augusta, GA 30909",
+          "2 207 Old Berzelia Road, Grovetown, GA 30813",
+          "50 306 West Buena Vista Avenue, North Augusta, SC 29841",
+          "2 2812C Thomas Lane, Augusta, GA 30906",
+          "1 4020-D Wheeler Woods Road, Augusta, GA 30909",
+          "1 520 East Buena Vista Avenue - Waitlist, North Augusta, SC 29841",
+          "2 320 Peachtree Street - Waitlist, Edgefield, SC 29824",
+          "2 3549 Pebble Creek Drive, Hephzibah, GA 30815"
+        ],
+        "marketHint": "Augusta, GA",
+        "completeness": 3,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_14e5fb362c75",
+      "leadId": "lead_eb846954ead4",
       "segment": "residential",
       "category": "electrical",
       "city": "Augusta",
@@ -45,44 +79,34 @@
       "market": "Augusta, GA",
       "region": "East Georgia",
       "pilotMarket": true,
-      "name": "Augusta residential home",
-      "url": null,
-      "snippet": "Potential electrical customer target: residential home in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "residential home",
+      "name": "$15-$20/hr In Apartment Leasing Office Jobs Augusta, GA",
+      "url": "https://www.ziprecruiter.com/Jobs/In-Apartment-Leasing-Office/-in-Augusta,GA",
+      "snippet": "Browse 93 AUGUSTA, GA IN APARTMENT LEASING OFFICE jobs ($15-$20/hr) hiring now. New openings daily. Apply early, get seen first & 1-click apply!",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment leasing office",
       "suggestedService": {
         "serviceId": "diagnostic",
         "serviceName": "Electrical Diagnostic",
         "quoteKey": "diagnostic"
       },
-      "score": 80,
-      "query": "homeowner in Augusta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:41.895Z"
-    },
-    {
-      "leadId": "lead_d7a483454969",
-      "segment": "residential",
-      "category": "electrical",
-      "city": "Augusta",
-      "state": "GA",
-      "market": "Augusta, GA",
-      "region": "East Georgia",
-      "pilotMarket": true,
-      "name": "Augusta single family residence",
-      "url": null,
-      "snippet": "Potential electrical customer target: single family residence in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "single family residence",
-      "suggestedService": {
-        "serviceId": "diagnostic",
-        "serviceName": "Electrical Diagnostic",
-        "quoteKey": "diagnostic"
-      },
-      "score": 80,
-      "query": "homeowner in Augusta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:41.895Z"
+      "score": 90,
+      "query": "apartment leasing office in Augusta GA",
+      "source": "duckduckgo-html",
+      "status": "new",
+      "gatheredAt": "2026-07-19T02:25:51.018Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

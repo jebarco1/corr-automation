@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Augusta, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:39.795Z",
+  "updatedAt": "2026-07-19T02:23:25.349Z",
   "queries": [
-    "homeowner in Augusta GA",
-    "homeowner Augusta GA contact"
+    "neighborhood HOA in Augusta GA",
+    "neighborhood HOA Augusta GA contact",
+    "HOA management contact Augusta GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 2,
+    "withPhone": 1,
+    "withEmail": 2,
+    "withAddress": 1
+  },
   "leads": [
     {
-      "leadId": "lead_bb345b8ccc48",
+      "leadId": "lead_5923fe332ad7",
       "segment": "residential",
       "category": "landscape",
       "city": "Augusta",
@@ -21,23 +28,40 @@
       "market": "Augusta, GA",
       "region": "East Georgia",
       "pilotMarket": true,
-      "name": "Augusta homeowner",
-      "url": null,
-      "snippet": "Potential landscape customer target: homeowner in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "homeowner",
+      "name": "The Grounds Maintenance Contract For M.M. Scott Apartments",
+      "url": "https://starbridge.ai/rfp/the-grounds-maintenance-contract-for-m-m-scott-apartments",
+      "snippet": "The Housing Authority of The City of Augusta, Georgia is seeking proposals for a grounds maintenance contract at M.M. Scott Apartments, GA001000112. The contract involves providing labor, materials, equipment, and services for landscape maintenance, including mowing, trimming, edging, debris cleanup, and shrub pruning.",
+      "phone": null,
+      "email": "jenn@starbridge.ai",
+      "address": null,
+      "customerType": "apartment complex",
       "suggestedService": {
         "serviceId": "mowing",
         "serviceName": "Lawn Mowing",
         "quoteKey": "mowing"
       },
-      "score": 80,
-      "query": "homeowner in Augusta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:39.795Z"
+      "score": 90,
+      "query": "transferred from b2b contact-ready lead",
+      "source": "b2b-contact-transfer",
+      "status": "new",
+      "gatheredAt": "2026-07-19T02:23:24.793Z",
+      "contacts": {
+        "phone": null,
+        "email": "jenn@starbridge.ai",
+        "address": null,
+        "phones": [],
+        "emails": [
+          "jenn@starbridge.ai",
+          "support@starbridge.ai"
+        ],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 1,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_f3090d7cbc6b",
+      "leadId": "lead_8c34c2eed4ed",
       "segment": "residential",
       "category": "landscape",
       "city": "Augusta",
@@ -45,44 +69,40 @@
       "market": "Augusta, GA",
       "region": "East Georgia",
       "pilotMarket": true,
-      "name": "Augusta residential neighborhood",
-      "url": null,
-      "snippet": "Potential landscape customer target: residential neighborhood in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "residential neighborhood",
+      "name": "AMP HOA Management | HOA Management Solutions",
+      "url": "https://amp-hoa.com/",
+      "snippet": "Our team of licensed Community Association Managers and Real Estate Brokers brings extensive expertise in HOA management, financial reporting, project coordination, property oversight, and systems administration. We provide practical, results-driven solutions to complex challenges and proudly serve communities throughout Georgia and South Carolina.",
+      "phone": "(706) 250-0477",
+      "email": "hoa@amp-hoa.com",
+      "address": "248 Furys Ferry Rd, Augusta, GA, 30907",
+      "customerType": "HOA",
       "suggestedService": {
         "serviceId": "mowing",
         "serviceName": "Lawn Mowing",
         "quoteKey": "mowing"
       },
-      "score": 80,
-      "query": "homeowner in Augusta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:39.795Z"
-    },
-    {
-      "leadId": "lead_82061c9c5b90",
-      "segment": "residential",
-      "category": "landscape",
-      "city": "Augusta",
-      "state": "GA",
-      "market": "Augusta, GA",
-      "region": "East Georgia",
-      "pilotMarket": true,
-      "name": "Augusta single family home",
-      "url": null,
-      "snippet": "Potential landscape customer target: single family home in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "single family home",
-      "suggestedService": {
-        "serviceId": "mowing",
-        "serviceName": "Lawn Mowing",
-        "quoteKey": "mowing"
-      },
-      "score": 80,
-      "query": "homeowner in Augusta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:39.795Z"
+      "score": 90,
+      "query": "transferred from b2b contact-ready lead",
+      "source": "b2b-contact-transfer",
+      "status": "contact-ready",
+      "gatheredAt": "2026-07-19T02:23:24.794Z",
+      "contacts": {
+        "phone": "(706) 250-0477",
+        "email": "hoa@amp-hoa.com",
+        "address": "248 Furys Ferry Rd, Augusta, GA, 30907",
+        "phones": [
+          "(706) 250-0477"
+        ],
+        "emails": [
+          "hoa@amp-hoa.com"
+        ],
+        "addresses": [
+          "248 Furys Ferry Rd, Augusta, GA, 30907"
+        ],
+        "marketHint": "Augusta, GA",
+        "completeness": 3,
+        "enriched": false
+      }
     }
   ]
 }

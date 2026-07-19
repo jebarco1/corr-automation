@@ -1,7 +1,7 @@
 {
   "category": "pool",
   "version": 2,
-  "updatedAt": "2026-07-19T02:13:24.000Z",
+  "updatedAt": "2026-07-19T02:17:43.000Z",
   "marketFile": "data/markets/georgia-cities.json",
   "usePilotCities": true,
   "segments": [
@@ -59,18 +59,22 @@
   },
   "residential": {
     "customerTypes": [
-      "homeowner",
-      "residential pool owner",
-      "private backyard pool"
+      "neighborhood HOA",
+      "condo association",
+      "apartment community"
     ],
     "intentPhrases": [
-      "residential pool cleaning",
-      "home pool service",
-      "weekly pool maintenance homeowner"
+      "community pool HOA contact",
+      "condo association phone",
+      "apartment community office"
     ],
     "excludeKeywords": [
       "pool company",
-      "we clean pools"
+      "we clean pools",
+      "lawn care company",
+      "contractor near me",
+      "book online",
+      "free estimate"
     ],
     "suggestedServiceIds": [
       "weekly-service",

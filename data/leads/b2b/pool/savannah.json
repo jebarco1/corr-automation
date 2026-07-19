@@ -5,12 +5,19 @@
   "state": "GA",
   "market": "Savannah, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:33.018Z",
+  "updatedAt": "2026-07-19T02:21:01.270Z",
   "queries": [
     "HOA in Savannah GA",
-    "HOA Savannah GA contact"
+    "HOA Savannah GA contact",
+    "commercial pool service Savannah GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
       "leadId": "lead_dd983979b31d",
@@ -23,18 +30,32 @@
       "pilotMarket": true,
       "name": "Savannah HOA",
       "url": null,
-      "snippet": "Potential pool customer target: HOA in Savannah, GA. Verify contact details before outreach.",
+      "snippet": "Potential pool customer target: HOA in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "HOA",
       "suggestedService": {
         "serviceId": "weekly-service",
         "serviceName": "Weekly Pool Service",
         "quoteKey": "weekly service"
       },
-      "score": 90,
+      "score": 85,
       "query": "HOA in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.018Z"
+      "gatheredAt": "2026-07-19T02:21:01.270Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
       "leadId": "lead_6d6cfe7827da",
@@ -47,42 +68,32 @@
       "pilotMarket": true,
       "name": "Savannah apartment complex",
       "url": null,
-      "snippet": "Potential pool customer target: apartment complex in Savannah, GA. Verify contact details before outreach.",
+      "snippet": "Potential pool customer target: apartment complex in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "apartment complex",
       "suggestedService": {
         "serviceId": "weekly-service",
         "serviceName": "Weekly Pool Service",
         "quoteKey": "weekly service"
       },
-      "score": 90,
+      "score": 85,
       "query": "HOA in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.018Z"
-    },
-    {
-      "leadId": "lead_bc638559ee47",
-      "segment": "b2b",
-      "category": "pool",
-      "city": "Savannah",
-      "state": "GA",
-      "market": "Savannah, GA",
-      "region": "Coastal Georgia",
-      "pilotMarket": true,
-      "name": "Savannah hotel",
-      "url": null,
-      "snippet": "Potential pool customer target: hotel in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "hotel",
-      "suggestedService": {
-        "serviceId": "weekly-service",
-        "serviceName": "Weekly Pool Service",
-        "quoteKey": "weekly service"
-      },
-      "score": 80,
-      "query": "HOA in Savannah GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.018Z"
+      "gatheredAt": "2026-07-19T02:21:01.270Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

@@ -5,61 +5,20 @@
   "state": "GA",
   "market": "Macon, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:33.821Z",
+  "updatedAt": "2026-07-19T02:21:02.545Z",
   "queries": [
     "warehouse in Macon GA",
-    "warehouse Macon GA contact"
+    "warehouse Macon GA contact",
+    "commercial electrician Macon GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
-    {
-      "leadId": "lead_9e0c52898273",
-      "segment": "b2b",
-      "category": "electrical",
-      "city": "Macon",
-      "state": "GA",
-      "market": "Macon, GA",
-      "region": "Central Georgia",
-      "pilotMarket": true,
-      "name": "Macon warehouse",
-      "url": null,
-      "snippet": "Potential electrical customer target: warehouse in Macon, GA. Verify contact details before outreach.",
-      "customerType": "warehouse",
-      "suggestedService": {
-        "serviceId": "diagnostic",
-        "serviceName": "Electrical Diagnostic",
-        "quoteKey": "diagnostic"
-      },
-      "score": 80,
-      "query": "warehouse in Macon GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.821Z"
-    },
-    {
-      "leadId": "lead_d6aadafdad44",
-      "segment": "b2b",
-      "category": "electrical",
-      "city": "Macon",
-      "state": "GA",
-      "market": "Macon, GA",
-      "region": "Central Georgia",
-      "pilotMarket": true,
-      "name": "Macon retail center",
-      "url": null,
-      "snippet": "Potential electrical customer target: retail center in Macon, GA. Verify contact details before outreach.",
-      "customerType": "retail center",
-      "suggestedService": {
-        "serviceId": "diagnostic",
-        "serviceName": "Electrical Diagnostic",
-        "quoteKey": "diagnostic"
-      },
-      "score": 80,
-      "query": "warehouse in Macon GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.821Z"
-    },
     {
       "leadId": "lead_809d010efdae",
       "segment": "b2b",
@@ -71,7 +30,10 @@
       "pilotMarket": true,
       "name": "Macon office building",
       "url": null,
-      "snippet": "Potential electrical customer target: office building in Macon, GA. Verify contact details before outreach.",
+      "snippet": "Potential electrical customer target: office building in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "office building",
       "suggestedService": {
         "serviceId": "diagnostic",
@@ -82,7 +44,56 @@
       "query": "warehouse in Macon GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.821Z"
+      "gatheredAt": "2026-07-19T02:21:02.545Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_9e0c52898273",
+      "segment": "b2b",
+      "category": "electrical",
+      "city": "Macon",
+      "state": "GA",
+      "market": "Macon, GA",
+      "region": "Central Georgia",
+      "pilotMarket": true,
+      "name": "Macon warehouse",
+      "url": null,
+      "snippet": "Potential electrical customer target: warehouse in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "warehouse",
+      "suggestedService": {
+        "serviceId": "diagnostic",
+        "serviceName": "Electrical Diagnostic",
+        "quoteKey": "diagnostic"
+      },
+      "score": 75,
+      "query": "warehouse in Macon GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:02.545Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

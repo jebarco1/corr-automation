@@ -5,12 +5,19 @@
   "state": "GA",
   "market": "Atlanta, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:32.772Z",
+  "updatedAt": "2026-07-19T02:21:01.034Z",
   "queries": [
     "HOA in Atlanta GA",
-    "HOA Atlanta GA contact"
+    "HOA Atlanta GA contact",
+    "commercial pool service Atlanta GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
       "leadId": "lead_d1fda790bd71",
@@ -23,18 +30,32 @@
       "pilotMarket": true,
       "name": "Atlanta HOA",
       "url": null,
-      "snippet": "Potential pool customer target: HOA in Atlanta, GA. Verify contact details before outreach.",
+      "snippet": "Potential pool customer target: HOA in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "HOA",
       "suggestedService": {
         "serviceId": "weekly-service",
         "serviceName": "Weekly Pool Service",
         "quoteKey": "weekly service"
       },
-      "score": 90,
+      "score": 85,
       "query": "HOA in Atlanta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:32.772Z"
+      "gatheredAt": "2026-07-19T02:21:01.034Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
       "leadId": "lead_0ec08e754c3d",
@@ -47,42 +68,32 @@
       "pilotMarket": true,
       "name": "Atlanta apartment complex",
       "url": null,
-      "snippet": "Potential pool customer target: apartment complex in Atlanta, GA. Verify contact details before outreach.",
+      "snippet": "Potential pool customer target: apartment complex in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "apartment complex",
       "suggestedService": {
         "serviceId": "weekly-service",
         "serviceName": "Weekly Pool Service",
         "quoteKey": "weekly service"
       },
-      "score": 90,
+      "score": 85,
       "query": "HOA in Atlanta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:32.772Z"
-    },
-    {
-      "leadId": "lead_089a019cd9d5",
-      "segment": "b2b",
-      "category": "pool",
-      "city": "Atlanta",
-      "state": "GA",
-      "market": "Atlanta, GA",
-      "region": "Metro Atlanta",
-      "pilotMarket": true,
-      "name": "Atlanta hotel",
-      "url": null,
-      "snippet": "Potential pool customer target: hotel in Atlanta, GA. Verify contact details before outreach.",
-      "customerType": "hotel",
-      "suggestedService": {
-        "serviceId": "weekly-service",
-        "serviceName": "Weekly Pool Service",
-        "quoteKey": "weekly service"
-      },
-      "score": 80,
-      "query": "HOA in Atlanta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:32.772Z"
+      "gatheredAt": "2026-07-19T02:21:01.034Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

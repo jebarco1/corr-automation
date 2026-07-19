@@ -5,12 +5,19 @@
   "state": "GA",
   "market": "Atlanta, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:32.465Z",
+  "updatedAt": "2026-07-19T02:21:00.587Z",
   "queries": [
     "restaurant in Atlanta GA",
-    "restaurant Atlanta GA contact"
+    "restaurant Atlanta GA contact",
+    "commercial pest control Atlanta GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
       "leadId": "lead_07ae0ec33d33",
@@ -23,18 +30,32 @@
       "pilotMarket": true,
       "name": "Atlanta apartment complex",
       "url": null,
-      "snippet": "Potential pest-control customer target: apartment complex in Atlanta, GA. Verify contact details before outreach.",
+      "snippet": "Potential pest-control customer target: apartment complex in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "apartment complex",
       "suggestedService": {
         "serviceId": "commercial-ipm",
         "serviceName": "Commercial IPM Program",
         "quoteKey": "commercial ipm"
       },
-      "score": 90,
+      "score": 85,
       "query": "restaurant in Atlanta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:32.465Z"
+      "gatheredAt": "2026-07-19T02:21:00.587Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
       "leadId": "lead_a237b3c5195c",
@@ -47,42 +68,32 @@
       "pilotMarket": true,
       "name": "Atlanta restaurant",
       "url": null,
-      "snippet": "Potential pest-control customer target: restaurant in Atlanta, GA. Verify contact details before outreach.",
+      "snippet": "Potential pest-control customer target: restaurant in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "restaurant",
       "suggestedService": {
         "serviceId": "commercial-ipm",
         "serviceName": "Commercial IPM Program",
         "quoteKey": "commercial ipm"
       },
-      "score": 80,
+      "score": 75,
       "query": "restaurant in Atlanta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:32.465Z"
-    },
-    {
-      "leadId": "lead_65a7d855150a",
-      "segment": "b2b",
-      "category": "pest-control",
-      "city": "Atlanta",
-      "state": "GA",
-      "market": "Atlanta, GA",
-      "region": "Metro Atlanta",
-      "pilotMarket": true,
-      "name": "Atlanta warehouse",
-      "url": null,
-      "snippet": "Potential pest-control customer target: warehouse in Atlanta, GA. Verify contact details before outreach.",
-      "customerType": "warehouse",
-      "suggestedService": {
-        "serviceId": "commercial-ipm",
-        "serviceName": "Commercial IPM Program",
-        "quoteKey": "commercial ipm"
-      },
-      "score": 80,
-      "query": "restaurant in Atlanta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:32.465Z"
+      "gatheredAt": "2026-07-19T02:21:00.587Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

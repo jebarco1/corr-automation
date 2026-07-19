@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Macon, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:42.811Z",
+  "updatedAt": "2026-07-19T02:26:37.873Z",
   "queries": [
-    "homeowner in Macon GA",
-    "homeowner Macon GA contact"
+    "neighborhood HOA in Macon GA",
+    "neighborhood HOA Macon GA contact",
+    "HOA management contact Macon GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_4ede502eb3e6",
+      "leadId": "lead_bc9c2c1025da",
       "segment": "residential",
       "category": "trash-removal",
       "city": "Macon",
@@ -21,23 +28,37 @@
       "market": "Macon, GA",
       "region": "Central Georgia",
       "pilotMarket": true,
-      "name": "Macon homeowner",
+      "name": "Macon apartment leasing office",
       "url": null,
-      "snippet": "Potential trash-removal customer target: homeowner in Macon, GA. Verify contact details before outreach.",
-      "customerType": "homeowner",
+      "snippet": "Potential trash-removal customer target: apartment leasing office in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment leasing office",
       "suggestedService": {
         "serviceId": "single-haul",
         "serviceName": "Single Haul",
         "quoteKey": "single haul"
       },
-      "score": 80,
-      "query": "homeowner in Macon GA",
+      "score": 90,
+      "query": "neighborhood HOA in Macon GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:42.811Z"
+      "gatheredAt": "2026-07-19T02:26:37.873Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_b00e7d44e202",
+      "leadId": "lead_bca7e3e10ede",
       "segment": "residential",
       "category": "trash-removal",
       "city": "Macon",
@@ -45,44 +66,34 @@
       "market": "Macon, GA",
       "region": "Central Georgia",
       "pilotMarket": true,
-      "name": "Macon residential cleanout",
+      "name": "Macon neighborhood HOA",
       "url": null,
-      "snippet": "Potential trash-removal customer target: residential cleanout in Macon, GA. Verify contact details before outreach.",
-      "customerType": "residential cleanout",
+      "snippet": "Potential trash-removal customer target: neighborhood HOA in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
       "suggestedService": {
         "serviceId": "single-haul",
         "serviceName": "Single Haul",
         "quoteKey": "single haul"
       },
-      "score": 80,
-      "query": "homeowner in Macon GA",
+      "score": 85,
+      "query": "neighborhood HOA in Macon GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:42.811Z"
-    },
-    {
-      "leadId": "lead_e77cb044c128",
-      "segment": "residential",
-      "category": "trash-removal",
-      "city": "Macon",
-      "state": "GA",
-      "market": "Macon, GA",
-      "region": "Central Georgia",
-      "pilotMarket": true,
-      "name": "Macon garage cleanout",
-      "url": null,
-      "snippet": "Potential trash-removal customer target: garage cleanout in Macon, GA. Verify contact details before outreach.",
-      "customerType": "garage cleanout",
-      "suggestedService": {
-        "serviceId": "single-haul",
-        "serviceName": "Single Haul",
-        "quoteKey": "single haul"
-      },
-      "score": 80,
-      "query": "homeowner in Macon GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:42.811Z"
+      "gatheredAt": "2026-07-19T02:26:37.873Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Atlanta, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:40.022Z",
+  "updatedAt": "2026-07-19T02:23:47.303Z",
   "queries": [
-    "homeowner in Atlanta GA",
-    "homeowner Atlanta GA contact"
+    "condo association in Atlanta GA",
+    "condo association Atlanta GA contact",
+    "condo association contact Atlanta GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_70e4043a1b36",
+      "leadId": "lead_edffa3748bdf",
       "segment": "residential",
       "category": "hvac",
       "city": "Atlanta",
@@ -21,23 +28,37 @@
       "market": "Atlanta, GA",
       "region": "Metro Atlanta",
       "pilotMarket": true,
-      "name": "Atlanta homeowner",
+      "name": "Atlanta apartment leasing office",
       "url": null,
-      "snippet": "Potential hvac customer target: homeowner in Atlanta, GA. Verify contact details before outreach.",
-      "customerType": "homeowner",
+      "snippet": "Potential hvac customer target: apartment leasing office in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment leasing office",
       "suggestedService": {
         "serviceId": "diagnostic",
         "serviceName": "System Diagnostic",
         "quoteKey": "diagnostic"
       },
-      "score": 80,
-      "query": "homeowner in Atlanta GA",
+      "score": 90,
+      "query": "condo association in Atlanta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:40.022Z"
+      "gatheredAt": "2026-07-19T02:23:47.303Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_e0c48f4c7aa7",
+      "leadId": "lead_06df2fb44bda",
       "segment": "residential",
       "category": "hvac",
       "city": "Atlanta",
@@ -45,44 +66,34 @@
       "market": "Atlanta, GA",
       "region": "Metro Atlanta",
       "pilotMarket": true,
-      "name": "Atlanta residential home",
+      "name": "Atlanta neighborhood HOA",
       "url": null,
-      "snippet": "Potential hvac customer target: residential home in Atlanta, GA. Verify contact details before outreach.",
-      "customerType": "residential home",
+      "snippet": "Potential hvac customer target: neighborhood HOA in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
       "suggestedService": {
         "serviceId": "diagnostic",
         "serviceName": "System Diagnostic",
         "quoteKey": "diagnostic"
       },
-      "score": 80,
-      "query": "homeowner in Atlanta GA",
+      "score": 85,
+      "query": "condo association in Atlanta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:40.022Z"
-    },
-    {
-      "leadId": "lead_86ac76f09962",
-      "segment": "residential",
-      "category": "hvac",
-      "city": "Atlanta",
-      "state": "GA",
-      "market": "Atlanta, GA",
-      "region": "Metro Atlanta",
-      "pilotMarket": true,
-      "name": "Atlanta single family residence",
-      "url": null,
-      "snippet": "Potential hvac customer target: single family residence in Atlanta, GA. Verify contact details before outreach.",
-      "customerType": "single family residence",
-      "suggestedService": {
-        "serviceId": "diagnostic",
-        "serviceName": "System Diagnostic",
-        "quoteKey": "diagnostic"
-      },
-      "score": 80,
-      "query": "homeowner in Atlanta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:40.022Z"
+      "gatheredAt": "2026-07-19T02:23:47.303Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

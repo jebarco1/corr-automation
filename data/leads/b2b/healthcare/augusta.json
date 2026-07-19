@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Augusta, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:39.468Z",
+  "updatedAt": "2026-07-19T02:21:04.334Z",
   "queries": [
     "assisted living in Augusta GA",
-    "assisted living Augusta GA contact"
+    "assisted living Augusta GA contact",
+    "clinical staffing Augusta GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_b157533d3208",
+      "leadId": "lead_907e7473ba5b",
       "segment": "b2b",
       "category": "healthcare",
       "city": "Augusta",
@@ -21,9 +28,12 @@
       "market": "Augusta, GA",
       "region": "East Georgia",
       "pilotMarket": true,
-      "name": "The 20 Best Assisted Living Facilities in Augusta, GA - Seniorly",
-      "url": "https://www.seniorly.com/assisted-living/georgia/augusta",
-      "snippet": "Get pricing & read reviews for The 20 Best Assisted Living in Augusta, GA. Find detailed property information, photos & talk to local Augusta senior living advisors.",
+      "name": "Augusta assisted living",
+      "url": null,
+      "snippet": "Potential healthcare customer target: assisted living in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "assisted living",
       "suggestedService": {
         "serviceId": "nursing-visit",
@@ -32,12 +42,23 @@
       },
       "score": 75,
       "query": "assisted living in Augusta GA",
-      "source": "duckduckgo-html",
-      "status": "new",
-      "gatheredAt": "2026-07-19T02:14:39.468Z"
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:04.334Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_4ccf802146a5",
+      "leadId": "lead_c83616e3d88f",
       "segment": "b2b",
       "category": "healthcare",
       "city": "Augusta",
@@ -45,10 +66,13 @@
       "market": "Augusta, GA",
       "region": "East Georgia",
       "pilotMarket": true,
-      "name": "The 10 Best Assisted Living Facilities in Augusta, GA - Caring.com",
-      "url": "https://www.caring.com/senior-living/assisted-living/georgia/augusta",
-      "snippet": "Find reviews for the best assisted living facilities in Augusta, GA for 2025. Also, find resources for seniors and info about the costs and regulations in the city.",
-      "customerType": "assisted living",
+      "name": "Augusta home health agency",
+      "url": null,
+      "snippet": "Potential healthcare customer target: home health agency in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "home health agency",
       "suggestedService": {
         "serviceId": "nursing-visit",
         "serviceName": "Nursing Visit",
@@ -56,33 +80,20 @@
       },
       "score": 75,
       "query": "assisted living in Augusta GA",
-      "source": "duckduckgo-html",
-      "status": "new",
-      "gatheredAt": "2026-07-19T02:14:39.468Z"
-    },
-    {
-      "leadId": "lead_fd562bec2e6c",
-      "segment": "b2b",
-      "category": "healthcare",
-      "city": "Augusta",
-      "state": "GA",
-      "market": "Augusta, GA",
-      "region": "East Georgia",
-      "pilotMarket": true,
-      "name": "Assisted Living in Augusta, GA - Compare Providers & Costs (2026)",
-      "url": "https://careavailability.com/assisted-living/georgia/augusta/",
-      "snippet": "Assisted living in Augusta, Georgia gives seniors access to housing, personal care, and daily support in Georgia's second-largest metro and home to Augusta University's academic health system, one of the Southeast's leading medical centers.",
-      "customerType": "assisted living",
-      "suggestedService": {
-        "serviceId": "nursing-visit",
-        "serviceName": "Nursing Visit",
-        "quoteKey": "nursing visit"
-      },
-      "score": 75,
-      "query": "assisted living in Augusta GA",
-      "source": "duckduckgo-html",
-      "status": "new",
-      "gatheredAt": "2026-07-19T02:14:39.468Z"
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:21:04.334Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

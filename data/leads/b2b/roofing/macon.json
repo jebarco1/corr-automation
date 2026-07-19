@@ -5,12 +5,19 @@
   "state": "GA",
   "market": "Macon, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:33.439Z",
+  "updatedAt": "2026-07-19T02:21:01.818Z",
   "queries": [
     "property management company in Macon GA",
-    "property management company Macon GA contact"
+    "property management company Macon GA contact",
+    "commercial roof inspection Macon GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
       "leadId": "lead_eb66f9a275fc",
@@ -23,18 +30,32 @@
       "pilotMarket": true,
       "name": "Macon property management company",
       "url": null,
-      "snippet": "Potential roofing customer target: property management company in Macon, GA. Verify contact details before outreach.",
+      "snippet": "Potential roofing customer target: property management company in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "property management company",
       "suggestedService": {
         "serviceId": "inspection",
         "serviceName": "Roof Inspection",
         "quoteKey": "inspection"
       },
-      "score": 90,
+      "score": 85,
       "query": "property management company in Macon GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.439Z"
+      "gatheredAt": "2026-07-19T02:21:01.818Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
       "leadId": "lead_1118c03b1c94",
@@ -47,42 +68,32 @@
       "pilotMarket": true,
       "name": "Macon church",
       "url": null,
-      "snippet": "Potential roofing customer target: church in Macon, GA. Verify contact details before outreach.",
+      "snippet": "Potential roofing customer target: church in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "church",
       "suggestedService": {
         "serviceId": "inspection",
         "serviceName": "Roof Inspection",
         "quoteKey": "inspection"
       },
-      "score": 80,
+      "score": 75,
       "query": "property management company in Macon GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.439Z"
-    },
-    {
-      "leadId": "lead_2543ec58bd71",
-      "segment": "b2b",
-      "category": "roofing",
-      "city": "Macon",
-      "state": "GA",
-      "market": "Macon, GA",
-      "region": "Central Georgia",
-      "pilotMarket": true,
-      "name": "Macon school",
-      "url": null,
-      "snippet": "Potential roofing customer target: school in Macon, GA. Verify contact details before outreach.",
-      "customerType": "school",
-      "suggestedService": {
-        "serviceId": "inspection",
-        "serviceName": "Roof Inspection",
-        "quoteKey": "inspection"
-      },
-      "score": 80,
-      "query": "property management company in Macon GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.439Z"
+      "gatheredAt": "2026-07-19T02:21:01.818Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

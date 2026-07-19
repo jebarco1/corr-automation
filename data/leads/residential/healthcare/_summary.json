@@ -1,7 +1,7 @@
 {
   "segment": "residential",
   "category": "healthcare",
-  "updatedAt": "2026-07-19T02:14:43.467Z",
+  "updatedAt": "2026-07-19T02:27:12.872Z",
   "marketFile": "data/markets/georgia-cities.json",
   "pilotCities": [
     "Atlanta, GA",
@@ -10,18 +10,25 @@
     "Savannah, GA"
   ],
   "cityCount": 4,
-  "leadCount": 12,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "cities": [
     {
       "city": "Atlanta",
       "state": "GA",
       "label": "Atlanta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/residential/healthcare/atlanta.json",
       "queries": [
-        "home patient in Atlanta GA",
-        "home patient Atlanta GA contact"
+        "senior living community in Atlanta GA",
+        "senior living community Atlanta GA contact",
+        "assisted living community contact Atlanta GA"
       ]
     },
     {
@@ -29,11 +36,12 @@
       "state": "GA",
       "label": "Augusta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/residential/healthcare/augusta.json",
       "queries": [
-        "home patient in Augusta GA",
-        "home patient Augusta GA contact"
+        "senior living community in Augusta GA",
+        "senior living community Augusta GA contact",
+        "assisted living community contact Augusta GA"
       ]
     },
     {
@@ -41,11 +49,12 @@
       "state": "GA",
       "label": "Macon, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/residential/healthcare/macon.json",
       "queries": [
-        "home patient in Macon GA",
-        "home patient Macon GA contact"
+        "senior living community in Macon GA",
+        "senior living community Macon GA contact",
+        "assisted living community contact Macon GA"
       ]
     },
     {
@@ -53,11 +62,12 @@
       "state": "GA",
       "label": "Savannah, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/residential/healthcare/savannah.json",
       "queries": [
-        "home patient in Savannah GA",
-        "home patient Savannah GA contact"
+        "senior living community in Savannah GA",
+        "senior living community Savannah GA contact",
+        "assisted living community contact Savannah GA"
       ]
     }
   ]

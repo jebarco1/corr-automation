@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Savannah, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:43.466Z",
+  "updatedAt": "2026-07-19T02:27:12.872Z",
   "queries": [
-    "home patient in Savannah GA",
-    "home patient Savannah GA contact"
+    "senior living community in Savannah GA",
+    "senior living community Savannah GA contact",
+    "assisted living community contact Savannah GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_b2300baba6f9",
+      "leadId": "lead_316c17e5d2cc",
       "segment": "residential",
       "category": "healthcare",
       "city": "Savannah",
@@ -21,23 +28,37 @@
       "market": "Savannah, GA",
       "region": "Coastal Georgia",
       "pilotMarket": true,
-      "name": "Savannah home patient",
+      "name": "Savannah home care referral office",
       "url": null,
-      "snippet": "Potential healthcare customer target: home patient in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "home patient",
+      "snippet": "Potential healthcare customer target: home care referral office in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "home care referral office",
       "suggestedService": {
         "serviceId": "nursing-visit",
         "serviceName": "Nursing Visit",
         "quoteKey": "nursing visit"
       },
       "score": 80,
-      "query": "home patient in Savannah GA",
+      "query": "senior living community in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:43.466Z"
+      "gatheredAt": "2026-07-19T02:27:12.872Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_fc3a428ad319",
+      "leadId": "lead_d5831c02dc46",
       "segment": "residential",
       "category": "healthcare",
       "city": "Savannah",
@@ -45,44 +66,34 @@
       "market": "Savannah, GA",
       "region": "Coastal Georgia",
       "pilotMarket": true,
-      "name": "Savannah private duty family",
+      "name": "Savannah senior living community",
       "url": null,
-      "snippet": "Potential healthcare customer target: private duty family in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "private duty family",
+      "snippet": "Potential healthcare customer target: senior living community in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "senior living community",
       "suggestedService": {
         "serviceId": "nursing-visit",
         "serviceName": "Nursing Visit",
         "quoteKey": "nursing visit"
       },
-      "score": 80,
-      "query": "home patient in Savannah GA",
+      "score": 75,
+      "query": "senior living community in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:43.466Z"
-    },
-    {
-      "leadId": "lead_1448d2b5f45d",
-      "segment": "residential",
-      "category": "healthcare",
-      "city": "Savannah",
-      "state": "GA",
-      "market": "Savannah, GA",
-      "region": "Coastal Georgia",
-      "pilotMarket": true,
-      "name": "Savannah senior at home",
-      "url": null,
-      "snippet": "Potential healthcare customer target: senior at home in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "home patient",
-      "suggestedService": {
-        "serviceId": "nursing-visit",
-        "serviceName": "Nursing Visit",
-        "quoteKey": "nursing visit"
-      },
-      "score": 80,
-      "query": "home patient in Savannah GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:43.466Z"
+      "gatheredAt": "2026-07-19T02:27:12.872Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

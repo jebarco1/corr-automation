@@ -5,12 +5,19 @@
   "state": "GA",
   "market": "Atlanta, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:33.091Z",
+  "updatedAt": "2026-07-19T02:21:01.342Z",
   "queries": [
     "HOA in Atlanta GA",
-    "HOA Atlanta GA contact"
+    "HOA Atlanta GA contact",
+    "commercial painting RFP Atlanta GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
       "leadId": "lead_2b6a91fb6d76",
@@ -23,18 +30,32 @@
       "pilotMarket": true,
       "name": "Atlanta HOA",
       "url": null,
-      "snippet": "Potential painting customer target: HOA in Atlanta, GA. Verify contact details before outreach.",
+      "snippet": "Potential painting customer target: HOA in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "HOA",
       "suggestedService": {
         "serviceId": "exterior",
         "serviceName": "Exterior Painting",
         "quoteKey": "exterior"
       },
-      "score": 90,
+      "score": 85,
       "query": "HOA in Atlanta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.091Z"
+      "gatheredAt": "2026-07-19T02:21:01.342Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
       "leadId": "lead_d70d85edb6be",
@@ -47,42 +68,32 @@
       "pilotMarket": true,
       "name": "Atlanta apartment complex",
       "url": null,
-      "snippet": "Potential painting customer target: apartment complex in Atlanta, GA. Verify contact details before outreach.",
+      "snippet": "Potential painting customer target: apartment complex in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "apartment complex",
       "suggestedService": {
         "serviceId": "exterior",
         "serviceName": "Exterior Painting",
         "quoteKey": "exterior"
       },
-      "score": 90,
+      "score": 85,
       "query": "HOA in Atlanta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.091Z"
-    },
-    {
-      "leadId": "lead_030b585d14fa",
-      "segment": "b2b",
-      "category": "painting",
-      "city": "Atlanta",
-      "state": "GA",
-      "market": "Atlanta, GA",
-      "region": "Metro Atlanta",
-      "pilotMarket": true,
-      "name": "Atlanta property management company",
-      "url": null,
-      "snippet": "Potential painting customer target: property management company in Atlanta, GA. Verify contact details before outreach.",
-      "customerType": "property management company",
-      "suggestedService": {
-        "serviceId": "exterior",
-        "serviceName": "Exterior Painting",
-        "quoteKey": "exterior"
-      },
-      "score": 90,
-      "query": "HOA in Atlanta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.091Z"
+      "gatheredAt": "2026-07-19T02:21:01.342Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

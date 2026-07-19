@@ -1,7 +1,7 @@
 {
   "segment": "b2b",
   "category": "pool",
-  "updatedAt": "2026-07-19T02:14:33.018Z",
+  "updatedAt": "2026-07-19T02:21:01.270Z",
   "marketFile": "data/markets/georgia-cities.json",
   "pilotCities": [
     "Atlanta, GA",
@@ -10,18 +10,25 @@
     "Savannah, GA"
   ],
   "cityCount": 4,
-  "leadCount": 12,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "cities": [
     {
       "city": "Atlanta",
       "state": "GA",
       "label": "Atlanta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/pool/atlanta.json",
       "queries": [
         "HOA in Atlanta GA",
-        "HOA Atlanta GA contact"
+        "HOA Atlanta GA contact",
+        "commercial pool service Atlanta GA"
       ]
     },
     {
@@ -29,11 +36,12 @@
       "state": "GA",
       "label": "Augusta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/pool/augusta.json",
       "queries": [
         "HOA in Augusta GA",
-        "HOA Augusta GA contact"
+        "HOA Augusta GA contact",
+        "commercial pool service Augusta GA"
       ]
     },
     {
@@ -41,11 +49,12 @@
       "state": "GA",
       "label": "Macon, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/pool/macon.json",
       "queries": [
         "HOA in Macon GA",
-        "HOA Macon GA contact"
+        "HOA Macon GA contact",
+        "commercial pool service Macon GA"
       ]
     },
     {
@@ -53,11 +62,12 @@
       "state": "GA",
       "label": "Savannah, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/pool/savannah.json",
       "queries": [
         "HOA in Savannah GA",
-        "HOA Savannah GA contact"
+        "HOA Savannah GA contact",
+        "commercial pool service Savannah GA"
       ]
     }
   ]

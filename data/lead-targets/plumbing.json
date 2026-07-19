@@ -1,7 +1,7 @@
 {
   "category": "plumbing",
   "version": 2,
-  "updatedAt": "2026-07-19T02:13:24.000Z",
+  "updatedAt": "2026-07-19T02:17:43.000Z",
   "marketFile": "data/markets/georgia-cities.json",
   "usePilotCities": true,
   "segments": [
@@ -59,18 +59,22 @@
   },
   "residential": {
     "customerTypes": [
-      "homeowner",
-      "residential home",
-      "townhome resident"
+      "apartment leasing office",
+      "condo association",
+      "neighborhood HOA"
     ],
     "intentPhrases": [
-      "home plumber",
-      "water heater homeowner",
-      "clogged drain house"
+      "apartment leasing office phone",
+      "condo association contact",
+      "HOA property manager phone"
     ],
     "excludeKeywords": [
       "plumber near me",
-      "plumbing company"
+      "plumbing company",
+      "lawn care company",
+      "contractor near me",
+      "book online",
+      "free estimate"
     ],
     "suggestedServiceIds": [
       "leak-repair",

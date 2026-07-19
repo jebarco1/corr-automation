@@ -1,7 +1,7 @@
 {
   "segment": "residential",
   "category": "cleaning",
-  "updatedAt": "2026-07-19T02:14:40.567Z",
+  "updatedAt": "2026-07-19T02:24:14.013Z",
   "marketFile": "data/markets/georgia-cities.json",
   "pilotCities": [
     "Atlanta, GA",
@@ -10,18 +10,25 @@
     "Savannah, GA"
   ],
   "cityCount": 4,
-  "leadCount": 12,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "cities": [
     {
       "city": "Atlanta",
       "state": "GA",
       "label": "Atlanta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/residential/cleaning/atlanta.json",
       "queries": [
-        "homeowner in Atlanta GA",
-        "homeowner Atlanta GA contact"
+        "condo association in Atlanta GA",
+        "condo association Atlanta GA contact",
+        "apartment leasing office contact Atlanta GA"
       ]
     },
     {
@@ -29,11 +36,12 @@
       "state": "GA",
       "label": "Augusta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/residential/cleaning/augusta.json",
       "queries": [
-        "homeowner in Augusta GA",
-        "homeowner Augusta GA contact"
+        "condo association in Augusta GA",
+        "condo association Augusta GA contact",
+        "apartment leasing office contact Augusta GA"
       ]
     },
     {
@@ -41,11 +49,12 @@
       "state": "GA",
       "label": "Macon, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/residential/cleaning/macon.json",
       "queries": [
-        "homeowner in Macon GA",
-        "homeowner Macon GA contact"
+        "condo association in Macon GA",
+        "condo association Macon GA contact",
+        "apartment leasing office contact Macon GA"
       ]
     },
     {
@@ -53,11 +62,12 @@
       "state": "GA",
       "label": "Savannah, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/residential/cleaning/savannah.json",
       "queries": [
-        "homeowner in Savannah GA",
-        "homeowner Savannah GA contact"
+        "condo association in Savannah GA",
+        "condo association Savannah GA contact",
+        "apartment leasing office contact Savannah GA"
       ]
     }
   ]

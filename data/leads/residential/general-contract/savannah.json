@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Savannah, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:42.208Z",
+  "updatedAt": "2026-07-19T02:26:08.681Z",
   "queries": [
-    "homeowner in Savannah GA",
-    "homeowner Savannah GA contact"
+    "neighborhood HOA in Savannah GA",
+    "neighborhood HOA Savannah GA contact",
+    "HOA board contact Savannah GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_2f83d36a5bee",
+      "leadId": "lead_60e1d7c7fb97",
       "segment": "residential",
       "category": "general-contract",
       "city": "Savannah",
@@ -21,23 +28,37 @@
       "market": "Savannah, GA",
       "region": "Coastal Georgia",
       "pilotMarket": true,
-      "name": "Savannah homeowner",
+      "name": "Savannah neighborhood HOA",
       "url": null,
-      "snippet": "Potential general-contract customer target: homeowner in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "homeowner",
+      "snippet": "Potential general-contract customer target: neighborhood HOA in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
       "suggestedService": {
         "serviceId": "remodel",
         "serviceName": "Remodel",
         "quoteKey": "remodel"
       },
-      "score": 80,
-      "query": "homeowner in Savannah GA",
+      "score": 85,
+      "query": "neighborhood HOA in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:42.208Z"
+      "gatheredAt": "2026-07-19T02:26:08.681Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_adce6824008f",
+      "leadId": "lead_9d62b20da2e3",
       "segment": "residential",
       "category": "general-contract",
       "city": "Savannah",
@@ -45,44 +66,34 @@
       "market": "Savannah, GA",
       "region": "Coastal Georgia",
       "pilotMarket": true,
-      "name": "Savannah residential remodel",
+      "name": "Savannah condo association",
       "url": null,
-      "snippet": "Potential general-contract customer target: residential remodel in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "residential remodel",
+      "snippet": "Potential general-contract customer target: condo association in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "condo association",
       "suggestedService": {
         "serviceId": "remodel",
         "serviceName": "Remodel",
         "quoteKey": "remodel"
       },
-      "score": 80,
-      "query": "homeowner in Savannah GA",
+      "score": 75,
+      "query": "neighborhood HOA in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:42.208Z"
-    },
-    {
-      "leadId": "lead_4fa39b7f468f",
-      "segment": "residential",
-      "category": "general-contract",
-      "city": "Savannah",
-      "state": "GA",
-      "market": "Savannah, GA",
-      "region": "Coastal Georgia",
-      "pilotMarket": true,
-      "name": "Savannah home renovation",
-      "url": null,
-      "snippet": "Potential general-contract customer target: home renovation in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "home renovation",
-      "suggestedService": {
-        "serviceId": "remodel",
-        "serviceName": "Remodel",
-        "quoteKey": "remodel"
-      },
-      "score": 80,
-      "query": "homeowner in Savannah GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:42.208Z"
+      "gatheredAt": "2026-07-19T02:26:08.681Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

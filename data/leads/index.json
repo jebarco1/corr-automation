@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-19T02:14:43.468Z",
+  "updatedAt": "2026-07-19T02:27:12.872Z",
   "marketFile": "data/markets/georgia-cities.json",
   "pilotCities": [
     "Atlanta, GA",
@@ -13,6 +13,6 @@
   },
   "lastHunt": {
     "segment": "residential",
-    "totalLeads": 168
+    "totalLeads": 112
   }
 }

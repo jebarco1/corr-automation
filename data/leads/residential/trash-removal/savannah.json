@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Savannah, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:42.888Z",
+  "updatedAt": "2026-07-19T02:26:42.259Z",
   "queries": [
-    "homeowner in Savannah GA",
-    "homeowner Savannah GA contact"
+    "neighborhood HOA in Savannah GA",
+    "neighborhood HOA Savannah GA contact",
+    "HOA management contact Savannah GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_70f77991b3b7",
+      "leadId": "lead_5d2691fb4ea6",
       "segment": "residential",
       "category": "trash-removal",
       "city": "Savannah",
@@ -21,23 +28,37 @@
       "market": "Savannah, GA",
       "region": "Coastal Georgia",
       "pilotMarket": true,
-      "name": "Savannah homeowner",
+      "name": "Savannah apartment leasing office",
       "url": null,
-      "snippet": "Potential trash-removal customer target: homeowner in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "homeowner",
+      "snippet": "Potential trash-removal customer target: apartment leasing office in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment leasing office",
       "suggestedService": {
         "serviceId": "single-haul",
         "serviceName": "Single Haul",
         "quoteKey": "single haul"
       },
-      "score": 80,
-      "query": "homeowner in Savannah GA",
+      "score": 90,
+      "query": "neighborhood HOA in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:42.888Z"
+      "gatheredAt": "2026-07-19T02:26:42.259Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_dfb251125213",
+      "leadId": "lead_25c42ac5087c",
       "segment": "residential",
       "category": "trash-removal",
       "city": "Savannah",
@@ -45,44 +66,34 @@
       "market": "Savannah, GA",
       "region": "Coastal Georgia",
       "pilotMarket": true,
-      "name": "Savannah residential cleanout",
+      "name": "Savannah neighborhood HOA",
       "url": null,
-      "snippet": "Potential trash-removal customer target: residential cleanout in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "residential cleanout",
+      "snippet": "Potential trash-removal customer target: neighborhood HOA in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
       "suggestedService": {
         "serviceId": "single-haul",
         "serviceName": "Single Haul",
         "quoteKey": "single haul"
       },
-      "score": 80,
-      "query": "homeowner in Savannah GA",
+      "score": 85,
+      "query": "neighborhood HOA in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:42.888Z"
-    },
-    {
-      "leadId": "lead_cb66dfb59227",
-      "segment": "residential",
-      "category": "trash-removal",
-      "city": "Savannah",
-      "state": "GA",
-      "market": "Savannah, GA",
-      "region": "Coastal Georgia",
-      "pilotMarket": true,
-      "name": "Savannah garage cleanout",
-      "url": null,
-      "snippet": "Potential trash-removal customer target: garage cleanout in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "garage cleanout",
-      "suggestedService": {
-        "serviceId": "single-haul",
-        "serviceName": "Single Haul",
-        "quoteKey": "single haul"
-      },
-      "score": 80,
-      "query": "homeowner in Savannah GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:42.888Z"
+      "gatheredAt": "2026-07-19T02:26:42.259Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

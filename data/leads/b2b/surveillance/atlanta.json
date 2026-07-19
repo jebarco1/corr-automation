@@ -5,12 +5,19 @@
   "state": "GA",
   "market": "Atlanta, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:34.098Z",
+  "updatedAt": "2026-07-19T02:21:03.219Z",
   "queries": [
     "warehouse in Atlanta GA",
-    "warehouse Atlanta GA contact"
+    "warehouse Atlanta GA contact",
+    "commercial security cameras Atlanta GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
       "leadId": "lead_b126518d0265",
@@ -23,18 +30,32 @@
       "pilotMarket": true,
       "name": "Atlanta apartment complex",
       "url": null,
-      "snippet": "Potential surveillance customer target: apartment complex in Atlanta, GA. Verify contact details before outreach.",
+      "snippet": "Potential surveillance customer target: apartment complex in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "apartment complex",
       "suggestedService": {
         "serviceId": "new-installation",
         "serviceName": "New Camera Installation",
         "quoteKey": "new installation"
       },
-      "score": 90,
+      "score": 85,
       "query": "warehouse in Atlanta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:34.098Z"
+      "gatheredAt": "2026-07-19T02:21:03.219Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
       "leadId": "lead_72d18d942be2",
@@ -47,42 +68,32 @@
       "pilotMarket": true,
       "name": "Atlanta warehouse",
       "url": null,
-      "snippet": "Potential surveillance customer target: warehouse in Atlanta, GA. Verify contact details before outreach.",
+      "snippet": "Potential surveillance customer target: warehouse in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "warehouse",
       "suggestedService": {
         "serviceId": "new-installation",
         "serviceName": "New Camera Installation",
         "quoteKey": "new installation"
       },
-      "score": 80,
+      "score": 75,
       "query": "warehouse in Atlanta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:34.098Z"
-    },
-    {
-      "leadId": "lead_af3d2df6853e",
-      "segment": "b2b",
-      "category": "surveillance",
-      "city": "Atlanta",
-      "state": "GA",
-      "market": "Atlanta, GA",
-      "region": "Metro Atlanta",
-      "pilotMarket": true,
-      "name": "Atlanta retail chain",
-      "url": null,
-      "snippet": "Potential surveillance customer target: retail chain in Atlanta, GA. Verify contact details before outreach.",
-      "customerType": "retail chain",
-      "suggestedService": {
-        "serviceId": "new-installation",
-        "serviceName": "New Camera Installation",
-        "quoteKey": "new installation"
-      },
-      "score": 80,
-      "query": "warehouse in Atlanta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:34.098Z"
+      "gatheredAt": "2026-07-19T02:21:03.219Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

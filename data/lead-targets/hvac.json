@@ -1,7 +1,7 @@
 {
   "category": "hvac",
   "version": 2,
-  "updatedAt": "2026-07-19T02:13:24.000Z",
+  "updatedAt": "2026-07-19T02:17:43.000Z",
   "marketFile": "data/markets/georgia-cities.json",
   "usePilotCities": true,
   "segments": [
@@ -61,19 +61,23 @@
   },
   "residential": {
     "customerTypes": [
-      "homeowner",
-      "residential home",
-      "single family residence"
+      "condo association",
+      "neighborhood HOA",
+      "apartment leasing office"
     ],
     "intentPhrases": [
-      "home AC not cooling",
-      "residential HVAC maintenance",
-      "furnace repair homeowner"
+      "condo association contact",
+      "apartment leasing office phone",
+      "HOA property manager contact"
     ],
     "excludeKeywords": [
       "HVAC company",
       "we repair AC",
-      "call for estimate"
+      "call for estimate",
+      "lawn care company",
+      "contractor near me",
+      "book online",
+      "free estimate"
     ],
     "suggestedServiceIds": [
       "diagnostic",

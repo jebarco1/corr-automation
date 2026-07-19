@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Atlanta, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:39.706Z",
+  "updatedAt": "2026-07-19T02:23:18.143Z",
   "queries": [
-    "homeowner in Atlanta GA",
-    "homeowner Atlanta GA contact"
+    "neighborhood HOA in Atlanta GA",
+    "neighborhood HOA Atlanta GA contact",
+    "HOA management contact Atlanta GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 2,
+    "withPhone": 2,
+    "withEmail": 1,
+    "withAddress": 1
+  },
   "leads": [
     {
-      "leadId": "lead_129b92e96633",
+      "leadId": "lead_cd65d94fb64b",
       "segment": "residential",
       "category": "landscape",
       "city": "Atlanta",
@@ -21,23 +28,43 @@
       "market": "Atlanta, GA",
       "region": "Metro Atlanta",
       "pilotMarket": true,
-      "name": "Atlanta homeowner",
-      "url": null,
-      "snippet": "Potential landscape customer target: homeowner in Atlanta, GA. Verify contact details before outreach.",
-      "customerType": "homeowner",
+      "name": "Home | Evolve Association Management",
+      "url": "https://www.evolveam.com/",
+      "snippet": "Looking for change in your association's management? Evolve Association Management has the team, understanding, and resources to provide Atlanta's premier association management solution. We manage Single Family HOAs, Condominium and Townhome Associations, and Commercial Associations (like office complexes) as our sole focus.",
+      "phone": "(706) 726-6982",
+      "email": "contact@evolveam.com",
+      "address": "897 North Highland Avenue Northeast, Atlanta, GA, 30306",
+      "customerType": "HOA",
       "suggestedService": {
         "serviceId": "mowing",
         "serviceName": "Lawn Mowing",
         "quoteKey": "mowing"
       },
-      "score": 80,
-      "query": "homeowner in Atlanta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:39.706Z"
+      "score": 99,
+      "query": "transferred from b2b contact-ready lead",
+      "source": "b2b-contact-transfer",
+      "status": "contact-ready",
+      "gatheredAt": "2026-07-19T02:23:17.253Z",
+      "contacts": {
+        "phone": "(706) 726-6982",
+        "email": "contact@evolveam.com",
+        "address": "897 North Highland Avenue Northeast, Atlanta, GA, 30306",
+        "phones": [
+          "(706) 726-6982"
+        ],
+        "emails": [
+          "contact@evolveam.com"
+        ],
+        "addresses": [
+          "897 North Highland Avenue Northeast, Atlanta, GA, 30306"
+        ],
+        "marketHint": "Atlanta, GA",
+        "completeness": 3,
+        "enriched": false
+      }
     },
     {
-      "leadId": "lead_4f9ec6706169",
+      "leadId": "lead_98e009392044",
       "segment": "residential",
       "category": "landscape",
       "city": "Atlanta",
@@ -45,44 +72,37 @@
       "market": "Atlanta, GA",
       "region": "Metro Atlanta",
       "pilotMarket": true,
-      "name": "Atlanta residential neighborhood",
-      "url": null,
-      "snippet": "Potential landscape customer target: residential neighborhood in Atlanta, GA. Verify contact details before outreach.",
-      "customerType": "residential neighborhood",
+      "name": "First Class Community Management — Atlanta Community Services",
+      "url": "https://www.atlantacommunityservices.com/",
+      "snippet": "Trusted HOA and community association management in Atlanta and across Georgia. Request a customized management proposal today.",
+      "phone": "(770) 904-5270",
+      "email": null,
+      "address": null,
+      "customerType": "HOA",
       "suggestedService": {
         "serviceId": "mowing",
         "serviceName": "Lawn Mowing",
         "quoteKey": "mowing"
       },
-      "score": 80,
-      "query": "homeowner in Atlanta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:39.706Z"
-    },
-    {
-      "leadId": "lead_2f0a42a9a12a",
-      "segment": "residential",
-      "category": "landscape",
-      "city": "Atlanta",
-      "state": "GA",
-      "market": "Atlanta, GA",
-      "region": "Metro Atlanta",
-      "pilotMarket": true,
-      "name": "Atlanta single family home",
-      "url": null,
-      "snippet": "Potential landscape customer target: single family home in Atlanta, GA. Verify contact details before outreach.",
-      "customerType": "single family home",
-      "suggestedService": {
-        "serviceId": "mowing",
-        "serviceName": "Lawn Mowing",
-        "quoteKey": "mowing"
-      },
-      "score": 80,
-      "query": "homeowner in Atlanta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:39.706Z"
+      "score": 90,
+      "query": "transferred from b2b contact-ready lead",
+      "source": "b2b-contact-transfer",
+      "status": "new",
+      "gatheredAt": "2026-07-19T02:23:17.253Z",
+      "contacts": {
+        "phone": "(770) 904-5270",
+        "email": null,
+        "address": null,
+        "phones": [
+          "(770) 904-5270",
+          "(770) 904-5269"
+        ],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 1,
+        "enriched": true
+      }
     }
   ]
 }

@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Augusta, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:41.027Z",
+  "updatedAt": "2026-07-19T02:24:37.976Z",
   "queries": [
-    "homeowner in Augusta GA",
-    "homeowner Augusta GA contact"
+    "neighborhood HOA in Augusta GA",
+    "neighborhood HOA Augusta GA contact",
+    "community pool HOA contact Augusta GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_a6db63c3d080",
+      "leadId": "lead_bf78bf700fcb",
       "segment": "residential",
       "category": "pool",
       "city": "Augusta",
@@ -21,23 +28,37 @@
       "market": "Augusta, GA",
       "region": "East Georgia",
       "pilotMarket": true,
-      "name": "Augusta homeowner",
+      "name": "Augusta neighborhood HOA",
       "url": null,
-      "snippet": "Potential pool customer target: homeowner in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "homeowner",
+      "snippet": "Potential pool customer target: neighborhood HOA in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
       "suggestedService": {
         "serviceId": "weekly-service",
         "serviceName": "Weekly Pool Service",
         "quoteKey": "weekly service"
       },
-      "score": 80,
-      "query": "homeowner in Augusta GA",
+      "score": 85,
+      "query": "neighborhood HOA in Augusta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:41.027Z"
+      "gatheredAt": "2026-07-19T02:24:37.976Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_6ed3956e772b",
+      "leadId": "lead_b6ac81b66b5e",
       "segment": "residential",
       "category": "pool",
       "city": "Augusta",
@@ -45,44 +66,34 @@
       "market": "Augusta, GA",
       "region": "East Georgia",
       "pilotMarket": true,
-      "name": "Augusta residential pool owner",
+      "name": "Augusta apartment community",
       "url": null,
-      "snippet": "Potential pool customer target: residential pool owner in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "residential pool owner",
+      "snippet": "Potential pool customer target: apartment community in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment community",
       "suggestedService": {
         "serviceId": "weekly-service",
         "serviceName": "Weekly Pool Service",
         "quoteKey": "weekly service"
       },
-      "score": 80,
-      "query": "homeowner in Augusta GA",
+      "score": 85,
+      "query": "neighborhood HOA in Augusta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:41.027Z"
-    },
-    {
-      "leadId": "lead_21aee4c544f7",
-      "segment": "residential",
-      "category": "pool",
-      "city": "Augusta",
-      "state": "GA",
-      "market": "Augusta, GA",
-      "region": "East Georgia",
-      "pilotMarket": true,
-      "name": "Augusta private backyard pool",
-      "url": null,
-      "snippet": "Potential pool customer target: private backyard pool in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "private backyard pool",
-      "suggestedService": {
-        "serviceId": "weekly-service",
-        "serviceName": "Weekly Pool Service",
-        "quoteKey": "weekly service"
-      },
-      "score": 80,
-      "query": "homeowner in Augusta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:41.027Z"
+      "gatheredAt": "2026-07-19T02:24:37.976Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

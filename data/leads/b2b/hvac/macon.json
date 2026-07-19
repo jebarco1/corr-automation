@@ -5,12 +5,19 @@
   "state": "GA",
   "market": "Macon, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:31.999Z",
+  "updatedAt": "2026-07-19T02:20:59.867Z",
   "queries": [
     "apartment complex in Macon GA",
-    "apartment complex Macon GA contact"
+    "apartment complex Macon GA contact",
+    "commercial HVAC service contract Macon GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
       "leadId": "lead_5c25588cc104",
@@ -23,18 +30,32 @@
       "pilotMarket": true,
       "name": "Macon apartment complex",
       "url": null,
-      "snippet": "Potential hvac customer target: apartment complex in Macon, GA. Verify contact details before outreach.",
+      "snippet": "Potential hvac customer target: apartment complex in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "apartment complex",
       "suggestedService": {
         "serviceId": "maintenance",
         "serviceName": "Preventive Maintenance",
         "quoteKey": "maintenance"
       },
-      "score": 90,
+      "score": 85,
       "query": "apartment complex in Macon GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:31.999Z"
+      "gatheredAt": "2026-07-19T02:20:59.867Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
       "leadId": "lead_673d3961ce2b",
@@ -47,42 +68,32 @@
       "pilotMarket": true,
       "name": "Macon property management company",
       "url": null,
-      "snippet": "Potential hvac customer target: property management company in Macon, GA. Verify contact details before outreach.",
+      "snippet": "Potential hvac customer target: property management company in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "property management company",
       "suggestedService": {
         "serviceId": "maintenance",
         "serviceName": "Preventive Maintenance",
         "quoteKey": "maintenance"
       },
-      "score": 90,
+      "score": 85,
       "query": "apartment complex in Macon GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:31.999Z"
-    },
-    {
-      "leadId": "lead_3dc01d041e4e",
-      "segment": "b2b",
-      "category": "hvac",
-      "city": "Macon",
-      "state": "GA",
-      "market": "Macon, GA",
-      "region": "Central Georgia",
-      "pilotMarket": true,
-      "name": "Macon restaurant",
-      "url": null,
-      "snippet": "Potential hvac customer target: restaurant in Macon, GA. Verify contact details before outreach.",
-      "customerType": "restaurant",
-      "suggestedService": {
-        "serviceId": "maintenance",
-        "serviceName": "Preventive Maintenance",
-        "quoteKey": "maintenance"
-      },
-      "score": 80,
-      "query": "apartment complex in Macon GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:31.999Z"
+      "gatheredAt": "2026-07-19T02:20:59.867Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

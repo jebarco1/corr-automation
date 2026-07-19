@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Atlanta, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:40.658Z",
+  "updatedAt": "2026-07-19T02:24:17.814Z",
   "queries": [
-    "homeowner in Atlanta GA",
-    "homeowner Atlanta GA contact"
+    "condo association in Atlanta GA",
+    "condo association Atlanta GA contact",
+    "apartment community office contact Atlanta GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_3576ad8b6643",
+      "leadId": "lead_153f65fc4aed",
       "segment": "residential",
       "category": "pest-control",
       "city": "Atlanta",
@@ -21,23 +28,37 @@
       "market": "Atlanta, GA",
       "region": "Metro Atlanta",
       "pilotMarket": true,
-      "name": "Atlanta homeowner",
+      "name": "Atlanta apartment leasing office",
       "url": null,
-      "snippet": "Potential pest-control customer target: homeowner in Atlanta, GA. Verify contact details before outreach.",
-      "customerType": "homeowner",
+      "snippet": "Potential pest-control customer target: apartment leasing office in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment leasing office",
       "suggestedService": {
         "serviceId": "one-time-treatment",
         "serviceName": "One-Time Treatment",
         "quoteKey": "one-time treatment"
       },
-      "score": 80,
-      "query": "homeowner in Atlanta GA",
+      "score": 90,
+      "query": "condo association in Atlanta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:40.658Z"
+      "gatheredAt": "2026-07-19T02:24:17.814Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_c7562d785722",
+      "leadId": "lead_74ec650b818b",
       "segment": "residential",
       "category": "pest-control",
       "city": "Atlanta",
@@ -45,44 +66,34 @@
       "market": "Atlanta, GA",
       "region": "Metro Atlanta",
       "pilotMarket": true,
-      "name": "Atlanta residential property",
+      "name": "Atlanta neighborhood HOA",
       "url": null,
-      "snippet": "Potential pest-control customer target: residential property in Atlanta, GA. Verify contact details before outreach.",
-      "customerType": "residential property",
+      "snippet": "Potential pest-control customer target: neighborhood HOA in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
       "suggestedService": {
         "serviceId": "one-time-treatment",
         "serviceName": "One-Time Treatment",
         "quoteKey": "one-time treatment"
       },
-      "score": 80,
-      "query": "homeowner in Atlanta GA",
+      "score": 85,
+      "query": "condo association in Atlanta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:40.658Z"
-    },
-    {
-      "leadId": "lead_93b625c23741",
-      "segment": "residential",
-      "category": "pest-control",
-      "city": "Atlanta",
-      "state": "GA",
-      "market": "Atlanta, GA",
-      "region": "Metro Atlanta",
-      "pilotMarket": true,
-      "name": "Atlanta townhome resident",
-      "url": null,
-      "snippet": "Potential pest-control customer target: townhome resident in Atlanta, GA. Verify contact details before outreach.",
-      "customerType": "townhome resident",
-      "suggestedService": {
-        "serviceId": "one-time-treatment",
-        "serviceName": "One-Time Treatment",
-        "quoteKey": "one-time treatment"
-      },
-      "score": 80,
-      "query": "homeowner in Atlanta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:40.658Z"
+      "gatheredAt": "2026-07-19T02:24:17.814Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

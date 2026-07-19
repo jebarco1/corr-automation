@@ -1,7 +1,7 @@
 {
   "segment": "b2b",
   "category": "general-contract",
-  "updatedAt": "2026-07-19T02:14:34.049Z",
+  "updatedAt": "2026-07-19T02:21:03.101Z",
   "marketFile": "data/markets/georgia-cities.json",
   "pilotCities": [
     "Atlanta, GA",
@@ -10,18 +10,25 @@
     "Savannah, GA"
   ],
   "cityCount": 4,
-  "leadCount": 12,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "cities": [
     {
       "city": "Atlanta",
       "state": "GA",
       "label": "Atlanta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/general-contract/atlanta.json",
       "queries": [
         "retail landlord in Atlanta GA",
-        "retail landlord Atlanta GA contact"
+        "retail landlord Atlanta GA contact",
+        "tenant improvement Atlanta GA"
       ]
     },
     {
@@ -29,11 +36,12 @@
       "state": "GA",
       "label": "Augusta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/general-contract/augusta.json",
       "queries": [
         "retail landlord in Augusta GA",
-        "retail landlord Augusta GA contact"
+        "retail landlord Augusta GA contact",
+        "tenant improvement Augusta GA"
       ]
     },
     {
@@ -41,11 +49,12 @@
       "state": "GA",
       "label": "Macon, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/general-contract/macon.json",
       "queries": [
         "retail landlord in Macon GA",
-        "retail landlord Macon GA contact"
+        "retail landlord Macon GA contact",
+        "tenant improvement Macon GA"
       ]
     },
     {
@@ -53,11 +62,12 @@
       "state": "GA",
       "label": "Savannah, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/general-contract/savannah.json",
       "queries": [
         "retail landlord in Savannah GA",
-        "retail landlord Savannah GA contact"
+        "retail landlord Savannah GA contact",
+        "tenant improvement Savannah GA"
       ]
     }
   ]

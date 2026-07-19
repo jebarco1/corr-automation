@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Macon, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:43.115Z",
+  "updatedAt": "2026-07-19T02:26:53.714Z",
   "queries": [
-    "homeowner in Macon GA",
-    "homeowner Macon GA contact"
+    "apartment leasing office in Macon GA",
+    "apartment leasing office Macon GA contact",
+    "apartment leasing office contact Macon GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_64389cc48844",
+      "leadId": "lead_11ea4433991e",
       "segment": "residential",
       "category": "transportation",
       "city": "Macon",
@@ -21,23 +28,37 @@
       "market": "Macon, GA",
       "region": "Central Georgia",
       "pilotMarket": true,
-      "name": "Macon apartment mover",
+      "name": "Macon apartment leasing office",
       "url": null,
-      "snippet": "Potential transportation customer target: apartment mover in Macon, GA. Verify contact details before outreach.",
-      "customerType": "apartment mover",
+      "snippet": "Potential transportation customer target: apartment leasing office in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment leasing office",
       "suggestedService": {
         "serviceId": "local-move",
         "serviceName": "Local Move",
         "quoteKey": "local move"
       },
       "score": 90,
-      "query": "homeowner in Macon GA",
+      "query": "apartment leasing office in Macon GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:43.115Z"
+      "gatheredAt": "2026-07-19T02:26:53.714Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_d006c0ad329c",
+      "leadId": "lead_1253db8548e9",
       "segment": "residential",
       "category": "transportation",
       "city": "Macon",
@@ -45,44 +66,34 @@
       "market": "Macon, GA",
       "region": "Central Georgia",
       "pilotMarket": true,
-      "name": "Macon homeowner",
+      "name": "Macon university housing office",
       "url": null,
-      "snippet": "Potential transportation customer target: homeowner in Macon, GA. Verify contact details before outreach.",
-      "customerType": "homeowner",
+      "snippet": "Potential transportation customer target: university housing office in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "university housing office",
       "suggestedService": {
         "serviceId": "local-move",
         "serviceName": "Local Move",
         "quoteKey": "local move"
       },
       "score": 80,
-      "query": "homeowner in Macon GA",
+      "query": "apartment leasing office in Macon GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:43.115Z"
-    },
-    {
-      "leadId": "lead_edda615a967b",
-      "segment": "residential",
-      "category": "transportation",
-      "city": "Macon",
-      "state": "GA",
-      "market": "Macon, GA",
-      "region": "Central Georgia",
-      "pilotMarket": true,
-      "name": "Macon residential relocation",
-      "url": null,
-      "snippet": "Potential transportation customer target: residential relocation in Macon, GA. Verify contact details before outreach.",
-      "customerType": "residential relocation",
-      "suggestedService": {
-        "serviceId": "local-move",
-        "serviceName": "Local Move",
-        "quoteKey": "local move"
-      },
-      "score": 80,
-      "query": "homeowner in Macon GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:43.115Z"
+      "gatheredAt": "2026-07-19T02:26:53.714Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

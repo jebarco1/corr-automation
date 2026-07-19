@@ -131,21 +131,304 @@ function buildQueries(category, city, targets, limit = 4) {
           .replaceAll("{state}", city.state)
       );
     }
+    // Headhunter contact-intent queries
+    queries.push(`${customerType} ${city.city} ${city.state} phone email address`);
+    queries.push(`${customerType} ${city.city} ${city.state} "contact us"`);
   }
   for (const phrase of targets.intentPhrases || []) {
     queries.push(`${phrase} ${city.city} ${city.state}`);
   }
   // Prefer diverse unique queries
-  return [...new Set(queries)].slice(0, limit);
+  return [...new Set(queries)].slice(0, Math.max(limit, 3));
 }
 
-function isCompetitor(text = "", excludeKeywords = []) {
+function unwrapResultUrl(rawUrl = "") {
+  let url = String(rawUrl || "").trim();
+  if (!url) return null;
+  if (url.startsWith("//")) url = `https:${url}`;
+  try {
+    const parsed = new URL(url);
+    if (parsed.hostname.includes("duckduckgo.com") && parsed.searchParams.get("uddg")) {
+      return decodeURIComponent(parsed.searchParams.get("uddg"));
+    }
+  } catch {
+    return url;
+  }
+  return url;
+}
+
+const EMAIL_RE = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi;
+const PHONE_RE = /(?:\+?1[-.\s]?)?(?:\(?\d{3}\)?[-.\s]?)\d{3}[-.\s]?\d{4}\b/g;
+const ADDRESS_RE = /\d{1,6}\s+[A-Za-z0-9.'#\- ]+(?:Street|St|Avenue|Ave|Road|Rd|Boulevard|Blvd|Drive|Dr|Lane|Ln|Way|Court|Ct|Circle|Cir|Parkway|Pkwy|Place|Pl)\.?(?:,\s*[A-Za-z .'#-]+){0,2},\s*[A-Z]{2}(?:\s+\d{5}(?:-\d{4})?)?/gi;
+
+function normalizePhone(value) {
+  const digits = String(value || "").replace(/\D/g, "");
+  if (digits.length === 11 && digits.startsWith("1")) return `(${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7)}`;
+  if (digits.length === 10) return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+  return null;
+}
+
+function isUsefulAddress(address = "", city = null) {
+  const value = String(address || "").replace(/\s+/g, " ").trim();
+  if (value.length < 12 || value.length > 160) return false;
+  if (!/\d/.test(value)) return false;
+  if (/\b(PM|AM|Dr\.?,\s*PM)\b/i.test(value) && !/\bGA\b|\d{5}/.test(value)) return false;
+  if (city?.city && !new RegExp(city.city, "i").test(value) && !/\bGA\b|\d{5}/.test(value)) return false;
+  // Prefer real street-looking values.
+  return /(Street|St|Avenue|Ave|Road|Rd|Boulevard|Blvd|Drive|Dr|Lane|Ln|Way|Court|Ct|Circle|Cir|Parkway|Pkwy|Place|Pl|Highway|Hwy)\b/i.test(value)
+    || /\b[A-Z]{2}\s+\d{5}\b/.test(value);
+}
+
+function isLowQualityLead(title = "", url = "") {
+  const text = `${title} ${url}`.toLowerCase();
+  return /laws and regulations|blog\/|\/blog|wikipedia\.org|yelp\.com|facebook\.com|linkedin\.com|angi\.com|homeadvisor|thumbtack|neddle/.test(text);
+}
+
+function cleanEmail(email = "") {
+  return String(email || "")
+    .trim()
+    .replace(/^mailto:/i, "")
+    .replace(/[<>\[\]\(\)\{\}",'\s]/g, "")
+    .replace(/[.,;:]+$/g, "")
+    .toLowerCase();
+}
+
+function isUsefulEmail(email = "") {
+  const lower = cleanEmail(email);
+  if (!/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/.test(lower)) return false;
+  if (/noreply|no-reply|donotreply|example\.com|sentry\.io|wixpress|godaddy|schema\.org|png|jpg|jpeg|webp|svg/.test(lower)) return false;
+  return true;
+}
+
+function extractContactsFromText(text = "", city = null) {
+  const source = String(text || "");
+  const emails = [...new Set((source.match(EMAIL_RE) || []).map(cleanEmail).filter(isUsefulEmail))];
+  const phones = [...new Set((source.match(PHONE_RE) || []).map(normalizePhone).filter(Boolean))];
+  let addresses = [...new Set((source.match(ADDRESS_RE) || []).map(v => v.replace(/\s+/g, " ").trim()))]
+    .filter(value => isUsefulAddress(value, city));
+
+  // Softer city-scoped address capture when street suffix regex misses.
+  if (!addresses.length && city?.city) {
+    const soft = source.match(
+      new RegExp(`\\d{1,6}\\s+[A-Za-z0-9.'#\\- ]{3,60},\\s*${city.city}[,\\s]+${city.state}(?:\\s+\\d{5})?`, "i")
+    );
+    if (soft?.[0] && isUsefulAddress(soft[0], city)) addresses = [soft[0].replace(/\s+/g, " ").trim()];
+  }
+
+  return {
+    email: emails[0] || null,
+    phone: phones[0] || null,
+    address: addresses[0] || null,
+    emails,
+    phones,
+    addresses
+  };
+}
+
+function mergeContacts(...parts) {
+  const emails = [...new Set(parts.flatMap(part => part?.emails || []).filter(Boolean))];
+  const phones = [...new Set(parts.flatMap(part => part?.phones || []).filter(Boolean))];
+  const addresses = [...new Set(parts.flatMap(part => part?.addresses || []).filter(Boolean))];
+  return {
+    email: parts.find(part => part?.email)?.email || emails[0] || null,
+    phone: parts.find(part => part?.phone)?.phone || phones[0] || null,
+    address: parts.find(part => part?.address)?.address || addresses[0] || null,
+    emails,
+    phones,
+    addresses
+  };
+}
+
+function htmlToText(html = "") {
+  return decodeHtml(
+    String(html)
+      .replace(/<script[\s\S]*?<\/script>/gi, " ")
+      .replace(/<style[\s\S]*?<\/style>/gi, " ")
+      .replace(/<[^>]+>/g, " ")
+      .replace(/\s+/g, " ")
+  );
+}
+
+function extractJsonLdContacts(html = "", city = null) {
+  const blocks = [...String(html).matchAll(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)];
+  const emails = [];
+  const phones = [];
+  const addresses = [];
+
+  for (const block of blocks) {
+    try {
+      const parsed = JSON.parse(block[1]);
+      const nodes = Array.isArray(parsed) ? parsed : [parsed, ...(parsed["@graph"] || [])];
+      for (const node of nodes) {
+        if (!node || typeof node !== "object") continue;
+        if (node.email) emails.push(String(node.email));
+        if (node.telephone) phones.push(String(node.telephone));
+        const addr = node.address || node.location?.address;
+        if (typeof addr === "string" && isUsefulAddress(addr, city)) addresses.push(addr);
+        if (addr && typeof addr === "object") {
+          const line = [addr.streetAddress, addr.addressLocality || city?.city, addr.addressRegion || city?.state, addr.postalCode]
+            .filter(Boolean)
+            .join(", ");
+          if (line && isUsefulAddress(line, city)) addresses.push(line);
+        }
+      }
+    } catch {
+      // ignore invalid JSON-LD
+    }
+  }
+
+  return {
+    email: emails.map(cleanEmail).find(isUsefulEmail) || null,
+    phone: phones.map(normalizePhone).filter(Boolean)[0] || null,
+    address: addresses.map(v => v.replace(/\s+/g, " ").trim())[0] || null,
+    emails: [...new Set(emails.map(cleanEmail).filter(isUsefulEmail))],
+    phones: [...new Set(phones.map(normalizePhone).filter(Boolean))],
+    addresses: [...new Set(addresses.map(v => v.replace(/\s+/g, " ").trim()))]
+  };
+}
+
+function extractMailtoTel(html = "") {
+  const emails = [...String(html).matchAll(/mailto:([^"'?\s]+)/gi)].map(m => decodeURIComponent(m[1]));
+  const phones = [...String(html).matchAll(/tel:([^"'?\s]+)/gi)].map(m => decodeURIComponent(m[1]));
+  return {
+    email: emails.map(cleanEmail).find(isUsefulEmail) || null,
+    phone: phones.map(normalizePhone)[0] || null,
+    address: null,
+    emails: [...new Set(emails.map(cleanEmail).filter(isUsefulEmail))],
+    phones: [...new Set(phones.map(normalizePhone))],
+    addresses: []
+  };
+}
+
+async function fetchPageBundle(url, timeout = 10000) {
+  if (!url) return { text: "", html: "" };
+  try {
+    const response = await axios.get(url, {
+      timeout,
+      maxRedirects: 5,
+      headers: {
+        "User-Agent": "HA-CorrLeadHunt/0.5 (+https://github.com/jebarco1/corr-automation)",
+        Accept: "text/html,application/xhtml+xml"
+      },
+      validateStatus: status => status >= 200 && status < 400,
+      responseType: "text",
+      transformResponse: [data => data]
+    });
+    const html = String(response.data || "");
+    return { html, text: htmlToText(html).slice(0, 120000) };
+  } catch {
+    return { text: "", html: "" };
+  }
+}
+
+async function enrichFromUrl(url, city) {
+  const { html, text } = await fetchPageBundle(url);
+  if (!html && !text) return null;
+  return mergeContacts(
+    extractJsonLdContacts(html, city),
+    extractMailtoTel(html),
+    extractContactsFromText(text, city)
+  );
+}
+
+async function enrichLeadContacts(lead, city, options = {}) {
+  const existing = {
+    email: lead.email || null,
+    phone: lead.phone || null,
+    address: lead.address || null,
+    emails: lead.email ? [lead.email] : [],
+    phones: lead.phone ? [lead.phone] : [],
+    addresses: lead.address ? [lead.address] : []
+  };
+  const fromSnippet = extractContactsFromText(`${lead.name}\n${lead.snippet || ""}`, city);
+  let contacts = mergeContacts(existing, fromSnippet);
+  const enrichEnabled = options.enrichContacts !== false;
+  const pageUrl = unwrapResultUrl(lead.url);
+
+  // Already have full contact card — skip extra page fetches.
+  if (contacts.phone && contacts.email && contacts.address) {
+    return {
+      ...lead,
+      url: pageUrl || lead.url,
+      phone: contacts.phone,
+      email: contacts.email,
+      address: contacts.address,
+      contacts: {
+        phone: contacts.phone,
+        email: contacts.email,
+        address: contacts.address,
+        phones: contacts.phones,
+        emails: contacts.emails,
+        addresses: contacts.addresses,
+        marketHint: city?.label || null,
+        completeness: 3,
+        enriched: false
+      },
+      score: Math.min(99, Number(lead.score || 0) + 15),
+      status: "contact-ready"
+    };
+  }
+
+  if (enrichEnabled && pageUrl) {
+    const primary = await enrichFromUrl(pageUrl, city);
+    if (primary) contacts = mergeContacts(contacts, primary);
+
+    // If still missing key fields, try common contact paths.
+    if ((!contacts.phone || !contacts.email || !contacts.address) && pageUrl.startsWith("http")) {
+      try {
+        const base = new URL(pageUrl);
+        const paths = ["/contact", "/contact-us", "/about", "/about-us", "/locations", "/find-us"];
+        for (const suffix of paths) {
+          if (contacts.phone && contacts.email && contacts.address) break;
+          const candidate = `${base.origin}${suffix}`;
+          if (candidate === pageUrl) continue;
+          const extra = await enrichFromUrl(candidate, city);
+          if (extra) contacts = mergeContacts(contacts, extra);
+        }
+      } catch {
+        // ignore URL parse/fetch issues
+      }
+    }
+  }
+
+  if (!contacts.address && city?.label) {
+    contacts.marketHint = city.label;
+  }
+
+  const completeness = [contacts.phone, contacts.email, contacts.address].filter(Boolean).length;
+  return {
+    ...lead,
+    url: pageUrl || lead.url,
+    phone: contacts.phone,
+    email: contacts.email,
+    address: contacts.address,
+    contacts: {
+      phone: contacts.phone,
+      email: contacts.email,
+      address: contacts.address,
+      phones: contacts.phones,
+      emails: contacts.emails,
+      addresses: contacts.addresses,
+      marketHint: contacts.marketHint || city?.label || null,
+      completeness,
+      enriched: enrichEnabled
+    },
+    score: Math.min(99, Number(lead.score || 0) + completeness * 5),
+    status: completeness >= 2 ? "contact-ready" : (lead.status || "new")
+  };
+}
+
+function isCompetitor(text = "", excludeKeywords = [], segment = "b2b") {
   const lower = String(text).toLowerCase();
   if (excludeKeywords.some(keyword => lower.includes(String(keyword).toLowerCase()))) return true;
   // Keep property/customer language; drop obvious vendor ads.
   const vendorHits = COMPETITOR_HINTS.filter(hint => lower.includes(hint)).length;
-  const customerHits = ["hoa", "apartment", "property management", "school", "church", "hospital", "warehouse", "hotel", "assisted living", "university"]
-    .filter(hint => lower.includes(hint)).length;
+  const customerHits = [
+    "hoa", "association", "apartment", "leasing office", "property management",
+    "school", "church", "hospital", "warehouse", "hotel", "assisted living",
+    "senior living", "university", "condo", "neighborhood"
+  ].filter(hint => lower.includes(hint)).length;
+  if (segment === "residential" && customerHits > 0) return false;
   return vendorHits >= 2 && customerHits === 0;
 }
 
@@ -211,10 +494,13 @@ function localFallbackLeads(category, city, targets) {
   return (targets.customerTypes || []).slice(0, 3).map((customerType, index) => ({
     title: `${city.city} ${customerType}`,
     url: null,
-    snippet: `Potential ${category} customer target: ${customerType} in ${city.label}. Verify contact details before outreach.`,
+    snippet: `Potential ${category} customer target: ${customerType} in ${city.label}. Phone/email/address not found yet — verify before outreach.`,
     source: "local-fallback",
     customerType,
-    rank: index + 1
+    rank: index + 1,
+    phone: null,
+    email: null,
+    address: null
   }));
 }
 
@@ -251,12 +537,17 @@ function leadId(segment, category, city, title, url) {
   return `lead_${crypto.createHash("sha1").update(raw).digest("hex").slice(0, 12)}`;
 }
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function collectSearchResults(queries, options = {}) {
   const all = [];
   for (const query of queries) {
     try {
       const hits = await searchDuckDuckGo(query, options.perQueryLimit || 4);
       for (const hit of hits) all.push({ ...hit, query });
+      await sleep(options.delayMs ?? 350);
     } catch (error) {
       all.push({
         title: null,
@@ -268,6 +559,22 @@ async function collectSearchResults(queries, options = {}) {
     }
   }
   return all.filter(item => item.title);
+}
+
+function loadSiblingSegmentLeads(segment, category, city) {
+  const sibling = segment === "residential" ? "b2b" : "b2b";
+  const filePath = path.join(segmentDir(sibling), category, `${city.slug}.json`);
+  if (!fs.existsSync(filePath)) return [];
+  try {
+    const payload = readJson(filePath);
+    return (payload.leads || []).filter(lead => {
+      const text = `${lead.name} ${lead.customerType} ${lead.snippet || ""}`.toLowerCase();
+      return /hoa|association|apartment|leasing|condo|community|senior living|assisted living/.test(text)
+        && (lead.phone || lead.email || lead.address);
+    });
+  } catch {
+    return [];
+  }
 }
 
 export async function huntLeadsForCategory(category, input = {}) {
@@ -299,21 +606,52 @@ export async function huntLeadsForCategory(category, input = {}) {
   for (const city of cities) {
     const queries = buildQueries(category, city, targets, queryLimit);
     let raw = await collectSearchResults(queries, { perQueryLimit: 4 });
+    // Residential often needs association/office contact queries to get public phone/email/address.
+    if (segment === "residential") {
+      const contactQueries = [
+        `HOA management ${city.city} ${city.state} phone email`,
+        `condo association ${city.city} ${city.state} contact address`,
+        `apartment leasing office ${city.city} ${city.state} phone`,
+        `community association ${city.city} ${city.state} "contact us"`
+      ];
+      raw = raw.concat(await collectSearchResults(contactQueries, { perQueryLimit: 4 }));
+    }
+    // If web search is empty/rate-limited, reuse contact-ready association leads from B2B.
+    let borrowed = [];
+    if (!raw.length && segment === "residential") {
+      borrowed = loadSiblingSegmentLeads(segment, category, city).map(lead => ({
+        title: lead.name,
+        url: lead.url,
+        snippet: lead.snippet,
+        source: "b2b-contact-transfer",
+        query: "transferred from b2b contact-ready lead",
+        phone: lead.phone,
+        email: lead.email,
+        address: lead.address,
+        customerType: lead.customerType
+      }));
+      raw = borrowed;
+    }
     if (!raw.length) {
       raw = localFallbackLeads(category, city, targets).map(item => ({ ...item, query: queries[0] }));
     }
 
     const dedupe = new Map();
     for (const item of raw) {
-      if (isCompetitor(`${item.title} ${item.snippet}`, targets.excludeKeywords || [])) continue;
+      if (item.source !== "b2b-contact-transfer") {
+        if (isCompetitor(`${item.title} ${item.snippet}`, targets.excludeKeywords || [], segment)) continue;
+        if (isLowQualityLead(item.title, item.url)) continue;
+      }
       const key = (item.url || item.title || "").toLowerCase();
       if (!key || dedupe.has(key)) continue;
-      const customerType = (targets.customerTypes || []).find(type =>
+      const customerType = item.customerType || (targets.customerTypes || []).find(type =>
         `${item.title} ${item.snippet}`.toLowerCase().includes(String(type).toLowerCase().split(" ")[0])
       ) || targets.customerTypes?.[0] || "prospect";
 
+      const resolvedUrl = unwrapResultUrl(item.url);
+      const snippetContacts = extractContactsFromText(`${item.title}\n${item.snippet || ""}`, city);
       const lead = {
-        leadId: leadId(segment, category, city, item.title, item.url),
+        leadId: leadId(segment, category, city, item.title, resolvedUrl || item.url),
         segment,
         category,
         city: city.city,
@@ -322,8 +660,11 @@ export async function huntLeadsForCategory(category, input = {}) {
         region: city.region,
         pilotMarket: !!city.pilot,
         name: item.title,
-        url: item.url,
+        url: resolvedUrl || item.url,
         snippet: item.snippet,
+        phone: item.phone || snippetContacts.phone,
+        email: item.email || snippetContacts.email,
+        address: item.address || snippetContacts.address,
         customerType,
         suggestedService: service,
         score: scoreLead({ title: item.title, snippet: item.snippet, customerType, city }),
@@ -335,10 +676,17 @@ export async function huntLeadsForCategory(category, input = {}) {
       dedupe.set(key, lead);
     }
 
-    const leads = [...dedupe.values()]
+    const shortlist = [...dedupe.values()]
       .sort((a, b) => b.score - a.score)
       .slice(0, perCityLimit);
 
+    const leads = [];
+    for (const lead of shortlist) {
+      leads.push(await enrichLeadContacts(lead, city, input));
+    }
+    leads.sort((a, b) => b.score - a.score);
+
+    const withContacts = leads.filter(lead => lead.phone || lead.email || lead.address).length;
     const relative = `data/leads/${segment}/${category}/${city.slug}.json`;
     const payload = {
       segment,
@@ -350,6 +698,12 @@ export async function huntLeadsForCategory(category, input = {}) {
       updatedAt: new Date().toISOString(),
       queries,
       count: leads.length,
+      contactCoverage: {
+        withAnyContact: withContacts,
+        withPhone: leads.filter(lead => lead.phone).length,
+        withEmail: leads.filter(lead => lead.email).length,
+        withAddress: leads.filter(lead => lead.address).length
+      },
       leads
     };
     writeJson(path.join(outDir, `${city.slug}.json`), payload);
@@ -373,6 +727,12 @@ export async function huntLeadsForCategory(category, input = {}) {
     pilotCities: cities.filter(city => city.pilot).map(city => city.label),
     cityCount: cityResults.length,
     leadCount: allLeads.length,
+    contactCoverage: {
+      withAnyContact: allLeads.filter(lead => lead.phone || lead.email || lead.address).length,
+      withPhone: allLeads.filter(lead => lead.phone).length,
+      withEmail: allLeads.filter(lead => lead.email).length,
+      withAddress: allLeads.filter(lead => lead.address).length
+    },
     cities: cityResults
   };
   writeJson(path.join(outDir, "_summary.json"), summary);
@@ -384,6 +744,7 @@ export async function huntLeadsForCategory(category, input = {}) {
     targetFile: `data/lead-targets/${category}.json`,
     cities: cityResults,
     leadCount: allLeads.length,
+    contactCoverage: summary.contactCoverage,
     leads: allLeads.sort((a, b) => b.score - a.score),
     summaryFile: `data/leads/${segment}/${category}/_summary.json`
   };

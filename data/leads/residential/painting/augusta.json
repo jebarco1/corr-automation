@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Augusta, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:41.233Z",
+  "updatedAt": "2026-07-19T02:24:55.431Z",
   "queries": [
-    "homeowner in Augusta GA",
-    "homeowner Augusta GA contact"
+    "neighborhood HOA in Augusta GA",
+    "neighborhood HOA Augusta GA contact",
+    "HOA board contact Augusta GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_a3eb72fb7f88",
+      "leadId": "lead_a11e397919b7",
       "segment": "residential",
       "category": "painting",
       "city": "Augusta",
@@ -21,23 +28,37 @@
       "market": "Augusta, GA",
       "region": "East Georgia",
       "pilotMarket": true,
-      "name": "Augusta homeowner",
+      "name": "Augusta neighborhood HOA",
       "url": null,
-      "snippet": "Potential painting customer target: homeowner in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "homeowner",
+      "snippet": "Potential painting customer target: neighborhood HOA in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
       "suggestedService": {
         "serviceId": "interior",
         "serviceName": "Interior Painting",
         "quoteKey": "interior"
       },
-      "score": 80,
-      "query": "homeowner in Augusta GA",
+      "score": 85,
+      "query": "neighborhood HOA in Augusta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:41.233Z"
+      "gatheredAt": "2026-07-19T02:24:55.431Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_07627ec43193",
+      "leadId": "lead_5453fdffb8ee",
       "segment": "residential",
       "category": "painting",
       "city": "Augusta",
@@ -45,44 +66,34 @@
       "market": "Augusta, GA",
       "region": "East Georgia",
       "pilotMarket": true,
-      "name": "Augusta residential interior",
+      "name": "Augusta condo association",
       "url": null,
-      "snippet": "Potential painting customer target: residential interior in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "residential interior",
+      "snippet": "Potential painting customer target: condo association in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "condo association",
       "suggestedService": {
         "serviceId": "interior",
         "serviceName": "Interior Painting",
         "quoteKey": "interior"
       },
-      "score": 80,
-      "query": "homeowner in Augusta GA",
+      "score": 75,
+      "query": "neighborhood HOA in Augusta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:41.233Z"
-    },
-    {
-      "leadId": "lead_a44593f94f49",
-      "segment": "residential",
-      "category": "painting",
-      "city": "Augusta",
-      "state": "GA",
-      "market": "Augusta, GA",
-      "region": "East Georgia",
-      "pilotMarket": true,
-      "name": "Augusta residential exterior",
-      "url": null,
-      "snippet": "Potential painting customer target: residential exterior in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "residential interior",
-      "suggestedService": {
-        "serviceId": "interior",
-        "serviceName": "Interior Painting",
-        "quoteKey": "interior"
-      },
-      "score": 80,
-      "query": "homeowner in Augusta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:41.233Z"
+      "gatheredAt": "2026-07-19T02:24:55.431Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "segment": "b2b",
   "category": "roofing",
-  "updatedAt": "2026-07-19T02:14:33.490Z",
+  "updatedAt": "2026-07-19T02:21:01.893Z",
   "marketFile": "data/markets/georgia-cities.json",
   "pilotCities": [
     "Atlanta, GA",
@@ -10,18 +10,25 @@
     "Savannah, GA"
   ],
   "cityCount": 4,
-  "leadCount": 12,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "cities": [
     {
       "city": "Atlanta",
       "state": "GA",
       "label": "Atlanta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/roofing/atlanta.json",
       "queries": [
         "property management company in Atlanta GA",
-        "property management company Atlanta GA contact"
+        "property management company Atlanta GA contact",
+        "commercial roof inspection Atlanta GA"
       ]
     },
     {
@@ -29,11 +36,12 @@
       "state": "GA",
       "label": "Augusta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/roofing/augusta.json",
       "queries": [
         "property management company in Augusta GA",
-        "property management company Augusta GA contact"
+        "property management company Augusta GA contact",
+        "commercial roof inspection Augusta GA"
       ]
     },
     {
@@ -41,11 +49,12 @@
       "state": "GA",
       "label": "Macon, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/roofing/macon.json",
       "queries": [
         "property management company in Macon GA",
-        "property management company Macon GA contact"
+        "property management company Macon GA contact",
+        "commercial roof inspection Macon GA"
       ]
     },
     {
@@ -53,11 +62,12 @@
       "state": "GA",
       "label": "Savannah, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/roofing/savannah.json",
       "queries": [
         "property management company in Savannah GA",
-        "property management company Savannah GA contact"
+        "property management company Savannah GA contact",
+        "commercial roof inspection Savannah GA"
       ]
     }
   ]

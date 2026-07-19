@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Macon, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:41.950Z",
+  "updatedAt": "2026-07-19T02:25:54.399Z",
   "queries": [
-    "homeowner in Macon GA",
-    "homeowner Macon GA contact"
+    "apartment leasing office in Macon GA",
+    "apartment leasing office Macon GA contact",
+    "apartment community office contact Macon GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_d098065de355",
+      "leadId": "lead_7439033b85a5",
       "segment": "residential",
       "category": "electrical",
       "city": "Macon",
@@ -21,23 +28,37 @@
       "market": "Macon, GA",
       "region": "Central Georgia",
       "pilotMarket": true,
-      "name": "Macon homeowner",
+      "name": "Macon apartment leasing office",
       "url": null,
-      "snippet": "Potential electrical customer target: homeowner in Macon, GA. Verify contact details before outreach.",
-      "customerType": "homeowner",
+      "snippet": "Potential electrical customer target: apartment leasing office in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment leasing office",
       "suggestedService": {
         "serviceId": "diagnostic",
         "serviceName": "Electrical Diagnostic",
         "quoteKey": "diagnostic"
       },
-      "score": 80,
-      "query": "homeowner in Macon GA",
+      "score": 90,
+      "query": "apartment leasing office in Macon GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:41.950Z"
+      "gatheredAt": "2026-07-19T02:25:54.399Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_4f3aa51b89b1",
+      "leadId": "lead_c1a40b96e232",
       "segment": "residential",
       "category": "electrical",
       "city": "Macon",
@@ -45,44 +66,34 @@
       "market": "Macon, GA",
       "region": "Central Georgia",
       "pilotMarket": true,
-      "name": "Macon residential home",
+      "name": "Macon neighborhood HOA",
       "url": null,
-      "snippet": "Potential electrical customer target: residential home in Macon, GA. Verify contact details before outreach.",
-      "customerType": "residential home",
+      "snippet": "Potential electrical customer target: neighborhood HOA in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
       "suggestedService": {
         "serviceId": "diagnostic",
         "serviceName": "Electrical Diagnostic",
         "quoteKey": "diagnostic"
       },
-      "score": 80,
-      "query": "homeowner in Macon GA",
+      "score": 85,
+      "query": "apartment leasing office in Macon GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:41.950Z"
-    },
-    {
-      "leadId": "lead_d75e42d0f030",
-      "segment": "residential",
-      "category": "electrical",
-      "city": "Macon",
-      "state": "GA",
-      "market": "Macon, GA",
-      "region": "Central Georgia",
-      "pilotMarket": true,
-      "name": "Macon single family residence",
-      "url": null,
-      "snippet": "Potential electrical customer target: single family residence in Macon, GA. Verify contact details before outreach.",
-      "customerType": "single family residence",
-      "suggestedService": {
-        "serviceId": "diagnostic",
-        "serviceName": "Electrical Diagnostic",
-        "quoteKey": "diagnostic"
-      },
-      "score": 80,
-      "query": "homeowner in Macon GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:41.950Z"
+      "gatheredAt": "2026-07-19T02:25:54.399Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

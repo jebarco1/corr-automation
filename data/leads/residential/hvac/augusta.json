@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Augusta, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:40.097Z",
+  "updatedAt": "2026-07-19T02:23:51.116Z",
   "queries": [
-    "homeowner in Augusta GA",
-    "homeowner Augusta GA contact"
+    "condo association in Augusta GA",
+    "condo association Augusta GA contact",
+    "condo association contact Augusta GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_b1ae8f65c4fa",
+      "leadId": "lead_b54f5ce03efb",
       "segment": "residential",
       "category": "hvac",
       "city": "Augusta",
@@ -21,23 +28,37 @@
       "market": "Augusta, GA",
       "region": "East Georgia",
       "pilotMarket": true,
-      "name": "Augusta homeowner",
+      "name": "Augusta apartment leasing office",
       "url": null,
-      "snippet": "Potential hvac customer target: homeowner in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "homeowner",
+      "snippet": "Potential hvac customer target: apartment leasing office in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment leasing office",
       "suggestedService": {
         "serviceId": "diagnostic",
         "serviceName": "System Diagnostic",
         "quoteKey": "diagnostic"
       },
-      "score": 80,
-      "query": "homeowner in Augusta GA",
+      "score": 90,
+      "query": "condo association in Augusta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:40.097Z"
+      "gatheredAt": "2026-07-19T02:23:51.115Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_d56b9e371668",
+      "leadId": "lead_9e39da95837f",
       "segment": "residential",
       "category": "hvac",
       "city": "Augusta",
@@ -45,44 +66,34 @@
       "market": "Augusta, GA",
       "region": "East Georgia",
       "pilotMarket": true,
-      "name": "Augusta residential home",
+      "name": "Augusta neighborhood HOA",
       "url": null,
-      "snippet": "Potential hvac customer target: residential home in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "residential home",
+      "snippet": "Potential hvac customer target: neighborhood HOA in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
       "suggestedService": {
         "serviceId": "diagnostic",
         "serviceName": "System Diagnostic",
         "quoteKey": "diagnostic"
       },
-      "score": 80,
-      "query": "homeowner in Augusta GA",
+      "score": 85,
+      "query": "condo association in Augusta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:40.097Z"
-    },
-    {
-      "leadId": "lead_1e53ba46fd76",
-      "segment": "residential",
-      "category": "hvac",
-      "city": "Augusta",
-      "state": "GA",
-      "market": "Augusta, GA",
-      "region": "East Georgia",
-      "pilotMarket": true,
-      "name": "Augusta single family residence",
-      "url": null,
-      "snippet": "Potential hvac customer target: single family residence in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "single family residence",
-      "suggestedService": {
-        "serviceId": "diagnostic",
-        "serviceName": "System Diagnostic",
-        "quoteKey": "diagnostic"
-      },
-      "score": 80,
-      "query": "homeowner in Augusta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:40.097Z"
+      "gatheredAt": "2026-07-19T02:23:51.115Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

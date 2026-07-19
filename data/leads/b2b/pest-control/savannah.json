@@ -5,12 +5,19 @@
   "state": "GA",
   "market": "Savannah, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:32.688Z",
+  "updatedAt": "2026-07-19T02:21:00.956Z",
   "queries": [
     "restaurant in Savannah GA",
-    "restaurant Savannah GA contact"
+    "restaurant Savannah GA contact",
+    "commercial pest control Savannah GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
       "leadId": "lead_6b5f266f54d2",
@@ -23,18 +30,32 @@
       "pilotMarket": true,
       "name": "Savannah apartment complex",
       "url": null,
-      "snippet": "Potential pest-control customer target: apartment complex in Savannah, GA. Verify contact details before outreach.",
+      "snippet": "Potential pest-control customer target: apartment complex in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "apartment complex",
       "suggestedService": {
         "serviceId": "commercial-ipm",
         "serviceName": "Commercial IPM Program",
         "quoteKey": "commercial ipm"
       },
-      "score": 90,
+      "score": 85,
       "query": "restaurant in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:32.688Z"
+      "gatheredAt": "2026-07-19T02:21:00.956Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
       "leadId": "lead_5a3659e96383",
@@ -47,42 +68,32 @@
       "pilotMarket": true,
       "name": "Savannah restaurant",
       "url": null,
-      "snippet": "Potential pest-control customer target: restaurant in Savannah, GA. Verify contact details before outreach.",
+      "snippet": "Potential pest-control customer target: restaurant in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "restaurant",
       "suggestedService": {
         "serviceId": "commercial-ipm",
         "serviceName": "Commercial IPM Program",
         "quoteKey": "commercial ipm"
       },
-      "score": 80,
+      "score": 75,
       "query": "restaurant in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:32.688Z"
-    },
-    {
-      "leadId": "lead_eb3984bdd79a",
-      "segment": "b2b",
-      "category": "pest-control",
-      "city": "Savannah",
-      "state": "GA",
-      "market": "Savannah, GA",
-      "region": "Coastal Georgia",
-      "pilotMarket": true,
-      "name": "Savannah warehouse",
-      "url": null,
-      "snippet": "Potential pest-control customer target: warehouse in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "warehouse",
-      "suggestedService": {
-        "serviceId": "commercial-ipm",
-        "serviceName": "Commercial IPM Program",
-        "quoteKey": "commercial ipm"
-      },
-      "score": 80,
-      "query": "restaurant in Savannah GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:32.688Z"
+      "gatheredAt": "2026-07-19T02:21:00.956Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

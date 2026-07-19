@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Augusta, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:43.329Z",
+  "updatedAt": "2026-07-19T02:27:05.162Z",
   "queries": [
-    "home patient in Augusta GA",
-    "home patient Augusta GA contact"
+    "senior living community in Augusta GA",
+    "senior living community Augusta GA contact",
+    "assisted living community contact Augusta GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_2060a076d57d",
+      "leadId": "lead_c22b330ad3fb",
       "segment": "residential",
       "category": "healthcare",
       "city": "Augusta",
@@ -21,23 +28,37 @@
       "market": "Augusta, GA",
       "region": "East Georgia",
       "pilotMarket": true,
-      "name": "Augusta home patient",
+      "name": "Augusta home care referral office",
       "url": null,
-      "snippet": "Potential healthcare customer target: home patient in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "home patient",
+      "snippet": "Potential healthcare customer target: home care referral office in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "home care referral office",
       "suggestedService": {
         "serviceId": "nursing-visit",
         "serviceName": "Nursing Visit",
         "quoteKey": "nursing visit"
       },
       "score": 80,
-      "query": "home patient in Augusta GA",
+      "query": "senior living community in Augusta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:43.329Z"
+      "gatheredAt": "2026-07-19T02:27:05.162Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_d8868308554a",
+      "leadId": "lead_3589ad1af420",
       "segment": "residential",
       "category": "healthcare",
       "city": "Augusta",
@@ -45,44 +66,34 @@
       "market": "Augusta, GA",
       "region": "East Georgia",
       "pilotMarket": true,
-      "name": "Augusta private duty family",
+      "name": "Augusta senior living community",
       "url": null,
-      "snippet": "Potential healthcare customer target: private duty family in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "private duty family",
+      "snippet": "Potential healthcare customer target: senior living community in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "senior living community",
       "suggestedService": {
         "serviceId": "nursing-visit",
         "serviceName": "Nursing Visit",
         "quoteKey": "nursing visit"
       },
-      "score": 80,
-      "query": "home patient in Augusta GA",
+      "score": 75,
+      "query": "senior living community in Augusta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:43.329Z"
-    },
-    {
-      "leadId": "lead_68af549e386b",
-      "segment": "residential",
-      "category": "healthcare",
-      "city": "Augusta",
-      "state": "GA",
-      "market": "Augusta, GA",
-      "region": "East Georgia",
-      "pilotMarket": true,
-      "name": "Augusta senior at home",
-      "url": null,
-      "snippet": "Potential healthcare customer target: senior at home in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "home patient",
-      "suggestedService": {
-        "serviceId": "nursing-visit",
-        "serviceName": "Nursing Visit",
-        "quoteKey": "nursing visit"
-      },
-      "score": 80,
-      "query": "home patient in Augusta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:43.329Z"
+      "gatheredAt": "2026-07-19T02:27:05.162Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

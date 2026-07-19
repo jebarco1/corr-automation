@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Savannah, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:30.210Z",
+  "updatedAt": "2026-07-19T02:20:59.496Z",
   "queries": [
     "HOA in Savannah GA",
-    "HOA Savannah GA contact"
+    "HOA Savannah GA contact",
+    "grounds maintenance contract Savannah GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_53d3a1c1d330",
+      "leadId": "lead_b1f259176d3d",
       "segment": "b2b",
       "category": "landscape",
       "city": "Savannah",
@@ -21,9 +28,12 @@
       "market": "Savannah, GA",
       "region": "Coastal Georgia",
       "pilotMarket": true,
-      "name": "HOA Management Companies in Savannah, Georgia | HOA Directory",
-      "url": "https://www.hoamanagement.com/city/savannah/",
-      "snippet": "HOA Management is the leading directory for HOA Mangement companies and HOA vendors. We offer a catalog of listings for your HOA in Savannah, GA.",
+      "name": "Savannah HOA",
+      "url": null,
+      "snippet": "Potential landscape customer target: HOA in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "HOA",
       "suggestedService": {
         "serviceId": "full-maintenance",
@@ -32,12 +42,23 @@
       },
       "score": 85,
       "query": "HOA in Savannah GA",
-      "source": "duckduckgo-html",
-      "status": "new",
-      "gatheredAt": "2026-07-19T02:14:30.210Z"
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:20:59.496Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_631ba77bf766",
+      "leadId": "lead_92db5991750b",
       "segment": "b2b",
       "category": "landscape",
       "city": "Savannah",
@@ -45,10 +66,13 @@
       "market": "Savannah, GA",
       "region": "Coastal Georgia",
       "pilotMarket": true,
-      "name": "HOA Management In Savannah, GA | CMG",
-      "url": "https://www.cedarmanagementgroup.com/hoa-management-savannah/",
-      "snippet": "Notable points of interest include Forsyth Park, Bonaventure Cemetery, the Savannah History Museum, Telfair Museums, Wormsloe Historic Site, River Street, and the Georgia State Railroad Museum. Savannah, GA HOA Management Savannah's housing market offers affordability and charm. Home prices typically range from $20K to around $3.8M.",
-      "customerType": "HOA",
+      "name": "Savannah apartment complex",
+      "url": null,
+      "snippet": "Potential landscape customer target: apartment complex in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment complex",
       "suggestedService": {
         "serviceId": "full-maintenance",
         "serviceName": "Full Grounds Maintenance",
@@ -56,33 +80,20 @@
       },
       "score": 85,
       "query": "HOA in Savannah GA",
-      "source": "duckduckgo-html",
-      "status": "new",
-      "gatheredAt": "2026-07-19T02:14:30.210Z"
-    },
-    {
-      "leadId": "lead_142b45a0330d",
-      "segment": "b2b",
-      "category": "landscape",
-      "city": "Savannah",
-      "state": "GA",
-      "market": "Savannah, GA",
-      "region": "Coastal Georgia",
-      "pilotMarket": true,
-      "name": "HOA Management Companies in Savannah GA",
-      "url": "https://hoamanagementcompanies.net/georgia/hoa-management-companies-in-savannah-ga",
-      "snippet": "List of HOA Management Companies in Savannah, GA Access an updated, detailed directory of HOA property management companies in Savannah, Georgia.",
-      "customerType": "HOA",
-      "suggestedService": {
-        "serviceId": "full-maintenance",
-        "serviceName": "Full Grounds Maintenance",
-        "quoteKey": "full maintenance"
-      },
-      "score": 85,
-      "query": "HOA in Savannah GA",
-      "source": "duckduckgo-html",
-      "status": "new",
-      "gatheredAt": "2026-07-19T02:14:30.210Z"
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:20:59.496Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

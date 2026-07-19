@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Atlanta, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:31.845Z",
+  "updatedAt": "2026-07-19T02:20:59.622Z",
   "queries": [
     "apartment complex in Atlanta GA",
-    "apartment complex Atlanta GA contact"
+    "apartment complex Atlanta GA contact",
+    "commercial HVAC service contract Atlanta GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_6a6c3f76b52f",
+      "leadId": "lead_3d22cb49e091",
       "segment": "b2b",
       "category": "hvac",
       "city": "Atlanta",
@@ -21,57 +28,12 @@
       "market": "Atlanta, GA",
       "region": "Metro Atlanta",
       "pilotMarket": true,
-      "name": "Apartments For Rent in Atlanta GA - 10029 Rentals - Zillow",
-      "url": "https://www.zillow.com/atlanta-ga/apartments/",
-      "snippet": "Find your next apartment in Atlanta GA on Zillow. Use our detailed filters to find the perfect place, then get in touch with the property manager.",
-      "customerType": "apartment complex",
-      "suggestedService": {
-        "serviceId": "maintenance",
-        "serviceName": "Preventive Maintenance",
-        "quoteKey": "maintenance"
-      },
-      "score": 90,
-      "query": "apartment complex in Atlanta GA",
-      "source": "duckduckgo-html",
-      "status": "new",
-      "gatheredAt": "2026-07-19T02:14:31.845Z"
-    },
-    {
-      "leadId": "lead_39c680266103",
-      "segment": "b2b",
-      "category": "hvac",
-      "city": "Atlanta",
-      "state": "GA",
-      "market": "Atlanta, GA",
-      "region": "Metro Atlanta",
-      "pilotMarket": true,
-      "name": "Apartments For Rent in Downtown Atlanta - 371 Rentals - Zillow",
-      "url": "https://www.zillow.com/downtown-atlanta-ga/apartments/",
-      "snippet": "Find your next apartment in Downtown Atlanta on Zillow. Use our detailed filters to find the perfect place, then get in touch with the property manager.",
-      "customerType": "apartment complex",
-      "suggestedService": {
-        "serviceId": "maintenance",
-        "serviceName": "Preventive Maintenance",
-        "quoteKey": "maintenance"
-      },
-      "score": 90,
-      "query": "apartment complex in Atlanta GA",
-      "source": "duckduckgo-html",
-      "status": "new",
-      "gatheredAt": "2026-07-19T02:14:31.845Z"
-    },
-    {
-      "leadId": "lead_2cfb50ebdf9b",
-      "segment": "b2b",
-      "category": "hvac",
-      "city": "Atlanta",
-      "state": "GA",
-      "market": "Atlanta, GA",
-      "region": "Metro Atlanta",
-      "pilotMarket": true,
-      "name": "Apartments for Rent in Atlanta GA - 20,756 Rentals",
-      "url": "https://www.apartments.com/atlanta-ga/",
-      "snippet": "Find 20,756 apartments for rent in Atlanta, GA with new listings daily. Compare verified, detailed unit listings, explore 3D tours, and find your next rental today.",
+      "name": "Atlanta apartment complex",
+      "url": null,
+      "snippet": "Potential hvac customer target: apartment complex in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "apartment complex",
       "suggestedService": {
         "serviceId": "maintenance",
@@ -80,9 +42,58 @@
       },
       "score": 85,
       "query": "apartment complex in Atlanta GA",
-      "source": "duckduckgo-html",
-      "status": "new",
-      "gatheredAt": "2026-07-19T02:14:31.845Z"
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:20:59.622Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
+    },
+    {
+      "leadId": "lead_97ac6058efaa",
+      "segment": "b2b",
+      "category": "hvac",
+      "city": "Atlanta",
+      "state": "GA",
+      "market": "Atlanta, GA",
+      "region": "Metro Atlanta",
+      "pilotMarket": true,
+      "name": "Atlanta property management company",
+      "url": null,
+      "snippet": "Potential hvac customer target: property management company in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "property management company",
+      "suggestedService": {
+        "serviceId": "maintenance",
+        "serviceName": "Preventive Maintenance",
+        "quoteKey": "maintenance"
+      },
+      "score": 85,
+      "query": "apartment complex in Atlanta GA",
+      "source": "local-fallback",
+      "status": "needs-verification",
+      "gatheredAt": "2026-07-19T02:20:59.622Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

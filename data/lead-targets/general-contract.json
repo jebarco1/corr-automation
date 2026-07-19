@@ -1,7 +1,7 @@
 {
   "category": "general-contract",
   "version": 2,
-  "updatedAt": "2026-07-19T02:13:24.000Z",
+  "updatedAt": "2026-07-19T02:17:43.000Z",
   "marketFile": "data/markets/georgia-cities.json",
   "usePilotCities": true,
   "segments": [
@@ -59,18 +59,22 @@
   },
   "residential": {
     "customerTypes": [
-      "homeowner",
-      "residential remodel",
-      "home renovation"
+      "neighborhood HOA",
+      "condo association",
+      "townhome association"
     ],
     "intentPhrases": [
-      "kitchen remodel homeowner",
-      "bathroom remodel house",
-      "home addition"
+      "HOA board contact",
+      "condo association management phone",
+      "community association contact"
     ],
     "excludeKeywords": [
       "general contractor company",
-      "GC near me"
+      "GC near me",
+      "lawn care company",
+      "contractor near me",
+      "book online",
+      "free estimate"
     ],
     "suggestedServiceIds": [
       "remodel",

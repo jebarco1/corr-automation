@@ -5,12 +5,19 @@
   "state": "GA",
   "market": "Savannah, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:39.627Z",
+  "updatedAt": "2026-07-19T02:21:04.481Z",
   "queries": [
     "assisted living in Savannah GA",
-    "assisted living Savannah GA contact"
+    "assisted living Savannah GA contact",
+    "clinical staffing Savannah GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
       "leadId": "lead_230e4115928c",
@@ -23,18 +30,32 @@
       "pilotMarket": true,
       "name": "Savannah assisted living",
       "url": null,
-      "snippet": "Potential healthcare customer target: assisted living in Savannah, GA. Verify contact details before outreach.",
+      "snippet": "Potential healthcare customer target: assisted living in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "assisted living",
       "suggestedService": {
         "serviceId": "nursing-visit",
         "serviceName": "Nursing Visit",
         "quoteKey": "nursing visit"
       },
-      "score": 80,
+      "score": 75,
       "query": "assisted living in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:39.627Z"
+      "gatheredAt": "2026-07-19T02:21:04.481Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
       "leadId": "lead_a12cb9228987",
@@ -47,42 +68,32 @@
       "pilotMarket": true,
       "name": "Savannah home health agency",
       "url": null,
-      "snippet": "Potential healthcare customer target: home health agency in Savannah, GA. Verify contact details before outreach.",
+      "snippet": "Potential healthcare customer target: home health agency in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "home health agency",
       "suggestedService": {
         "serviceId": "nursing-visit",
         "serviceName": "Nursing Visit",
         "quoteKey": "nursing visit"
       },
-      "score": 80,
+      "score": 75,
       "query": "assisted living in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:39.627Z"
-    },
-    {
-      "leadId": "lead_75fcfeb35717",
-      "segment": "b2b",
-      "category": "healthcare",
-      "city": "Savannah",
-      "state": "GA",
-      "market": "Savannah, GA",
-      "region": "Coastal Georgia",
-      "pilotMarket": true,
-      "name": "Savannah senior living community",
-      "url": null,
-      "snippet": "Potential healthcare customer target: senior living community in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "senior living community",
-      "suggestedService": {
-        "serviceId": "nursing-visit",
-        "serviceName": "Nursing Visit",
-        "quoteKey": "nursing visit"
-      },
-      "score": 80,
-      "query": "assisted living in Savannah GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:39.627Z"
+      "gatheredAt": "2026-07-19T02:21:04.481Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

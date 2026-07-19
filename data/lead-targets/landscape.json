@@ -1,7 +1,7 @@
 {
   "category": "landscape",
   "version": 2,
-  "updatedAt": "2026-07-19T02:13:24.000Z",
+  "updatedAt": "2026-07-19T02:17:43.000Z",
   "marketFile": "data/markets/georgia-cities.json",
   "usePilotCities": true,
   "segments": [
@@ -61,20 +61,22 @@
   },
   "residential": {
     "customerTypes": [
-      "homeowner",
-      "residential neighborhood",
-      "single family home",
-      "townhome community resident"
+      "neighborhood HOA",
+      "condo association",
+      "community association",
+      "townhome association"
     ],
     "intentPhrases": [
-      "residential lawn care",
-      "yard mowing service",
-      "home landscaping cleanup"
+      "HOA management contact",
+      "neighborhood association phone",
+      "condo association Atlanta contact"
     ],
     "excludeKeywords": [
       "lawn care company",
       "our crew",
-      "book online"
+      "book online",
+      "contractor near me",
+      "free estimate"
     ],
     "suggestedServiceIds": [
       "mowing",

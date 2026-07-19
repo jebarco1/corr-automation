@@ -1,7 +1,7 @@
 {
   "category": "electrical",
   "version": 2,
-  "updatedAt": "2026-07-19T02:13:24.000Z",
+  "updatedAt": "2026-07-19T02:17:43.000Z",
   "marketFile": "data/markets/georgia-cities.json",
   "usePilotCities": true,
   "segments": [
@@ -59,18 +59,22 @@
   },
   "residential": {
     "customerTypes": [
-      "homeowner",
-      "residential home",
-      "single family residence"
+      "apartment leasing office",
+      "condo association",
+      "neighborhood HOA"
     ],
     "intentPhrases": [
-      "home electrician",
-      "EV charger home installation",
-      "residential panel upgrade"
+      "apartment community office contact",
+      "condo association phone",
+      "HOA management email"
     ],
     "excludeKeywords": [
       "electrician near me",
-      "electrical contractor company"
+      "electrical contractor company",
+      "lawn care company",
+      "contractor near me",
+      "book online",
+      "free estimate"
     ],
     "suggestedServiceIds": [
       "diagnostic",

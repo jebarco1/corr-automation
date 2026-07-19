@@ -5,12 +5,19 @@
   "state": "GA",
   "market": "Savannah, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:33.660Z",
+  "updatedAt": "2026-07-19T02:21:02.226Z",
   "queries": [
     "apartment complex in Savannah GA",
-    "apartment complex Savannah GA contact"
+    "apartment complex Savannah GA contact",
+    "commercial plumbing service Savannah GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
       "leadId": "lead_ed936f778000",
@@ -23,18 +30,32 @@
       "pilotMarket": true,
       "name": "Savannah apartment complex",
       "url": null,
-      "snippet": "Potential plumbing customer target: apartment complex in Savannah, GA. Verify contact details before outreach.",
+      "snippet": "Potential plumbing customer target: apartment complex in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "apartment complex",
       "suggestedService": {
         "serviceId": "leak-repair",
         "serviceName": "Leak Repair",
         "quoteKey": "leak repair"
       },
-      "score": 90,
+      "score": 85,
       "query": "apartment complex in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.659Z"
+      "gatheredAt": "2026-07-19T02:21:02.226Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
       "leadId": "lead_eda954700131",
@@ -47,42 +68,32 @@
       "pilotMarket": true,
       "name": "Savannah property management company",
       "url": null,
-      "snippet": "Potential plumbing customer target: property management company in Savannah, GA. Verify contact details before outreach.",
+      "snippet": "Potential plumbing customer target: property management company in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "property management company",
       "suggestedService": {
         "serviceId": "leak-repair",
         "serviceName": "Leak Repair",
         "quoteKey": "leak repair"
       },
-      "score": 90,
+      "score": 85,
       "query": "apartment complex in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.660Z"
-    },
-    {
-      "leadId": "lead_1712be74b1b3",
-      "segment": "b2b",
-      "category": "plumbing",
-      "city": "Savannah",
-      "state": "GA",
-      "market": "Savannah, GA",
-      "region": "Coastal Georgia",
-      "pilotMarket": true,
-      "name": "Savannah restaurant",
-      "url": null,
-      "snippet": "Potential plumbing customer target: restaurant in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "restaurant",
-      "suggestedService": {
-        "serviceId": "leak-repair",
-        "serviceName": "Leak Repair",
-        "quoteKey": "leak repair"
-      },
-      "score": 80,
-      "query": "apartment complex in Savannah GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:33.660Z"
+      "gatheredAt": "2026-07-19T02:21:02.226Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Augusta, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:43.045Z",
+  "updatedAt": "2026-07-19T02:26:49.902Z",
   "queries": [
-    "homeowner in Augusta GA",
-    "homeowner Augusta GA contact"
+    "apartment leasing office in Augusta GA",
+    "apartment leasing office Augusta GA contact",
+    "apartment leasing office contact Augusta GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_7eda71d192dd",
+      "leadId": "lead_b86ad8e6da2d",
       "segment": "residential",
       "category": "transportation",
       "city": "Augusta",
@@ -21,23 +28,37 @@
       "market": "Augusta, GA",
       "region": "East Georgia",
       "pilotMarket": true,
-      "name": "Augusta apartment mover",
+      "name": "Augusta apartment leasing office",
       "url": null,
-      "snippet": "Potential transportation customer target: apartment mover in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "apartment mover",
+      "snippet": "Potential transportation customer target: apartment leasing office in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment leasing office",
       "suggestedService": {
         "serviceId": "local-move",
         "serviceName": "Local Move",
         "quoteKey": "local move"
       },
       "score": 90,
-      "query": "homeowner in Augusta GA",
+      "query": "apartment leasing office in Augusta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:43.045Z"
+      "gatheredAt": "2026-07-19T02:26:49.902Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_b0d4f5b3c52b",
+      "leadId": "lead_8efaa3b498a5",
       "segment": "residential",
       "category": "transportation",
       "city": "Augusta",
@@ -45,44 +66,34 @@
       "market": "Augusta, GA",
       "region": "East Georgia",
       "pilotMarket": true,
-      "name": "Augusta homeowner",
+      "name": "Augusta university housing office",
       "url": null,
-      "snippet": "Potential transportation customer target: homeowner in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "homeowner",
+      "snippet": "Potential transportation customer target: university housing office in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "university housing office",
       "suggestedService": {
         "serviceId": "local-move",
         "serviceName": "Local Move",
         "quoteKey": "local move"
       },
       "score": 80,
-      "query": "homeowner in Augusta GA",
+      "query": "apartment leasing office in Augusta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:43.045Z"
-    },
-    {
-      "leadId": "lead_7f8ce2624fa7",
-      "segment": "residential",
-      "category": "transportation",
-      "city": "Augusta",
-      "state": "GA",
-      "market": "Augusta, GA",
-      "region": "East Georgia",
-      "pilotMarket": true,
-      "name": "Augusta residential relocation",
-      "url": null,
-      "snippet": "Potential transportation customer target: residential relocation in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "residential relocation",
-      "suggestedService": {
-        "serviceId": "local-move",
-        "serviceName": "Local Move",
-        "quoteKey": "local move"
-      },
-      "score": 80,
-      "query": "homeowner in Augusta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:43.045Z"
+      "gatheredAt": "2026-07-19T02:26:49.902Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

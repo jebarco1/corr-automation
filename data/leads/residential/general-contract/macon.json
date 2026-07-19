@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Macon, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:42.153Z",
+  "updatedAt": "2026-07-19T02:26:05.841Z",
   "queries": [
-    "homeowner in Macon GA",
-    "homeowner Macon GA contact"
+    "neighborhood HOA in Macon GA",
+    "neighborhood HOA Macon GA contact",
+    "HOA board contact Macon GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_7b3fab81bdd6",
+      "leadId": "lead_32f9bfa47f9a",
       "segment": "residential",
       "category": "general-contract",
       "city": "Macon",
@@ -21,23 +28,37 @@
       "market": "Macon, GA",
       "region": "Central Georgia",
       "pilotMarket": true,
-      "name": "Macon homeowner",
+      "name": "Macon neighborhood HOA",
       "url": null,
-      "snippet": "Potential general-contract customer target: homeowner in Macon, GA. Verify contact details before outreach.",
-      "customerType": "homeowner",
+      "snippet": "Potential general-contract customer target: neighborhood HOA in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
       "suggestedService": {
         "serviceId": "remodel",
         "serviceName": "Remodel",
         "quoteKey": "remodel"
       },
-      "score": 80,
-      "query": "homeowner in Macon GA",
+      "score": 85,
+      "query": "neighborhood HOA in Macon GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:42.153Z"
+      "gatheredAt": "2026-07-19T02:26:05.841Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_dc889993d4f9",
+      "leadId": "lead_1c8079140f22",
       "segment": "residential",
       "category": "general-contract",
       "city": "Macon",
@@ -45,44 +66,34 @@
       "market": "Macon, GA",
       "region": "Central Georgia",
       "pilotMarket": true,
-      "name": "Macon residential remodel",
+      "name": "Macon condo association",
       "url": null,
-      "snippet": "Potential general-contract customer target: residential remodel in Macon, GA. Verify contact details before outreach.",
-      "customerType": "residential remodel",
+      "snippet": "Potential general-contract customer target: condo association in Macon, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "condo association",
       "suggestedService": {
         "serviceId": "remodel",
         "serviceName": "Remodel",
         "quoteKey": "remodel"
       },
-      "score": 80,
-      "query": "homeowner in Macon GA",
+      "score": 75,
+      "query": "neighborhood HOA in Macon GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:42.153Z"
-    },
-    {
-      "leadId": "lead_922553efb33e",
-      "segment": "residential",
-      "category": "general-contract",
-      "city": "Macon",
-      "state": "GA",
-      "market": "Macon, GA",
-      "region": "Central Georgia",
-      "pilotMarket": true,
-      "name": "Macon home renovation",
-      "url": null,
-      "snippet": "Potential general-contract customer target: home renovation in Macon, GA. Verify contact details before outreach.",
-      "customerType": "home renovation",
-      "suggestedService": {
-        "serviceId": "remodel",
-        "serviceName": "Remodel",
-        "quoteKey": "remodel"
-      },
-      "score": 80,
-      "query": "homeowner in Macon GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:42.153Z"
+      "gatheredAt": "2026-07-19T02:26:05.841Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

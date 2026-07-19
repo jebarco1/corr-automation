@@ -5,15 +5,22 @@
   "state": "GA",
   "market": "Atlanta, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:40.336Z",
+  "updatedAt": "2026-07-19T02:24:02.567Z",
   "queries": [
-    "homeowner in Atlanta GA",
-    "homeowner Atlanta GA contact"
+    "condo association in Atlanta GA",
+    "condo association Atlanta GA contact",
+    "apartment leasing office contact Atlanta GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
-      "leadId": "lead_87dcfb2f60c2",
+      "leadId": "lead_8e5eee00883d",
       "segment": "residential",
       "category": "cleaning",
       "city": "Atlanta",
@@ -21,23 +28,37 @@
       "market": "Atlanta, GA",
       "region": "Metro Atlanta",
       "pilotMarket": true,
-      "name": "Atlanta apartment resident",
+      "name": "Atlanta apartment leasing office",
       "url": null,
-      "snippet": "Potential cleaning customer target: apartment resident in Atlanta, GA. Verify contact details before outreach.",
-      "customerType": "apartment resident",
+      "snippet": "Potential cleaning customer target: apartment leasing office in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "apartment leasing office",
       "suggestedService": {
         "serviceId": "deep-clean",
         "serviceName": "Deep Clean",
         "quoteKey": "deep clean"
       },
       "score": 90,
-      "query": "homeowner in Atlanta GA",
+      "query": "condo association in Atlanta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:40.336Z"
+      "gatheredAt": "2026-07-19T02:24:02.567Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_4b7d4306d2f5",
+      "leadId": "lead_8ff63f7f16bc",
       "segment": "residential",
       "category": "cleaning",
       "city": "Atlanta",
@@ -45,44 +66,34 @@
       "market": "Atlanta, GA",
       "region": "Metro Atlanta",
       "pilotMarket": true,
-      "name": "Atlanta homeowner",
+      "name": "Atlanta neighborhood HOA",
       "url": null,
-      "snippet": "Potential cleaning customer target: homeowner in Atlanta, GA. Verify contact details before outreach.",
-      "customerType": "homeowner",
+      "snippet": "Potential cleaning customer target: neighborhood HOA in Atlanta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "neighborhood HOA",
       "suggestedService": {
         "serviceId": "deep-clean",
         "serviceName": "Deep Clean",
         "quoteKey": "deep clean"
       },
-      "score": 80,
-      "query": "homeowner in Atlanta GA",
+      "score": 85,
+      "query": "condo association in Atlanta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:40.336Z"
-    },
-    {
-      "leadId": "lead_2bec039baf1a",
-      "segment": "residential",
-      "category": "cleaning",
-      "city": "Atlanta",
-      "state": "GA",
-      "market": "Atlanta, GA",
-      "region": "Metro Atlanta",
-      "pilotMarket": true,
-      "name": "Atlanta move-out tenant",
-      "url": null,
-      "snippet": "Potential cleaning customer target: move-out tenant in Atlanta, GA. Verify contact details before outreach.",
-      "customerType": "move-out tenant",
-      "suggestedService": {
-        "serviceId": "deep-clean",
-        "serviceName": "Deep Clean",
-        "quoteKey": "deep clean"
-      },
-      "score": 80,
-      "query": "homeowner in Atlanta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:40.336Z"
+      "gatheredAt": "2026-07-19T02:24:02.567Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Atlanta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

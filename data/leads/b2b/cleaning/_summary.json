@@ -1,7 +1,7 @@
 {
   "segment": "b2b",
   "category": "cleaning",
-  "updatedAt": "2026-07-19T02:14:32.390Z",
+  "updatedAt": "2026-07-19T02:21:00.477Z",
   "marketFile": "data/markets/georgia-cities.json",
   "pilotCities": [
     "Atlanta, GA",
@@ -10,18 +10,25 @@
     "Savannah, GA"
   ],
   "cityCount": 4,
-  "leadCount": 12,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "cities": [
     {
       "city": "Atlanta",
       "state": "GA",
       "label": "Atlanta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/cleaning/atlanta.json",
       "queries": [
         "office building in Atlanta GA",
-        "office building Atlanta GA contact"
+        "office building Atlanta GA contact",
+        "janitorial contract Atlanta GA"
       ]
     },
     {
@@ -29,11 +36,12 @@
       "state": "GA",
       "label": "Augusta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/cleaning/augusta.json",
       "queries": [
         "office building in Augusta GA",
-        "office building Augusta GA contact"
+        "office building Augusta GA contact",
+        "janitorial contract Augusta GA"
       ]
     },
     {
@@ -41,11 +49,12 @@
       "state": "GA",
       "label": "Macon, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/cleaning/macon.json",
       "queries": [
         "office building in Macon GA",
-        "office building Macon GA contact"
+        "office building Macon GA contact",
+        "janitorial contract Macon GA"
       ]
     },
     {
@@ -53,11 +62,12 @@
       "state": "GA",
       "label": "Savannah, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/b2b/cleaning/savannah.json",
       "queries": [
         "office building in Savannah GA",
-        "office building Savannah GA contact"
+        "office building Savannah GA contact",
+        "janitorial contract Savannah GA"
       ]
     }
   ]

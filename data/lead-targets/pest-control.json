@@ -1,7 +1,7 @@
 {
   "category": "pest-control",
   "version": 2,
-  "updatedAt": "2026-07-19T02:13:24.000Z",
+  "updatedAt": "2026-07-19T02:17:43.000Z",
   "marketFile": "data/markets/georgia-cities.json",
   "usePilotCities": true,
   "segments": [
@@ -59,18 +59,22 @@
   },
   "residential": {
     "customerTypes": [
-      "homeowner",
-      "residential property",
-      "townhome resident"
+      "condo association",
+      "apartment leasing office",
+      "neighborhood HOA"
     ],
     "intentPhrases": [
-      "home pest control",
-      "termite inspection homeowner",
-      "residential mosquito treatment"
+      "apartment community office contact",
+      "condo association phone",
+      "HOA management contact"
     ],
     "excludeKeywords": [
       "pest control company",
-      "exterminator near me"
+      "exterminator near me",
+      "lawn care company",
+      "contractor near me",
+      "book online",
+      "free estimate"
     ],
     "suggestedServiceIds": [
       "one-time-treatment",

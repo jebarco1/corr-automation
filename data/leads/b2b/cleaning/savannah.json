@@ -5,12 +5,19 @@
   "state": "GA",
   "market": "Savannah, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:32.390Z",
+  "updatedAt": "2026-07-19T02:21:00.477Z",
   "queries": [
     "office building in Savannah GA",
-    "office building Savannah GA contact"
+    "office building Savannah GA contact",
+    "janitorial contract Savannah GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
     {
       "leadId": "lead_e71ff68b7c69",
@@ -23,18 +30,32 @@
       "pilotMarket": true,
       "name": "Savannah property management company",
       "url": null,
-      "snippet": "Potential cleaning customer target: property management company in Savannah, GA. Verify contact details before outreach.",
+      "snippet": "Potential cleaning customer target: property management company in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "property management company",
       "suggestedService": {
         "serviceId": "recurring-janitorial",
         "serviceName": "Recurring Janitorial",
         "quoteKey": "recurring janitorial"
       },
-      "score": 90,
+      "score": 85,
       "query": "office building in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:32.390Z"
+      "gatheredAt": "2026-07-19T02:21:00.477Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
       "leadId": "lead_c45094e127ed",
@@ -47,7 +68,10 @@
       "pilotMarket": true,
       "name": "Savannah office building",
       "url": null,
-      "snippet": "Potential cleaning customer target: office building in Savannah, GA. Verify contact details before outreach.",
+      "snippet": "Potential cleaning customer target: office building in Savannah, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "office building",
       "suggestedService": {
         "serviceId": "recurring-janitorial",
@@ -58,31 +82,18 @@
       "query": "office building in Savannah GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:32.390Z"
-    },
-    {
-      "leadId": "lead_5c1cdcb3aff7",
-      "segment": "b2b",
-      "category": "cleaning",
-      "city": "Savannah",
-      "state": "GA",
-      "market": "Savannah, GA",
-      "region": "Coastal Georgia",
-      "pilotMarket": true,
-      "name": "Savannah medical clinic",
-      "url": null,
-      "snippet": "Potential cleaning customer target: medical clinic in Savannah, GA. Verify contact details before outreach.",
-      "customerType": "medical clinic",
-      "suggestedService": {
-        "serviceId": "recurring-janitorial",
-        "serviceName": "Recurring Janitorial",
-        "quoteKey": "recurring janitorial"
-      },
-      "score": 80,
-      "query": "office building in Savannah GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:32.390Z"
+      "gatheredAt": "2026-07-19T02:21:00.477Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Savannah, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }

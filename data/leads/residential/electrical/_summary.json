@@ -1,7 +1,7 @@
 {
   "segment": "residential",
   "category": "electrical",
-  "updatedAt": "2026-07-19T02:14:42.004Z",
+  "updatedAt": "2026-07-19T02:25:57.266Z",
   "marketFile": "data/markets/georgia-cities.json",
   "pilotCities": [
     "Atlanta, GA",
@@ -10,18 +10,25 @@
     "Savannah, GA"
   ],
   "cityCount": 4,
-  "leadCount": 12,
+  "leadCount": 8,
+  "contactCoverage": {
+    "withAnyContact": 1,
+    "withPhone": 1,
+    "withEmail": 1,
+    "withAddress": 1
+  },
   "cities": [
     {
       "city": "Atlanta",
       "state": "GA",
       "label": "Atlanta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/residential/electrical/atlanta.json",
       "queries": [
-        "homeowner in Atlanta GA",
-        "homeowner Atlanta GA contact"
+        "apartment leasing office in Atlanta GA",
+        "apartment leasing office Atlanta GA contact",
+        "apartment community office contact Atlanta GA"
       ]
     },
     {
@@ -29,11 +36,12 @@
       "state": "GA",
       "label": "Augusta, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/residential/electrical/augusta.json",
       "queries": [
-        "homeowner in Augusta GA",
-        "homeowner Augusta GA contact"
+        "apartment leasing office in Augusta GA",
+        "apartment leasing office Augusta GA contact",
+        "apartment community office contact Augusta GA"
       ]
     },
     {
@@ -41,11 +49,12 @@
       "state": "GA",
       "label": "Macon, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/residential/electrical/macon.json",
       "queries": [
-        "homeowner in Macon GA",
-        "homeowner Macon GA contact"
+        "apartment leasing office in Macon GA",
+        "apartment leasing office Macon GA contact",
+        "apartment community office contact Macon GA"
       ]
     },
     {
@@ -53,11 +62,12 @@
       "state": "GA",
       "label": "Savannah, GA",
       "pilot": true,
-      "count": 3,
+      "count": 2,
       "file": "data/leads/residential/electrical/savannah.json",
       "queries": [
-        "homeowner in Savannah GA",
-        "homeowner Savannah GA contact"
+        "apartment leasing office in Savannah GA",
+        "apartment leasing office Savannah GA contact",
+        "apartment community office contact Savannah GA"
       ]
     }
   ]

@@ -1,7 +1,7 @@
 {
   "category": "cleaning",
   "version": 2,
-  "updatedAt": "2026-07-19T02:13:24.000Z",
+  "updatedAt": "2026-07-19T02:17:43.000Z",
   "marketFile": "data/markets/georgia-cities.json",
   "usePilotCities": true,
   "segments": [
@@ -61,18 +61,22 @@
   },
   "residential": {
     "customerTypes": [
-      "homeowner",
-      "apartment resident",
-      "move-out tenant"
+      "condo association",
+      "apartment leasing office",
+      "neighborhood HOA"
     ],
     "intentPhrases": [
-      "house cleaning",
-      "move out clean residential",
-      "home deep clean"
+      "apartment leasing office contact",
+      "condo association phone",
+      "community association contact"
     ],
     "excludeKeywords": [
       "maid service company",
-      "book a cleaner"
+      "book a cleaner",
+      "lawn care company",
+      "contractor near me",
+      "book online",
+      "free estimate"
     ],
     "suggestedServiceIds": [
       "deep-clean",

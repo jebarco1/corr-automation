@@ -5,37 +5,20 @@
   "state": "GA",
   "market": "Macon, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:29.642Z",
+  "updatedAt": "2026-07-19T02:20:59.363Z",
   "queries": [
     "HOA in Macon GA",
-    "HOA Macon GA contact"
+    "HOA Macon GA contact",
+    "grounds maintenance contract Macon GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 2,
+    "withPhone": 2,
+    "withEmail": 0,
+    "withAddress": 1
+  },
   "leads": [
-    {
-      "leadId": "lead_a009ea3ccf77",
-      "segment": "b2b",
-      "category": "landscape",
-      "city": "Macon",
-      "state": "GA",
-      "market": "Macon, GA",
-      "region": "Central Georgia",
-      "pilotMarket": true,
-      "name": "HOA Management Companies in Macon GA",
-      "url": "https://hoamanagementcompanies.net/georgia/hoa-management-companies-in-macon-ga",
-      "snippet": "List of HOA Management Companies in Macon, GA Access an updated, detailed directory of HOA property management companies in Macon, Georgia.",
-      "customerType": "HOA",
-      "suggestedService": {
-        "serviceId": "full-maintenance",
-        "serviceName": "Full Grounds Maintenance",
-        "quoteKey": "full maintenance"
-      },
-      "score": 85,
-      "query": "HOA in Macon GA",
-      "source": "duckduckgo-html",
-      "status": "new",
-      "gatheredAt": "2026-07-19T02:14:29.642Z"
-    },
     {
       "leadId": "lead_1e04b1f05178",
       "segment": "b2b",
@@ -48,20 +31,43 @@
       "name": "HOA Management Companies in Macon, Georgia | HOA Directory",
       "url": "https://www.hoamanagement.com/city/macon/",
       "snippet": "HOA Management is the leading directory for HOA Mangement companies and HOA vendors. We offer a catalog of listings for your HOA in Macon, GA.",
+      "phone": "(770) 904-5270",
+      "email": null,
+      "address": "2144 Buford Highway Suite 110 Buford, GA 30518",
       "customerType": "HOA",
       "suggestedService": {
         "serviceId": "full-maintenance",
         "serviceName": "Full Grounds Maintenance",
         "quoteKey": "full maintenance"
       },
-      "score": 85,
+      "score": 95,
       "query": "HOA in Macon GA",
       "source": "duckduckgo-html",
-      "status": "new",
-      "gatheredAt": "2026-07-19T02:14:29.642Z"
+      "status": "contact-ready",
+      "gatheredAt": "2026-07-19T02:20:54.509Z",
+      "contacts": {
+        "phone": "(770) 904-5270",
+        "email": null,
+        "address": "2144 Buford Highway Suite 110 Buford, GA 30518",
+        "phones": [
+          "(770) 904-5270",
+          "(888) 406-2221",
+          "(844) 642-7646",
+          "(602) 993-1768",
+          "(704) 746-9070",
+          "(888) 616-6873"
+        ],
+        "emails": [],
+        "addresses": [
+          "2144 Buford Highway Suite 110 Buford, GA 30518"
+        ],
+        "marketHint": "Macon, GA",
+        "completeness": 2,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_232159fb190a",
+      "leadId": "lead_a009ea3ccf77",
       "segment": "b2b",
       "category": "landscape",
       "city": "Macon",
@@ -69,20 +75,36 @@
       "market": "Macon, GA",
       "region": "Central Georgia",
       "pilotMarket": true,
-      "name": "HOA Management In Macon, GA | CMG",
-      "url": "https://www.cedarmanagementgroup.com/hoa-management-macon/",
-      "snippet": "Macon, GA HOA Management Macon is a smart choice for those looking to invest in property. Home prices start around $25K and can exceed $2.5M, with the median listing price at $219K. The median home value stands at approximately $145K. Most residents in Macon own their homes, while about 44% rent. The median rent in the area is roughly $950.",
+      "name": "HOA Management Companies in Macon GA",
+      "url": "https://hoamanagementcompanies.net/georgia/hoa-management-companies-in-macon-ga",
+      "snippet": "List of HOA Management Companies in Macon, GA Access an updated, detailed directory of HOA property management companies in Macon, Georgia.",
+      "phone": "(778) 299-1918",
+      "email": null,
+      "address": null,
       "customerType": "HOA",
       "suggestedService": {
         "serviceId": "full-maintenance",
         "serviceName": "Full Grounds Maintenance",
         "quoteKey": "full maintenance"
       },
-      "score": 85,
+      "score": 90,
       "query": "HOA in Macon GA",
       "source": "duckduckgo-html",
       "status": "new",
-      "gatheredAt": "2026-07-19T02:14:29.642Z"
+      "gatheredAt": "2026-07-19T02:20:54.509Z",
+      "contacts": {
+        "phone": "(778) 299-1918",
+        "email": null,
+        "address": null,
+        "phones": [
+          "(778) 299-1918"
+        ],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Macon, GA",
+        "completeness": 1,
+        "enriched": true
+      }
     }
   ]
 }

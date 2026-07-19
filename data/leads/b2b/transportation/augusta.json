@@ -5,37 +5,20 @@
   "state": "GA",
   "market": "Augusta, GA",
   "pilot": true,
-  "updatedAt": "2026-07-19T02:14:34.516Z",
+  "updatedAt": "2026-07-19T02:21:04.057Z",
   "queries": [
     "furniture store in Augusta GA",
-    "furniture store Augusta GA contact"
+    "furniture store Augusta GA contact",
+    "local delivery service commercial Augusta GA"
   ],
-  "count": 3,
+  "count": 2,
+  "contactCoverage": {
+    "withAnyContact": 0,
+    "withPhone": 0,
+    "withEmail": 0,
+    "withAddress": 0
+  },
   "leads": [
-    {
-      "leadId": "lead_293f12377d88",
-      "segment": "b2b",
-      "category": "transportation",
-      "city": "Augusta",
-      "state": "GA",
-      "market": "Augusta, GA",
-      "region": "East Georgia",
-      "pilotMarket": true,
-      "name": "Augusta furniture store",
-      "url": null,
-      "snippet": "Potential transportation customer target: furniture store in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "furniture store",
-      "suggestedService": {
-        "serviceId": "local-move",
-        "serviceName": "Local Move",
-        "quoteKey": "local move"
-      },
-      "score": 80,
-      "query": "furniture store in Augusta GA",
-      "source": "local-fallback",
-      "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:34.516Z"
-    },
     {
       "leadId": "lead_4ffe17381144",
       "segment": "b2b",
@@ -47,7 +30,10 @@
       "pilotMarket": true,
       "name": "Augusta office headquarters",
       "url": null,
-      "snippet": "Potential transportation customer target: office headquarters in Augusta, GA. Verify contact details before outreach.",
+      "snippet": "Potential transportation customer target: office headquarters in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
       "customerType": "office headquarters",
       "suggestedService": {
         "serviceId": "local-move",
@@ -58,10 +44,21 @@
       "query": "furniture store in Augusta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:34.516Z"
+      "gatheredAt": "2026-07-19T02:21:04.057Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     },
     {
-      "leadId": "lead_7288f34dbe2c",
+      "leadId": "lead_293f12377d88",
       "segment": "b2b",
       "category": "transportation",
       "city": "Augusta",
@@ -69,20 +66,34 @@
       "market": "Augusta, GA",
       "region": "East Georgia",
       "pilotMarket": true,
-      "name": "Augusta medical supply distributor",
+      "name": "Augusta furniture store",
       "url": null,
-      "snippet": "Potential transportation customer target: medical supply distributor in Augusta, GA. Verify contact details before outreach.",
-      "customerType": "medical supply distributor",
+      "snippet": "Potential transportation customer target: furniture store in Augusta, GA. Phone/email/address not found yet — verify before outreach.",
+      "phone": null,
+      "email": null,
+      "address": null,
+      "customerType": "furniture store",
       "suggestedService": {
         "serviceId": "local-move",
         "serviceName": "Local Move",
         "quoteKey": "local move"
       },
-      "score": 80,
+      "score": 75,
       "query": "furniture store in Augusta GA",
       "source": "local-fallback",
       "status": "needs-verification",
-      "gatheredAt": "2026-07-19T02:14:34.516Z"
+      "gatheredAt": "2026-07-19T02:21:04.057Z",
+      "contacts": {
+        "phone": null,
+        "email": null,
+        "address": null,
+        "phones": [],
+        "emails": [],
+        "addresses": [],
+        "marketHint": "Augusta, GA",
+        "completeness": 0,
+        "enriched": true
+      }
     }
   ]
 }
