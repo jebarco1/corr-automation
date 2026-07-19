@@ -6,7 +6,8 @@ import {
   applyServiceRecommendation,
   chatServiceAdvisor,
   dismissServiceRecommendation,
-  getServiceAdvisorSession
+  getServiceAdvisorSession,
+  listSuggestedServices
 } from "../services/serviceAdvisor.js";
 
 const router = Router();
@@ -83,6 +84,19 @@ router.post("/service-docs/advisor/dismiss", (req, res, next) => {
 router.get("/service-docs/advisor/sessions/:sessionId", (req, res, next) => {
   try {
     res.json(getServiceAdvisorSession(req.params.sessionId));
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/service-docs/:category/suggestions", (req, res, next) => {
+  try {
+    const suggestions = listSuggestedServices(req.params.category, { limit: 4, excludeExisting: true });
+    res.json({
+      category: req.params.category,
+      count: suggestions.length,
+      suggestions
+    });
   } catch (error) {
     next(error);
   }
