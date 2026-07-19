@@ -368,6 +368,17 @@ function categorySummary(category, flow) {
   };
 }
 
+export function getGuidedFlow(category) {
+  const flow = flows[category];
+  if (!flow) return null;
+  return {
+    category,
+    label: flow.label,
+    description: flow.description,
+    questions: flow.questions.map(question => ({ ...question }))
+  };
+}
+
 export function listGuidedCategories() {
   return Object.entries(flows).map(([category, flow]) => ({
     category,
