@@ -105,13 +105,19 @@ You can also omit `clients` and set `"category"` after uploading invoice logs to
 JSON file–backed multi-tenant layer for vendor websites (**no SQLite / no `node:sqlite`**).
 Data lives at `data/db/ha-corr.json` and works on Node 18/20/22.
 
-If you still see `ERR_UNKNOWN_BUILTIN_MODULE: node:sqlite`, you are on an old commit — pull latest and restart:
+If you still see `ERR_UNKNOWN_BUILTIN_MODULE: node:sqlite`, your local tree is behind tip (that module was removed). Confirm you do **not** have `src/db/sqlite.js`, then:
 
 ```bash
+git fetch origin
+git checkout cursor/add-transportation-api-0ac7
 git pull origin cursor/add-transportation-api-0ac7
+# tip should include "Remove leftover sqlite.js shim completely" (836fa56 or newer)
+test ! -f src/db/sqlite.js && echo "OK: no sqlite shim"
 rm -rf node_modules
 npm install
 npm run dev
+# boot log should say: Vendor DB: JSON file store ...
+# GET /health should include "db":"json"
 ```
 
 ```bash
