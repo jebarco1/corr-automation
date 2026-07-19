@@ -102,7 +102,8 @@ You can also omit `clients` and set `"category"` after uploading invoice logs to
 
 ## Vendor website MVP (tenants, CRM, quotes, jobs, booking)
 
-SQLite-backed multi-tenant layer for vendor websites:
+SQLite-backed multi-tenant layer for vendor websites (via `better-sqlite3`; works on Node 18+).
+If you previously saw `ERR_UNKNOWN_BUILTIN_MODULE: node:sqlite`, run `npm install` to pick up this driver.
 
 ```bash
 npm run vendor:seed   # creates demo-landscape + prints vcorr_ API key
