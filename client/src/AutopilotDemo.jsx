@@ -54,8 +54,13 @@ async function ensureVendorKey() {
   throw new Error(data.message || "Demo vendor exists but no API key was returned. Paste a vcorr_ key in Vendor Ops first.");
 }
 
-export default function AutopilotDemo({ onOpenVendor } = {}) {
-  const [category, setCategory] = useState("landscape");
+export default function AutopilotDemo({
+  onOpenVendor,
+  businessId = null,
+  businessName = null,
+  defaultCategory = null
+} = {}) {
+  const [category, setCategory] = useState(defaultCategory || "landscape");
   const [running, setRunning] = useState(false);
   const [speed, setSpeed] = useState("2x");
   const [phase, setPhase] = useState("idle");
@@ -73,6 +78,38 @@ export default function AutopilotDemo({ onOpenVendor } = {}) {
   const [focusJobId, setFocusJobId] = useState(null);
   const [opsNotice, setOpsNotice] = useState("");
   const [opsBusy, setOpsBusy] = useState(false);
+
+  useEffect(() => {
+    if (defaultCategory) setCategory(defaultCategory);
+  }, [defaultCategory]);
+
+  async function persistAutopilotSession(extra = {}) {
+    if (!businessId) return;
+    try {
+      await fetch(`/api/v1/businesses/${businessId}/sessions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: `bses_ap_${businessId}_${cycle}`,
+          kind: "autopilot",
+          category,
+          title: `${businessName || "Business"} autopilot cycle ${cycle + 1}`,
+          status: extra.status || (metrics.paid ? "won" : metrics.quotes ? "quoted" : "draft"),
+          customerName: leads[0]?.name || "Autopilot batch",
+          summary: extra.summary
+            || `${leads.length} leads · ${jobs.length} jobs · $${Number(metrics.revenue || 0).toFixed(0)} revenue`,
+          payload: {
+            metrics,
+            leadIds: leads.map(l => l.id),
+            jobIds: jobs.map(j => j.id),
+            ...extra.payload
+          }
+        })
+      });
+    } catch {
+      /* non-blocking */
+    }
+  }
 
   const scenario = useMemo(
     () => buildAutopilotScenario(category, {
@@ -291,6 +328,7 @@ export default function AutopilotDemo({ onOpenVendor } = {}) {
     setFocusLeadId(leadId);
     setFocusJobId(jobId);
     setView("results");
+    persistAutopilotSession({ status: "quoted" });
   }
 
   async function promoteSimToVendor({ category: cat, leads: simLeads } = {}) {
@@ -302,6 +340,11 @@ export default function AutopilotDemo({ onOpenVendor } = {}) {
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || "Promote failed");
+    await persistAutopilotSession({
+      status: "contacted",
+      summary: `Promoted ${data.imported} sim leads to CRM`,
+      payload: { imported: data.imported }
+    });
     onOpenVendor?.();
     return { ...data, message: `Imported ${data.imported} sim leads into Vendor Ops.` };
   }
