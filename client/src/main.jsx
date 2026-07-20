@@ -511,15 +511,36 @@ function App() {
 
   async function ensureVendorKey() {
     let key = localStorage.getItem("ha_corr_vendor_api_key") || "";
-    if (key) return key;
-    const res = await fetch(`${API}/vendors/demo`, { method: "POST" });
+    if (key) {
+      try {
+        const check = await fetch(`${API}/vendors/me`, { headers: { "X-API-Key": key } });
+        if (check.ok) return key;
+      } catch {
+        /* reissue below */
+      }
+    }
+    if (activeBusinessId) {
+      const res = await fetch(`${API}/businesses/${activeBusinessId}/crm-key`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ label: "app" })
+      });
+      const data = await res.json();
+      if (res.ok && data.apiKey) {
+        localStorage.setItem("ha_corr_vendor_api_key", data.apiKey);
+        return data.apiKey;
+      }
+    }
+    const res = await fetch(`${API}/vendors/demo`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ issueKey: true, label: "app" })
+    });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || "Could not bootstrap demo vendor");
-    if (data.apiKey) {
-      localStorage.setItem("ha_corr_vendor_api_key", data.apiKey);
-      return data.apiKey;
-    }
-    throw new Error(data.message || "Paste a vendor API key in Vendor Ops first.");
+    if (!data.apiKey) throw new Error(data.message || "Could not issue vendor API key");
+    localStorage.setItem("ha_corr_vendor_api_key", data.apiKey);
+    return data.apiKey;
   }
 
   async function promoteGuidedToCrm() {
