@@ -77,17 +77,21 @@ router.post("/vendors", (req, res, next) => {
   }
 });
 
-/** Ensure demo vendor exists (for local UI). Returns key only when newly created. */
-router.post("/vendors/demo", (_req, res, next) => {
+/** Ensure demo vendor exists (for local UI). Pass { issueKey: true } to always mint a fresh key. */
+router.post("/vendors/demo", (req, res, next) => {
   try {
-    const demo = ensureDemoVendor();
+    const issueKey = req.body?.issueKey === true || req.query?.issueKey === "1";
+    const demo = ensureDemoVendor({
+      issueKey,
+      keyLabel: req.body?.label || "demo-ui"
+    });
     res.json({
       vendor: demo.vendor,
       apiKey: demo.apiKey,
       created: demo.created,
-      message: demo.created
-        ? "Demo vendor created. Store apiKey now."
-        : "Demo vendor already exists. Use an existing key or create a new one via authenticated POST /vendors/me/keys."
+      message: demo.apiKey
+        ? (demo.created ? "Demo vendor created. Store apiKey now." : "Demo vendor ready. Fresh API key issued.")
+        : "Demo vendor already exists. POST again with { \"issueKey\": true } to mint a key."
     });
   } catch (error) {
     next(error);

@@ -97,10 +97,14 @@ export function listVendorKeys(vendorId) {
     }));
 }
 
-export function ensureDemoVendor() {
+export function ensureDemoVendor(options = {}) {
   const existing = getStore().vendors.findOne({ slug: "demo-landscape" });
   if (existing) {
-    return { vendor: rowToVendor(existing), created: false, apiKey: null };
+    let apiKey = null;
+    if (options.issueKey) {
+      apiKey = createVendorKey(existing.id, { label: options.keyLabel || "demo-reissue" }).apiKey;
+    }
+    return { vendor: rowToVendor(existing), created: false, apiKey };
   }
   const created = createVendor({
     name: "Demo Landscape Co",

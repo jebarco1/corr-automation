@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { BookOpen, Building2, ChevronRight, FileText, Layers, MessageSquare, Play, Receipt, RotateCcw, Sparkles, Wand2, Workflow, Bot, Store } from "lucide-react";
+import { BookOpen, Building2, ChevronRight, FileText, Home, Layers, MessageSquare, Play, Receipt, RotateCcw, Sparkles, Wand2, Workflow, Bot, Store } from "lucide-react";
 import { categories, getCategory } from "./categoryCatalog.js";
 import { buildAutoAnswers, defaultMarketArea, formatPriceLabel, getIndustryPrices } from "./industryPrices.js";
 import WorkflowsPanel from "./WorkflowsPanel.jsx";
@@ -9,6 +9,7 @@ import VendorOps from "./VendorOps.jsx";
 import BookingPage from "./BookingPage.jsx";
 import ServiceCatalogPage from "./ServiceCatalogPage.jsx";
 import BusinessesPage from "./BusinessesPage.jsx";
+import HomePage from "./HomePage.jsx";
 import "./styles.css";
 
 const API = "/api/v1";
@@ -94,10 +95,11 @@ function Field({ label, value, onChange, type = "text", placeholder }) {
 }
 
 function readAppQuery() {
-  if (typeof window === "undefined") return { tab: "autopilot", leadId: null };
+  if (typeof window === "undefined") return { tab: "home", leadId: null };
   const params = new URLSearchParams(window.location.search);
+  const raw = params.get("tab") || "home";
   return {
-    tab: params.get("tab") || "autopilot",
+    tab: raw === "settings" ? "businesses" : raw,
     leadId: params.get("leadId") || null
   };
 }
@@ -105,7 +107,7 @@ function readAppQuery() {
 function App() {
   const isBookingRoute = typeof window !== "undefined" && window.location.pathname.startsWith("/book");
   const initialQuery = readAppQuery();
-  const [tab, setTab] = useState(initialQuery.tab === "settings" ? "businesses" : initialQuery.tab);
+  const [tab, setTab] = useState(initialQuery.tab === "settings" ? "businesses" : (initialQuery.tab || "home"));
   const [focusLeadId, setFocusLeadId] = useState(initialQuery.leadId);
   const [category, setCategory] = useState("");
   const [business, setBusiness] = useState(defaultBusiness);
@@ -511,15 +513,36 @@ function App() {
 
   async function ensureVendorKey() {
     let key = localStorage.getItem("ha_corr_vendor_api_key") || "";
-    if (key) return key;
-    const res = await fetch(`${API}/vendors/demo`, { method: "POST" });
+    if (key) {
+      try {
+        const check = await fetch(`${API}/vendors/me`, { headers: { "X-API-Key": key } });
+        if (check.ok) return key;
+      } catch {
+        /* reissue below */
+      }
+    }
+    if (activeBusinessId) {
+      const res = await fetch(`${API}/businesses/${activeBusinessId}/crm-key`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ label: "app" })
+      });
+      const data = await res.json();
+      if (res.ok && data.apiKey) {
+        localStorage.setItem("ha_corr_vendor_api_key", data.apiKey);
+        return data.apiKey;
+      }
+    }
+    const res = await fetch(`${API}/vendors/demo`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ issueKey: true, label: "app" })
+    });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || "Could not bootstrap demo vendor");
-    if (data.apiKey) {
-      localStorage.setItem("ha_corr_vendor_api_key", data.apiKey);
-      return data.apiKey;
-    }
-    throw new Error(data.message || "Paste a vendor API key in Vendor Ops first.");
+    if (!data.apiKey) throw new Error(data.message || "Could not issue vendor API key");
+    localStorage.setItem("ha_corr_vendor_api_key", data.apiKey);
+    return data.apiKey;
   }
 
   async function promoteGuidedToCrm() {
@@ -626,7 +649,7 @@ function App() {
   return (
     <div className="shell">
       <aside>
-        <div className="brand">
+        <div className="brand" role="button" tabIndex={0} onClick={() => setTab("home")} onKeyDown={e => e.key === "Enter" && setTab("home")} style={{ cursor: "pointer" }}>
           <Building2 />
           <div>
             <strong>HA-Corr</strong>
@@ -635,6 +658,7 @@ function App() {
         </div>
         <nav>
           {[
+            ["home", Home, "Home"],
             ["businesses", Building2, "Businesses"],
             ["autopilot", Bot, "Autopilot"],
             ["workflow", MessageSquare, "AI Chat"],
@@ -657,9 +681,10 @@ function App() {
       </aside>
 
       <main>
-        <header>
+        <header className={tab === "home" ? "home-header" : undefined}>
           <div>
             <p className="eyebrow">MULTI-INDUSTRY OPERATIONS</p>
+            {tab !== "home" && (
             <h1>
               {tab === "autopilot"
                 ? "Business autopilot demo"
@@ -675,6 +700,7 @@ function App() {
                           ? "Businesses"
                           : "API documentation"}
             </h1>
+            )}
           </div>
           {(session || chatLog.length > 1) && tab === "workflow" && (
             <button className="ghost" onClick={reset}>
@@ -685,6 +711,14 @@ function App() {
         </header>
 
         {error && <div className="error">{error}</div>}
+
+        {tab === "home" && (
+          <HomePage
+            businessName={business.businessName}
+            bookingPath={business.bookingPath || `/book/${business.primaryCategory ? "demo-landscape" : "demo-landscape"}`}
+            onOpenFeature={(id) => setTab(id)}
+          />
+        )}
 
         {tab === "autopilot" && (
           <AutopilotDemo

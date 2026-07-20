@@ -45,14 +45,18 @@ export default function VendorOps({
     setBusy(true);
     setError("");
     try {
-      const data = await vendorFetch("/vendors/demo", { method: "POST" });
+      const data = await vendorFetch("/vendors/demo", {
+        method: "POST",
+        body: { issueKey: true, label: "vendor-ops" }
+      });
       setVendor(data.vendor);
       if (data.apiKey) {
         setApiKey(data.apiKey);
         localStorage.setItem(KEY_STORAGE, data.apiKey);
-        setNotice("Demo vendor created. API key saved in this browser.");
+        setNotice("Demo vendor ready. API key saved in this browser.");
+        // refresh will run via apiKey effect
       } else {
-        setNotice(data.message || "Demo vendor ready. Paste an existing vendor API key to continue.");
+        setNotice(data.message || "Demo vendor ready.");
       }
     } catch (err) {
       setError(err.message);
@@ -161,8 +165,19 @@ export default function VendorOps({
     setBusy(true);
     setError("");
     try {
+      let key = apiKey;
+      if (!key) {
+        const demo = await vendorFetch("/vendors/demo", {
+          method: "POST",
+          body: { issueKey: true, label: "vendor-ops-autopilot" }
+        });
+        if (!demo.apiKey) throw new Error(demo.message || "Could not issue API key");
+        key = demo.apiKey;
+        setApiKey(key);
+        localStorage.setItem(KEY_STORAGE, key);
+      }
       const data = await vendorFetch("/vendors/me/autopilot/run", {
-        apiKey,
+        apiKey: key,
         method: "POST",
         body: {
           category: vendor?.defaultCategory || "landscape",
@@ -171,13 +186,15 @@ export default function VendorOps({
           quoteLimit: 2,
           send: true,
           skipCostGate: true,
+          provider: "local",
+          cities: ["Atlanta", "Savannah"],
           includeTransportPack: vendor?.defaultCategory === "transportation"
         }
       });
       setNotice(data.message || `Autopilot imported ${data.imported?.count || 0} leads and created ${data.quoted?.length || 0} quotes`);
       await refresh();
       if (data.imported?.leadIds?.[0]) {
-        const match = (await vendorFetch("/vendors/me/leads?limit=50", { apiKey })).leads
+        const match = (await vendorFetch("/vendors/me/leads?limit=50", { apiKey: key })).leads
           ?.find(lead => lead.id === data.imported.leadIds[0]);
         if (match) setSelectedLead(match);
       }
