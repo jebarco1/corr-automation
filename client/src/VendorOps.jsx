@@ -18,8 +18,15 @@ async function vendorFetch(path, { apiKey, method = "GET", body } = {}) {
   return data;
 }
 
-export default function VendorOps({ initialLeadId = null } = {}) {
-  const [apiKey, setApiKey] = useState(() => localStorage.getItem(KEY_STORAGE) || "");
+export default function VendorOps({
+  initialLeadId = null,
+  controlledApiKey = null,
+  embedded = false,
+  businessName = null
+} = {}) {
+  const [apiKey, setApiKey] = useState(
+    () => controlledApiKey || localStorage.getItem(KEY_STORAGE) || ""
+  );
   const [vendor, setVendor] = useState(null);
   const [leads, setLeads] = useState([]);
   const [quotes, setQuotes] = useState([]);
@@ -116,8 +123,15 @@ export default function VendorOps({ initialLeadId = null } = {}) {
   }
 
   useEffect(() => {
+    if (controlledApiKey && controlledApiKey !== apiKey) {
+      setApiKey(controlledApiKey);
+      localStorage.setItem(KEY_STORAGE, controlledApiKey);
+    }
+  }, [controlledApiKey]);
+
+  useEffect(() => {
     if (apiKey) refresh();
-  }, []);
+  }, [apiKey]);
 
   useEffect(() => {
     if (!initialLeadId || !leads.length) return;
@@ -234,7 +248,8 @@ export default function VendorOps({ initialLeadId = null } = {}) {
   }
 
   return (
-    <section className="vendor-ops">
+    <section className={`vendor-ops ${embedded ? "embedded" : ""}`}>
+      {!embedded && (
       <div className="card vendor-hero">
         <div>
           <p className="eyebrow">VENDOR MVP</p>
@@ -261,6 +276,17 @@ export default function VendorOps({ initialLeadId = null } = {}) {
           </div>
         </div>
       </div>
+      )}
+
+      {embedded && (
+        <div className="panel-head">
+          <h3>{businessName || vendor?.name || "Company"} pipeline</h3>
+          <button className="ghost" type="button" onClick={refresh} disabled={busy || !apiKey}>
+            {busy ? <Loader2 size={16} className="spin" /> : <RefreshCw size={16} />}
+            Refresh
+          </button>
+        </div>
+      )}
 
       {error && <div className="error">{error}</div>}
       {notice && <div className="notice">{notice}</div>}

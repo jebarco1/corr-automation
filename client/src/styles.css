@@ -227,9 +227,24 @@
 .session-list{list-style:none;padding:0;margin:0;display:grid;gap:10px}
 .session-list li{display:flex;justify-content:space-between;gap:12px;align-items:start;padding:12px;border:1px solid #e7eee9;border-radius:12px;background:#fbfdfb}
 .session-list strong{display:block}.session-list small{color:#718078}.session-list p{margin:4px 0 0;color:#5f7466;font-size:13px}
-.step.warn{background:#fff4d6;color:#7a5b00}
-.step.success{background:#e7f6df;color:#2f5b2a}
-@media(max-width:900px){.businesses-layout,.businesses-hero{grid-template-columns:1fr;display:grid}}
+.health-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:8px 0 12px}
+.health-strip > div{background:#f3f8f4;border:1px solid #e1ebe4;border-radius:10px;padding:10px;display:grid;gap:2px}
+.health-strip small{color:#718078;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+.health-strip strong{font-size:18px;color:#163d27}
+.hub-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 12px}
+.hub-tabs button{border:1px solid #d5e0d8;background:#fff;border-radius:999px;padding:7px 12px;font-size:12px;cursor:pointer;color:#31463a}
+.hub-tabs button.active{background:#163d27;border-color:#163d27;color:#f3faf5}
+.hub-panel{display:grid;gap:12px}
+.cat-rate-row{display:grid;grid-template-columns:1.1fr 1fr 1fr 1.2fr;gap:8px;align-items:end;padding:8px 0;border-bottom:1px solid #edf1ee}
+.onboarding-wizard{display:grid;gap:12px}
+.session-list.actionable .inline-actions{margin-top:8px}
+.pipeline-embed{border-top:1px solid #e7eee9;padding-top:12px}
+.vendor-ops.embedded .vendor-hero{display:none}
+.vendor-ops.embedded{gap:12px}
+@media(max-width:900px){
+  .health-strip{grid-template-columns:repeat(2,1fr)}
+  .cat-rate-row{grid-template-columns:1fr 1fr}
+}
 
 /* Service catalog reference page */
 .svc-page{display:grid;gap:18px}

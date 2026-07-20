@@ -97,12 +97,23 @@ export function resolveUnitPrices(category, businessSettings = {}) {
     standards = {};
   }
   const business = businessSettings.unitPrices || {};
+  const capacity = businessSettings.capacity || {};
+  const defaultCrewSize = Number(
+    capacity.recommendedCrewSize
+    || businessSettings.defaultCrewSize
+    || local.defaultCrewSize
+    || 2
+  );
   return {
     ...local,
     ...standards,
     ...business,
-    defaultCrewSize: businessSettings.defaultCrewSize || local.defaultCrewSize || 2,
-    defaultHours: local.defaultHours || 2
+    hourlyRate: Number(business.hourlyRate || standards.hourlyRate || local.hourlyRate || 85),
+    defaultCrewSize,
+    defaultHours: local.defaultHours || 2,
+    capacityNote: capacity.overtimeRisk
+      ? "Crews near capacity — consider longer lead times."
+      : (capacity.empPerCrew != null ? `${capacity.crews} crews · ${capacity.employees} employees` : null)
   };
 }
 

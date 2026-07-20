@@ -28,28 +28,44 @@ const defaultBusiness = {
 };
 const defaultStart = { taxRate: 8.9, discount: 0, currency: "USD", paymentTerms: "Net 15" };
 
-function businessFromTenant(tenant) {
+function businessFromTenant(tenant, activeCategory = null) {
   if (!tenant) return defaultBusiness;
+  const cat = activeCategory || tenant.primaryCategory || tenant.categories?.[0];
+  const catSettings = (tenant.categorySettings || {})[cat] || {};
+  const capacity = tenant.capacity || {};
+  const baseRate = Number(catSettings.hourlyRate || tenant.unitPrices?.hourlyRate || 95);
+  const hourlyRate = Number((baseRate * (capacity.rateMultiplier || 1)).toFixed(2));
+  const defaultCrewSize = Number(
+    capacity.recommendedCrewSize || catSettings.defaultCrewSize || tenant.defaultCrewSize || 2
+  );
   return {
     businessId: tenant.id,
+    vendorId: tenant.vendorId || tenant.vendor?.id || null,
     businessName: tenant.name,
     email: tenant.email || "",
     phone: tenant.phone || "",
-    licenseNumber: tenant.licenseNumber || "",
-    defaultCrewSize: tenant.defaultCrewSize || 2,
+    licenseNumber: catSettings.licenseNumber || tenant.licenseNumber || "",
+    defaultCrewSize,
     crews: tenant.crews || 0,
     employees: tenant.employees || 0,
     categories: tenant.categories || [],
     primaryCategory: tenant.primaryCategory || tenant.categories?.[0] || null,
+    activeCategory: cat,
+    markets: tenant.markets || [],
+    team: tenant.team || null,
+    capacity,
+    categorySettings: tenant.categorySettings || {},
     unitPrices: {
-      hourlyRate: 95,
-      materialCost: 0,
-      equipmentCost: 0,
-      disposalCost: 0,
-      ...(tenant.unitPrices || {})
+      materialCost: Number(catSettings.materialCost ?? tenant.unitPrices?.materialCost ?? 0),
+      equipmentCost: Number(tenant.unitPrices?.equipmentCost ?? 0),
+      disposalCost: Number(catSettings.disposalCost ?? tenant.unitPrices?.disposalCost ?? 0),
+      ...(tenant.unitPrices || {}),
+      hourlyRate,
+      averageJobTotal: Number((hourlyRate * defaultCrewSize * 2).toFixed(2))
     },
     city: tenant.city,
-    state: tenant.state
+    state: tenant.state,
+    bookingPath: tenant.bookingPath || null
   };
 }
 
@@ -97,6 +113,8 @@ function App() {
   const [activeBusinessId, setActiveBusinessId] = useState(
     () => (typeof window !== "undefined" ? localStorage.getItem(SELECTED_BUSINESS_KEY) : null)
   );
+  const [businessHubTab, setBusinessHubTab] = useState("overview");
+  const [activeTenant, setActiveTenant] = useState(null);
   const [session, setSession] = useState(null);
   const [answer, setAnswer] = useState("");
   const [invoice, setInvoice] = useState(null);
@@ -154,15 +172,16 @@ function App() {
       .catch(() => {});
   }, []);
 
-  function applyTenantBusiness(tenant) {
+  function applyTenantBusiness(tenant, opts = {}) {
     if (!tenant) return;
     setActiveBusinessId(tenant.id);
+    setActiveTenant(tenant);
     localStorage.setItem(SELECTED_BUSINESS_KEY, tenant.id);
-    setBusiness(businessFromTenant(tenant));
+    const nextCategory = opts.category || category || tenant.primaryCategory;
+    setBusiness(businessFromTenant(tenant, nextCategory));
     setSettings(settingsFromTenant(tenant));
-    if (!category && tenant.primaryCategory) {
-      setCategory(tenant.primaryCategory);
-    }
+    if (opts.category) setCategory(opts.category);
+    else if (!category && tenant.primaryCategory) setCategory(tenant.primaryCategory);
   }
 
   function pushChat(role, text, meta = null) {
@@ -223,12 +242,18 @@ function App() {
     setSelectedService(null);
     setParcel(null);
     setQuoteStage(null);
+    if (activeTenant && nextCategory) {
+      setBusiness(businessFromTenant(activeTenant, nextCategory));
+    }
     if (!nextCategory) {
       pushChat("assistant", "Pick a category to load its service catalog JSON, or describe the job for auto-detect.");
       return;
     }
     const next = getCategory(nextCategory);
     const categoryPrices = getIndustryPrices(nextCategory);
+    const tenantBusiness = activeTenant
+      ? businessFromTenant(activeTenant, nextCategory)
+      : business;
     pushChat("user", `Category: ${next?.label || nextCategory}`);
     try {
       const data = await request(`${API}/ai/assistant`, {
@@ -239,14 +264,16 @@ function App() {
           start: {
             ...settings,
             businessSettings: {
-              ...business,
-              defaultCrewSize: categoryPrices.defaultCrewSize || business.defaultCrewSize,
+              ...tenantBusiness,
+              defaultCrewSize: tenantBusiness.defaultCrewSize || categoryPrices.defaultCrewSize,
               unitPrices: {
-                ...business.unitPrices,
-                hourlyRate: categoryPrices.hourlyRate || business.unitPrices.hourlyRate,
-                materialCost: categoryPrices.materialCost || business.unitPrices.materialCost || 0,
-                disposalCost: categoryPrices.disposalCost || business.unitPrices.disposalCost || 0
-              }
+                ...categoryPrices,
+                ...tenantBusiness.unitPrices,
+                hourlyRate: tenantBusiness.unitPrices?.hourlyRate || categoryPrices.hourlyRate,
+                materialCost: tenantBusiness.unitPrices?.materialCost ?? categoryPrices.materialCost ?? 0,
+                disposalCost: tenantBusiness.unitPrices?.disposalCost ?? categoryPrices.disposalCost ?? 0
+              },
+              capacity: tenantBusiness.capacity
             }
           }
         })
@@ -300,15 +327,20 @@ function App() {
   }
 
   function businessWithIndustryPrices() {
+    const tenantBusiness = activeTenant
+      ? businessFromTenant(activeTenant, category || activeTenant.primaryCategory)
+      : business;
     return {
-      ...business,
-      defaultCrewSize: prices.defaultCrewSize || business.defaultCrewSize,
+      ...tenantBusiness,
+      defaultCrewSize: tenantBusiness.defaultCrewSize || prices.defaultCrewSize || business.defaultCrewSize,
       unitPrices: {
-        ...business.unitPrices,
-        hourlyRate: prices.hourlyRate || business.unitPrices.hourlyRate,
-        materialCost: prices.materialCost || business.unitPrices.materialCost || 0,
-        disposalCost: prices.disposalCost || business.unitPrices.disposalCost || 0
-      }
+        ...prices,
+        ...tenantBusiness.unitPrices,
+        hourlyRate: tenantBusiness.unitPrices?.hourlyRate || prices.hourlyRate || business.unitPrices.hourlyRate,
+        materialCost: tenantBusiness.unitPrices?.materialCost ?? prices.materialCost ?? 0,
+        disposalCost: tenantBusiness.unitPrices?.disposalCost ?? prices.disposalCost ?? 0
+      },
+      capacity: tenantBusiness.capacity
     };
   }
 
@@ -603,12 +635,12 @@ function App() {
         </div>
         <nav>
           {[
+            ["businesses", Building2, "Businesses"],
             ["autopilot", Bot, "Autopilot"],
-            ["vendor", Store, "Vendor Ops"],
             ["workflow", MessageSquare, "AI Chat"],
+            ["vendor", Store, "Pipeline"],
             ["services", Layers, "Services"],
             ["workflows", Workflow, "Workflows"],
-            ["businesses", Building2, "Businesses"],
             ["docs", BookOpen, "Documentation"]
           ].map(([id, Icon, label]) => (
             <button className={tab === id ? "active" : ""} onClick={() => setTab(id)} key={id}>
@@ -618,9 +650,9 @@ function App() {
           ))}
         </nav>
         <div className="aside-note">
-          Active business: {business.businessName}
+          Active: {business.businessName}
           {business.crews ? ` · ${business.crews} crews / ${business.employees} employees` : ""}.
-          Autopilot + Vendor Ops use the JSON CRM store.
+          Businesses = company workspace; Pipeline = CRM for the active tenant.
         </div>
       </aside>
 
@@ -632,7 +664,7 @@ function App() {
               {tab === "autopilot"
                 ? "Business autopilot demo"
                 : tab === "vendor"
-                  ? "Vendor operations"
+                  ? "Company pipeline"
                   : tab === "workflow"
                     ? "AI service chatbot"
                     : tab === "services"
@@ -654,7 +686,17 @@ function App() {
 
         {error && <div className="error">{error}</div>}
 
-        {tab === "autopilot" && <AutopilotDemo onOpenVendor={() => setTab("vendor")} />}
+        {tab === "autopilot" && (
+          <AutopilotDemo
+            onOpenVendor={() => {
+              setBusinessHubTab("pipeline");
+              setTab("businesses");
+            }}
+            businessId={activeBusinessId}
+            businessName={business.businessName}
+            defaultCategory={business.primaryCategory || category}
+          />
+        )}
         {tab === "vendor" && <VendorOps initialLeadId={focusLeadId} />}
         {tab === "services" && <ServiceCatalogPage />}
 
@@ -1019,15 +1061,25 @@ function App() {
         {tab === "businesses" && (
           <BusinessesPage
             selectedBusinessId={activeBusinessId}
+            initialHubTab={businessHubTab}
             onSelectBusiness={applyTenantBusiness}
-            onUseInChat={(tenant) => {
-              applyTenantBusiness(tenant);
-              if (tenant.primaryCategory) setCategory(tenant.primaryCategory);
+            onUseInChat={(tenant, opts = {}) => {
+              applyTenantBusiness(tenant, { category: opts.category || tenant.primaryCategory });
+              if (opts.category || tenant.primaryCategory) {
+                setCategory(opts.category || tenant.primaryCategory);
+              }
               setTab("workflow");
               pushChat(
                 "assistant",
-                `Using ${tenant.name} (${tenant.crews} crews · ${tenant.employees} employees · ${(tenant.categories || []).join(", ")}). Pick a service to quote.`
+                opts.session
+                  ? `Resuming “${opts.session.title}” for ${tenant.name} (${opts.session.category}). Continue the quote in chat.`
+                  : `Using ${tenant.name} (${tenant.crews} crews · ${tenant.employees} employees · ${(tenant.categories || []).join(", ")}). Capacity factor ${tenant.capacity?.rateMultiplier || 1}×. Pick a service to quote.`
               );
+            }}
+            onOpenAutopilot={(tenant) => {
+              applyTenantBusiness(tenant);
+              if (tenant.primaryCategory) setCategory(tenant.primaryCategory);
+              setTab("autopilot");
             }}
           />
         )}
