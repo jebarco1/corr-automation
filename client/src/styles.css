@@ -206,6 +206,59 @@
 .booking-actions .primary,.booking-actions .ghost{flex:1;justify-content:center}
 @media(max-width:900px){.vendor-hero,.vendor-grid,.booking-two{grid-template-columns:1fr}}
 
+/* Home feature directory */
+.home-page{display:grid;gap:28px}
+.home-hero{
+  position:relative;overflow:hidden;border-radius:22px;padding:48px 44px 40px;color:#eef6f0;
+  background:
+    radial-gradient(900px 380px at 85% 10%,rgba(183,239,98,.22),transparent 55%),
+    linear-gradient(145deg,#0c1f16 0%,#163d27 55%,#1d4a30 100%);
+  animation:home-rise .55s ease;
+}
+.home-hero .eyebrow{color:#b7ef62;margin:0}
+.home-brand{
+  margin:10px 0 12px;font-size:clamp(42px,6vw,64px);line-height:1;letter-spacing:-.03em;
+  font-family:"Fraunces","Iowan Old Style","Palatino Linotype",Palatino,serif;font-weight:700;color:#f4ffe4;
+}
+.home-lede{max-width:42ch;margin:0;color:#c5d7cb;font-size:17px;line-height:1.5}
+.home-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.home-hero .ghost{background:transparent;border-color:#3d6550;color:#dff0e4}
+.home-hero .primary{background:#b7ef62;color:#10251a}
+.home-active{margin:18px 0 0;font-size:13px;color:#9bb0a2}
+.home-features,.home-external{display:grid;gap:12px}
+.home-feature-list{display:grid;gap:8px}
+.home-feature-link{
+  display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;
+  text-align:left;width:100%;padding:16px 18px;border-radius:14px;cursor:pointer;
+  border:1px solid #dfe8e2;background:#fbfdfb;color:inherit;font:inherit;
+  transition:border-color .15s ease, transform .15s ease, background .15s ease;
+}
+.home-feature-link:hover{border-color:#6fac54;background:#f3faf0;transform:translateY(-1px)}
+.home-feature-icon{
+  width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+  background:#163d27;color:#b7ef62;
+}
+.home-feature-copy{display:grid;gap:3px}
+.home-feature-copy strong{font-size:15px}
+.home-feature-copy small{color:#637068;line-height:1.4}
+.home-feature-chevron{color:#7a9484}
+.home-link-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.home-ext-link{
+  display:flex;gap:10px;align-items:flex-start;padding:14px 16px;border-radius:12px;
+  border:1px solid #dfe8e2;background:#fff;text-decoration:none;color:#18231d;
+}
+.home-ext-link:hover{border-color:#6fac54;background:#f3faf0}
+.home-ext-link strong{display:block;font-size:13px}
+.home-ext-link small{display:block;color:#718078;font-size:11px;margin-top:2px;word-break:break-all}
+.home-ext-link svg{margin-top:2px;color:#4b715a;flex-shrink:0}
+header.home-header{margin-bottom:12px}
+header.home-header .eyebrow{margin:0}
+@media(max-width:900px){
+  .home-hero{padding:32px 22px}
+  .home-link-row{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){.home-link-row{grid-template-columns:1fr}}
+
 /* Businesses directory */
 .businesses-page{display:grid;gap:16px}
 .businesses-hero{display:flex;justify-content:space-between;gap:20px;align-items:end}
