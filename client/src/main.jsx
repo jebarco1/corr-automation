@@ -126,6 +126,8 @@ function App() {
   const [assistantMessage, setAssistantMessage] = useState("");
   const [aiMeta, setAiMeta] = useState(null);
   const [aiStatus, setAiStatus] = useState(null);
+  const [auditLog, setAuditLog] = useState([]);
+  const [expandedAuditId, setExpandedAuditId] = useState(null);
   const [chatLog, setChatLog] = useState([
     {
       role: "assistant",
@@ -148,6 +150,15 @@ function App() {
     () => Object.entries(prices).filter(([key]) => !String(key).startsWith("default")),
     [prices]
   );
+  const usedApis = useMemo(() => {
+    const set = new Set([
+      ...(selected?.apis || []),
+      ...(aiMeta?.recommendedApis || []),
+      ...((session?.apiResults || []).map(item => item.endpointType).filter(Boolean)),
+      ...auditLog.flatMap(entry => entry.apis || [])
+    ]);
+    return [...set];
+  }, [selected, aiMeta, session, auditLog]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -190,18 +201,117 @@ function App() {
     setChatLog(prev => [...prev, { role, text, meta }]);
   }
 
+  function pushAudit(entry) {
+    const id = `aud_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+    setExpandedAuditId(id);
+    setAuditLog(prev => [
+      {
+        id,
+        at: new Date().toISOString(),
+        ...entry
+      },
+      ...prev
+    ].slice(0, 50));
+  }
+
+  function summarizeForAudit(value, depth = 0) {
+    if (value == null) return value;
+    if (typeof value !== "object") return value;
+    if (depth > 3) return "[…]";
+    if (Array.isArray(value)) {
+      return value.slice(0, 8).map(item => summarizeForAudit(item, depth + 1));
+    }
+    const out = {};
+    const keys = Object.keys(value).slice(0, 24);
+    for (const key of keys) {
+      const item = value[key];
+      if (key === "workflow" && item && typeof item === "object") {
+        out.workflow = {
+          sessionId: item.sessionId,
+          category: item.category,
+          nextQuestion: item.nextQuestion?.key || item.nextQuestion?.question || null,
+          apiResults: (item.apiResults || []).map(r => r.endpointType || r),
+          progress: item.progress
+        };
+        continue;
+      }
+      if (key === "history" && Array.isArray(item)) {
+        out.history = `${item.length} messages`;
+        continue;
+      }
+      if (typeof item === "string" && item.length > 240) {
+        out[key] = `${item.slice(0, 240)}…`;
+        continue;
+      }
+      out[key] = summarizeForAudit(item, depth + 1);
+    }
+    return out;
+  }
+
+  function collectApisFromPayload(data = {}) {
+    const apis = new Set();
+    (data.recommendedApis || []).forEach(api => apis.add(api));
+    (data.workflow?.apiResults || data.apiResults || []).forEach(item => {
+      if (item?.endpointType) apis.add(item.endpointType);
+      if (item?.result?.type) apis.add(item.result.type);
+      if (item?.result?.endpointType) apis.add(item.result.endpointType);
+    });
+    (data.invoice?.lineItems || data.result?.lineItems || []).forEach(item => {
+      if (item?.sourceApi) apis.add(item.sourceApi);
+    });
+    if (data.parcel) apis.add("regrid-parcel");
+    if (data.mode) apis.add(`ai:${data.mode}`);
+    return [...apis];
+  }
+
   async function request(url, options = {}) {
+    const { audit = false, auditLabel, ...fetchOptions } = options;
     setBusy(true);
     setError("");
+    let requestBody = null;
+    try {
+      if (fetchOptions.body) {
+        requestBody = typeof fetchOptions.body === "string"
+          ? JSON.parse(fetchOptions.body)
+          : fetchOptions.body;
+      }
+    } catch {
+      requestBody = fetchOptions.body;
+    }
+    const method = String(fetchOptions.method || "GET").toUpperCase();
     try {
       const response = await fetch(url, {
-        headers: { "Content-Type": "application/json", ...(options.headers || {}) },
-        ...options
+        headers: { "Content-Type": "application/json", ...(fetchOptions.headers || {}) },
+        ...fetchOptions
       });
       const data = await response.json();
+      if (audit) {
+        pushAudit({
+          method,
+          path: url.startsWith("http") ? new URL(url).pathname : url,
+          label: auditLabel || `${method} ${url.replace(/^\/api\/v1/, "")}`,
+          status: response.status,
+          ok: response.ok,
+          request: summarizeForAudit(requestBody),
+          response: summarizeForAudit(data),
+          apis: collectApisFromPayload(data)
+        });
+      }
       if (!response.ok) throw new Error(data.error || "Request failed");
       return data;
     } catch (err) {
+      if (audit) {
+        pushAudit({
+          method,
+          path: url.startsWith("http") ? url : url,
+          label: auditLabel || `${method} ${url.replace(/^\/api\/v1/, "")}`,
+          status: 0,
+          ok: false,
+          request: summarizeForAudit(requestBody),
+          response: { error: err.message },
+          apis: []
+        });
+      }
       setError(err.message);
       throw err;
     } finally {
@@ -244,6 +354,8 @@ function App() {
     setSelectedService(null);
     setParcel(null);
     setQuoteStage(null);
+    setAuditLog([]);
+    setExpandedAuditId(null);
     if (activeTenant && nextCategory) {
       setBusiness(businessFromTenant(activeTenant, nextCategory));
     }
@@ -260,6 +372,8 @@ function App() {
     try {
       const data = await request(`${API}/ai/assistant`, {
         method: "POST",
+        audit: true,
+        auditLabel: "POST /ai/assistant · category start",
         body: JSON.stringify({
           message: "start",
           category: nextCategory,
@@ -304,6 +418,8 @@ function App() {
       const startingNewQuote = /get quote|new quote|start over/i.test(message);
       const data = await request(`${API}/ai/assistant`, {
         method: "POST",
+        audit: true,
+        auditLabel: "POST /ai/assistant · chat turn",
         body: JSON.stringify({
           message,
           category: category || undefined,
@@ -356,6 +472,8 @@ function App() {
     setAiPrompt("");
     const data = await request(`${API}/ai/start`, {
       method: "POST",
+      audit: true,
+      auditLabel: "POST /ai/start · guided walkthrough",
       body: JSON.stringify({
         category: category || undefined,
         message,
@@ -387,6 +505,8 @@ function App() {
 
     const data = await request(`${API}/ai/assistant`, {
       method: "POST",
+      audit: true,
+      auditLabel: "POST /ai/assistant · auto fill + invoice",
       body: JSON.stringify({
         message,
         category: category || undefined,
@@ -427,6 +547,8 @@ function App() {
         pushChat("user", `${question.question} → ${display}`);
         const next = await request(`${API}/ai/assistant`, {
           method: "POST",
+          audit: true,
+          auditLabel: `POST /ai/assistant · autofill ${question.key}`,
           body: JSON.stringify({
             message: display,
             sessionId: workflow.sessionId,
@@ -464,6 +586,8 @@ function App() {
     pushChat("user", typeof value === "object" ? JSON.stringify(value) : String(value));
     const data = await request(`${API}/ai/chat`, {
       method: "POST",
+      audit: true,
+      auditLabel: "POST /ai/chat · answer",
       body: JSON.stringify({
         sessionId: session.sessionId,
         action: "answer",
@@ -480,6 +604,8 @@ function App() {
   async function makeInvoice() {
     const data = await request(`${API}/ai/chat`, {
       method: "POST",
+      audit: true,
+      auditLabel: "POST /ai/chat · invoice",
       body: JSON.stringify({
         sessionId: session.sessionId,
         action: "invoice",
@@ -577,6 +703,8 @@ function App() {
       const customer = session?.answers?.customer || { name: "Taylor Smith", email: "taylor@example.com" };
       const data = await request(`${API}/quotes/bundle`, {
         method: "POST",
+        audit: true,
+        auditLabel: `POST /quotes/bundle · ${bundleId}`,
         body: JSON.stringify({
           bundleId,
           shared: { serviceAddress: address, customer, answers: { serviceAddress: address, customer } },
@@ -600,6 +728,8 @@ function App() {
     try {
       const data = await request(`${API}/transportation/pack`, {
         method: "POST",
+        audit: true,
+        auditLabel: "POST /transportation/pack",
         body: JSON.stringify({
           pickupAddress: session?.answers?.pickupAddress || session?.answers?.serviceAddress || "100 Peachtree St, Atlanta, GA 30303",
           dropoffAddress: session?.answers?.dropoffAddress || "500 Ponce De Leon Ave, Atlanta, GA 30308",
@@ -630,6 +760,8 @@ function App() {
     setSelectedService(null);
     setParcel(null);
     setQuoteStage(null);
+    setAuditLog([]);
+    setExpandedAuditId(null);
     setChatLog([
       {
         role: "assistant",
@@ -715,7 +847,7 @@ function App() {
         {tab === "home" && (
           <HomePage
             businessName={business.businessName}
-            bookingPath={business.bookingPath || `/book/${business.primaryCategory ? "demo-landscape" : "demo-landscape"}`}
+            bookingPath={business.bookingPath || "/book/demo-landscape"}
             onOpenFeature={(id) => setTab(id)}
           />
         )}
@@ -878,70 +1010,92 @@ function App() {
               </div>
             </div>
 
-            <div className="card side-panel">
-              <h3>{selected?.label || "AI quote chatbot"}</h3>
-              <p>
-                {selected?.description
-                  || "Flow: category → services from JSON → parcel by address → quote questions / invoice."}
+            <div className="card side-panel audit-panel">
+              <h3>API audit</h3>
+              <p className="save-note">
+                Live log of POSTs and responses as this quote progresses.
               </p>
+
               {quoteStage && (
                 <p className="save-note">Stage: <strong>{quoteStage}</strong>{selectedService ? ` · ${selectedService.name}` : ""}</p>
               )}
+
+              <div className="panel-head" style={{ marginTop: 8 }}>
+                <h4>APIs used</h4>
+                <small>{usedApis.length || 0}</small>
+              </div>
+              <div className="chips">
+                {usedApis.length
+                  ? usedApis.map(api => <span key={api}>{api}</span>)
+                  : <span className="muted">No APIs yet — pick a category or send a message</span>}
+              </div>
+
               {parcel && (
                 <>
-                  <h3>Parcel information</h3>
+                  <h4>Parcel</h4>
                   <dl className="mini-dl">
                     <div><dt>Address</dt><dd>{parcel.address || "—"}</dd></div>
                     <div><dt>Area</dt><dd>{parcel.squareFeet != null ? `${Number(parcel.squareFeet).toLocaleString()} sqft` : (parcel.error || "—")}</dd></div>
-                    <div><dt>Acres</dt><dd>{parcel.acres ?? "—"}</dd></div>
-                    <div><dt>Building</dt><dd>{parcel.buildingSquareFeet != null ? `${Number(parcel.buildingSquareFeet).toLocaleString()} sqft` : "—"}</dd></div>
                     <div><dt>Parcel ID</dt><dd>{parcel.parcelId || "—"}</dd></div>
                   </dl>
                 </>
               )}
-              {offeredServices.length > 0 && quoteStage === "pick-service" && (
-                <>
-                  <h3>Catalog services ({offeredServices.length})</h3>
-                  <div className="chips">
-                    {offeredServices.slice(0, 16).map(service => (
-                      <span key={service.id}>{service.index}. {service.name}</span>
-                    ))}
-                  </div>
-                </>
-              )}
-              <div className="chips">
-                {(selected?.apis || aiMeta?.recommendedApis || []).map(api => <span key={api}>{api}</span>)}
+
+              <div className="panel-head" style={{ marginTop: 14 }}>
+                <h4>POST response log</h4>
+                <button
+                  type="button"
+                  className="ghost"
+                  style={{ padding: "6px 10px", fontSize: 12 }}
+                  disabled={!auditLog.length}
+                  onClick={() => { setAuditLog([]); setExpandedAuditId(null); }}
+                >
+                  Clear
+                </button>
               </div>
 
-              {aiMeta && !session && (
-                <>
-                  <h3>Last AI response</h3>
-                  <dl className="mini-dl">
-                    <div><dt>Mode</dt><dd>{aiMeta.mode}</dd></div>
-                    <div><dt>Category</dt><dd>{aiMeta.categoryLabel || aiMeta.category || "—"}</dd></div>
-                    <div><dt>Hourly</dt><dd>{aiMeta.pricing?.unitPrices?.hourlyRate != null ? `$${aiMeta.pricing.unitPrices.hourlyRate}` : "—"}</dd></div>
-                  </dl>
-                  <div className="chips">
-                    {(aiMeta.suggestedActions || []).map(action => <span key={action}>{action}</span>)}
-                  </div>
-                </>
-              )}
-
-              {!session && selected && (
-                <>
-                  <h3>Industry rates</h3>
-                  <dl className="mini-dl">
-                    <div><dt>Market</dt><dd>{defaultMarketArea}</dd></div>
-                    <div><dt>Hourly</dt><dd>${prices.hourlyRate || "—"}</dd></div>
-                    <div><dt>Default hours</dt><dd>{prices.defaultHours || "—"}</dd></div>
-                    <div><dt>Crew</dt><dd>{prices.defaultCrewSize || business.defaultCrewSize}</dd></div>
-                  </dl>
-                </>
-              )}
+              <div className="audit-log">
+                {!auditLog.length && (
+                  <p className="muted">Responses appear here after each AI / quote POST.</p>
+                )}
+                {auditLog.map(entry => {
+                  const open = expandedAuditId === entry.id;
+                  return (
+                    <article key={entry.id} className={`audit-entry ${entry.ok ? "ok" : "fail"}`}>
+                      <button
+                        type="button"
+                        className="audit-entry-head"
+                        onClick={() => setExpandedAuditId(open ? null : entry.id)}
+                      >
+                        <span className={`step ${entry.ok ? "success" : ""}`}>{entry.status || "ERR"}</span>
+                        <strong>{entry.label}</strong>
+                        <small>{new Date(entry.at).toLocaleTimeString()}</small>
+                      </button>
+                      {!!entry.apis?.length && (
+                        <div className="chips audit-apis">
+                          {entry.apis.map(api => <span key={`${entry.id}-${api}`}>{api}</span>)}
+                        </div>
+                      )}
+                      {open && (
+                        <div className="audit-entry-body">
+                          <details open>
+                            <summary>Request body</summary>
+                            <pre>{JSON.stringify(entry.request, null, 2)}</pre>
+                          </details>
+                          <details open>
+                            <summary>POST response</summary>
+                            <pre>{JSON.stringify(entry.response, null, 2)}</pre>
+                          </details>
+                        </div>
+                      )}
+                    </article>
+                  );
+                })}
+              </div>
 
               {session && (
                 <>
-                  <div className="progress">
+                  <div className="progress" style={{ marginTop: 16 }}>
                     <span>{session.categoryLabel}</span>
                     <span>
                       {(session.progress.askableAnswered ?? session.progress.answered)} /
@@ -954,12 +1108,10 @@ function App() {
                       width: `${Math.min(100, ((session.progress.askableAnswered ?? session.progress.currentIndex) / Math.max(1, session.progress.askableTotal ?? session.progress.total)) * 100)}%`
                     }} />
                   </div>
-
                   {current ? (
                     <>
                       <span className="step">ONLY NEED THIS</span>
                       <h2>{current.question}</h2>
-                      <p className="save-note">Everything else (rates, hours, materials, property type) is auto-filled.</p>
                       <QuestionInput question={current} value={answer} setValue={setAnswer} />
                       <button className="primary" onClick={submitAnswer} disabled={busy || answer === ""}>
                         Save & continue <ChevronRight size={18} />
@@ -967,9 +1119,7 @@ function App() {
                     </>
                   ) : (
                     <>
-                      <span className="step success">{invoice ? "INVOICE READY" : "READY"}</span>
-                      <h2>{invoice ? "Draft invoice created" : "Automation complete"}</h2>
-                      <p>Industry rates, crew, hours, and Regrid measurements were applied automatically.</p>
+                      <span className={`step ${invoice ? "success" : ""}`}>{invoice ? "INVOICE READY" : "READY"}</span>
                       {!invoice && (
                         <button className="primary" onClick={makeInvoice} disabled={busy}>
                           <Receipt size={18} /> Generate detailed invoice
@@ -977,22 +1127,16 @@ function App() {
                       )}
                     </>
                   )}
-
-                  {session.autoFilled?.length ? (
+                  {!!session.apiResults?.length && (
                     <>
-                      <h3>Auto-filled</h3>
+                      <h4>Session API calculations</h4>
                       <div className="chips">
-                        {session.autoFilled.map(key => <span key={key}>{key}</span>)}
+                        {session.apiResults.map((item, index) => (
+                          <span key={`${item.endpointType}-${index}`}>{item.endpointType}</span>
+                        ))}
                       </div>
                     </>
-                  ) : null}
-
-                  <h3>Collected answers</h3>
-                  <pre>{JSON.stringify(session.answers, null, 2)}</pre>
-                  <h3>API calculations</h3>
-                  <div className="chips">
-                    {session.apiResults?.map((item, index) => <span key={index}>{item.endpointType}</span>)}
-                  </div>
+                  )}
                 </>
               )}
             </div>
